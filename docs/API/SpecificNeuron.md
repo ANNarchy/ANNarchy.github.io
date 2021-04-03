@@ -2,7 +2,8 @@
 
 ANNarchy provides standard spiking neuron models, similar to the ones defined in PyNN (<http://neuralensemble.org/docs/PyNN/reference/neuronmodels.html>).
 
-<!-- ::: ANNarchy.models.Neurons.LeakyIntegrator
+
+::: ANNarchy.models.Neurons.LeakyIntegrator
     selection:
       docstring_style: restructured-text
     rendering:
@@ -64,4 +65,3 @@ ANNarchy provides standard spiking neuron models, similar to the ones defined in
     rendering:
       show_root_heading: true
       heading_level: 2
- -->

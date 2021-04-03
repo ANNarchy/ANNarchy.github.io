@@ -519,7 +519,7 @@ $$
 * Variable $R$ : per post-synaptic neuron, initial value: 0.0
 
 $$
-{R}(t) = {{r}^{\text{post}}}(t)
+{R}(t) = {r}^{\text{post}}(t)
 $$
 
 * Variable $K$ : per post-synaptic neuron, initial value: 0.0
