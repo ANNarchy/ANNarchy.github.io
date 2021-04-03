@@ -1,0 +1,2123 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.5">
+    
+    
+      
+        <title>Neural Field - ANNarchy</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.77f3fd56.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.7fa14f5b.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../../css/pandas-dataframe.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="indigo">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#neural-field" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ANNarchy" class="md-header__button md-logo" aria-label="ANNarchy">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ANNarchy
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Neural Field
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="md-header__options">
+      
+    </div>
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/ANNarchy/ANNarchy/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ANNarchy" class="md-nav__button md-logo" aria-label="ANNarchy">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    ANNarchy
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/ANNarchy/ANNarchy/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Introduction
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Introduction" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Introduction
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../intro/Rationale/" class="md-nav__link">
+        Why another neural simulator?
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../intro/Installation/" class="md-nav__link">
+        Installation of ANNarchy
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../intro/ExternalDoc/" class="md-nav__link">
+        External documentation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Manual
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Manual" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Manual
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Structure/" class="md-nav__link">
+        General structure
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Parser/" class="md-nav__link">
+        Parser
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/RateNeuron/" class="md-nav__link">
+        Rate-coded neurons
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/SpikeNeuron/" class="md-nav__link">
+        Spiking neurons
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/RateSynapse/" class="md-nav__link">
+        Rate-coded synapses
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/SpikeSynapse/" class="md-nav__link">
+        Spiking synapses
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Populations/" class="md-nav__link">
+        Populations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Projections/" class="md-nav__link">
+        Projections
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Connector/" class="md-nav__link">
+        Connectivity
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Inputs/" class="md-nav__link">
+        Setting inputs
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Simulation/" class="md-nav__link">
+        Simulation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Configuration/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/NumericalMethods/" class="md-nav__link">
+        Equations and numerical methods
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Recording/" class="md-nav__link">
+        Recording with Monitors
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Saving/" class="md-nav__link">
+        Saving and loading a network
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Network/" class="md-nav__link">
+        Parallel simulations and networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Hybrid/" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/StructuralPlasticity/" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/ConvolutionalNetworks/" class="md-nav__link">
+        Convolution and pooling
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Notebooks/" class="md-nav__link">
+        Notebooks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Reporting/" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Logging/" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        API
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/ANNarchy/" class="md-nav__link">
+        Module ANNarchy
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/Neuron/" class="md-nav__link">
+        Neuron
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/SpecificNeuron/" class="md-nav__link">
+        Built-in neuron types
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/Synapse/" class="md-nav__link">
+        Synapse
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/SpecificSynapse/" class="md-nav__link">
+        Built-in synapse types
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/Population/" class="md-nav__link">
+        Population
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/SpecificPopulation/" class="md-nav__link">
+        Specific Populations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/Projection/" class="md-nav__link">
+        Projection
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/SpecificProjection/" class="md-nav__link">
+        Specific Projections
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/Dendrite/" class="md-nav__link">
+        Dendrite
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/Monitor/" class="md-nav__link">
+        Monitoring
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/RandomDistribution/" class="md-nav__link">
+        Random Distributions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/Network/" class="md-nav__link">
+        Network
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/IO/" class="md-nav__link">
+        Saving / Loading
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/Utilities/" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/Hybrid/" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/Convolution/" class="md-nav__link">
+        Convolution and Pooling
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API/Logging/" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      <label class="md-nav__link" for="__nav_5">
+        Examples
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../List/" class="md-nav__link">
+        List of notebooks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Neural Field
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Neural Field
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#model-overview" class="md-nav__link">
+    Model overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#importing-annarchy" class="md-nav__link">
+    Importing ANNarchy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-the-neurons" class="md-nav__link">
+    Defining the neurons
+  </a>
+  
+    <nav class="md-nav" aria-label="Defining the neurons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#input-neuron" class="md-nav__link">
+    Input neuron
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#neural-field-neuron" class="md-nav__link">
+    Neural Field neuron
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-populations" class="md-nav__link">
+    Creating the populations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-projections" class="md-nav__link">
+    Creating the projections
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compiling-the-network-and-simulating" class="md-nav__link">
+    Compiling the network and simulating
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-inputs" class="md-nav__link">
+    Setting inputs
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting inputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pure-python-approach" class="md-nav__link">
+    Pure Python approach
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cython-approach" class="md-nav__link">
+    Cython approach
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualizing-the-network" class="md-nav__link">
+    Visualizing the network
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BarLearning/" class="md-nav__link">
+        Bar Learning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Image/" class="md-nav__link">
+        Image
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Webcam/" class="md-nav__link">
+        Webcam
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MultipleNetworks/" class="md-nav__link">
+        Multiple networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../StructuralPlasticity/" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Izhikevich/" class="md-nav__link">
+        Izhikevich
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GapJunctions/" class="md-nav__link">
+        Gap junctions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HodgkinHuxley/" class="md-nav__link">
+        Hodgkin-Huxley
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COBA/" class="md-nav__link">
+        COBA
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STP/" class="md-nav__link">
+        STP
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SimpleSTDP/" class="md-nav__link">
+        STDP
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Ramp/" class="md-nav__link">
+        Ramp
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hybrid/" class="md-nav__link">
+        Hybrid
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BayesianOptimization/" class="md-nav__link">
+        Bayesian optimization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BasalGanglia/" class="md-nav__link">
+        Basal Ganglia
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#model-overview" class="md-nav__link">
+    Model overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#importing-annarchy" class="md-nav__link">
+    Importing ANNarchy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-the-neurons" class="md-nav__link">
+    Defining the neurons
+  </a>
+  
+    <nav class="md-nav" aria-label="Defining the neurons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#input-neuron" class="md-nav__link">
+    Input neuron
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#neural-field-neuron" class="md-nav__link">
+    Neural Field neuron
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-populations" class="md-nav__link">
+    Creating the populations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-projections" class="md-nav__link">
+    Creating the projections
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compiling-the-network-and-simulating" class="md-nav__link">
+    Compiling the network and simulating
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-inputs" class="md-nav__link">
+    Setting inputs
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting inputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pure-python-approach" class="md-nav__link">
+    Pure Python approach
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cython-approach" class="md-nav__link">
+    Cython approach
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualizing-the-network" class="md-nav__link">
+    Visualizing the network
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/ANNarchy/ANNarchy/edit/master/docs/example/NeuralField.ipynb" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+(function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        widgetRendererSrc = 'jupyter-js-widgets@*/dist/embed.js';
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+</script>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="neural-field">Neural Field<a class="headerlink" href="#neural-field" title="Permanent link">#</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The folder <code>examples/neural_field</code> contains a simple rate-coded model using <a href="http://www.scholarpedia.org/article/Neural_fields">Neural Fields</a>. It consists of two 2D populations <code>inp</code> and <code>focus</code>, with one-to-one connections between <code>inp</code> and <code>focus</code>, and Difference-of-Gaussians (DoG) lateral connections within <code>focus</code>.</p>
+<p>If you have PyQtGraph and python-openGL installed, you can simply try the network by typing:</p>
+<div class="highlight"><pre><span></span><code>python NeuralField.py
+</code></pre></div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="model-overview">Model overview<a class="headerlink" href="#model-overview" title="Permanent link">#</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Each population consists of N*N neurons, with N=20. The <code>inp</code> population is solely used to represent inputs for <code>focus</code>. The firing rate of each neuron is defined by a simple equation:</p>
+<div class="arithmatex">\[r_i(t) = (\text{baseline}_i(t) + \eta(t))^+\]</div>
+<p>where <span class="arithmatex">\(r_i(t)\)</span> is the instantaneous firing rate, <span class="arithmatex">\(\text{baseline}_i(t)\)</span> its baseline activity, <span class="arithmatex">\(\eta(t)\)</span> an additive
+noise uniformly taken in <span class="arithmatex">\([-0.5, 0.5]\)</span> and <span class="arithmatex">\(()^+\)</span> the positive function.</p>
+<p>The <code>focus</code> population implements a discretized neural field, with neurons following the ODE:</p>
+<div class="arithmatex">\[\tau \frac{d r_i(t)}{dt} + r_i(t) = r^\text{input}_i(t) + \sum_{j=1}^{N} w_{j, i} \cdot r_j(t) + \eta(t)\]</div>
+<p>where <span class="arithmatex">\(r_i(t)\)</span> is the neuron's firing rate, <span class="arithmatex">\(\tau\)</span> a time constant and <span class="arithmatex">\(w_{j, i}\)</span> the weight
+value (synaptic efficiency) of the synapse between the neurons j and i.
+<span class="arithmatex">\(f()\)</span> is a semi-linear function, ensuring the firing rate is bounded between 0 and 1.</p>
+<p>Each neuron in <code>focus</code> takes inputs from the neuron of <code>inp</code> which has
+the same position, leading to a <code>one_to_one</code> connection pattern.</p>
+<p>The lateral connections within <code>focus</code> follow a difference-of-Gaussians (<code>dog</code>) connection pattern, with the connection weights <span class="arithmatex">\(w_{i,j}\)</span> depending on the normalized euclidian distance between the neurons in the N*N population:</p>
+<div class="arithmatex">\[w_{j, i} = A^+ \cdot \exp(-\frac{1}{2}\frac{d(i, j)^2}{\sigma_+^2}) -  A^- \cdot \exp(-\frac{1}{2}\frac{d(i, j)^2}{\sigma_-^2})\]</div>
+<p>If i and j have coordinates <span class="arithmatex">\((x_i, y_i)\)</span> and <span class="arithmatex">\((x_j, y_j)\)</span> in the N*N
+space, the distance between them is computed as:</p>
+<div class="arithmatex">\[d(i, j)^2 = (\frac{x_i - x_j}{N})^2 + (\frac{y_i - y_j}{N})^2\]</div>
+<p>Inputs are given to the network by changing the baseline of <code>inp</code> neurons. This example clamps one or several gaussian profiles (called "bubbles") with an additive noise, moving along a circular path at a certain speed (launch the example to understand this sentence...).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="importing-annarchy">Importing ANNarchy<a class="headerlink" href="#importing-annarchy" title="Permanent link">#</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The beginning of the script solely consists of importing the ANNarchy library:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">clear</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+<code>ANNarchy 4.6 (4.6.9b) on linux (posix). 
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you want to run the simulation on your graphic card instead of CPU, simply uncomment the following line: </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="c1">#setup(paradigm=&quot;cuda&quot;)</span>
+</code></pre></div>
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>setup()</code> method allows to configure ANNarchy to run in different modes, such as chosing the parallel framework (omp or cuda), setting the simulation step <code>dt</code>, the numerical method <code>method</code> or the <code>seed</code> of the random number generators.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="defining-the-neurons">Defining the neurons<a class="headerlink" href="#defining-the-neurons" title="Permanent link">#</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="input-neuron">Input neuron<a class="headerlink" href="#input-neuron" title="Permanent link">#</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="n">InputNeuron</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>   
+    <span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        baseline = 0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        r = pos(baseline + Uniform(-0.5, 0.5))</span>
+<span class="s2">    &quot;&quot;&quot;</span> 
+<span class="p">)</span>
+</code></pre></div>
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Defining the input neuron is straightforward. <code>InputNeuron</code> is here an instance of <code>Neuron</code>, whose only parameter is
+<code>baseline</code> (initialized to 0.0, but it does not matter here as it will be set externally). </p>
+<p>The firing rate of each neuron, <code>r</code>, is updated at every time step as the positive part (<code>pos()</code>) of the sum of the baseline and a random number taken from a uniform distribution between
+-0.5 and 0.5.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="neural-field-neuron">Neural Field neuron<a class="headerlink" href="#neural-field-neuron" title="Permanent link">#</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="n">NeuralFieldNeuron</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;&quot;&quot; </span>
+<span class="s2">        tau = 10.0 : population</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau * dr/dt + r = sum(exc) + sum(inh) + Uniform(-0.5, 0.5) : min=0.0, max=1.0</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The second neuron we need is a bit more complex, as it is governed by an
+ODE and considers inputs from other neurons. It also has a non-linear
+activation function, which is linear when the firing rate is
+between 0.0 and 1.0, and constant otherwise.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>tau</code> is a population-wise parameter, whose value will be the same for
+all neuron of the population. </p>
+<p><code>r</code> is the firing rate of he neuron, whose dynamics are governed by a first-order linear ODE, integrating the sums of excitatory and inhibitory inputs with noise. </p>
+<p>As explained in the manual for rate-coded neurons, <code>sum(exc)</code> retrieves the weighted sum of pre-synaptic firing rates for the synapses having the connection type <code>exc</code>, here the one_to_one connections between <code>inp</code> and <code>focus</code>. <code>sum(inh)</code> does the same for <code>inh</code> type connections, here the lateral connections within <code>focus</code>.</p>
+<p>The firing rate is restricted to the range [0, 1] by setting the <code>min</code> and <code>max</code> accordingly in the flags section (everything after the <code>:</code>). This means that after evaluating the ODE and getting a new value for <code>r</code>, its value will be clamped if it outside these values. One can define both <code>min</code> and <code>max</code>, only one, or none.  </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="creating-the-populations">Creating the populations<a class="headerlink" href="#creating-the-populations" title="Permanent link">#</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The two populations have a geometry of (20, 20), therefore 400 neurons
+each. They are created simply by instantiating the <code>Population</code> class:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="n">N</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">inp</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">neuron</span> <span class="o">=</span> <span class="n">InputNeuron</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Input&#39;</span><span class="p">)</span>
+<span class="n">focus</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">neuron</span> <span class="o">=</span> <span class="n">NeuralFieldNeuron</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Focus&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The populations can be assigned a unique name (here 'Input' and
+'Focus') in order to be be able to retrieve them if the references
+<code>inp</code> and <code>focus</code> are lost. They are given a 2D geometry and
+associated to the corresponding <code>Neuron</code> instance.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="creating-the-projections">Creating the projections<a class="headerlink" href="#creating-the-projections" title="Permanent link">#</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The first projection is a one-to-one projection from Input to Focus with
+the type 'exc'. This connection pattern pattern is possible because the
+two populations have the same geometry. The weights are initialized to
+1.0, and this value will not change with time (no learning), so it is
+not necessary to define a synapse type:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="n">ff</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">inp</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">focus</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;exc&#39;</span><span class="p">)</span>
+<span class="n">ff</span><span class="o">.</span><span class="n">connect_one_to_one</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">delays</span> <span class="o">=</span> <span class="mf">20.0</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_text output_subarea output_execute_result">
+<pre>
+<code>&lt;ANNarchy.core.Projection.Projection at 0x7f623d5c2ee0&gt;</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The references to the pre- and post-synaptic population (or their
+names), as well as the target type, are passed to the constructor of
+<code>Projection</code>. The connector method <code>connect_one_to_one()</code> is immediately
+applied to the Projection, defining how many synapses will be created.
+The weights are initialized uniformly to 1.0.</p>
+<p>The second projection is a difference of gaussians (DoG) for the lateral
+connections within 'focus'. The connector method is already provided by
+ANNarchy, so there is nothing more to do than to call it with the right
+parameters:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="n">lat</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">focus</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">focus</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;inh&#39;</span><span class="p">)</span>
+<span class="n">lat</span><span class="o">.</span><span class="n">connect_dog</span><span class="p">(</span><span class="n">amp_pos</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">sigma_pos</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">amp_neg</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">sigma_neg</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_text output_subarea output_execute_result">
+<pre>
+<code>&lt;ANNarchy.core.Projection.Projection at 0x7f623d5c22b0&gt;</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="compiling-the-network-and-simulating">Compiling the network and simulating<a class="headerlink" href="#compiling-the-network-and-simulating" title="Permanent link">#</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Once the populations and projections are created, the network is ready to be generated, compiled and simulated. Compilation is simply done by calling <code>compile()</code>:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="nb">compile</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This generates optimized C++ code from the neurons' definition and
+network structure, compiles it with gcc/clang and instantiates all objects,
+particularly the synapses. If some errors were made in the neuron
+definition, they will be signaled at this point.</p>
+<p><strong>Hint:</strong> The call to <code>compile()</code> is mandatory in any script. After it is called, populations and projections can not be added anymore.</p>
+<p>Once the compilation is successful, the network can be simulated by
+calling <code>simulate()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span> <span class="c1"># simulate for 1 second</span>
+</code></pre></div>
+<p>As no input has been fed into the network, calling <code>simulate()</code> now
+won't lead to anything interesting. The next step is to clamp inputs
+into the input population's baseline.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="setting-inputs">Setting inputs<a class="headerlink" href="#setting-inputs" title="Permanent link">#</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="pure-python-approach">Pure Python approach<a class="headerlink" href="#pure-python-approach" title="Permanent link">#</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this example, we consider as input a moving bubble of activity
+rotating along a circle in the input space in 5 seconds. A naive way of
+setting such inputs would be to access population attributes (namely
+<code>inp.baseline</code>) in a tight loop in Python:</p>
+<div class="highlight"><pre><span></span><code><span class="n">angle</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+
+<span class="c1"># Main loop</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="c1"># Update the angle</span>
+    <span class="n">angle</span> <span class="o">+=</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">5000.0</span>
+    <span class="c1"># Compute the center of the bubble</span>
+    <span class="n">cx</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="p">(</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">angle</span> <span class="p">)</span> <span class="p">)</span>
+    <span class="n">cy</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="p">(</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">angle</span> <span class="p">)</span> <span class="p">)</span>
+    <span class="c1"># Clamp the bubble into pop.baseline</span>
+    <span class="n">inp</span><span class="o">.</span><span class="n">baseline</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">cx</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">cy</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">8.0</span><span class="p">))</span>
+    <span class="c1"># Simulate for 1 ms</span>
+    <span class="n">step</span><span class="p">()</span>  
+</code></pre></div>
+<p><code>angle</code> represents the angle made by the bubble with respect to the
+center of the input population. <code>x</code> and <code>y</code> are Numpy arrays
+representing the X- and Y- coordinates of neurons in the input
+population. At each iteration of the simulation (i.e. every millisecond
+of simulation, the bubble is slightly rotated (<code>angle</code> is incremented)
+so as to make a complete revolution in 5 seconds (5000 steps). <code>cx</code> and
+<code>cy</code> represent the coordinates of the center of the bubble in neural
+coordinates according to the new value of the angle.</p>
+<p>A Gaussian profile (in the form of a Numpy array) is then clamped into
+the baseline of <code>inp</code> using the distance between each neuron of the
+population (<code>x</code> and <code>y</code>) and the center of the bubble. Last, a single
+simulation step is performed using <code>step()</code>, before the whole process
+starts again until the user quits. <code>step()</code> is equivalent to
+<code>simulate(1)</code>, although a little bit faster as it does not check anything.</p>
+<p>Although this approach works, you would observe that it is very slow:
+the computation of the bubble and its feeding into <code>InputPop</code> takes much
+more time than the call to <code>step()</code>. The interest of using a parallel
+simulator disappears. This is due to the fact that Python is knowingly
+bad at performing tight loops because of its interpreted nature. If the
+<code>while</code> loop were compiled from C code, the computation would be much
+more efficient. This is what Cython brings you.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="cython-approach">Cython approach<a class="headerlink" href="#cython-approach" title="Permanent link">#</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Generalities on Cython</strong></p>
+<p>The Cython approach requires to write Cython-specific code in a <code>.pyx</code>
+file, generate the corresponding C code with Python access methods,
+compile it and later import it into your Python code.</p>
+<p>Happily, the Cython syntax is very close to Python. In the most basic approach, it is simply Python code with a couple of type declarations. Instead of:</p>
+<div class="highlight"><pre><span></span><code><span class="n">bar</span> <span class="o">=</span> <span class="mf">1</span>
+<span class="n">foo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mf">10</span><span class="p">,</span> <span class="mf">10</span><span class="p">))</span>
+</code></pre></div>
+<p>you would write in Cython:</p>
+<div class="highlight"><pre><span></span><code><span class="k">cdef</span> <span class="kt">int</span> <span class="nf">bar</span> <span class="o">=</span> <span class="mf">1</span>
+<span class="k">cdef</span> <span class="kt">np</span>.<span class="kt">ndarray</span> <span class="nf">foo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mf">10</span><span class="p">,</span> <span class="mf">10</span><span class="p">))</span>
+</code></pre></div>
+<p>By specifing the type of a variable (which can not be changed later
+contrary to Python), you help Cython generate optimized C code, what can
+lead in some cases to speedups up to 100x. The rest of the syntax
+(indentation, for loops, if...) is the same as in Python. </p>
+<p>You can als import any Python module in your Cython code. Some modules (importantly
+Numpy) even provide a Cython interface where the equivalent Cython code
+can be directly imported (so it becomes very fast to use).</p>
+<p>The whole compilation procedure is very easy. One particularly simple approach is to use the <code>pyximport</code> module shipped with Cython. Let us suppose you wrote a <code>dummy()</code> method in a Cython file named <code>TestModule.pyx</code>. All you need to use this method in your python code is to write:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyximport</span><span class="p">;</span> <span class="n">pyximport</span><span class="o">.</span><span class="n">install</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">TestModule</span> <span class="kn">import</span> <span class="n">dummy</span>
+<span class="n">dummy</span><span class="p">()</span>
+</code></pre></div>
+<p><code>pyximport</code> takes care of the compilation process (but emits quite a lot
+of warnings that can be ignored), and allows to import <code>TestModule</code> as if it were a regular
+Python module. Please refer to the <a href="http://docs.cython.org">Cython
+documentation</a> to know more.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Moving bubbles in Cython</strong></p>
+<p>The file <code>BubbleWorld.pyx</code> defines a <code>World</code> class able to rotate the bubble
+for a specified duration.</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="k">cimport</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</code></pre></div>
+<p>At the beginning of the file, numpy is imported once as a normal Python
+module with <code>import</code>, and once as a Cython module with <code>cimport</code>. This
+allows our Cython module to access directly the internal representations
+of Numpy without going through the Python interpreter. </p>
+<p>We can then define a <code>World</code> class taking as parameters:</p>
+<ul>
+<li>the population which will be used as input (here <code>Input</code>),</li>
+<li>several arguments such as <code>radius</code>, <code>sigma</code> and <code>period</code> which allow
+    to parameterize the behavior of the rotating bubble,</li>
+<li><code>func</code> which is the Python method that will be called at each time step, i.e.e the <code>step()</code> method of ANNarchy.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">cdef</span> <span class="k">class</span> <span class="nf">World</span><span class="p">:</span>
+    <span class="s">&quot; Environment class allowing to clamp a rotating bubble into the baseline of a population.&quot;</span>
+
+    <span class="k">cdef</span> <span class="nf">pop</span> <span class="c"># Input population</span>
+    <span class="k">cdef</span> <span class="nf">func</span> <span class="c"># Function to call</span>
+
+    <span class="k">cdef</span> <span class="kt">float</span> <span class="nf">angle</span> <span class="c"># Current angle</span>
+    <span class="k">cdef</span> <span class="kt">float</span> <span class="nf">radius</span> <span class="c"># Radius of the circle </span>
+    <span class="k">cdef</span> <span class="kt">float</span> <span class="nf">sigma</span> <span class="c"># Width of the bubble</span>
+    <span class="k">cdef</span> <span class="kt">float</span> <span class="nf">period</span> <span class="c"># Number of steps needed to make one revolution</span>
+
+    <span class="k">cdef</span> <span class="kt">np</span>.<span class="kt">ndarray</span> <span class="nf">xx</span><span class="p">,</span> <span class="nf">yy</span> <span class="c"># indices</span>
+    <span class="k">cdef</span> <span class="kt">float</span> <span class="nf">cx</span><span class="p">,</span> <span class="nf">cy</span><span class="p">,</span> <span class="nf">midw</span><span class="p">,</span> <span class="nf">midh</span>
+    <span class="k">cdef</span> <span class="kt">np</span>.<span class="kt">ndarray</span> <span class="nf">data</span> 
+
+    <span class="k">def</span> <span class="nf">__cinit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">population</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="s">&quot; Constructor&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pop</span> <span class="o">=</span> <span class="n">population</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">=</span><span class="n">func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">period</span>
+        <span class="k">cdef</span> <span class="kt">np</span>.<span class="kt">ndarray</span> <span class="nf">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="o">-</span><span class="mf">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mf">0</span><span class="p">])</span>
+        <span class="k">cdef</span> <span class="kt">np</span>.<span class="kt">ndarray</span> <span class="nf">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span><span class="o">-</span><span class="mf">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mf">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">midw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="o">/</span><span class="mf">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">midh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span><span class="o">/</span><span class="mf">2</span>
+
+    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">int</span> <span class="n">duration</span><span class="p">):</span>
+        <span class="s">&quot; Rotates the bubble for the given duration&quot;</span>
+        <span class="k">cdef</span> <span class="kt">int</span> <span class="nf">t</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">duration</span><span class="p">):</span>
+            <span class="c"># Update the angle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">+=</span> <span class="mf">1.0</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">period</span>
+            <span class="c"># Compute the center of the bubble</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">midw</span> <span class="o">*</span> <span class="p">(</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="p">)</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">midh</span> <span class="o">*</span> <span class="p">(</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="p">)</span> <span class="p">)</span>
+            <span class="c"># Create the bubble</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">)</span><span class="o">**</span><span class="mf">2</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yy</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">cy</span><span class="p">)</span><span class="o">**</span><span class="mf">2</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">**</span><span class="mf">2</span><span class="p">))</span>
+            <span class="c"># Clamp the bubble into pop.baseline</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">baseline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+            <span class="c"># Simulate for 1 step</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span>  
+</code></pre></div>
+<p>Although this tutorial won't go into much detail, you can note the
+following:</p>
+<ul>
+<li>The data given to or initialized in the constructor are previously
+    declared (with their type) as attributes of the class. This way,
+    Cython knows at the compilation time which operations are possible
+    on them, which amount of memory to allocate and so on, resulting in
+    a more efficient implementation.</li>
+<li>The input population (<code>self.pop</code>) can be accessed as a normal
+    Python object. In particular, self.pop.geometry is used in the
+    constructor to initialize the meshgrid.</li>
+<li>The method <code>rotate()</code> performs the simulation for the given duration
+    (in steps, not milliseconds). Its content is relatively similar to
+    the Python version.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Running the simulation</strong></p>
+<p>Once the environment has been defined, the simulation can be executed.
+The following code, to be placed after the network definition, performs
+a simulation of the network, taking inputs from <code>BubbleWorld.pyx</code>,
+during 2 seconds:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Create the environment</span>
+<span class="kn">import</span> <span class="nn">pyximport</span><span class="p">;</span> <span class="n">pyximport</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">setup_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;include_dirs&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">get_include</span><span class="p">()})</span>
+<span class="kn">from</span> <span class="nn">BubbleWorld</span> <span class="kn">import</span> <span class="n">World</span>
+<span class="n">world</span> <span class="o">=</span> <span class="n">World</span><span class="p">(</span><span class="n">population</span><span class="o">=</span><span class="n">inp</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mf">5000.0</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">step</span><span class="p">)</span>
+
+<span class="c1"># Simulate for 2 seconds with inputs</span>
+<span class="n">world</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="visualizing-the-network">Visualizing the network<a class="headerlink" href="#visualizing-the-network" title="Permanent link">#</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The preceding code performs correctly the intended simulation, but
+nothing is visualized. The user has all freedom to visualize his network
+the way he prefers (for example through animated Matplotlib figures):</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">inp</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">focus</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, Matplotlib animations are rather slow, and visualizing the network at each time step would take more time than running the simulation. The provided example takes advantage of the PyQtGraph library (www.pyqtgraph.org) to visualize efficiently activity in the network using OpenGL.</p>
+<p>The following class and method is defined in <code>Viz.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Visualizer using PyQtGraph</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pyqtgraph.Qt</span> <span class="kn">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+    <span class="kn">import</span> <span class="nn">pyqtgraph</span> <span class="k">as</span> <span class="nn">pg</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;PyQtGraph is not installed on your system, can not visualize the network.&#39;</span><span class="p">)</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">pyqtgraph.opengl</span> <span class="k">as</span> <span class="nn">gl</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;OpenGL is not installed on your system, can not visualize the network.&#39;</span><span class="p">)</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">class</span> <span class="nc">GLViewer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="s2">&quot; Class to visualize the network activity using PyQtGraph and openGL.&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">populations</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">update_rate</span><span class="p">):</span> 
+        <span class="c1"># Parameters   </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">populations</span> <span class="o">=</span> <span class="n">populations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>    
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_rate</span> <span class="o">=</span> <span class="n">update_rate</span>
+        <span class="c1"># Window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">win</span> <span class="o">=</span> <span class="n">gl</span><span class="o">.</span><span class="n">GLViewWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">setCameraPosition</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+        <span class="c1"># Prepare the plots</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plots</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">shift</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">pop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">populations</span><span class="p">:</span> 
+            <span class="n">p</span> <span class="o">=</span> <span class="n">gl</span><span class="o">.</span><span class="n">GLSurfacePlotItem</span><span class="p">(</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> 
+                <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> 
+                <span class="n">shader</span><span class="o">=</span><span class="s1">&#39;heightColor&#39;</span><span class="p">,</span> 
+                <span class="n">computeNormals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                <span class="n">smooth</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">shift</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="n">shift</span> <span class="o">-=</span> <span class="mi">25</span>
+
+    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="s2">&quot; Colors are shown in the range [-1, 1] per default.&quot;</span>
+        <span class="k">return</span> <span class="mf">1.8</span> <span class="o">*</span> <span class="n">data</span> <span class="o">-</span><span class="mf">0.9</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Callback&quot;</span>
+        <span class="c1"># Simulate for 200ms</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_rate</span><span class="p">)</span>     
+        <span class="c1"># Refresh the GUI</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">populations</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plots</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">populations</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">r</span><span class="p">))</span> 
+        <span class="c1"># Listen to mouse/keyboard events</span>
+        <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">processEvents</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Inifinite loop&quot;</span>
+        <span class="n">timer</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QTimer</span><span class="p">()</span>
+        <span class="n">timer</span><span class="o">.</span><span class="n">timeout</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+        <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  
+        <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span> 
+
+
+<span class="k">def</span> <span class="nf">loop_bubbles</span><span class="p">(</span><span class="n">populations</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">update_rate</span><span class="p">):</span>
+    <span class="s2">&quot;Launches the GL GUI and rotates the bubble infinitely.&quot;</span>
+    <span class="c1"># Create the GUI using PyQtGraph</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+    <span class="n">viewer</span> <span class="o">=</span> <span class="n">GLViewer</span><span class="p">(</span><span class="n">populations</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">update_rate</span><span class="p">)</span>
+    <span class="c1"># Start the simulation forever          </span>
+    <span class="n">viewer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div>
+<p>We leave out again the details about this class (please look at the
+examples and tutorials on the PyQtGraph website to understand it). It
+allows to open a PyQtGraph window and display the firing rate of both
+<code>Input</code> and <code>Focus</code> populations using OpenGL. The <code>run()</code> method is an endless loop calling regularly the
+<code>update()</code> method.</p>
+<p>The <code>update()</code> method calls first <code>World.rotate(200)</code> and waits for its
+completion before reactualizing the display. The reason is that
+refreshing the display can only be done sequentially with the
+simulation, and calling it too often would impair the simulation time.</p>
+<p>Once this class has been defined, the simulation can be run endlessly by importing the <code>Viz</code> module:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Launch the GUI and run the simulation</span>
+<span class="kn">from</span> <span class="nn">Viz</span> <span class="kn">import</span> <span class="n">loop_bubbles</span>
+<span class="n">loop_bubbles</span><span class="p">(</span><span class="n">populations</span> <span class="o">=</span> <span class="p">[</span><span class="n">inp</span><span class="p">,</span> <span class="n">focus</span><span class="p">],</span> <span class="n">func</span><span class="o">=</span><span class="n">world</span><span class="o">.</span><span class="n">rotate</span><span class="p">,</span> <span class="n">update_rate</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+</div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../List/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              List of notebooks
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../BarLearning/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Bar Learning
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 Julien Vitay, Helge Ülo Dinkelbach, Fred H. Hamker
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5cf3e710.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
