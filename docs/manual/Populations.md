@@ -185,14 +185,14 @@ For neuron-specific attributes, you can provide either:
 
 !!! note
 
-  If you do not want to use the attributes of Python (for example when
-  doing a loop over unknown attributes), you can also use the `get(name)`
-  and `set(values)` methods of **Population**:
+    If you do not want to use the attributes of Python (for example when
+    doing a loop over unknown attributes), you can also use the `get(name)`
+    and `set(values)` methods of **Population**:
 
-  ```python
-  pop1.get('tau')
-  pop1.set({'mp': 1.0, 'r': Uniform(0.0, 1.0)})
-  ```
+    ```python
+    pop1.get('tau')
+    pop1.set({'mp': 1.0, 'r': Uniform(0.0, 1.0)})
+    ```
 
 
 ## Accessing individual neurons
@@ -233,10 +233,10 @@ Variables:
 
 !!! warning
 
-  `IndividualNeuron` is only a wrapper for ease of use, the real data is
-  stored in arrays for the whole population, so accessing individual
-  neurons is much slower and should be reserved to specific cases (i.e.
-  only from time to time and for a limited set of neurons).
+    `IndividualNeuron` is only a wrapper for ease of use, the real data is
+    stored in arrays for the whole population, so accessing individual
+    neurons is much slower and should be reserved to specific cases (i.e.
+    only from time to time and for a limited set of neurons).
 
 
 ## Accessing groups of neurons
@@ -359,8 +359,7 @@ k = np.ones(100)
 r = pop.sigmoid(x, k)
 ```
 
-You can pass either a list or a 1D Numpy array to each argument (**not a
-single value, nor a multidimensional array!**).
+You can pass either a list or a 1D Numpy array to each argument (**not a single value, nor a multidimensional array!**).
 
 The size of the arrays passed for each argument is arbitrary (it must
 not match the population's size) but you have to make sure that they
