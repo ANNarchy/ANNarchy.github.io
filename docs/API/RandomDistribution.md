@@ -81,6 +81,7 @@ documentation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.DiscreteUniform
@@ -88,6 +89,7 @@ documentation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.Normal
@@ -95,6 +97,7 @@ documentation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.LogNormal
@@ -102,6 +105,7 @@ documentation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.Gamma
@@ -109,6 +113,7 @@ documentation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 
@@ -117,4 +122,5 @@ documentation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2

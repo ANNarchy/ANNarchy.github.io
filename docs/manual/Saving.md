@@ -108,8 +108,8 @@ save('data.txt.gz')
 save('data.mat')
 ```
 
-Filenames ending with \'.mat\' correspond to Matlab files (it requires
-the installation of Scipy), filenames ending with \'.gz\' are compressed
+Filenames ending with `.mat` correspond to Matlab files (it requires
+the installation of Scipy), filenames ending with `.gz` are compressed
 using gzip (normally standard to all Python distributions, but may
 require installation), other extensions are normal text files using
 cPickle (standard).

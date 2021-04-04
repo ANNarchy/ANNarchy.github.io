@@ -9,4 +9,5 @@ between the pre-synaptic population and a single post-synaptic neuron.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2

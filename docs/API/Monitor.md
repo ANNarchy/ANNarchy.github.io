@@ -8,6 +8,7 @@ possible through a `Monitor` object.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.raster_plot
@@ -15,6 +16,7 @@ possible through a `Monitor` object.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.histogram
@@ -22,6 +24,7 @@ possible through a `Monitor` object.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.mean_fr
@@ -29,6 +32,7 @@ possible through a `Monitor` object.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.smoothed_rate
@@ -36,6 +40,7 @@ possible through a `Monitor` object.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.population_rate
@@ -43,5 +48,6 @@ possible through a `Monitor` object.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 

@@ -8,6 +8,7 @@ ANNarchy provides standard spiking neuron models, similar to the ones defined in
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.models.Izhikevich
@@ -15,6 +16,7 @@ ANNarchy provides standard spiking neuron models, similar to the ones defined in
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.models.IF_curr_exp
@@ -22,6 +24,7 @@ ANNarchy provides standard spiking neuron models, similar to the ones defined in
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.models.IF_cond_exp
@@ -29,6 +32,7 @@ ANNarchy provides standard spiking neuron models, similar to the ones defined in
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.models.IF_curr_alpha
@@ -36,6 +40,7 @@ ANNarchy provides standard spiking neuron models, similar to the ones defined in
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.models.IF_cond_alpha
@@ -43,6 +48,7 @@ ANNarchy provides standard spiking neuron models, similar to the ones defined in
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.models.HH_cond_exp
@@ -50,6 +56,7 @@ ANNarchy provides standard spiking neuron models, similar to the ones defined in
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.models.EIF_cond_exp_isfa_ista
@@ -57,6 +64,7 @@ ANNarchy provides standard spiking neuron models, similar to the ones defined in
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2
 
 ::: ANNarchy.models.EIF_cond_alpha_isfa_ista
@@ -64,4 +72,5 @@ ANNarchy provides standard spiking neuron models, similar to the ones defined in
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 2

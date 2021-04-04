@@ -15,6 +15,7 @@ functions in the right order.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 
@@ -23,6 +24,7 @@ functions in the right order.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.clear
@@ -30,6 +32,7 @@ functions in the right order.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ## Simulation
@@ -41,6 +44,7 @@ Different methods are available to run the simulation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.simulate_until
@@ -48,6 +52,7 @@ Different methods are available to run the simulation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.step
@@ -55,6 +60,7 @@ Different methods are available to run the simulation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.every
@@ -62,6 +68,7 @@ Different methods are available to run the simulation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.enable_callbacks
@@ -69,6 +76,7 @@ Different methods are available to run the simulation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.disable_callbacks
@@ -76,6 +84,7 @@ Different methods are available to run the simulation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.clear_all_callbacks
@@ -83,6 +92,7 @@ Different methods are available to run the simulation:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ## Reset the network
@@ -96,6 +106,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ## Access to populations
@@ -105,6 +116,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.get_projection
@@ -112,6 +124,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ## Functions
@@ -121,6 +134,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.functions
@@ -128,6 +142,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ## Constants
@@ -137,6 +152,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ## Learning
@@ -146,6 +162,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 
@@ -154,6 +171,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ## Access to simulation times
@@ -164,6 +182,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.set_time
@@ -171,6 +190,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 
@@ -179,6 +199,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.set_current_step
@@ -186,6 +207,7 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.dt
@@ -193,5 +215,6 @@ selectively neural or synaptic variables to their initial values.
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 

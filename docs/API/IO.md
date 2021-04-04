@@ -9,6 +9,7 @@ To save or load the network state you can use the following methods:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.load
@@ -16,6 +17,7 @@ To save or load the network state you can use the following methods:
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 
@@ -30,6 +32,7 @@ Please note that these functions are only usable after the call to
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3
 
 ::: ANNarchy.load_parameters
@@ -37,4 +40,5 @@ Please note that these functions are only usable after the call to
       docstring_style: restructured-text
     rendering:
       show_root_heading: true
+      show_root_full_path: false
       heading_level: 3

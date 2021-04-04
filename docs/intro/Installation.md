@@ -1,21 +1,18 @@
 # Installation of ANNarchy
 
 ANNarchy is designed to run on GNU/Linux and OSX. It relies mostly on a
-C++ compiler, Cython (C for Python extension) and Python (NumPy, Sympy)
-libraries. Installation on Windows is not yet possible.
+C++ compiler (g++ or clang++), Cython (C for Python extension) and Python (Numpy, Sympy)
+libraries. Installation on Windows is not possible.
 
 ## Download
 
 The source code of ANNarchy can be downloaded on Bitbucket:
 
-    git clone http://bitbucket.org/annarchy/annarchy.git
+```bash
+git clone http://bitbucket.org/annarchy/annarchy.git
+```
 
-As ANNarchy is under heavy development, you should update the repository
-regularly:
-
-    git pull origin master
-
-## Installation on GNU/Linux systems
+## Installation on GNU/Linux
 
 ### Dependencies
 
@@ -27,7 +24,7 @@ packages may work but have not been tested.
 
 -   g++ \>= 4.8
 -   make \>= 3.0
--   python \>= 3.5 (with the development files, e.g. `python-dev` or
+-   python \>= 3.6 (with the development files, e.g. `python-dev` or
     `python-devel`)
 -   cython \>= 0.19
 -   setuptools \>= 0.6
@@ -42,6 +39,8 @@ recommended:
 -   pyqtgraph \>= 0.9.8 (to visualize some of the provided examples. The
     OpenGL backend can also be needed).
 -   lxml \>= 3.0 (to save the networks in .xml format).
+-   pandoc \>= 2.0 (for reporting).
+-   tensorboardX (for the logging extension).
 
 To use the CUDA backend:
 
@@ -59,8 +58,10 @@ as in virtual environments.
 On a fresh install of Ubuntu 18.10, here are the minimal packages to
 install before ANNarchy (using python 3):
 
-    sudo apt install build-essential git python3-dev python3-setuptools python3-scipy python3-matplotlib python3-sympy cython3
-    sudo apt install python3-pyqtgraph python3-pyqt4.qtopengl python3-lxml # optional
+```bash
+sudo apt install build-essential git python3-dev python3-setuptools python3-scipy python3-matplotlib python3-sympy cython3
+sudo apt install python3-pyqtgraph python3-pyqt4.qtopengl python3-lxml
+```
 
 ### Installation
 
@@ -68,13 +69,17 @@ install before ANNarchy (using python 3):
 
 Stable releases of ANNarchy are available on PyPi:
 
-    sudo pip install ANNarchy
+```bash
+sudo pip install ANNarchy
+```
 
 or:
 
-    pip install ANNarchy --user
+```bash
+pip install ANNarchy --user
+```
 
-if you do not have administrator permissions.
+if you do not have administrator permissions. Omit `--user` in a virtual environment.
 
 #### Using the source code
 
@@ -85,10 +90,11 @@ methods:
 
 If you want to install ANNarchy in your home directory, type:
 
-    python setup.py install --user
+```bash
+python setup.py install --user
+```
 
-The ANNarchy code will be installed in
-`$HOME/.local/lib/pythonx.y/site-packages/` (replace \'x.y\' with your
+The ANNarchy code will be installed in `$HOME/.local/lib/pythonx.y/site-packages/` (replace \'x.y\' with your
 Python version) and automatically added to your `PYTHONPATH`.
 
 **Global installation**
@@ -96,10 +102,11 @@ Python version) and automatically added to your `PYTHONPATH`.
 If you have administrator permissions, you can install ANNarchy in
 `/usr/local` by typing in the top-level directory:
 
-    sudo python setup.py install
+```bash
+sudo python setup.py install
+```
 
-This simply installs the code in
-`/usr/local/lib/pythonx.y/dist-packages/`.
+This simply installs the code in `/usr/local/lib/pythonx.y/dist-packages/`.
 
 **Specific installation**
 
@@ -107,21 +114,29 @@ If you want to install ANNarchy in another directory (let's say in
 `/path/to/repertory`), you should first set your Python path to this
 directory:
 
-    export PYTHONPATH=$PYTHONPATH:/path/to/repertory/lib/pythonx.y/site-packages
+```bash
+export PYTHONPATH=$PYTHONPATH:/path/to/repertory/lib/pythonx.y/site-packages
+```
 
 Again, replace \'x.y\' with your Python version. If this directory does
 not exist, you should create it now. Don\'t forget to set this value in
 your `~/.bash_profile` or `~/.bashrc` to avoid typing this command
 before every session. You can then install ANNarchy by typing:
 
-    python setup.py install --prefix=/path/to/repertory
+
+```bash
+python setup.py install --prefix=/path/to/repertory
+```
 
 If you have multiple Python installations on your system (e.g. through
 Anaconda), you should update your `LD_LIBRARY_PATH` environment variable
 in `.bashrc` or `bash_profile` to point at the location of
 `libpython3.6.so` (or whatever version):
 
-    export LD_LIBRARY_PATH=$HOME/anaconda2/lib:$LD_LIBRARY_PATH
+
+```bash
+export LD_LIBRARY_PATH=$HOME/anaconda3/lib:$LD_LIBRARY_PATH
+```
 
 ANNarchy normally detects which python installation you are currently
 using, but helping it does not hurt\...
@@ -141,7 +156,9 @@ A first thing to help ANNarchy find the CUDA libraries is to define the
 LD_LIBRARY_PATH environment variable and have point at the `lib64/`
 subfolder:
 
-    export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64/:$LD_LIBRARY_PATH
+```bash
+export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64/:$LD_LIBRARY_PATH
+```
 
 This should in most cases work if you have only one CUDA installation.
 Otherwise, it is needed that you indicate where the CUDA libraries are,
@@ -171,13 +188,17 @@ field.
 It can happen that the detection of CUDA fails during installation, as
 some environment variables are not set. In this case try:
 
-    sudo env "PATH=$PATH" "LIBRARY_PATH=$LIBRARY_PATH" python setup.py install
+```bash
+sudo env "PATH=$PATH" "LIBRARY_PATH=$LIBRARY_PATH" python setup.py install
+```
 
-## Installation on MacOS X systems
+## Installation on MacOS X
 
 Installation on MacOS X is in principle similar to GNU/Linux:
 
-    python setup.py install (--user or --prefix)
+```bash
+python setup.py install (--user or --prefix)
+```
 
 We advise using a full Python distribution such as
 [Anaconda](https://www.continuum.io/why-anaconda), which installs
@@ -194,10 +215,12 @@ when simulating:
 
 The solution is to set the environment variable
 `DYLD_FALLBACK_LIBRARY_PATH` to point at the correct library
-`libpython2.7.dylib` in your `.bash_profile`. For a standard Anaconda
+`libpython3.6.dylib` in your `.bash_profile`. For a standard Anaconda
 installation, this should be:
 
-    export DYLD_FALLBACK_LIBRARY_PATH=$HOME/anaconda/lib:$DYLD_FALLBACK_LIBRARY_PATH
+```bash
+export DYLD_FALLBACK_LIBRARY_PATH=$HOME/anaconda/lib:$DYLD_FALLBACK_LIBRARY_PATH
+```
 
 !!! note
 
