@@ -658,13 +658,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ANNarchy.core.Simulate.every.__call__" class="md-nav__link">
-    __call__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ANNarchy.core.Simulate.every.__init__" class="md-nav__link">
     __init__()
   </a>
@@ -1461,13 +1454,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ANNarchy.core.Simulate.every.__call__" class="md-nav__link">
-    __call__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ANNarchy.core.Simulate.every.__init__" class="md-nav__link">
     __init__()
   </a>
@@ -1757,10 +1743,9 @@ functions in the right order.</p>
 <li>show_time: if True, initialization times are shown. Attention: verbose should be set to True additionally.</li>
 </ul>
 <p><strong>Note:</strong></p>
-<p>This function should be used before any other functions of ANNarchy (including importing a network definition), right after <code>from ANNarchy import *</code>::</p>
-<div class="highlight"><pre><span></span><code>from ANNarchy import *
-setup(dt=1.0, method=&#39;midpoint&#39;, num_threads=2)
-...
+<p>This function should be used before any other functions of ANNarchy (including importing a network definition), right after <code>from ANNarchy import *</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">setup</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;midpoint&#39;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </code></pre></div>
 
         <details class="quote">
@@ -1786,11 +1771,12 @@ setup(dt=1.0, method=&#39;midpoint&#39;, num_threads=2)
 
 <span class="sd">    **Note:**</span>
 
-<span class="sd">    This function should be used before any other functions of ANNarchy (including importing a network definition), right after ``from ANNarchy import *``::</span>
+<span class="sd">    This function should be used before any other functions of ANNarchy (including importing a network definition), right after `from ANNarchy import *`:</span>
 
-<span class="sd">        from ANNarchy import *</span>
-<span class="sd">        setup(dt=1.0, method=&#39;midpoint&#39;, num_threads=2)</span>
-<span class="sd">        ...</span>
+<span class="sd">    ```python</span>
+<span class="sd">    from ANNarchy import *</span>
+<span class="sd">    setup(dt=1.0, method=&#39;midpoint&#39;, num_threads=2)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_network</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;populations&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">_network</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;projections&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">_network</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;monitors&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -2096,11 +2082,9 @@ setup(dt=1.0, method=&#39;midpoint&#39;, num_threads=2)
     <div class="doc doc-contents first">
 
       <p>Clears all variables (erasing already defined populations, projections, monitors and constants), as if you had just imported ANNarchy.</p>
-<p>Useful when re-running Jupyter/IPython notebooks multiple times::</p>
-<div class="highlight"><pre><span></span><code>from ANNarchy import *
-clear()
-...
-compile()
+<p>Useful when re-running Jupyter/IPython notebooks multiple times:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">clear</span><span class="p">()</span>
 </code></pre></div>
 
         <details class="quote">
@@ -2109,12 +2093,12 @@ compile()
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Clears all variables (erasing already defined populations, projections, monitors and constants), as if you had just imported ANNarchy.</span>
 
-<span class="sd">    Useful when re-running Jupyter/IPython notebooks multiple times::</span>
+<span class="sd">    Useful when re-running Jupyter/IPython notebooks multiple times:</span>
 
-<span class="sd">        from ANNarchy import *</span>
-<span class="sd">        clear()</span>
-<span class="sd">        ...</span>
-<span class="sd">        compile()</span>
+<span class="sd">    ```python</span>
+<span class="sd">    from ANNarchy import *</span>
+<span class="sd">    clear()</span>
+<span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Reset objects </span>
     <span class="k">global</span> <span class="n">_objects</span>
@@ -2167,8 +2151,9 @@ compile()
 
     <div class="doc doc-contents first">
 
-      <p>Simulates the network for the given duration in milliseconds. The number of simulation steps is computed relative to the discretization step <code>dt</code> declared in <code>setup()</code> (default: 1ms)::</p>
-<div class="highlight"><pre><span></span><code>simulate(1000.0)
+      <p>Simulates the network for the given duration in milliseconds. </p>
+<p>The number of simulation steps is computed relative to the discretization step <code>dt</code> declared in <code>setup()</code> (default: 1ms):</p>
+<div class="highlight"><pre><span></span><code><span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
 </code></pre></div>
 
 <p><strong>Parameters:</strong></p>
@@ -2212,9 +2197,13 @@ compile()
           <summary>Source code in <code>ANNarchy/core/Simulate.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">measure_time</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">progress_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">net_id</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Simulates the network for the given duration in milliseconds. The number of simulation steps is computed relative to the discretization step ``dt`` declared in ``setup()`` (default: 1ms)::</span>
+<span class="sd">    Simulates the network for the given duration in milliseconds. </span>
 
-<span class="sd">        simulate(1000.0)</span>
+<span class="sd">    The number of simulation steps is computed relative to the discretization step ``dt`` declared in ``setup()`` (default: 1ms):</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    :param duration: the duration in milliseconds.</span>
 <span class="sd">    :param measure_time: defines whether the simulation time should be printed. Default: False.</span>
@@ -2270,10 +2259,10 @@ compile()
 
       <p>Runs the network for the maximal duration in milliseconds. If the <code>stop_condition</code> defined in the population becomes true during the simulation, it is stopped.</p>
 <p>One can specify several populations. If the stop condition is true for any of the populations, the simulation will stop ('or' function).</p>
-<p>Example::</p>
-<div class="highlight"><pre><span></span><code>pop1 = Population( ..., stop_condition = &quot;r &gt; 1.0 : any&quot;)
-compile()
-simulate_until(max_duration=1000.0. population=pop1)
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">pop1</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span> <span class="o">...</span><span class="p">,</span> <span class="n">stop_condition</span> <span class="o">=</span> <span class="s2">&quot;r &gt; 1.0 : any&quot;</span><span class="p">)</span>
+<span class="nb">compile</span><span class="p">()</span>
+<span class="n">simulate_until</span><span class="p">(</span><span class="n">max_duration</span><span class="o">=</span><span class="mf">1000.0</span><span class="o">.</span> <span class="n">population</span><span class="o">=</span><span class="n">pop1</span><span class="p">)</span>
 </code></pre></div>
 
 <p><strong>Parameters:</strong></p>
@@ -2336,11 +2325,13 @@ simulate_until(max_duration=1000.0. population=pop1)
 
 <span class="sd">    One can specify several populations. If the stop condition is true for any of the populations, the simulation will stop (&#39;or&#39; function).</span>
 
-<span class="sd">    Example::</span>
+<span class="sd">    Example:</span>
 
-<span class="sd">        pop1 = Population( ..., stop_condition = &quot;r &gt; 1.0 : any&quot;)</span>
-<span class="sd">        compile()</span>
-<span class="sd">        simulate_until(max_duration=1000.0. population=pop1)</span>
+<span class="sd">    ```python</span>
+<span class="sd">    pop1 = Population( ..., stop_condition = &quot;r &gt; 1.0 : any&quot;)</span>
+<span class="sd">    compile()</span>
+<span class="sd">    simulate_until(max_duration=1000.0. population=pop1)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    :param max_duration: the maximum duration of the simulation in milliseconds.</span>
 <span class="sd">    :param population: the (list of) population whose ``stop_condition`` should be checked to stop the simulation.</span>
@@ -2421,12 +2412,12 @@ simulate_until(max_duration=1000.0. population=pop1)
     <div class="doc doc-contents first">
 
       <p>Decorator to declare a callback method that will be called periodically during the simulation.</p>
-<p>Example of setting increasing inputs to a population every 100 ms, with an offset of 90 ms (or -10 ms relative to the period)::</p>
-<div class="highlight"><pre><span></span><code>@every(period=100., offset=-10.)
-def step_input(n):
-    pop.I = float(n) / 100.
+<p>Example of setting increasing inputs to a population every 100 ms, with an offset of 90 ms (or -10 ms relative to the period):</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@every</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="mf">100.</span><span class="p">,</span> <span class="n">offset</span><span class="o">=-</span><span class="mf">10.</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">step_input</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="mf">100.</span>
 
-simulate(10000.)
+<span class="n">simulate</span><span class="p">(</span><span class="mf">10000.</span><span class="p">)</span>
 </code></pre></div>
 <p><code>step_input()</code> will be called at times 90, 190, ..., 9990 ms during the call to <code>simulate()</code>.</p>
 <p>The method must accept only <code>n</code> as parameter (an integer being 0 the first time the method is called, and incremented afterwards) and can not return anything.</p>
@@ -2444,42 +2435,6 @@ simulate(10000.)
 
 
 
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h4 id="ANNarchy.core.Simulate.every.__call__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Simulate.every.__call__" class="headerlink" title="Permanent link">#</a></h4>
-
-    <div class="doc doc-contents ">
-
-      <p>If there are decorator arguments, <strong>call</strong>() is only called
-once, as part of the decoration process! You can only give
-it a single argument, which is the function object.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Simulate.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    If there are decorator arguments, __call__() is only called</span>
-<span class="sd">    once, as part of the decoration process! You can only give</span>
-<span class="sd">    it a single argument, which is the function object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">f</span>
-    <span class="k">return</span> <span class="n">f</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
 
 
 
@@ -2791,7 +2746,6 @@ selectively neural or synaptic variables to their initial values.</p>
 <span class="sd">    Returns the population with the given ``name``.</span>
 
 <span class="sd">    :param name: name of the population.</span>
-
 <span class="sd">    :return: The requested ``Population`` object if existing, ``None`` otherwise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">pop</span> <span class="ow">in</span> <span class="n">_network</span><span class="p">[</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;populations&#39;</span><span class="p">]:</span>
@@ -2895,15 +2849,15 @@ selectively neural or synaptic variables to their initial values.</p>
       <p>Defines a global function which can be used by all neurons and synapses.</p>
 <p>The function must have only one return value and use only the passed arguments.</p>
 <p>Examples of valid functions:</p>
-<div class="highlight"><pre><span></span><code>logistic(x) = 1 / (1 + exp(-x))
+<div class="highlight"><pre><span></span><code><span class="n">logistic</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
 
-piecewise(x, a, b) =    if x &lt; a:
-                            a
-                        else:
-                            if x &gt; b :
-                                b
-                            else:
-                                x
+<span class="n">piecewise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span>    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">:</span>
+                            <span class="n">a</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="p">:</span>
+                                <span class="n">b</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">x</span>
 </code></pre></div>
 <p>Please refer to the manual to know the allowed mathematical functions.</p>
 
@@ -2917,15 +2871,17 @@ piecewise(x, a, b) =    if x &lt; a:
 
 <span class="sd">    Examples of valid functions:</span>
 
-<span class="sd">        logistic(x) = 1 / (1 + exp(-x))</span>
+<span class="sd">    ```python</span>
+<span class="sd">    logistic(x) = 1 / (1 + exp(-x))</span>
 
-<span class="sd">        piecewise(x, a, b) =    if x &lt; a:</span>
-<span class="sd">                                    a</span>
+<span class="sd">    piecewise(x, a, b) =    if x &lt; a:</span>
+<span class="sd">                                a</span>
+<span class="sd">                            else:</span>
+<span class="sd">                                if x &gt; b :</span>
+<span class="sd">                                    b</span>
 <span class="sd">                                else:</span>
-<span class="sd">                                    if x &gt; b :</span>
-<span class="sd">                                        b</span>
-<span class="sd">                                    else:</span>
-<span class="sd">                                        x</span>
+<span class="sd">                                    x</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    Please refer to the manual to know the allowed mathematical functions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2953,11 +2909,11 @@ piecewise(x, a, b) =    if x &lt; a:
 
       <p>Allows to access a global function defined with <code>add_function</code> and use it from Python using arrays <strong>after compilation</strong>.</p>
 <p>The name of the function is not added to the global namespace to avoid overloading.</p>
-<div class="highlight"><pre><span></span><code>add_function(&quot;logistic(x) = 1. / (1. + exp(-x))&quot;)
+<div class="highlight"><pre><span></span><code><span class="n">add_function</span><span class="p">(</span><span class="s2">&quot;logistic(x) = 1. / (1. + exp(-x))&quot;</span><span class="p">)</span> 
 
-compile()
+<span class="nb">compile</span><span class="p">()</span>  
 
-result = functions(&#39;logistic&#39;)([0., 1., 2., 3., 4.])
+<span class="n">result</span> <span class="o">=</span> <span class="n">functions</span><span class="p">(</span><span class="s1">&#39;logistic&#39;</span><span class="p">)([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">])</span>
 </code></pre></div>
 <p>Only lists or 1D Numpy arrays can be passed as arguments, not single values nor multidimensional arrays.</p>
 <p>When passing several arguments, make sure they have the same size.</p>
@@ -2970,11 +2926,13 @@ result = functions(&#39;logistic&#39;)([0., 1., 2., 3., 4.])
 
 <span class="sd">    The name of the function is not added to the global namespace to avoid overloading.</span>
 
-<span class="sd">        add_function(&quot;logistic(x) = 1. / (1. + exp(-x))&quot;) </span>
+<span class="sd">    ```python</span>
+<span class="sd">    add_function(&quot;logistic(x) = 1. / (1. + exp(-x))&quot;) </span>
 
-<span class="sd">        compile()  </span>
+<span class="sd">    compile()  </span>
 
-<span class="sd">        result = functions(&#39;logistic&#39;)([0., 1., 2., 3., 4.])</span>
+<span class="sd">    result = functions(&#39;logistic&#39;)([0., 1., 2., 3., 4.])</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    Only lists or 1D Numpy arrays can be passed as arguments, not single values nor multidimensional arrays.</span>
 
@@ -3013,15 +2971,15 @@ result = functions(&#39;logistic&#39;)([0., 1., 2., 3., 4.])
 <p>The class <code>Constant</code> derives from <code>float</code>, so any legal operation on floats (addition, multiplication) can be used.</p>
 <p>If a Neuron/Synapse defines a parameter with the same name, the constant parameters will not be visible.</p>
 <p>Example:</p>
-<div class="highlight"><pre><span></span><code>tau = Constant(&#39;tau&#39;, 20)
-factor = Constant(&#39;factor&#39;, 0.1)
-real_tau = Constant(&#39;real_tau&#39;, tau*factor)
+<div class="highlight"><pre><span></span><code><span class="n">tau</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">(</span><span class="s1">&#39;tau&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">factor</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">(</span><span class="s1">&#39;factor&#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">real_tau</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">(</span><span class="s1">&#39;real_tau&#39;</span><span class="p">,</span> <span class="n">tau</span><span class="o">*</span><span class="n">factor</span><span class="p">)</span>
 
-neuron = Neuron(
-    equations=&#39;&#39;&#39;
-        real_tau*dr/dt + r =1.0
-    &#39;&#39;&#39;
-)
+<span class="n">neuron</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">equations</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        real_tau*dr/dt + r =1.0</span>
+<span class="s1">    &#39;&#39;&#39;</span>
+<span class="p">)</span>
 </code></pre></div>
 <p>The value of the constant can be changed anytime with the <code>set()</code> method. Assignments will have no effect (e.g. <code>tau = 10.0</code> only creates a new float).</p>
 <p>The value of constants defined as combination of other constants (<code>real_tau</code>) is not updated if the value of these constants changes (changing <code>tau</code> with <code>tau.set(10.0)</code> will not modify the value of <code>real_tau</code>).</p>

@@ -724,41 +724,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ANNarchy.core.Dendrite.Dendrite.__getattr__" class="md-nav__link">
-    __getattr__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Dendrite.Dendrite.__getitem__" class="md-nav__link">
-    __getitem__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Dendrite.Dendrite.__iter__" class="md-nav__link">
-    __iter__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Dendrite.Dendrite.__len__" class="md-nav__link">
-    __len__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Dendrite.Dendrite.__setattr__" class="md-nav__link">
-    __setattr__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ANNarchy.core.Dendrite.Dendrite.create_synapse" class="md-nav__link">
     create_synapse()
   </a>
@@ -1218,41 +1183,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ANNarchy.core.Dendrite.Dendrite.__getattr__" class="md-nav__link">
-    __getattr__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Dendrite.Dendrite.__getitem__" class="md-nav__link">
-    __getitem__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Dendrite.Dendrite.__iter__" class="md-nav__link">
-    __iter__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Dendrite.Dendrite.__len__" class="md-nav__link">
-    __len__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Dendrite.Dendrite.__setattr__" class="md-nav__link">
-    __setattr__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ANNarchy.core.Dendrite.Dendrite.create_synapse" class="md-nav__link">
     create_synapse()
   </a>
@@ -1335,8 +1265,8 @@ between the pre-synaptic population and a single post-synaptic neuron.</p>
     <div class="doc doc-contents first">
 
       <p>A <code>Dendrite</code> is a sub-group of a <code>Projection</code>, gathering the synapses between the pre-synaptic population and a single post-synaptic neuron.</p>
-<p>It can not be created directly, only through a call to <code>Projection.dendrite(rank)</code>::</p>
-<div class="highlight"><pre><span></span><code>dendrite = proj.dendrite(6)
+<p>It can not be created directly, only through a call to <code>Projection.dendrite(rank)</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dendrite</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">dendrite</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 </code></pre></div>
 
 
@@ -1421,198 +1351,9 @@ between the pre-synaptic population and a single post-synaptic neuron.</p>
 
 
 
-  <div class="doc doc-object doc-method">
 
 
 
-<h3 id="ANNarchy.core.Dendrite.Dendrite.__getattr__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Dendrite.Dendrite.__getattr__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Method called when accessing an attribute.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Dendrite.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-    <span class="s2">&quot; Method called when accessing an attribute.&quot;</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;proj&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;proj&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;rank&#39;</span><span class="p">:</span> <span class="c1"># TODO: remove &#39;rank&#39; in a future version</span>
-            <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s2">&quot;Dendrite.rank: the attribute is deprecated, use Dendrite.pre_ranks instead.&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">pre_rank</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">name</span><span class="o">==</span><span class="s1">&#39;pre_rank&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">pre_rank</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">uniform_delay</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="k">return</span> <span class="p">[</span><span class="n">d</span><span class="o">*</span><span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">get_dendrite_delay</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">)]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">max_delay</span> <span class="o">*</span> <span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">cyInstance</span><span class="p">,</span> <span class="s1">&#39;get_dendrite_&#39;</span><span class="o">+</span><span class="n">name</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Dendrite.Dendrite.__getitem__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Dendrite.Dendrite.__getitem__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Returns the synapse of the given position in the presynaptic population.</p>
-<p>If only one argument is given, it is a rank. If it is a tuple, it is coordinates.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Dendrite.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the synapse of the given position in the presynaptic population.</span>
-
-<span class="sd">    If only one argument is given, it is a rank. If it is a tuple, it is coordinates.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Dendrite.Dendrite.__iter__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Dendrite.Dendrite.__iter__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Returns iteratively each synapse in the dendrite in ascending pre-synaptic rank order.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Dendrite.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="s2">&quot; Returns iteratively each synapse in the dendrite in ascending pre-synaptic rank order.&quot;</span>
-    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_ranks</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="n">IndividualSynapse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Dendrite.Dendrite.__len__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Dendrite.Dendrite.__len__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Number of synapses.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Dendrite.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Number of synapses.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Dendrite.Dendrite.__setattr__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Dendrite.Dendrite.__setattr__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Method called when setting an attribute.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Dendrite.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-    <span class="s2">&quot; Method called when setting an attribute.&quot;</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;proj&#39;</span><span class="p">:</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;proj&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;attributes&#39;</span><span class="p">:</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;attributes&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;proj&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">synapse_type</span><span class="o">.</span><span class="n">description</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
-                    <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">cyInstance</span><span class="p">,</span> <span class="s1">&#39;set_dendrite_&#39;</span><span class="o">+</span><span class="n">name</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-                <span class="k">else</span> <span class="p">:</span>
-                    <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">cyInstance</span><span class="p">,</span> <span class="s1">&#39;set_dendrite_&#39;</span><span class="o">+</span><span class="n">name</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">,</span> <span class="n">value</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">cyInstance</span><span class="p">,</span> <span class="s1">&#39;set_dendrite_&#39;</span><span class="o">+</span><span class="n">name</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
 
 
 
@@ -1714,6 +1455,9 @@ between the pre-synaptic population and a single post-synaptic neuron.</p>
     <div class="doc doc-contents ">
 
       <p>Returns the value of a variable/parameter.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dendrite</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1729,7 +1473,7 @@ between the pre-synaptic population and a single post-synaptic neuron.</p>
       <tr>
         <td><code>name</code></td>
         <td><code></code></td>
-        <td><p>name of the parameter/variable.  Example::  dendrite.get('w')</p></td>
+        <td><p>name of the parameter/variable.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1740,11 +1484,13 @@ between the pre-synaptic population and a single post-synaptic neuron.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the value of a variable/parameter.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    dendrite.get(&#39;w&#39;)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param name: name of the parameter/variable.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        dendrite.get(&#39;w&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;rank&#39;</span><span class="p">:</span>
         <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s2">&quot;Dendrite.get(&#39;rank&#39;): the attribute is deprecated, use Dendrite.pre_ranks instead.&quot;</span><span class="p">)</span>
@@ -1834,7 +1580,8 @@ between the pre-synaptic population and a single post-synaptic neuron.</p>
     <div class="doc doc-contents ">
 
       <p>Returns the given variable as a receptive field.</p>
-<p>A Numpy array of the same geometry as the pre-synaptic population is returned. Non-existing synapses are replaced by zeros (or the value <code>fill</code>).</p>
+<p>A Numpy array of the same geometry as the pre-synaptic population is returned. 
+Non-existing synapses are replaced by zeros (or the value <code>fill</code>).</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1867,7 +1614,8 @@ between the pre-synaptic population and a single post-synaptic neuron.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the given variable as a receptive field.</span>
 
-<span class="sd">    A Numpy array of the same geometry as the pre-synaptic population is returned. Non-existing synapses are replaced by zeros (or the value ``fill``).</span>
+<span class="sd">    A Numpy array of the same geometry as the pre-synaptic population is returned. </span>
+<span class="sd">    Non-existing synapses are replaced by zeros (or the value ``fill``).</span>
 
 <span class="sd">    :param variable: name of the variable (default = &#39;w&#39;)</span>
 <span class="sd">    :param fill: value to use when a synapse does not exist (default: 0.0).</span>
@@ -1900,6 +1648,9 @@ between the pre-synaptic population and a single post-synaptic neuron.</p>
     <div class="doc doc-contents ">
 
       <p>Sets the value of a parameter/variable of all synapses.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dendrite</span><span class="o">.</span><span class="n">set</span><span class="p">(</span> <span class="s1">&#39;tau&#39;</span> <span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span> <span class="p">}</span> <span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1915,7 +1666,7 @@ between the pre-synaptic population and a single post-synaptic neuron.</p>
       <tr>
         <td><code>value</code></td>
         <td><code></code></td>
-        <td><p>a dictionary containing the parameter/variable names as keys.  Example::  dendrite.set( 'tau' : 20, 'w'= Uniform(0.0, 1.0) } )</p></td>
+        <td><p>a dictionary containing the parameter/variable names as keys.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1926,11 +1677,13 @@ between the pre-synaptic population and a single post-synaptic neuron.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sets the value of a parameter/variable of all synapses.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    dendrite.set( &#39;tau&#39; : 20, &#39;w&#39;= Uniform(0.0, 1.0) } )</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param value: a dictionary containing the parameter/variable names as keys.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        dendrite.set( &#39;tau&#39; : 20, &#39;w&#39;= Uniform(0.0, 1.0) } )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">val_key</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">cy_instance</span><span class="p">,</span> <span class="n">val_key</span><span class="p">):</span>

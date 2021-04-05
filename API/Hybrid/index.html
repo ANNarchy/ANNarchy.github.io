@@ -1162,11 +1162,11 @@ method available for <code>Projection</code>.</p>
 <p>The decoded firing rate is accessible in the post-synaptic neurons with <code>sum(target)</code>.</p>
 <p>The projection can be connected using any method available in <code>Projection</code> (although all-to-all or many-to-one makes mostly sense). Delays are ignored.</p>
 <p>The weight value allows to scale the firing rate: if you want a pre-synaptic firing rate of 100 Hz to correspond to a post-synaptic rate of 1.0, use <code>w = 1./100.</code>.</p>
-<p>Example::</p>
-<div class="highlight"><pre><span></span><code>pop1 = PoissonPopulation(1000, rates=100.)
-pop2 = Population(1, Neuron(equations=&quot;r=sum(exc)&quot;))
-proj = DecodingProjection(pop1, pop2, &#39;exc&#39;, window=10.0)
-proj.connect_all_to_all(1.0, force_multiple_weights=True)
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">pop1</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">100.</span><span class="p">)</span>
+<span class="n">pop2</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r=sum(exc)&quot;</span><span class="p">))</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">DecodingProjection</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">force_multiple_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 
 

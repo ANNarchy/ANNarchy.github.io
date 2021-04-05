@@ -662,13 +662,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ANNarchy.core.Population.Population.__getattr__" class="md-nav__link">
-    __getattr__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ANNarchy.core.Population.Population.__getitem__" class="md-nav__link">
     __getitem__()
   </a>
@@ -678,27 +671,6 @@
           <li class="md-nav__item">
   <a href="#ANNarchy.core.Population.Population.__init__" class="md-nav__link">
     __init__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Population.Population.__iter__" class="md-nav__link">
-    __iter__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Population.Population.__len__" class="md-nav__link">
-    __len__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Population.Population.__setattr__" class="md-nav__link">
-    __setattr__()
   </a>
   
 </li>
@@ -1260,13 +1232,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ANNarchy.core.Population.Population.__getattr__" class="md-nav__link">
-    __getattr__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ANNarchy.core.Population.Population.__getitem__" class="md-nav__link">
     __getitem__()
   </a>
@@ -1276,27 +1241,6 @@
           <li class="md-nav__item">
   <a href="#ANNarchy.core.Population.Population.__init__" class="md-nav__link">
     __init__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Population.Population.__iter__" class="md-nav__link">
-    __iter__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Population.Population.__len__" class="md-nav__link">
-    __len__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Population.Population.__setattr__" class="md-nav__link">
-    __setattr__()
   </a>
   
 </li>
@@ -1476,13 +1420,14 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
     <div class="doc doc-contents ">
 
       <p>Returns iteratively each neuron in the population.</p>
-<p>For instance, if you want to iterate over all neurons of a population::</p>
-<div class="highlight"><pre><span></span><code>for neuron in pop.neurons:
-    neuron.r = 0.0
+<p>For instance, if you want to iterate over all neurons of a population:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">neuron</span> <span class="ow">in</span> <span class="n">pop</span><span class="o">.</span><span class="n">neurons</span><span class="p">:</span>
+    <span class="n">neuron</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="mf">0.0</span>
 </code></pre></div>
-<p>Alternatively, one could also benefit from the <code>__iter__</code> special command. The following code is equivalent::</p>
-<div class="highlight"><pre><span></span><code>for neuron in pop:
-    neuron.r = 0.0
+<p>Alternatively, one could also benefit from the <code>__iter__</code> special command. 
+The following code is equivalent:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">neuron</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">:</span>
+    <span class="n">neuron</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="mf">0.0</span>
 </code></pre></div>
     </div>
 
@@ -1492,53 +1437,6 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
 
 
 
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Population.Population.__getattr__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Population.Population.__getattr__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Method called when accessing an attribute.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Population.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-    <span class="s2">&quot; Method called when accessing an attribute.&quot;</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;initialized&#39;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;initialized&#39;</span><span class="p">):</span> <span class="c1"># Before the end of the constructor</span>
-        <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;attributes&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span><span class="p">:</span> <span class="c1"># access after compile()</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cython_attribute</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span> <span class="c1"># access before compile()</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_type</span><span class="o">.</span><span class="n">description</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">]:</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-                        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="n">name</span><span class="p">]]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_function</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
 
 
 
@@ -1696,7 +1594,7 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
       <tr>
         <td><code>stop_condition</code></td>
         <td><code></code></td>
-        <td><p>a single condition on a neural variable which can stop the simulation whenever it is true.  Example::  pop = Population(100, neuron=Izhikevich, name="Excitatory population")</p></td>
+        <td><p>a single condition on a neural variable which can stop the simulation whenever it is true.  Example:  <code>python pop = Population(100, neuron=Izhikevich, name="Excitatory population")</code></p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -1710,9 +1608,11 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
 <span class="sd">    :param name: unique name of the population (optional, it defaults to ``pop0``, ``pop1``, etc).</span>
 <span class="sd">    :param stop_condition: a single condition on a neural variable which can stop the simulation whenever it is true.</span>
 
-<span class="sd">    Example::</span>
+<span class="sd">    Example:</span>
 
-<span class="sd">        pop = Population(100, neuron=Izhikevich, name=&quot;Excitatory population&quot;)</span>
+<span class="sd">    ```python</span>
+<span class="sd">    pop = Population(100, neuron=Izhikevich, name=&quot;Excitatory population&quot;)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Check if the network has already been compiled</span>
@@ -1850,110 +1750,6 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
 
 
 
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Population.Population.__iter__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Population.Population.__iter__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Returns iteratively each neuron in the population in ascending rank order.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Population.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="s2">&quot; Returns iteratively each neuron in the population in ascending rank order.&quot;</span>
-    <span class="k">for</span> <span class="n">neur_rank</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
-        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron</span><span class="p">(</span><span class="n">neur_rank</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Population.Population.__len__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Population.Population.__len__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Number of neurons in the population.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Population.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Number of neurons in the population.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Population.Population.__setattr__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Population.Population.__setattr__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Method called when setting an attribute.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Population.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-    <span class="s2">&quot; Method called when setting an attribute.&quot;</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;initialized&#39;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;initialized&#39;</span><span class="p">):</span> <span class="c1"># Before the end of the constructor</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;attributes&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">RandomDistribution</span><span class="p">):</span> <span class="c1"># Make sure it is generated only once</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">get_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_set_cython_attribute</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
 
 
 
@@ -2248,6 +2044,11 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
 
       <p>Load the saved state of the population by <code>Population.save()</code>.</p>
 <p>Warning: Matlab data can not be loaded.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">pop</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;pop1.npz&#39;</span><span class="p">)</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;pop1.txt&#39;</span><span class="p">)</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;pop1.txt.gz&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2263,7 +2064,7 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
       <tr>
         <td><code>filename</code></td>
         <td><code></code></td>
-        <td><p>the filename with relative or absolute path.  Example::  pop.load('pop1.npz') pop.load('pop1.txt') pop.load('pop1.txt.gz')</p></td>
+        <td><p>the filename with relative or absolute path.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -2276,13 +2077,15 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
 
 <span class="sd">    Warning: Matlab data can not be loaded.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    pop.load(&#39;pop1.npz&#39;)</span>
+<span class="sd">    pop.load(&#39;pop1.txt&#39;)</span>
+<span class="sd">    pop.load(&#39;pop1.txt.gz&#39;)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param filename: the filename with relative or absolute path.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        pop.load(&#39;pop1.npz&#39;)</span>
-<span class="sd">        pop.load(&#39;pop1.txt&#39;)</span>
-<span class="sd">        pop.load(&#39;pop1.txt.gz&#39;)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">ANNarchy.core.IO</span> <span class="kn">import</span> <span class="n">_load_data</span>
@@ -2352,7 +2155,8 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns normalized coordinates of a neuron based on its rank. The geometry of the population is mapped to the hypercube [0, 1]^d.</p>
+      <p>Returns normalized coordinates of a neuron based on its rank. 
+The geometry of the population is mapped to the hypercube <span class="arithmatex">\([0, 1]^d\)</span></p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2383,7 +2187,8 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
           <summary>Source code in <code>ANNarchy/core/Population.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">normalized_coordinates_from_rank</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns normalized coordinates of a neuron based on its rank. The geometry of the population is mapped to the hypercube [0, 1]^d.</span>
+<span class="sd">    Returns normalized coordinates of a neuron based on its rank. </span>
+<span class="sd">    The geometry of the population is mapped to the hypercube $[0, 1]^d$</span>
 
 <span class="sd">    :param rank: rank of the neuron</span>
 <span class="sd">    :param norm: norm of the cube (default = 1.0)</span>
@@ -2565,6 +2370,7 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
 <p>Otherwise, the data will be pickled into a simple binary text file using pickle.</p>
 </li>
 </ul>
+<p><strong>Warning:</strong> The '.mat' data will not be loadable by ANNarchy, it is only for external analysis purpose.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2580,7 +2386,7 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
       <tr>
         <td><code>filename</code></td>
         <td><code></code></td>
-        <td><p>filename, may contain relative or absolute path.  .. warning::  The '.mat' data will not be loadable by ANNarchy, it is only for external analysis purpose.  Example::  pop.save('pop1.npz') pop.save('pop1.txt') pop.save('pop1.txt.gz') pop.save('pop1.mat')</p></td>
+        <td><p>filename, may contain relative or absolute path.  Example:  <code>python pop.save('pop1.npz') pop.save('pop1.txt') pop.save('pop1.txt.gz') pop.save('pop1.mat')</code></p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -2599,18 +2405,18 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
 
 <span class="sd">    * Otherwise, the data will be pickled into a simple binary text file using pickle.</span>
 
+<span class="sd">    **Warning:** The &#39;.mat&#39; data will not be loadable by ANNarchy, it is only for external analysis purpose.</span>
+
 <span class="sd">    :param filename: filename, may contain relative or absolute path.</span>
 
-<span class="sd">    .. warning::</span>
+<span class="sd">    Example:</span>
 
-<span class="sd">        The &#39;.mat&#39; data will not be loadable by ANNarchy, it is only for external analysis purpose.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        pop.save(&#39;pop1.npz&#39;)</span>
-<span class="sd">        pop.save(&#39;pop1.txt&#39;)</span>
-<span class="sd">        pop.save(&#39;pop1.txt.gz&#39;)</span>
-<span class="sd">        pop.save(&#39;pop1.mat&#39;)</span>
+<span class="sd">    ```python</span>
+<span class="sd">    pop.save(&#39;pop1.npz&#39;)</span>
+<span class="sd">    pop.save(&#39;pop1.txt&#39;)</span>
+<span class="sd">    pop.save(&#39;pop1.txt.gz&#39;)</span>
+<span class="sd">    pop.save(&#39;pop1.mat&#39;)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">ANNarchy.core.IO</span> <span class="kn">import</span> <span class="n">_save_data</span>
@@ -2636,6 +2442,9 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
     <div class="doc doc-contents ">
 
       <p>Sets the value of neural variables and parameters.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">pop</span><span class="o">.</span><span class="n">set</span><span class="p">({</span> <span class="s1">&#39;tau&#39;</span> <span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span> <span class="p">}</span> <span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2651,7 +2460,7 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
       <tr>
         <td><code>values</code></td>
         <td><code></code></td>
-        <td><p>dictionary of attributes to be updated.  Example:  set({ 'tau' : 20.0, 'r'= np.random.rand((8,8)) } )</p></td>
+        <td><p>dictionary of attributes to be updated.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -2662,11 +2471,14 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sets the value of neural variables and parameters.</span>
 
-<span class="sd">    :param values: dictionary of attributes to be updated.</span>
-
 <span class="sd">    Example:</span>
 
-<span class="sd">        set({ &#39;tau&#39; : 20.0, &#39;r&#39;= np.random.rand((8,8)) } )</span>
+<span class="sd">    ```python</span>
+<span class="sd">    pop.set({ &#39;tau&#39; : 20.0, &#39;r&#39;= np.random.rand((8,8)) } )</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    :param values: dictionary of attributes to be updated.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="bp">self</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -2722,13 +2534,14 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the array of weighted sums corresponding to the target::</p>
-<div class="highlight"><pre><span></span><code>excitatory = pop.sum(&#39;exc&#39;)
+      <p>Returns the array of weighted sums corresponding to the target:</p>
+<div class="highlight"><pre><span></span><code><span class="n">excitatory</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s1">&#39;exc&#39;</span><span class="p">)</span>
 </code></pre></div>
-<p>For spiking networks, this is equivalent to accessing the conductances directly::</p>
-<div class="highlight"><pre><span></span><code>excitatory = pop.g_exc
+<p>For spiking networks, this is equivalent to accessing the conductances directly:</p>
+<div class="highlight"><pre><span></span><code><span class="n">excitatory</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_exc</span>
 </code></pre></div>
 <p>If no incoming projection has the given target, the method returns zeros.</p>
+<p><strong>Note:</strong> it is not possible to distinguish the original population when the same target is used.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2744,7 +2557,7 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
       <tr>
         <td><code>target</code></td>
         <td><code></code></td>
-        <td><p>the desired projection target.  <strong>Note:</strong> it is not possible to distinguish the original population when the same target is used.</p></td>
+        <td><p>the desired projection target.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -2753,19 +2566,23 @@ optionally its spatial structure), a neuron type and optionally a name.</p>
           <summary>Source code in <code>ANNarchy/core/Population.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the array of weighted sums corresponding to the target::</span>
+<span class="sd">    Returns the array of weighted sums corresponding to the target:</span>
 
-<span class="sd">        excitatory = pop.sum(&#39;exc&#39;)</span>
+<span class="sd">    ```python</span>
+<span class="sd">    excitatory = pop.sum(&#39;exc&#39;)</span>
+<span class="sd">    ```</span>
 
-<span class="sd">    For spiking networks, this is equivalent to accessing the conductances directly::</span>
+<span class="sd">    For spiking networks, this is equivalent to accessing the conductances directly:</span>
 
-<span class="sd">        excitatory = pop.g_exc</span>
+<span class="sd">    ```python</span>
+<span class="sd">    excitatory = pop.g_exc</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    If no incoming projection has the given target, the method returns zeros.</span>
 
-<span class="sd">    :param target: the desired projection target.</span>
-
 <span class="sd">    **Note:** it is not possible to distinguish the original population when the same target is used.</span>
+
+<span class="sd">    :param target: the desired projection target.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Check if the network is initialized</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span><span class="p">:</span>

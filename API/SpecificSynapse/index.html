@@ -1188,20 +1188,19 @@
 </ul>
 <p><strong>Learning rule</strong>:</p>
 <ul>
-<li>
-<p>w : weight::</p>
-<p>dw/dt = eta * pre.r * post.r</p>
-</li>
+<li>w : weight.</li>
 </ul>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>Hebb = Synapse(
-    parameters = &quot;&quot;&quot;
-        eta = 0.01 : projection
-    &quot;&quot;&quot;,
-    equations = &quot;&quot;&quot;
-        dw/dt = eta * pre.r * post.r : min=0.0
-    &quot;&quot;&quot;
-)
+<div class="highlight"><pre><span></span><code>dw/dt = eta * pre.r * post.r
+</code></pre></div>
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Hebb</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        eta = 0.01 : projection</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        dw/dt = eta * pre.r * post.r : min=0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -1253,21 +1252,20 @@
 </ul>
 <p><strong>Learning rule</strong>:</p>
 <ul>
-<li>
-<p>w : weight::</p>
-<p>dw/dt = eta * ( pre.r * post.r - alpha * post.r^2 * w )</p>
-</li>
+<li>w : weight:</li>
 </ul>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>Oja = Synapse(
-    parameters = &quot;&quot;&quot;
-        eta = 0.01 : projection
-        alpha = 1.0 : projection
-    &quot;&quot;&quot;,
-    equations = &quot;&quot;&quot;
-        dw/dt = eta * ( pre.r * post.r - alpha * post.r^2 * w ) : min=0.0
-    &quot;&quot;&quot;
-)
+<div class="highlight"><pre><span></span><code>dw/dt = eta * ( pre.r * post.r - alpha * post.r^2 * w )
+</code></pre></div>
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Oja</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        eta = 0.01 : projection</span>
+<span class="s2">        alpha = 1.0 : projection</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        dw/dt = eta * ( pre.r * post.r - alpha * post.r^2 * w ) : min=0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -1319,26 +1317,26 @@
 </ul>
 <p><strong>Learning rule</strong>:</p>
 <ul>
-<li>
-<p>theta : post-synaptic threshold::</p>
-<p>tau * dtheta/dt + theta = post.r^2</p>
-</li>
-<li>
-<p>w : weight::</p>
-<p>dw/dt = eta * post.r * (post.r - theta) * pre.r </p>
-</li>
+<li>theta : post-synaptic threshold:</li>
 </ul>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>IBCM = Synapse(
-    parameters = &quot;&quot;&quot;
-        eta = 0.01 : projection
-        tau = 2000.0 : projection
-    &quot;&quot;&quot;,
-    equations = &quot;&quot;&quot;
-        tau * dtheta/dt + theta = post.r^2 : postsynaptic, exponential
-        dw/dt = eta * post.r * (post.r - theta) * pre.r : min=0.0, explicit
-    &quot;&quot;&quot;
-)
+<div class="highlight"><pre><span></span><code>tau * dtheta/dt + theta = post.r^2
+</code></pre></div>
+<ul>
+<li>w : weight:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>dw/dt = eta * post.r * (post.r - theta) * pre.r 
+</code></pre></div>
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">IBCM</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        eta = 0.01 : projection</span>
+<span class="s2">        tau = 2000.0 : projection</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau * dtheta/dt + theta = post.r^2 : postsynaptic, exponential</span>
+<span class="s2">        dw/dt = eta * post.r * (post.r - theta) * pre.r : min=0.0, explicit</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -1381,46 +1379,46 @@
       <p>Synapse exhibiting short-term facilitation and depression, implemented using the model of Tsodyks, Markram et al.:</p>
 <p>Tsodyks, Uziel and Markram (2000) Synchrony Generation in Recurrent Networks with Frequency-Dependent Synapses. Journal of Neuroscience 20:RC50</p>
 <p>Note that the time constant of the post-synaptic current is set in the neuron model, not here.</p>
-<p><em>Parameters (global)</em>:</p>
+<p><strong>Parameters (global)</strong>:</p>
 <ul>
 <li>tau_rec = 100.0 : depression time constant (ms).</li>
 <li>tau_facil = 0.01 : facilitation time constant (ms).</li>
 <li>U = 0.5 : use parameter.</li>
 </ul>
-<p><em>Variables</em>:</p>
+<p><strong>Variables</strong>:</p>
 <ul>
-<li>
-<p>x : recovery variable::</p>
-<p>dx/dt = (1 - x)/tau_rec </p>
-</li>
-<li>
-<p>u : facilitation variable::</p>
-<p>du/dt = (U - u)/tau_facil </p>
-</li>
+<li>x : recovery variable::</li>
 </ul>
+<div class="highlight"><pre><span></span><code>dx/dt = (1 - x)/tau_rec 
+</code></pre></div>
+<ul>
+<li>u : facilitation variable::</li>
+</ul>
+<div class="highlight"><pre><span></span><code>du/dt = (U - u)/tau_facil 
+</code></pre></div>
 <p>Both variables are integrated event-driven. </p>
-<p><em>Pre-spike events</em>::</p>
+<p><strong>Pre-spike events</strong>:</p>
 <div class="highlight"><pre><span></span><code>g_target += w * u * x
 x *= (1 - u)
 u += U * (1 - u)
 </code></pre></div>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>STP = Synapse(
-    parameters = &quot;&quot;&quot;
-        tau_rec = 100.0 : projection
-        tau_facil = 0.01 : projection
-        U = 0.5
-    &quot;&quot;&quot;,
-    equations = &quot;&quot;&quot;
-        dx/dt = (1 - x)/tau_rec : init = 1.0, event-driven
-        du/dt = (U - u)/tau_facil : init = 0.5, event-driven
-    &quot;&quot;&quot;,
-    pre_spike=&quot;&quot;&quot;
-        g_target += w * u * x
-        x *= (1 - u)
-        u += U * (1 - u)
-    &quot;&quot;&quot;
-)
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">STP</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau_rec = 100.0 : projection</span>
+<span class="s2">        tau_facil = 0.01 : projection</span>
+<span class="s2">        U = 0.5</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        dx/dt = (1 - x)/tau_rec : init = 1.0, event-driven</span>
+<span class="s2">        du/dt = (U - u)/tau_facil : init = 0.5, event-driven</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">pre_spike</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        g_target += w * u * x</span>
+<span class="s2">        x *= (1 - u)</span>
+<span class="s2">        u += U * (1 - u)</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -1474,17 +1472,17 @@ u += U * (1 - u)
 </ul>
 <p><strong>Variables</strong>:</p>
 <ul>
-<li>
-<p>x : pre-synaptic trace::</p>
-<p>tau_plus  * dx/dt = -x</p>
-</li>
-<li>
-<p>y: post-synaptic trace::</p>
-<p>tau_minus * dy/dt = -y</p>
-</li>
+<li>x : pre-synaptic trace:</li>
 </ul>
+<div class="highlight"><pre><span></span><code>tau_plus  * dx/dt = -x
+</code></pre></div>
+<ul>
+<li>y: post-synaptic trace:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>tau_minus * dy/dt = -y
+</code></pre></div>
 <p>Both variables are evaluated event-driven.</p>
-<p><strong>Pre-spike events</strong>::</p>
+<p><strong>Pre-spike events</strong>:</p>
 <div class="highlight"><pre><span></span><code>g_target += w
 
 x += A_plus * w_max
@@ -1496,30 +1494,30 @@ w = clip(w + y, w_min , w_max)
 
 w = clip(w + x, w_min , w_max)
 </code></pre></div>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>STDP = Synapse(
-    parameters = &quot;&quot;&quot;
-        tau_plus = 20.0 : projection
-        tau_minus = 20.0 : projection
-        A_plus = 0.01 : projection
-        A_minus = 0.01 : projection
-        w_min = 0.0 : projection
-        w_max = 1.0 : projection
-    &quot;&quot;&quot;,
-    equations = &quot;&quot;&quot;
-        tau_plus  * dx/dt = -x : event-driven
-        tau_minus * dy/dt = -y : event-driven
-    &quot;&quot;&quot;,
-    pre_spike=&quot;&quot;&quot;
-        g_target += w
-        x += A_plus * w_max
-        w = clip(w + y, w_min , w_max)
-    &quot;&quot;&quot;,
-    post_spike=&quot;&quot;&quot;
-        y -= A_minus * w_max
-        w = clip(w + x, w_min , w_max)
-    &quot;&quot;&quot;
-)
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">STDP</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau_plus = 20.0 : projection</span>
+<span class="s2">        tau_minus = 20.0 : projection</span>
+<span class="s2">        A_plus = 0.01 : projection</span>
+<span class="s2">        A_minus = 0.01 : projection</span>
+<span class="s2">        w_min = 0.0 : projection</span>
+<span class="s2">        w_max = 1.0 : projection</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau_plus  * dx/dt = -x : event-driven</span>
+<span class="s2">        tau_minus * dy/dt = -y : event-driven</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">pre_spike</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        g_target += w</span>
+<span class="s2">        x += A_plus * w_max</span>
+<span class="s2">        w = clip(w + y, w_min , w_max)</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">post_spike</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        y -= A_minus * w_max</span>
+<span class="s2">        w = clip(w + x, w_min , w_max)</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
 </code></pre></div>
 
 

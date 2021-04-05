@@ -1419,6 +1419,12 @@ possible through a <code>Monitor</code> object.</p>
     <div class="doc doc-contents first">
 
       <p>Monitoring class allowing to record easily parameters or variables from Population, PopulationView and Dendrite objects.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;g_exc&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;spike&#39;</span><span class="p">],</span> <span class="n">period</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+</code></pre></div>
+<p>It is also possible to record the sum of inputs to each neuron in a rate-coded population:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;sum(exc)&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">])</span>
+</code></pre></div>
 
 
 
@@ -1534,7 +1540,7 @@ possible through a <code>Monitor</code> object.</p>
       <tr>
         <td><code>start</code></td>
         <td><code></code></td>
-        <td><p>defines if the recording should start immediately (default: True). If not, you should later start the recordings with the <code>start()</code> method.  Example::  m = Monitor(pop, ['g_exc', 'v', 'spike'], period=10.0)  It is also possible to record the sum of inputs to each neuron in a rate-coded population::  m = Monitor(pop, ['sum(exc)', 'r'])</p></td>
+        <td><p>defines if the recording should start immediately (default: True). If not, you should later start the recordings with the <code>start()</code> method.</p></td>
         <td><code>True</code></td>
       </tr>
   </tbody>
@@ -1548,15 +1554,6 @@ possible through a <code>Monitor</code> object.</p>
 <span class="sd">    :param period: delay in ms between two recording (default: dt). Not valid for the ``spike`` variable of a Population(View).</span>
 <span class="sd">    :param period_offset: determine the moment in ms of recording within the period (default 0). Must be smaller than **period**.</span>
 <span class="sd">    :param start: defines if the recording should start immediately (default: True). If not, you should later start the recordings with the ``start()`` method.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        m = Monitor(pop, [&#39;g_exc&#39;, &#39;v&#39;, &#39;spike&#39;], period=10.0)</span>
-
-<span class="sd">    It is also possible to record the sum of inputs to each neuron in a rate-coded population::</span>
-
-<span class="sd">        m = Monitor(pop, [&#39;sum(exc)&#39;, &#39;r&#39;])</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Object to record (Population, PopulationView, Dendrite)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">object</span> <span class="o">=</span> <span class="n">obj</span>
@@ -1756,6 +1753,19 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <div class="doc doc-contents ">
 
       <p>Returns a histogram for the recorded spikes in the population.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">histo</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">histogram</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">histo</span><span class="p">)</span>
+</code></pre></div>
+<p>or:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">histo</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">histo</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1777,7 +1787,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <tr>
         <td><code>bins</code></td>
         <td><code></code></td>
-        <td><p>the bin size in ms (default: dt).  Example::  m = Monitor(P[:1000], 'spike') simulate(1000.0) histo = m.histogram() plot(histo)  or::  m = Monitor(P[:1000], 'spike') simulate(1000.0) spikes = m.get('spike') histo = m.histogram(spikes) plot(histo)</p></td>
+        <td><p>the bin size in ms (default: dt).</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -1788,23 +1798,27 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a histogram for the recorded spikes in the population.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    histo = m.histogram()</span>
+<span class="sd">    plt.plot(histo)</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    or:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    spikes = m.get(&#39;spike&#39;)</span>
+<span class="sd">    histo = m.histogram(spikes)</span>
+<span class="sd">    plt.plot(histo)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param spikes: the dictionary of spikes returned by ``get(&#39;spike&#39;)``. If left empty, ``get(&#39;spike&#39;)`` will be called. Beware: this erases the data from memory.</span>
 <span class="sd">    :param bins: the bin size in ms (default: dt).</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        histo = m.histogram()</span>
-<span class="sd">        plot(histo)</span>
-
-<span class="sd">    or::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        spikes = m.get(&#39;spike&#39;)</span>
-<span class="sd">        histo = m.histogram(spikes)</span>
-<span class="sd">        plot(histo)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;spike&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
@@ -1860,6 +1874,17 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <div class="doc doc-contents ">
 
       <p>Computes the mean firing rate in the population during the recordings.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">mean_fr</span><span class="p">()</span>
+</code></pre></div>
+<p>or:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">mean_fr</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1875,7 +1900,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <tr>
         <td><code>spikes</code></td>
         <td><code></code></td>
-        <td><p>the dictionary of spikes returned by <code>get('spike')</code>. If left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.  Example::  m = Monitor(P[:1000], 'spike') simulate(1000.0) fr = m.mean_fr()  or::  m = Monitor(P[:1000], 'spike') simulate(1000.0) spikes = m.get('spike') fr = m.mean_fr(spikes)</p></td>
+        <td><p>the dictionary of spikes returned by <code>get('spike')</code>. If left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -1886,20 +1911,24 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the mean firing rate in the population during the recordings.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    fr = m.mean_fr()</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    or:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    spikes = m.get(&#39;spike&#39;)</span>
+<span class="sd">    fr = m.mean_fr(spikes)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param spikes: the dictionary of spikes returned by ``get(&#39;spike&#39;)``. If left empty, ``get(&#39;spike&#39;)`` will be called. Beware: this erases the data from memory.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        fr = m.mean_fr()</span>
-
-<span class="sd">    or::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        spikes = m.get(&#39;spike&#39;)</span>
-<span class="sd">        fr = m.mean_fr(spikes)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;spike&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
@@ -1995,6 +2024,12 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <p>Takes the recorded spikes of a population and returns a smoothed firing rate for the population of recorded neurons.</p>
 <p>This method is faster than calling <code>smoothed_rate</code> and then averaging.</p>
 <p>The first axis is the neuron index, the second is time.</p>
+<p>If <code>spikes</code> is left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">population_rate</span><span class="p">(</span><span class="n">smooth</span><span class="o">=</span><span class="mf">100.</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2016,7 +2051,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <tr>
         <td><code>smooth</code></td>
         <td><code></code></td>
-        <td><p>smoothing time constant. Default: 0.0 (no smoothing).  If <code>spikes</code> is left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.  Example::  m = Monitor(P[:1000], 'spike') simulate(1000.0) r = m.population_rate(smooth=100.)</p></td>
+        <td><p>smoothing time constant. Default: 0.0 (no smoothing).</p></td>
         <td><code>0.0</code></td>
       </tr>
   </tbody>
@@ -2031,16 +2066,18 @@ If a list is provided or the argument left empty, a dictionary with all recorded
 
 <span class="sd">    The first axis is the neuron index, the second is time.</span>
 
-<span class="sd">    :param spikes: the dictionary of spikes returned by ``get(&#39;spike&#39;)``.</span>
-<span class="sd">    :param smooth: smoothing time constant. Default: 0.0 (no smoothing).</span>
-
 <span class="sd">    If ``spikes`` is left empty, ``get(&#39;spike&#39;)`` will be called. Beware: this erases the data from memory.</span>
 
-<span class="sd">    Example::</span>
+<span class="sd">    Example:</span>
 
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        r = m.population_rate(smooth=100.)</span>
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    r = m.population_rate(smooth=100.)</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    :param spikes: the dictionary of spikes returned by ``get(&#39;spike&#39;)``.</span>
+<span class="sd">    :param smooth: smoothing time constant. Default: 0.0 (no smoothing).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;spike&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
@@ -2085,6 +2122,19 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <div class="doc doc-contents ">
 
       <p>Returns two vectors representing for each recorded spike 1) the spike times and 2) the ranks of the neurons.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>or:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2100,7 +2150,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <tr>
         <td><code>spikes</code></td>
         <td><code></code></td>
-        <td><p>the dictionary of spikes returned by <code>get('spike')</code>. If left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.  Example::  m = Monitor(P[:1000], 'spike') simulate(1000.0) spike_times, spike_ranks = m.raster_plot() plot(spike_times, spike_ranks, '.')  or::  m = Monitor(P[:1000], 'spike') simulate(1000.0) spikes = m.get('spike') spike_times, spike_ranks = m.raster_plot(spikes) plot(spike_times, spike_ranks, '.')</p></td>
+        <td><p>the dictionary of spikes returned by <code>get('spike')</code>. If left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -2111,23 +2161,26 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns two vectors representing for each recorded spike 1) the spike times and 2) the ranks of the neurons.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    spike_times, spike_ranks = m.raster_plot()</span>
+<span class="sd">    plt.plot(spike_times, spike_ranks, &#39;.&#39;)</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    or:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    spikes = m.get(&#39;spike&#39;)</span>
+<span class="sd">    spike_times, spike_ranks = m.raster_plot(spikes)</span>
+<span class="sd">    plt.plot(spike_times, spike_ranks, &#39;.&#39;)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param spikes: the dictionary of spikes returned by ``get(&#39;spike&#39;)``. If left empty, ``get(&#39;spike&#39;)`` will be called. Beware: this erases the data from memory.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        spike_times, spike_ranks = m.raster_plot()</span>
-<span class="sd">        plot(spike_times, spike_ranks, &#39;.&#39;)</span>
-
-<span class="sd">    or::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        spikes = m.get(&#39;spike&#39;)</span>
-<span class="sd">        spike_times, spike_ranks = m.raster_plot(spikes)</span>
-<span class="sd">        plot(spike_times, spike_ranks, &#39;.&#39;)</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">times</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">ranks</span><span class="o">=</span><span class="p">[]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;spike&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
@@ -2265,6 +2318,11 @@ If a list is provided or the argument left empty, a dictionary with all recorded
 
       <p>Computes the smoothed firing rate of the recorded spiking neurons.</p>
 <p>The first axis is the neuron index, the second is time.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">smoothed_rate</span><span class="p">(</span><span class="n">smooth</span><span class="o">=</span><span class="mf">100.</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2286,7 +2344,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <tr>
         <td><code>smooth</code></td>
         <td><code></code></td>
-        <td><p>smoothing time constant. Default: 0.0 (no smoothing).  Example::  m = Monitor(P[:1000], 'spike') simulate(1000.0) r = m.smoothed_rate(smooth=100.)</p></td>
+        <td><p>smoothing time constant. Default: 0.0 (no smoothing).</p></td>
         <td><code>0.0</code></td>
       </tr>
   </tbody>
@@ -2299,14 +2357,16 @@ If a list is provided or the argument left empty, a dictionary with all recorded
 
 <span class="sd">    The first axis is the neuron index, the second is time.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    r = m.smoothed_rate(smooth=100.)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param spikes: the dictionary of spikes returned by ``get(&#39;spike&#39;)``. If left empty, ``get(&#39;spike&#39;)`` will be called. Beware: this erases the data from memory.</span>
 <span class="sd">    :param smooth: smoothing time constant. Default: 0.0 (no smoothing).</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        r = m.smoothed_rate(smooth=100.)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;spike&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
@@ -2350,7 +2410,8 @@ If a list is provided or the argument left empty, a dictionary with all recorded
 
     <div class="doc doc-contents ">
 
-      <p>Starts recording the variables. It is called automatically after <code>compile()</code> if the flag <code>start</code> was not passed to the constructor.</p>
+      <p>Starts recording the variables. </p>
+<p>It is called automatically after <code>compile()</code> if the flag <code>start</code> was not passed to the constructor.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2380,7 +2441,9 @@ If a list is provided or the argument left empty, a dictionary with all recorded
         <details class="quote">
           <summary>Source code in <code>ANNarchy/core/Monitor.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Starts recording the variables. It is called automatically after ``compile()`` if the flag ``start`` was not passed to the constructor.</span>
+    <span class="sd">&quot;&quot;&quot;Starts recording the variables. </span>
+
+<span class="sd">    It is called automatically after ``compile()`` if the flag ``start`` was not passed to the constructor.</span>
 
 <span class="sd">    :param variables: single variable name or list of variable names to start recording (default: the ``variables`` argument passed to the constructor).</span>
 <span class="sd">    :param period: delay in ms between two recording (default: dt). Not valid for the ``spike`` variable of a Population(View).</span>
@@ -2560,6 +2623,13 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <div class="doc doc-contents first">
 
       <p>Returns two vectors representing for each recorded spike 1) the spike times and 2) the ranks of the neurons.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span> <span class="o">=</span> <span class="n">raster_plot</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2575,7 +2645,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <tr>
         <td><code>spikes</code></td>
         <td><code></code></td>
-        <td><p>the dictionary of spikes returned by <code>get('spike')</code>.  Example::  m = Monitor(P[:1000], 'spike') simulate(1000.0) spikes = m.get('spike') spike_times, spike_ranks = raster_plot(spikes) plot(spike_times, spike_ranks, '.')</p></td>
+        <td><p>the dictionary of spikes returned by <code>get('spike')</code>.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -2586,16 +2656,17 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns two vectors representing for each recorded spike 1) the spike times and 2) the ranks of the neurons.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    spikes = m.get(&#39;spike&#39;)</span>
+<span class="sd">    spike_times, spike_ranks = raster_plot(spikes)</span>
+<span class="sd">    plt.plot(spike_times, spike_ranks, &#39;.&#39;)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param spikes: the dictionary of spikes returned by ``get(&#39;spike&#39;)``.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        spikes = m.get(&#39;spike&#39;)</span>
-<span class="sd">        spike_times, spike_ranks = raster_plot(spikes)</span>
-<span class="sd">        plot(spike_times, spike_ranks, &#39;.&#39;)</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">times</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">ranks</span><span class="o">=</span><span class="p">[]</span>
 
@@ -2627,6 +2698,13 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <div class="doc doc-contents first">
 
       <p>Returns a histogram for the recorded spikes in the population.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">histo</span> <span class="o">=</span> <span class="n">histogram</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">histo</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2648,7 +2726,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <tr>
         <td><code>bins</code></td>
         <td><code></code></td>
-        <td><p>the bin size in ms (default: dt).  Example::  m = Monitor(P[:1000], 'spike') simulate(1000.0) spikes = m.get('spike') histo = histogram(spikes) plot(histo)</p></td>
+        <td><p>the bin size in ms (default: dt).</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -2659,17 +2737,19 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a histogram for the recorded spikes in the population.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    spikes = m.get(&#39;spike&#39;)</span>
+<span class="sd">    histo = histogram(spikes)</span>
+<span class="sd">    plt.plot(histo)</span>
+<span class="sd">    ```</span>
+
+
 <span class="sd">    :param spikes: the dictionary of spikes returned by ``get(&#39;spike&#39;)``.</span>
 <span class="sd">    :param bins: the bin size in ms (default: dt).</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        spikes = m.get(&#39;spike&#39;)</span>
-<span class="sd">        histo = histogram(spikes)</span>
-<span class="sd">        plot(histo)</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">bins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">bins</span> <span class="o">=</span>  <span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span>
@@ -2722,6 +2802,12 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <div class="doc doc-contents first">
 
       <p>Computes the mean firing rate in the population during the recordings.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="n">mean_fr</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2743,7 +2829,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <tr>
         <td><code>duration</code></td>
         <td><code></code></td>
-        <td><p>duration of the recordings. By default, the mean firing rate is computed between the first and last spikes of the recordings.  Example::  m = Monitor(P[:1000], 'spike') simulate(1000.0) spikes = m.get('spike') fr = mean_fr(spikes)</p></td>
+        <td><p>duration of the recordings. By default, the mean firing rate is computed between the first and last spikes of the recordings.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -2754,15 +2840,18 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the mean firing rate in the population during the recordings.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    spikes = m.get(&#39;spike&#39;)</span>
+<span class="sd">    fr = mean_fr(spikes)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param spikes: the dictionary of spikes returned by ``get(&#39;spike&#39;)``.</span>
 <span class="sd">    :param duration: duration of the recordings. By default, the mean firing rate is computed between the first and last spikes of the recordings.</span>
 
-<span class="sd">    Example::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        spikes = m.get(&#39;spike&#39;)</span>
-<span class="sd">        fr = mean_fr(spikes)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">duration</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -2809,6 +2898,12 @@ If a list is provided or the argument left empty, a dictionary with all recorded
 
       <p>Computes the smoothed firing rate of the recorded spiking neurons.</p>
 <p>The first axis is the neuron index, the second is time.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">smoothed_rate</span><span class="p">(</span><span class="n">smooth</span><span class="o">=</span><span class="mf">100.</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2830,7 +2925,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <tr>
         <td><code>smooth</code></td>
         <td><code></code></td>
-        <td><p>smoothing time constant. Default: 0.0 (no smoothing).  Example::  m = Monitor(P[:1000], 'spike') simulate(1000.0) spikes = m.get('spike') r = smoothed_rate(smooth=100.)</p></td>
+        <td><p>smoothing time constant. Default: 0.0 (no smoothing).</p></td>
         <td><code>0.0</code></td>
       </tr>
   </tbody>
@@ -2843,16 +2938,18 @@ If a list is provided or the argument left empty, a dictionary with all recorded
 
 <span class="sd">    The first axis is the neuron index, the second is time.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    spikes = m.get(&#39;spike&#39;)</span>
+<span class="sd">    r = smoothed_rate(smooth=100.)</span>
+<span class="sd">    ```</span>
+
+
 <span class="sd">    :param spikes: the dictionary of spikes returned by ``get(&#39;spike&#39;)``. If left empty, ``get(&#39;spike&#39;)`` will be called. Beware: this erases the data from memory.</span>
 <span class="sd">    :param smooth: smoothing time constant. Default: 0.0 (no smoothing).</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        spikes = m.get(&#39;spike&#39;)</span>
-<span class="sd">        r = smoothed_rate(smooth=100.)</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Compute the duration of the recordings</span>
     <span class="n">t_maxes</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2897,6 +2994,12 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <p>Takes the recorded spikes of a population and returns a smoothed firing rate for the population of recorded neurons.</p>
 <p>This method is faster than calling <code>smoothed_rate</code> and then averaging.</p>
 <p>The first axis is the neuron index, the second is time.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">population_rate</span><span class="p">(</span><span class="n">smooth</span><span class="o">=</span><span class="mf">100.</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2918,7 +3021,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
       <tr>
         <td><code>smooth</code></td>
         <td><code></code></td>
-        <td><p>smoothing time constant. Default: 0.0 (no smoothing).  Example::  m = Monitor(P[:1000], 'spike') simulate(1000.0) spikes = m.get('spike') r = population_rate(smooth=100.)</p></td>
+        <td><p>smoothing time constant. Default: 0.0 (no smoothing).</p></td>
         <td><code>0.0</code></td>
       </tr>
   </tbody>
@@ -2933,16 +3036,17 @@ If a list is provided or the argument left empty, a dictionary with all recorded
 
 <span class="sd">    The first axis is the neuron index, the second is time.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    m = Monitor(P[:1000], &#39;spike&#39;)</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    spikes = m.get(&#39;spike&#39;)</span>
+<span class="sd">    r = population_rate(smooth=100.)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param spikes: the dictionary of spikes returned by ``get(&#39;spike&#39;)``.</span>
 <span class="sd">    :param smooth: smoothing time constant. Default: 0.0 (no smoothing).</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        m = Monitor(P[:1000], &#39;spike&#39;)</span>
-<span class="sd">        simulate(1000.0)</span>
-<span class="sd">        spikes = m.get(&#39;spike&#39;)</span>
-<span class="sd">        r = population_rate(smooth=100.)</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Compute the duration of the recordings</span>
     <span class="n">t_maxes</span> <span class="o">=</span> <span class="p">[]</span>

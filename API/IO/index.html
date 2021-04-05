@@ -1234,6 +1234,16 @@
 <p>Otherwise, the data will be pickled into a simple binary text file using cPickle.</p>
 </li>
 </ul>
+<p><strong>Warning:</strong> The '.mat' data will not be loadable by ANNarchy, it is only for external analysis purpose.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">save</span><span class="p">(</span><span class="s1">&#39;results/init.npz&#39;</span><span class="p">)</span>
+
+<span class="n">save</span><span class="p">(</span><span class="s1">&#39;results/init.data&#39;</span><span class="p">)</span>
+
+<span class="n">save</span><span class="p">(</span><span class="s1">&#39;results/init.txt.gz&#39;</span><span class="p">)</span>
+
+<span class="n">save</span><span class="p">(</span><span class="s1">&#39;1000_trials.mat&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1261,7 +1271,7 @@
       <tr>
         <td><code>projections</code></td>
         <td><code></code></td>
-        <td><p>if True, projection data will be saved (by default True)  .. warning::  The '.mat' data will not be loadable by ANNarchy, it is only for external analysis purpose.  Example::  save('results/init.npz')  save('results/init.data')  save('results/init.txt.gz')  save('1000_trials.mat')</p></td>
+        <td><p>if True, projection data will be saved (by default True)</p></td>
         <td><code>True</code></td>
       </tr>
   </tbody>
@@ -1280,23 +1290,23 @@
 
 <span class="sd">    * Otherwise, the data will be pickled into a simple binary text file using cPickle.</span>
 
+<span class="sd">    **Warning:** The &#39;.mat&#39; data will not be loadable by ANNarchy, it is only for external analysis purpose.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    save(&#39;results/init.npz&#39;)</span>
+
+<span class="sd">    save(&#39;results/init.data&#39;)</span>
+
+<span class="sd">    save(&#39;results/init.txt.gz&#39;)</span>
+
+<span class="sd">    save(&#39;1000_trials.mat&#39;)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param filename: filename, may contain relative or absolute path.</span>
 <span class="sd">    :param populations: if True, population data will be saved (by default True)</span>
 <span class="sd">    :param projections: if True, projection data will be saved (by default True)</span>
-
-<span class="sd">    .. warning::</span>
-
-<span class="sd">        The &#39;.mat&#39; data will not be loadable by ANNarchy, it is only for external analysis purpose.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        save(&#39;results/init.npz&#39;)</span>
-
-<span class="sd">        save(&#39;results/init.data&#39;)</span>
-
-<span class="sd">        save(&#39;results/init.txt.gz&#39;)</span>
-
-<span class="sd">        save(&#39;1000_trials.mat&#39;)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">_net_description</span><span class="p">(</span><span class="n">populations</span><span class="p">,</span> <span class="n">projections</span><span class="p">,</span> <span class="n">net_id</span><span class="p">)</span>
@@ -1322,7 +1332,10 @@
     <div class="doc doc-contents first">
 
       <p>Loads a saved state of the network.</p>
-<p>Warning: Matlab data can not be loaded.</p>
+<p><strong>Warning:</strong> Matlab data can not be loaded.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">load</span><span class="p">(</span><span class="s1">&#39;results/network.npz&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1350,7 +1363,7 @@
       <tr>
         <td><code>projections</code></td>
         <td><code></code></td>
-        <td><p>if True, projection data will be loaded (by default True)  Example::  load('results/network.npz')</p></td>
+        <td><p>if True, projection data will be loaded (by default True)</p></td>
         <td><code>True</code></td>
       </tr>
   </tbody>
@@ -1361,16 +1374,18 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Loads a saved state of the network.</span>
 
-<span class="sd">    Warning: Matlab data can not be loaded.</span>
+<span class="sd">    **Warning:** Matlab data can not be loaded.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    load(&#39;results/network.npz&#39;)</span>
+<span class="sd">    ```</span>
+
 
 <span class="sd">    :param filename: the filename with relative or absolute path.</span>
 <span class="sd">    :param populations: if True, population data will be loaded (by default True)</span>
 <span class="sd">    :param projections: if True, projection data will be loaded (by default True)</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        load(&#39;results/network.npz&#39;)</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">desc</span> <span class="o">=</span> <span class="n">_load_data</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -1517,6 +1532,14 @@
     <div class="doc doc-contents first">
 
       <p>Loads the global parameters of a network (flag <code>population</code> for neurons, <code>projection</code> for synapses) from a JSON file.</p>
+<p>It is advised to generate the JSON file first with <code>save_parameters()</code> and later edit it manually.</p>
+<p>A strong restriction is that population/projection names cannot change between saving and loading.
+By default, they take names such as <code>pop0</code> or <code>proj2</code>, we advise setting explicitly a name in their constructor for readability.</p>
+<p>If you add a parameter name to the JSON file but it does not exist in te neuron/synapse, it will be silently skipped.
+Enable <code>verbose=True</code> to see which parameters are effectively changed.</p>
+<p>If you set <code>global_only</code> to True, you will be able to set values for non-global parameters (e.g. synapse-specific), but a single value will be loaded for all.
+The JSON file cannot contain arrays.</p>
+<p>If you want to save/load the value of variables after a simulation, please refer to <code>save()</code> or <code>load()</code>.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1566,7 +1589,7 @@
   <tbody>
     <tr>
       <td><code></code></td>
-      <td><p>a dictionary of additional parameters not related to populations or projections (keyword <code>network</code> in the JSON file).  It is advised to generate the JSON file first with <code>save_parameters()</code> and later edit it manually.  A strong restriction is that population/projection names cannot change between saving and loading. By default, they take names such as <code>pop0</code> or <code>proj2</code>, we advise setting explicitly a name in their constructor for readability.  If you add a parameter name to the JSON file but it does not exist in te neuron/synapse, it will be silently skipped. Enable <code>verbose=True</code> to see which parameters are effectively changed.  If you set <code>global_only</code> to True, you will be able to set values for non-global parameters (e.g. synapse-specific), but a single value will be loaded for all. The JSON file cannot contain arrays.  If you want to save/load the value of variables after a simulation, please refer to <code>save()</code> or <code>load()</code>.</p></td>
+      <td><p>a dictionary of additional parameters not related to populations or projections (keyword <code>network</code> in the JSON file).</p></td>
     </tr>
   </tbody>
 </table>
@@ -1575,12 +1598,6 @@
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_parameters</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">global_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">net_id</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Loads the global parameters of a network (flag ``population`` for neurons, ``projection`` for synapses) from a JSON file.</span>
-
-<span class="sd">    :param filename: path to the JSON file.</span>
-<span class="sd">    :param global_only: True if only global parameters (flags ``population`` and ``projection``) should be loaded, the other values are ignored. (default: True)</span>
-<span class="sd">    :param verbose: True if the old and new values of the parameters should be printed (default: False).</span>
-<span class="sd">    :param net_id: ID of the network (default: 0, the global network).</span>
-<span class="sd">    :return: a dictionary of additional parameters not related to populations or projections (keyword ``network`` in the JSON file).</span>
 
 <span class="sd">    It is advised to generate the JSON file first with ``save_parameters()`` and later edit it manually.</span>
 
@@ -1594,6 +1611,13 @@
 <span class="sd">    The JSON file cannot contain arrays.</span>
 
 <span class="sd">    If you want to save/load the value of variables after a simulation, please refer to ``save()`` or ``load()``.</span>
+
+<span class="sd">    :param filename: path to the JSON file.</span>
+<span class="sd">    :param global_only: True if only global parameters (flags ``population`` and ``projection``) should be loaded, the other values are ignored. (default: True)</span>
+<span class="sd">    :param verbose: True if the old and new values of the parameters should be printed (default: False).</span>
+<span class="sd">    :param net_id: ID of the network (default: 0, the global network).</span>
+<span class="sd">    :return: a dictionary of additional parameters not related to populations or projections (keyword ``network`` in the JSON file).</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">json</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">rfile</span><span class="p">:</span>

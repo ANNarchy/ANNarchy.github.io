@@ -1569,19 +1569,17 @@
 
       <p>Performs a convolution of a weight kernel on the pre-synaptic population.</p>
 <p>Despite its name, the operation performed is actually a cross-correlation, as is usual in computer vision and convolutional neural networks:</p>
-<p>.. math::</p>
-<div class="highlight"><pre><span></span><code>g(x) = \sum_{k=-n}^n h(k) \, f(x + k)
-</code></pre></div>
-<p>The convolution operation benefits from giving a multi-dimensional geometry to the populations and filters, for example in 2D::</p>
-<div class="highlight"><pre><span></span><code>inp = Population(geometry=(100, 100), neuron=Neuron(parameters=&quot;r = 0.0&quot;))
-pop = Population(geometry=(100, 100), neuron=Neuron(equations=&quot;r = sum(exc)&quot;))
-proj = Convolution(inp, pop, &#39;exc&#39;)
-proj.connect_filter(
-    [
-        [-1., 0., 1.], 
-        [-1., 0., 1.], 
-        [-1., 0., 1.]
-    ])
+<div class="arithmatex">\[g(x) = \sum_{k=-n}^n h(k) \, f(x + k)\]</div>
+<p>The convolution operation benefits from giving a multi-dimensional geometry to the populations and filters, for example in 2D:</p>
+<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;r = 0.0&quot;</span><span class="p">))</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r = sum(exc)&quot;</span><span class="p">))</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">Convolution</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_filter</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span> 
+        <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span> 
+        <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]</span>
+    <span class="p">])</span>
 </code></pre></div>
 <p>The maximum number of dimensions for populations and filters is 4, an error is thrown otherwise. </p>
 <p>Depending on the number of dimensions of the pre- and post-synaptic populations, as well as of the kernel, the convolution is implemented differentely.</p>
@@ -2181,11 +2179,11 @@ proj.connect_filter(
 population, over which the result of the operation on firing rates will be
 assigned to sum(target).</p>
 <p>The extent is automatically computed using the geometry of the populations, but can be specified in the `connect_pooling()`` methods.</p>
-<p>Example::</p>
-<div class="highlight"><pre><span></span><code>inp = Population(geometry=(100, 100), neuron=Neuron(parameters=&quot;r = 0.0&quot;))
-pop = Population(geometry=(50, 50), neuron=Neuron(equations=&quot;r = sum(exc)&quot;))
-proj = Pooling(inp, pop, &#39;exc&#39;, operation=&#39;max&#39;) # max-pooling
-proj.connect_pooling() # extent=(2, 2) is implicit
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;r = 0.0&quot;</span><span class="p">))</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r = sum(exc)&quot;</span><span class="p">))</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">Pooling</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">)</span> <span class="c1"># max-pooling</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_pooling</span><span class="p">()</span> <span class="c1"># extent=(2, 2) is implicit</span>
 </code></pre></div>
 
 
@@ -2582,12 +2580,12 @@ proj.connect_pooling() # extent=(2, 2) is implicit
       <p>Creates a virtual projection reusing the weights and delays of an already-defined projection.</p>
 <p>Although the original projection can be learnable, this one can not. Changes in the original weights will be reflected in this projection. The only possible modifications are <code>psp</code> and <code>operation</code>.</p>
 <p>The pre- and post-synaptic populations of both projections must have the same geometry.</p>
-<p>Example::</p>
-<div class="highlight"><pre><span></span><code>proj = Projection(pop1, pop2, &quot;exc&quot;)
-proj.connect_fixed_probability(0.1, 0.5)
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">,</span> <span class="s2">&quot;exc&quot;</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_fixed_probability</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
 
-copy_proj = Copy(pop1, pop3, &quot;exc&quot;)
-copy_proj.connect_copy(proj)
+<span class="n">copy_proj</span> <span class="o">=</span> <span class="n">Copy</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop3</span><span class="p">,</span> <span class="s2">&quot;exc&quot;</span><span class="p">)</span>
+<span class="n">copy_proj</span><span class="o">.</span><span class="n">connect_copy</span><span class="p">(</span><span class="n">proj</span><span class="p">)</span>
 </code></pre></div>
 
 

@@ -1238,22 +1238,18 @@
     <div class="doc doc-contents first">
 
       <p>Leaky-integrator rate-coded neuron, optionally noisy.</p>
-<p>This simple rate-coded neuron defines an internal variable :math:<code>v(t)</code> 
-which integrates the inputs :math:<code>I(t)</code> with a time constant :math:<code>\tau</code> and a baseline <code>B</code>. 
-An additive noise :math:<code>N(t)</code> can be optionally defined: </p>
-<p>.. math::</p>
-<div class="highlight"><pre><span></span><code>\\tau \cdot \\frac{dv(t)}{dt} + v(t) = I(t) + B + N(t)
+<p>This simple rate-coded neuron defines an internal variable <span class="arithmatex">\(v(t)\)</span> 
+which integrates the inputs <span class="arithmatex">\(I(t)\)</span> with a time constant <span class="arithmatex">\(\tau\)</span> and a baseline <span class="arithmatex">\(B\)</span>. 
+An additive noise <span class="arithmatex">\(N(t)\)</span> can be optionally defined: </p>
+<div class="arithmatex">\[\tau \cdot \frac{dv(t)}{dt} + v(t) = I(t) + B + N(t)\]</div>
+<p>The transfer function is the positive (or rectified linear ReLU) function with a threshold <span class="arithmatex">\(T\)</span>:</p>
+<div class="arithmatex">\[r(t) = (v(t) - T)^+\]</div>
+<p>By default, the input <span class="arithmatex">\(I(t)\)</span> to this neuron is "sum(exc) - sum(inh)", but this can be changed by 
+setting the <code>sum</code> argument:</p>
+<div class="highlight"><pre><span></span><code><span class="n">neuron</span> <span class="o">=</span> <span class="n">LeakyIntegrator</span><span class="p">(</span><span class="nb">sum</span><span class="o">=</span><span class="s2">&quot;sum(&#39;exc&#39;)&quot;</span><span class="p">)</span>
 </code></pre></div>
-<p>The transfer function is the positive (or rectified linear ReLU) function with a threshold :math:<code>T</code>:</p>
-<p>.. math::</p>
-<div class="highlight"><pre><span></span><code>r(t) = (v(t) - T)^+
-</code></pre></div>
-<p>By default, the input <code>I(t)</code> to this neuron is "sum(exc) - sum(inh)", but this can be changed by 
-setting the <code>sum</code> argument::</p>
-<div class="highlight"><pre><span></span><code>neuron = LeakyIntegrator(sum=&quot;sum(&#39;exc&#39;)&quot;)
-</code></pre></div>
-<p>By default, there is no additive noise, but the <code>noise</code> argument can be passed with a specific distribution::</p>
-<div class="highlight"><pre><span></span><code>neuron = LeakyIntegrator(noise=&quot;Normal(0.0, 1.0)&quot;)
+<p>By default, there is no additive noise, but the <code>noise</code> argument can be passed with a specific distribution:</p>
+<div class="highlight"><pre><span></span><code><span class="n">neuron</span> <span class="o">=</span> <span class="n">LeakyIntegrator</span><span class="p">(</span><span class="n">noise</span><span class="o">=</span><span class="s2">&quot;Normal(0.0, 1.0)&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>Parameters:</p>
 <ul>
@@ -1264,27 +1260,27 @@ setting the <code>sum</code> argument::</p>
 <p>Variables:</p>
 <ul>
 <li>
-<p>v : internal variable (init = 0.0)::</p>
+<p>v : internal variable (init = 0.0):</p>
 <p>tau * dv/dt + v = sum(exc) - sum(inh) + B + N</p>
 </li>
 <li>
-<p>r : firing rate (init = 0.0)::</p>
+<p>r : firing rate (init = 0.0):</p>
 <p>r = pos(v - T)</p>
 </li>
 </ul>
 <p>The ODE is solved using the exponential Euler method.</p>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>LeakyIntegrator = Neuron(
-    parameters=&#39;&#39;&#39;
-        tau = 10.0 : population
-        B = 0.0
-        T = 0.0 : population
-    &#39;&#39;&#39;, 
-    equations=&#39;&#39;&#39;
-        tau * dv/dt + v = sum(exc) - sum(inh) + B : exponential
-        r = pos(v - T)
-    &#39;&#39;&#39;
-)
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">LeakyIntegrator</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        tau = 10.0 : population</span>
+<span class="s1">        B = 0.0</span>
+<span class="s1">        T = 0.0 : population</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span> 
+    <span class="n">equations</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        tau * dv/dt + v = sum(exc) - sum(inh) + B : exponential</span>
+<span class="s1">        r = pos(v - T)</span>
+<span class="s1">    &#39;&#39;&#39;</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -1325,15 +1321,14 @@ setting the <code>sum</code> argument::</p>
     <div class="doc doc-contents first">
 
       <p>Izhikevich neuron as proposed in:</p>
-<p>Izhikevich, E.M. (2003). <em>Simple Model of Spiking Neurons, IEEE Transaction on Neural Networks</em>, 14:6. <code>doi:10.1109/TNN.2003.820440 &lt;http://dx.doi.org/10.1109/TNN.2003.820440&gt;</code>_</p>
+<blockquote>
+<p>Izhikevich, E.M. (2003). <em>Simple Model of Spiking Neurons, IEEE Transaction on Neural Networks</em>, 14:6. <a href="http://dx.doi.org/10.1109/TNN.2003.820440">http://dx.doi.org/10.1109/TNN.2003.820440</a></p>
+</blockquote>
 <p>The equations are:</p>
-<p>.. math::</p>
-<div class="highlight"><pre><span></span><code>\frac{dv}{dt} = 0.04 * v^2 + 5.0 * v + 140.0 - u + I
-
-\frac{du}{dt} = a * (b * v - u)
-</code></pre></div>
-<p>By default, the conductance is "g_exc - g_inh", but this can be changed by setting the <code>conductance</code> argument::</p>
-<div class="highlight"><pre><span></span><code>neuron = Izhikevich(conductance=&#39;g_ampa * (1 + g_nmda) - g_gaba&#39;)
+<div class="arithmatex">\[\frac{dv}{dt} = 0.04 * v^2 + 5.0 * v + 140.0 - u + I\]</div>
+<div class="arithmatex">\[\frac{du}{dt} = a * (b * v - u)\]</div>
+<p>By default, the conductance is "g_exc - g_inh", but this can be changed by setting the <code>conductance</code> argument:</p>
+<div class="highlight"><pre><span></span><code><span class="n">neuron</span> <span class="o">=</span> <span class="n">Izhikevich</span><span class="p">(</span><span class="n">conductance</span><span class="o">=</span><span class="s1">&#39;g_ampa * (1 + g_nmda) - g_gaba&#39;</span><span class="p">)</span>
 </code></pre></div>
 <p>The synapses are instantaneous, i.e the corresponding conductance is increased from the synaptic efficiency w at the time step when a spike is received.</p>
 <p>Parameters:</p>
@@ -1350,46 +1345,46 @@ setting the <code>sum</code> argument::</p>
 <p>Variables:</p>
 <ul>
 <li>
-<p>I : input current (user-defined conductance/current + external current + normal noise)::</p>
+<p>I : input current (user-defined conductance/current + external current + normal noise):</p>
 <p>I = conductance + i_offset + noise * Normal(0.0, 1.0)</p>
 </li>
 <li>
-<p>v : membrane potential in mV (init = c)::</p>
+<p>v : membrane potential in mV (init = c):</p>
 <p>dv/dt = 0.04 * v^2 + 5.0 * v + 140.0 - u + I </p>
 </li>
 <li>
-<p>u : recovery variable (init= b * c)::</p>
+<p>u : recovery variable (init= b * c):</p>
 <p>du/dt = a * (b * v - u) </p>
 </li>
 </ul>
-<p>Spike emission::</p>
+<p>Spike emission:</p>
 <div class="highlight"><pre><span></span><code>v &gt; v_thresh
 </code></pre></div>
-<p>Reset::</p>
+<p>Reset:</p>
 <div class="highlight"><pre><span></span><code>v = c
 u += d
 </code></pre></div>
 <p>The ODEs are solved using the explicit Euler method.</p>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>Izhikevich = Neuron(
-    parameters = &quot;&quot;&quot;
-        noise = 0.0
-        a = 0.02
-        b = 0.2
-        c = -65.0
-        d = 8.0
-        v_thresh = 30.0
-        i_offset = 0.0
-    &quot;&quot;&quot;, 
-    equations = &quot;&quot;&quot;
-        I = g_exc - g_inh + noise * Normal(0.0, 1.0) + i_offset
-        dv/dt = 0.04 * v^2 + 5.0 * v + 140.0 - u + I : init = -65.0
-        du/dt = a * (b*v - u) : init= -13.0
-    &quot;&quot;&quot;,
-    spike = &quot;v &gt; v_thresh&quot;,
-    reset = &quot;v = c; u += d&quot;,
-    refractory = 0.0
-)
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">Izhikevich</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            noise = 0.0</span>
+<span class="s2">            a = 0.02</span>
+<span class="s2">            b = 0.2</span>
+<span class="s2">            c = -65.0</span>
+<span class="s2">            d = 8.0</span>
+<span class="s2">            v_thresh = 30.0</span>
+<span class="s2">            i_offset = 0.0</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span> 
+        <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            I = g_exc - g_inh + noise * Normal(0.0, 1.0) + i_offset</span>
+<span class="s2">            dv/dt = 0.04 * v^2 + 5.0 * v + 140.0 - u + I : init = -65.0</span>
+<span class="s2">            du/dt = a * (b*v - u) : init= -13.0</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;v &gt; v_thresh&quot;</span><span class="p">,</span>
+        <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;v = c; u += d&quot;</span><span class="p">,</span>
+        <span class="n">refractory</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="p">)</span>
 </code></pre></div>
 <p>The default parameters are for a regular spiking (RS) neuron derived from the above mentioned article.</p>
 
@@ -1447,47 +1442,46 @@ u += d
 <p>Variables:</p>
 <ul>
 <li>
-<p>v : membrane potential in mV (init=-65.0)::</p>
+<p>v : membrane potential in mV (init=-65.0):</p>
 <p>cm * dv/dt = cm/tau_m*(v_rest -v)   + g_exc - g_inh + i_offset</p>
 </li>
 <li>
-<p>g_exc : excitatory current (init = 0.0)::</p>
+<p>g_exc : excitatory current (init = 0.0):</p>
 <p>tau_syn_E * dg_exc/dt = - g_exc</p>
 </li>
 <li>
-<p>g_inh : inhibitory current (init = 0.0)::</p>
+<p>g_inh : inhibitory current (init = 0.0):</p>
 <p>tau_syn_I * dg_inh/dt = - g_inh</p>
 </li>
 </ul>
-<p>Spike emission::</p>
+<p>Spike emission:</p>
 <div class="highlight"><pre><span></span><code>v &gt; v_thresh
 </code></pre></div>
-<p>Reset::</p>
+<p>Reset:</p>
 <div class="highlight"><pre><span></span><code>v = v_reset
 </code></pre></div>
 <p>The ODEs are solved using the exponential Euler method.</p>
 <p>Equivalent code:</p>
-<p>.. code-block:: python</p>
-<div class="highlight"><pre><span></span><code>IF_curr_exp = Neuron(
-    parameters = &quot;&quot;&quot;
-        v_rest = -65.0
-        cm  = 1.0
-        tau_m  = 20.0
-        tau_syn_E = 5.0
-        tau_syn_I = 5.0
-        v_thresh = -50.0
-        v_reset = -65.0
-        i_offset = 0.0
-    &quot;&quot;&quot;, 
-    equations = &quot;&quot;&quot;
-        cm * dv/dt = cm/tau_m*(v_rest -v)   + g_exc - g_inh + i_offset : exponential, init=-65.0
-        tau_syn_E * dg_exc/dt = - g_exc : exponential
-        tau_syn_I * dg_inh/dt = - g_inh : exponential
-    &quot;&quot;&quot;,
-    spike = &quot;v &gt; v_thresh&quot;,
-    reset = &quot;v = v_reset&quot;,
-    refractory = 0.0
-)
+<div class="highlight"><pre><span></span><code><span class="n">IF_curr_exp</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        v_rest = -65.0</span>
+<span class="s2">        cm  = 1.0</span>
+<span class="s2">        tau_m  = 20.0</span>
+<span class="s2">        tau_syn_E = 5.0</span>
+<span class="s2">        tau_syn_I = 5.0</span>
+<span class="s2">        v_thresh = -50.0</span>
+<span class="s2">        v_reset = -65.0</span>
+<span class="s2">        i_offset = 0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span> 
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        cm * dv/dt = cm/tau_m*(v_rest -v)   + g_exc - g_inh + i_offset : exponential, init=-65.0</span>
+<span class="s2">        tau_syn_E * dg_exc/dt = - g_exc : exponential</span>
+<span class="s2">        tau_syn_I * dg_inh/dt = - g_inh : exponential</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;v &gt; v_thresh&quot;</span><span class="p">,</span>
+    <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;v = v_reset&quot;</span><span class="p">,</span>
+    <span class="n">refractory</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -1546,48 +1540,48 @@ u += d
 <p>Variables:</p>
 <ul>
 <li>
-<p>v : membrane potential in mV (init=-65.0)::</p>
+<p>v : membrane potential in mV (init=-65.0):</p>
 <p>cm * dv/dt = cm/tau_m*(v_rest -v)  + g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset</p>
 </li>
 <li>
-<p>g_exc : excitatory current (init = 0.0)::</p>
+<p>g_exc : excitatory current (init = 0.0):</p>
 <p>tau_syn_E * dg_exc/dt = - g_exc</p>
 </li>
 <li>
-<p>g_inh : inhibitory current (init = 0.0)::</p>
+<p>g_inh : inhibitory current (init = 0.0):</p>
 <p>tau_syn_I * dg_inh/dt = - g_inh</p>
 </li>
 </ul>
-<p>Spike emission::</p>
+<p>Spike emission:</p>
 <div class="highlight"><pre><span></span><code>v &gt; v_thresh
 </code></pre></div>
-<p>Reset::</p>
+<p>Reset:</p>
 <div class="highlight"><pre><span></span><code>v = v_reset
 </code></pre></div>
 <p>The ODEs are solved using the exponential Euler method.</p>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>IF_cond_exp = Neuron(
-    parameters = &quot;&quot;&quot;
-        v_rest = -65.0
-        cm  = 1.0
-        tau_m  = 20.0
-        tau_syn_E = 5.0
-        tau_syn_I = 5.0
-        e_rev_E = 0.0
-        e_rev_I = -70.0
-        v_thresh = -50.0
-        v_reset = -65.0
-        i_offset = 0.0
-    &quot;&quot;&quot;, 
-    equations = &quot;&quot;&quot;
-        cm * dv/dt = cm/tau_m*(v_rest -v)   + g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset : exponential, init=-65.0
-        tau_syn_E * dg_exc/dt = - g_exc : exponential
-        tau_syn_I * dg_inh/dt = - g_inh : exponential
-    &quot;&quot;&quot;,
-    spike = &quot;v &gt; v_thresh&quot;,
-    reset = &quot;v = v_reset&quot;,
-    refractory = 0.0
-)
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">IF_cond_exp</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        v_rest = -65.0</span>
+<span class="s2">        cm  = 1.0</span>
+<span class="s2">        tau_m  = 20.0</span>
+<span class="s2">        tau_syn_E = 5.0</span>
+<span class="s2">        tau_syn_I = 5.0</span>
+<span class="s2">        e_rev_E = 0.0</span>
+<span class="s2">        e_rev_I = -70.0</span>
+<span class="s2">        v_thresh = -50.0</span>
+<span class="s2">        v_reset = -65.0</span>
+<span class="s2">        i_offset = 0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span> 
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        cm * dv/dt = cm/tau_m*(v_rest -v)   + g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset : exponential, init=-65.0</span>
+<span class="s2">        tau_syn_E * dg_exc/dt = - g_exc : exponential</span>
+<span class="s2">        tau_syn_I * dg_inh/dt = - g_inh : exponential</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;v &gt; v_thresh&quot;</span><span class="p">,</span>
+    <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;v = v_reset&quot;</span><span class="p">,</span>
+    <span class="n">refractory</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -1645,58 +1639,58 @@ u += d
 <p>Variables:</p>
 <ul>
 <li>
-<p>v : membrane potential in mV (init=-65.0)::</p>
+<p>v : membrane potential in mV (init=-65.0):</p>
 <p>cm * dv/dt = cm/tau_m*(v_rest -v) + alpha_exc - alpha_inh + i_offset</p>
 </li>
 <li>
-<p>g_exc : excitatory current (init = 0.0)::</p>
+<p>g_exc : excitatory current (init = 0.0):</p>
 <p>tau_syn_E * dg_exc/dt = - g_exc</p>
 </li>
 <li>
-<p>alpha_exc : alpha function of excitatory current (init = 0.0)::</p>
+<p>alpha_exc : alpha function of excitatory current (init = 0.0):</p>
 <p>tau_syn_E * dalpha_exc/dt = exp((tau_syn_E - dt/2.0)/tau_syn_E) * g_exc - alpha_exc</p>
 </li>
 <li>
-<p>g_inh : inhibitory current (init = 0.0)::</p>
+<p>g_inh : inhibitory current (init = 0.0):</p>
 <p>tau_syn_I * dg_inh/dt = - g_inh</p>
 </li>
 <li>
-<p>alpha_inh : alpha function of inhibitory current (init = 0.0)::</p>
+<p>alpha_inh : alpha function of inhibitory current (init = 0.0):</p>
 <p>tau_syn_I * dalpha_inh/dt = exp((tau_syn_I - dt/2.0)/tau_syn_I) * g_inh - alpha_inh</p>
 </li>
 </ul>
-<p>Spike emission::</p>
+<p>Spike emission:</p>
 <div class="highlight"><pre><span></span><code>v &gt; v_thresh
 </code></pre></div>
-<p>Reset::</p>
+<p>Reset:</p>
 <div class="highlight"><pre><span></span><code>v = v_reset
 </code></pre></div>
 <p>The ODEs are solved using the exponential Euler method.</p>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>IF_curr_alpha = Neuron(
-    parameters = &quot;&quot;&quot;
-        v_rest = -65.0
-        cm  = 1.0
-        tau_m  = 20.0
-        tau_syn_E = 5.0
-        tau_syn_I = 5.0
-        v_thresh = -50.0
-        v_reset = -65.0
-        i_offset = 0.0
-    &quot;&quot;&quot;, 
-    equations = &quot;&quot;&quot;
-        gmax_exc = exp((tau_syn_E - dt/2.0)/tau_syn_E)
-        gmax_inh = exp((tau_syn_I - dt/2.0)/tau_syn_I)  
-        cm * dv/dt = cm/tau_m*(v_rest -v)   + alpha_exc - alpha_inh + i_offset : exponential, init=-65.0
-        tau_syn_E * dg_exc/dt = - g_exc : exponential
-        tau_syn_I * dg_inh/dt = - g_inh : exponential
-        tau_syn_E * dalpha_exc/dt = gmax_exc * g_exc - alpha_exc  : exponential
-        tau_syn_I * dalpha_inh/dt = gmax_inh * g_inh - alpha_inh  : exponential
-    &quot;&quot;&quot;,
-    spike = &quot;v &gt; v_thresh&quot;,
-    reset = &quot;v = v_reset&quot;,
-    refractory = 0.0
-)
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">IF_curr_alpha</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        v_rest = -65.0</span>
+<span class="s2">        cm  = 1.0</span>
+<span class="s2">        tau_m  = 20.0</span>
+<span class="s2">        tau_syn_E = 5.0</span>
+<span class="s2">        tau_syn_I = 5.0</span>
+<span class="s2">        v_thresh = -50.0</span>
+<span class="s2">        v_reset = -65.0</span>
+<span class="s2">        i_offset = 0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span> 
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        gmax_exc = exp((tau_syn_E - dt/2.0)/tau_syn_E)</span>
+<span class="s2">        gmax_inh = exp((tau_syn_I - dt/2.0)/tau_syn_I)  </span>
+<span class="s2">        cm * dv/dt = cm/tau_m*(v_rest -v)   + alpha_exc - alpha_inh + i_offset : exponential, init=-65.0</span>
+<span class="s2">        tau_syn_E * dg_exc/dt = - g_exc : exponential</span>
+<span class="s2">        tau_syn_I * dg_inh/dt = - g_inh : exponential</span>
+<span class="s2">        tau_syn_E * dalpha_exc/dt = gmax_exc * g_exc - alpha_exc  : exponential</span>
+<span class="s2">        tau_syn_I * dalpha_inh/dt = gmax_inh * g_inh - alpha_inh  : exponential</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;v &gt; v_thresh&quot;</span><span class="p">,</span>
+    <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;v = v_reset&quot;</span><span class="p">,</span>
+    <span class="n">refractory</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -1755,60 +1749,60 @@ u += d
 <p>Variables:</p>
 <ul>
 <li>
-<p>v : membrane potential in mV (init=-65.0)::</p>
+<p>v : membrane potential in mV (init=-65.0):</p>
 <p>cm * dv/dt = cm/tau_m*(v_rest -v)  + alpha_exc * (e_rev_E - v) + alpha_inh * (e_rev_I - v) + i_offset</p>
 </li>
 <li>
-<p>g_exc : excitatory conductance (init = 0.0)::</p>
+<p>g_exc : excitatory conductance (init = 0.0):</p>
 <p>tau_syn_E * dg_exc/dt = - g_exc</p>
 </li>
 <li>
-<p>alpha_exc : alpha function of excitatory conductance (init = 0.0)::</p>
+<p>alpha_exc : alpha function of excitatory conductance (init = 0.0):</p>
 <p>tau_syn_E * dalpha_exc/dt = exp((tau_syn_E - dt/2.0)/tau_syn_E) * g_exc - alpha_exc</p>
 </li>
 <li>
-<p>g_inh : inhibitory conductance (init = 0.0)::</p>
+<p>g_inh : inhibitory conductance (init = 0.0):</p>
 <p>tau_syn_I * dg_inh/dt = - g_inh</p>
 </li>
 <li>
-<p>alpha_inh : alpha function of inhibitory current (init = 0.0)::</p>
+<p>alpha_inh : alpha function of inhibitory current (init = 0.0):</p>
 <p>tau_syn_I * dalpha_inh/dt = exp((tau_syn_I - dt/2.0)/tau_syn_I) * g_inh - alpha_inh</p>
 </li>
 </ul>
-<p>Spike emission::</p>
+<p>Spike emission:</p>
 <div class="highlight"><pre><span></span><code>v &gt; v_thresh
 </code></pre></div>
-<p>Reset::</p>
+<p>Reset:</p>
 <div class="highlight"><pre><span></span><code>v = v_reset
 </code></pre></div>
 <p>The ODEs are solved using the exponential Euler method.</p>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>IF_cond_alpha = Neuron(
-    parameters = &quot;&quot;&quot;
-        v_rest = -65.0
-        cm  = 1.0
-        tau_m  = 20.0
-        tau_syn_E = 5.0
-        tau_syn_I = 5.0
-        e_rev_E = 0.0
-        e_rev_I = -70.0
-        v_thresh = -50.0
-        v_reset = -65.0
-        i_offset = 0.0
-    &quot;&quot;&quot;, 
-    equations = &quot;&quot;&quot;
-        gmax_exc = exp((tau_syn_E - dt/2.0)/tau_syn_E)
-        gmax_inh = exp((tau_syn_I - dt/2.0)/tau_syn_I)
-        cm * dv/dt = cm/tau_m*(v_rest -v)   + alpha_exc * (e_rev_E - v) + alpha_inh * (e_rev_I - v) + i_offset : exponential, init=-65.0
-        tau_syn_E * dg_exc/dt = - g_exc : exponential
-        tau_syn_I * dg_inh/dt = - g_inh : exponential
-        tau_syn_E * dalpha_exc/dt = gmax_exc * g_exc - alpha_exc  : exponential
-        tau_syn_I * dalpha_inh/dt = gmax_inh * g_inh - alpha_inh  : exponential
-    &quot;&quot;&quot;,
-    spike = &quot;v &gt; v_thresh&quot;,
-    reset = &quot;v = v_reset&quot;,
-    refractory = 0.0
-)
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">IF_cond_alpha</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        v_rest = -65.0</span>
+<span class="s2">        cm  = 1.0</span>
+<span class="s2">        tau_m  = 20.0</span>
+<span class="s2">        tau_syn_E = 5.0</span>
+<span class="s2">        tau_syn_I = 5.0</span>
+<span class="s2">        e_rev_E = 0.0</span>
+<span class="s2">        e_rev_I = -70.0</span>
+<span class="s2">        v_thresh = -50.0</span>
+<span class="s2">        v_reset = -65.0</span>
+<span class="s2">        i_offset = 0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span> 
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        gmax_exc = exp((tau_syn_E - dt/2.0)/tau_syn_E)</span>
+<span class="s2">        gmax_inh = exp((tau_syn_I - dt/2.0)/tau_syn_I)</span>
+<span class="s2">        cm * dv/dt = cm/tau_m*(v_rest -v)   + alpha_exc * (e_rev_E - v) + alpha_inh * (e_rev_I - v) + i_offset : exponential, init=-65.0</span>
+<span class="s2">        tau_syn_E * dg_exc/dt = - g_exc : exponential</span>
+<span class="s2">        tau_syn_I * dg_inh/dt = - g_inh : exponential</span>
+<span class="s2">        tau_syn_E * dalpha_exc/dt = gmax_exc * g_exc - alpha_exc  : exponential</span>
+<span class="s2">        tau_syn_I * dalpha_inh/dt = gmax_inh * g_inh - alpha_inh  : exponential</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;v &gt; v_thresh&quot;</span><span class="p">,</span>
+    <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;v = v_reset&quot;</span><span class="p">,</span>
+    <span class="n">refractory</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -1870,7 +1864,7 @@ u += d
 <p>Variables:</p>
 <ul>
 <li>
-<p>Voltage-dependent rate constants an, bn, am, bm, ah, bh::</p>
+<p>Voltage-dependent rate constants an, bn, am, bm, ah, bh:</p>
 <p>an = 0.032 * (15.0 - v + v_offset) / (exp((15.0 - v + v_offset)/5.0) - 1.0)
 am = 0.32  * (13.0 - v + v_offset) / (exp((13.0 - v + v_offset)/4.0) - 1.0)
 ah = 0.128 * exp((17.0 - v + v_offset)/18.0) </p>
@@ -1879,77 +1873,75 @@ bm = 0.28  * (v - v_offset - 40.0) / (exp((v - v_offset - 40.0)/5.0) - 1.0)
 bh = 4.0/(1.0 + exp (( 10.0 - v + v_offset )) )</p>
 </li>
 <li>
-<p>Activation variables n, m, h (h is initialized to 1.0, n and m to 0.0)::</p>
+<p>Activation variables n, m, h (h is initialized to 1.0, n and m to 0.0):</p>
 <p>dn/dt = an * (1.0 - n) - bn * n 
 dm/dt = am * (1.0 - m) - bm * m 
 dh/dt = ah * (1.0 - h) - bh * h </p>
 </li>
 <li>
-<p>v : membrane potential in mV (init=-65.0)::</p>
-<p>cm * dv/dt = gleak<em>(e_rev_leak -v) + gbar_K * n</em><em>4 * (e_rev_K - v) + gbar_Na * m</em>*3 * h * (e_rev_Na - v)</p>
-<div class="highlight"><pre><span></span><code>        + g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset
-</code></pre></div>
+<p>v : membrane potential in mV (init=-65.0):</p>
+<p>cm * dv/dt = gleak<em>(e_rev_leak -v) + gbar_K * n</em><em>4 * (e_rev_K - v) + gbar_Na * m</em>*3 * h * (e_rev_Na - v) + g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset</p>
 </li>
 <li>
-<p>g_exc : excitatory conductance (init = 0.0)::</p>
+<p>g_exc : excitatory conductance (init = 0.0):</p>
 <p>tau_syn_E * dg_exc/dt = - g_exc</p>
 </li>
 <li>
-<p>g_inh : inhibitory conductance (init = 0.0)::</p>
+<p>g_inh : inhibitory conductance (init = 0.0):</p>
 <p>tau_syn_I * dg_inh/dt = - g_inh</p>
 </li>
 </ul>
-<p>Spike emission::</p>
-<div class="highlight"><pre><span></span><code>v &gt; v_thresh and v(t-1) &lt; v_thresh (the spike is emitted only once when v crosses the threshold from below)
+<p>Spike emission (the spike is emitted only once when v crosses the threshold from below):</p>
+<div class="highlight"><pre><span></span><code>v &gt; v_thresh and v(t-1) &lt; v_thresh
 </code></pre></div>
 <p>The ODEs for n, m, h and v are solved using the midpoint method, while the conductances g_exc and g_inh are solved using the exponential Euler method.</p>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>HH_cond_exp = Neuron(
-    parameters = &quot;&quot;&quot;
-        gbar_Na = 20.0
-        gbar_K = 6.0
-        gleak = 0.01
-        cm = 0.2 
-        v_offset = -63.0 
-        e_rev_Na = 50.0
-        e_rev_K = -90.0 
-        e_rev_leak = -65.0
-        e_rev_E = 0.0
-        e_rev_I = -80.0 
-        tau_syn_E = 0.2
-        tau_syn_I = 2.0
-        i_offset = 0.0
-        v_thresh = 0.0
-    &quot;&quot;&quot;, 
-    equations = &quot;&quot;&quot;
-        # Previous membrane potential
-        prev_v = v
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">HH_cond_exp</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        gbar_Na = 20.0</span>
+<span class="s2">        gbar_K = 6.0</span>
+<span class="s2">        gleak = 0.01</span>
+<span class="s2">        cm = 0.2 </span>
+<span class="s2">        v_offset = -63.0 </span>
+<span class="s2">        e_rev_Na = 50.0</span>
+<span class="s2">        e_rev_K = -90.0 </span>
+<span class="s2">        e_rev_leak = -65.0</span>
+<span class="s2">        e_rev_E = 0.0</span>
+<span class="s2">        e_rev_I = -80.0 </span>
+<span class="s2">        tau_syn_E = 0.2</span>
+<span class="s2">        tau_syn_I = 2.0</span>
+<span class="s2">        i_offset = 0.0</span>
+<span class="s2">        v_thresh = 0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span> 
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        # Previous membrane potential</span>
+<span class="s2">        prev_v = v</span>
 
-        # Voltage-dependent rate constants
-        an = 0.032 * (15.0 - v + v_offset) / (exp((15.0 - v + v_offset)/5.0) - 1.0)
-        am = 0.32  * (13.0 - v + v_offset) / (exp((13.0 - v + v_offset)/4.0) - 1.0)
-        ah = 0.128 * exp((17.0 - v + v_offset)/18.0)
+<span class="s2">        # Voltage-dependent rate constants</span>
+<span class="s2">        an = 0.032 * (15.0 - v + v_offset) / (exp((15.0 - v + v_offset)/5.0) - 1.0)</span>
+<span class="s2">        am = 0.32  * (13.0 - v + v_offset) / (exp((13.0 - v + v_offset)/4.0) - 1.0)</span>
+<span class="s2">        ah = 0.128 * exp((17.0 - v + v_offset)/18.0) </span>
 
-        bn = 0.5   * exp ((10.0 - v + v_offset)/40.0)
-        bm = 0.28  * (v - v_offset - 40.0) / (exp((v - v_offset - 40.0)/5.0) - 1.0)
-        bh = 4.0/(1.0 + exp (( 10.0 - v + v_offset )) )
+<span class="s2">        bn = 0.5   * exp ((10.0 - v + v_offset)/40.0)</span>
+<span class="s2">        bm = 0.28  * (v - v_offset - 40.0) / (exp((v - v_offset - 40.0)/5.0) - 1.0)</span>
+<span class="s2">        bh = 4.0/(1.0 + exp (( 10.0 - v + v_offset )) )</span>
 
-        # Activation variables
-        dn/dt = an * (1.0 - n) - bn * n : init = 0.0, exponential
-        dm/dt = am * (1.0 - m) - bm * m : init = 0.0, exponential
-        dh/dt = ah * (1.0 - h) - bh * h : init = 1.0, exponential
+<span class="s2">        # Activation variables</span>
+<span class="s2">        dn/dt = an * (1.0 - n) - bn * n : init = 0.0, exponential</span>
+<span class="s2">        dm/dt = am * (1.0 - m) - bm * m : init = 0.0, exponential</span>
+<span class="s2">        dh/dt = ah * (1.0 - h) - bh * h : init = 1.0, exponential</span>
 
-        # Membrane equation
-        cm * dv/dt = gleak*(e_rev_leak -v) + gbar_K * n**4 * (e_rev_K - v) + gbar_Na * m**3 * h * (e_rev_Na - v)
-                        + g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset: exponential, init=-65.0
+<span class="s2">        # Membrane equation</span>
+<span class="s2">        cm * dv/dt = gleak*(e_rev_leak -v) + gbar_K * n**4 * (e_rev_K - v) + gbar_Na * m**3 * h * (e_rev_Na - v)</span>
+<span class="s2">                        + g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset: exponential, init=-65.0</span>
 
-        # Exponentially-decaying conductances
-        tau_syn_E * dg_exc/dt = - g_exc : exponential
-        tau_syn_I * dg_inh/dt = - g_inh : exponential
-    &quot;&quot;&quot;,
-    spike = &quot;(v &gt; v_thresh) and (prev_v &lt;= v_thresh)&quot;,
-    reset = &quot;&quot;
-)
+<span class="s2">        # Exponentially-decaying conductances</span>
+<span class="s2">        tau_syn_E * dg_exc/dt = - g_exc : exponential</span>
+<span class="s2">        tau_syn_I * dg_inh/dt = - g_inh : exponential</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;(v &gt; v_thresh) and (prev_v &lt;= v_thresh)&quot;</span><span class="p">,</span>
+    <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -2014,67 +2006,67 @@ dh/dt = ah * (1.0 - h) - bh * h </p>
 <p>Variables:</p>
 <ul>
 <li>
-<p>I : input current (nA)::</p>
+<p>I : input current (nA):</p>
 <p>I = g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset</p>
 </li>
 <li>
-<p>v : membrane potential in mV (init=-70.6)::</p>
+<p>v : membrane potential in mV (init=-70.6):</p>
 <p>tau_m * dv/dt = (v_rest - v +  delta_T * exp((v-v_thresh)/delta_T)) + tau_m/cm*(I - w)</p>
 </li>
 <li>
-<p>w : adaptation variable (init=0.0)::</p>
+<p>w : adaptation variable (init=0.0):</p>
 <p>tau_w * dw/dt = a * (v - v_rest) / 1000.0 - w</p>
 </li>
 <li>
-<p>g_exc : excitatory current (init = 0.0)::</p>
+<p>g_exc : excitatory current (init = 0.0):</p>
 <p>tau_syn_E * dg_exc/dt = - g_exc</p>
 </li>
 <li>
-<p>g_inh : inhibitory current (init = 0.0)::</p>
+<p>g_inh : inhibitory current (init = 0.0):</p>
 <p>tau_syn_I * dg_inh/dt = - g_inh</p>
 </li>
 </ul>
-<p>Spike emission::</p>
+<p>Spike emission:</p>
 <div class="highlight"><pre><span></span><code>v &gt; v_thresh
 </code></pre></div>
-<p>Reset::</p>
+<p>Reset:</p>
 <div class="highlight"><pre><span></span><code>v = v_reset
 u += b
 </code></pre></div>
 <p>The ODEs are solved using the explicit Euler method.</p>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>EIF_cond_exp_isfa_ista = Neuron(
-    parameters = &quot;&quot;&quot;
-        v_rest = -70.6
-        cm = 0.281 
-        tau_m = 9.3667 
-        tau_syn_E = 5.0 
-        tau_syn_I = 5.0 
-        e_rev_E = 0.0 
-        e_rev_I = -80.0
-        tau_w = 144.0 
-        a = 4.0
-        b = 0.0805
-        i_offset = 0.0
-        delta_T = 2.0 
-        v_thresh = -50.4
-        v_reset = -70.6
-        v_spike = -40.0 
-    &quot;&quot;&quot;, 
-    equations = &quot;&quot;&quot;
-        I = g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset            
-        tau_m * dv/dt = (v_rest - v +  delta_T * exp((v-v_thresh)/delta_T)) + tau_m/cm*(I - w) : init=-70.6          
-        tau_w * dw/dt = a * (v - v_rest) / 1000.0 - w           
-        tau_syn_E * dg_exc/dt = - g_exc : exponential
-        tau_syn_I * dg_inh/dt = - g_inh : exponential
-    &quot;&quot;&quot;,
-    spike = &quot;v &gt; v_spike&quot;,
-    reset = &quot;&quot;&quot;
-        v = v_reset
-        w += b
-    &quot;&quot;&quot;,
-    refractory = 0.1
-)
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">EIF_cond_exp_isfa_ista</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        v_rest = -70.6</span>
+<span class="s2">        cm = 0.281 </span>
+<span class="s2">        tau_m = 9.3667 </span>
+<span class="s2">        tau_syn_E = 5.0 </span>
+<span class="s2">        tau_syn_I = 5.0 </span>
+<span class="s2">        e_rev_E = 0.0 </span>
+<span class="s2">        e_rev_I = -80.0</span>
+<span class="s2">        tau_w = 144.0 </span>
+<span class="s2">        a = 4.0</span>
+<span class="s2">        b = 0.0805</span>
+<span class="s2">        i_offset = 0.0</span>
+<span class="s2">        delta_T = 2.0 </span>
+<span class="s2">        v_thresh = -50.4</span>
+<span class="s2">        v_reset = -70.6</span>
+<span class="s2">        v_spike = -40.0 </span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span> 
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        I = g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset            </span>
+<span class="s2">        tau_m * dv/dt = (v_rest - v +  delta_T * exp((v-v_thresh)/delta_T)) + tau_m/cm*(I - w) : init=-70.6          </span>
+<span class="s2">        tau_w * dw/dt = a * (v - v_rest) / 1000.0 - w           </span>
+<span class="s2">        tau_syn_E * dg_exc/dt = - g_exc : exponential</span>
+<span class="s2">        tau_syn_I * dg_inh/dt = - g_inh : exponential</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;v &gt; v_spike&quot;</span><span class="p">,</span>
+    <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        v = v_reset</span>
+<span class="s2">        w += b</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">refractory</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -2139,79 +2131,79 @@ u += b
 <p>Variables:</p>
 <ul>
 <li>
-<p>I : input current (nA)::</p>
+<p>I : input current (nA):</p>
 <p>I = g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset</p>
 </li>
 <li>
-<p>v : membrane potential in mV (init=-70.6)::</p>
+<p>v : membrane potential in mV (init=-70.6):</p>
 <p>tau_m * dv/dt = (v_rest - v +  delta_T * exp((v-v_thresh)/delta_T)) + tau_m/cm*(I - w)</p>
 </li>
 <li>
-<p>w : adaptation variable (init=0.0)::</p>
+<p>w : adaptation variable (init=0.0):</p>
 <p>tau_w * dw/dt = a * (v - v_rest) / 1000.0 - w</p>
 </li>
 <li>
-<p>g_exc : excitatory current (init = 0.0)::</p>
+<p>g_exc : excitatory current (init = 0.0):</p>
 <p>tau_syn_E * dg_exc/dt = - g_exc</p>
 </li>
 <li>
-<p>g_inh : inhibitory current (init = 0.0)::</p>
+<p>g_inh : inhibitory current (init = 0.0):</p>
 <p>tau_syn_I * dg_inh/dt = - g_inh</p>
 </li>
 <li>
-<p>alpha_exc : alpha function of excitatory current (init = 0.0)::</p>
+<p>alpha_exc : alpha function of excitatory current (init = 0.0):</p>
 <p>tau_syn_E * dalpha_exc/dt = exp((tau_syn_E - dt/2.0)/tau_syn_E) * g_exc - alpha_exc  </p>
 </li>
 <li>
-<p>alpha_inh: alpha function of inhibitory current (init = 0.0)::</p>
+<p>alpha_inh: alpha function of inhibitory current (init = 0.0):</p>
 <p>tau_syn_I * dalpha_inh/dt = exp((tau_syn_I - dt/2.0)/tau_syn_I) * g_inh - alpha_inh  </p>
 </li>
 </ul>
-<p>Spike emission::</p>
+<p>Spike emission:</p>
 <div class="highlight"><pre><span></span><code>v &gt; v_spike
 </code></pre></div>
-<p>Reset::</p>
+<p>Reset:</p>
 <div class="highlight"><pre><span></span><code>v = v_reset
 u += b
 </code></pre></div>
 <p>The ODEs are solved using the explicit Euler method.</p>
-<p>Equivalent code::</p>
-<div class="highlight"><pre><span></span><code>EIF_cond_alpha_isfa_ista = Neuron(
-    parameters = &quot;&quot;&quot;
-        v_rest = -70.6
-        cm = 0.281 
-        tau_m = 9.3667 
-        tau_syn_E = 5.0 
-        tau_syn_I = 5.0 
-        e_rev_E = 0.0 
-        e_rev_I = -80.0
-        tau_w = 144.0 
-        a = 4.0
-        b = 0.0805
-        i_offset = 0.0
-        delta_T = 2.0 
-        v_thresh = -50.4
-        v_reset = -70.6
-        v_spike = -40.0 
-    &quot;&quot;&quot;, 
-    equations = &quot;&quot;&quot;
-        gmax_exc = exp((tau_syn_E - dt/2.0)/tau_syn_E)
-        gmax_inh = exp((tau_syn_I - dt/2.0)/tau_syn_I)                
-        I = alpha_exc * (e_rev_E - v) + alpha_inh * (e_rev_I - v) + i_offset
-        tau_m * dv/dt = (v_rest - v +  delta_T * exp((v-v_thresh)/delta_T)) + tau_m/cm*(I - w) : init=-70.6
-        tau_w * dw/dt = a * (v - v_rest) / 1000.0 - w 
-        tau_syn_E * dg_exc/dt = - g_exc : exponential
-        tau_syn_I * dg_inh/dt = - g_inh : exponential
-        tau_syn_E * dalpha_exc/dt = gmax_exc * g_exc - alpha_exc  : exponential
-        tau_syn_I * dalpha_inh/dt = gmax_inh * g_inh - alpha_inh  : exponential
-    &quot;&quot;&quot;,
-    spike = &quot;v &gt; v_spike&quot;,
-    reset = &quot;&quot;&quot;
-        v = v_reset
-        w += b
-    &quot;&quot;&quot;,
-    refractory = 0.1
-)
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">EIF_cond_alpha_isfa_ista</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        v_rest = -70.6</span>
+<span class="s2">        cm = 0.281 </span>
+<span class="s2">        tau_m = 9.3667 </span>
+<span class="s2">        tau_syn_E = 5.0 </span>
+<span class="s2">        tau_syn_I = 5.0 </span>
+<span class="s2">        e_rev_E = 0.0 </span>
+<span class="s2">        e_rev_I = -80.0</span>
+<span class="s2">        tau_w = 144.0 </span>
+<span class="s2">        a = 4.0</span>
+<span class="s2">        b = 0.0805</span>
+<span class="s2">        i_offset = 0.0</span>
+<span class="s2">        delta_T = 2.0 </span>
+<span class="s2">        v_thresh = -50.4</span>
+<span class="s2">        v_reset = -70.6</span>
+<span class="s2">        v_spike = -40.0 </span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span> 
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        gmax_exc = exp((tau_syn_E - dt/2.0)/tau_syn_E)</span>
+<span class="s2">        gmax_inh = exp((tau_syn_I - dt/2.0)/tau_syn_I)                </span>
+<span class="s2">        I = alpha_exc * (e_rev_E - v) + alpha_inh * (e_rev_I - v) + i_offset</span>
+<span class="s2">        tau_m * dv/dt = (v_rest - v +  delta_T * exp((v-v_thresh)/delta_T)) + tau_m/cm*(I - w) : init=-70.6</span>
+<span class="s2">        tau_w * dw/dt = a * (v - v_rest) / 1000.0 - w </span>
+<span class="s2">        tau_syn_E * dg_exc/dt = - g_exc : exponential</span>
+<span class="s2">        tau_syn_I * dg_inh/dt = - g_inh : exponential</span>
+<span class="s2">        tau_syn_E * dalpha_exc/dt = gmax_exc * g_exc - alpha_exc  : exponential</span>
+<span class="s2">        tau_syn_I * dalpha_inh/dt = gmax_inh * g_inh - alpha_inh  : exponential</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;v &gt; v_spike&quot;</span><span class="p">,</span>
+    <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        v = v_reset</span>
+<span class="s2">        w += b</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">refractory</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="p">)</span>
 </code></pre></div>
 
 

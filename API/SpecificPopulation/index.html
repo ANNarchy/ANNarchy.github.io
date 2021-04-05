@@ -733,6 +733,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.SpecificPopulation.HomogeneousCorrelatedSpikeTrains.__setattr__" class="md-nav__link">
+    __setattr__()
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1320,6 +1327,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.SpecificPopulation.HomogeneousCorrelatedSpikeTrains.__setattr__" class="md-nav__link">
+    __setattr__()
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1452,39 +1466,42 @@ definition of standard networks.</p>
 <p><strong>Case 1:</strong> Input population</p>
 <p>Each neuron of the population will randomly emit spikes, with a mean firing rate defined by the <em>rates</em> argument.</p>
 <p>The mean firing rate in Hz can be a fixed value for all neurons:</p>
-<div class="highlight"><pre><span></span><code>pop = PoissonPopulation(geometry=100, rates=100.0)
+<div class="highlight"><pre><span></span><code><span class="n">pop</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">100.0</span><span class="p">)</span>
 </code></pre></div>
 <p>but it can be modified later as a normal parameter:</p>
-<div class="highlight"><pre><span></span><code>pop.rates = np.linspace(10, 150, 100)
+<div class="highlight"><pre><span></span><code><span class="n">pop</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 </code></pre></div>
 <p>It is also possible to define a temporal equation for the rates, by passing a string to the argument:</p>
-<div class="highlight"><pre><span></span><code>pop = PoissonPopulation(geometry=100, rates=&quot;100.0 * (1.0 + sin(2*pi*t/1000.0) )/2.0&quot;)
+<div class="highlight"><pre><span></span><code><span class="n">pop</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> 
+    <span class="n">rates</span><span class="o">=</span><span class="s2">&quot;100.0 * (1.0 + sin(2*pi*t/1000.0) )/2.0&quot;</span>
+<span class="p">)</span>
 </code></pre></div>
 <p>The syntax of this equation follows the same structure as neural variables.</p>
 <p>It is also possible to add parameters to the population which can be used in the equation of <code>rates</code>:</p>
-<div class="highlight"><pre><span></span><code>pop = PoissonPopulation(
-    geometry=100,
-    parameters = &#39;&#39;&#39;
-        amp = 100.0
-        frequency = 1.0
-    &#39;&#39;&#39;,
-    rates=&quot;amp * (1.0 + sin(2*pi*frequency*t/1000.0) )/2.0&quot;
-)
+<div class="highlight"><pre><span></span><code><span class="n">pop</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        amp = 100.0</span>
+<span class="s1">        frequency = 1.0</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">rates</span><span class="o">=</span><span class="s2">&quot;amp * (1.0 + sin(2*pi*frequency*t/1000.0) )/2.0&quot;</span>
+<span class="p">)</span>
 </code></pre></div>
 <p><strong>Note:</strong> The preceding definition is fully equivalent to the definition of this neuron:</p>
-<div class="highlight"><pre><span></span><code>poisson = Neuron(
-    parameters = &#39;&#39;&#39;
-        amp = 100.0
-        frequency = 1.0
-    &#39;&#39;&#39;,
-    equations = &#39;&#39;&#39;
-        rates = amp * (1.0 + sin(2*pi*frequency*t/1000.0) )/2.0
-        p = Uniform(0.0, 1.0) * 1000.0 / dt
-    &#39;&#39;&#39;,
-    spike = &#39;&#39;&#39;
-        p &lt; rates
-    &#39;&#39;&#39;
-)
+<div class="highlight"><pre><span></span><code><span class="n">poisson</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        amp = 100.0</span>
+<span class="s1">        frequency = 1.0</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        rates = amp * (1.0 + sin(2*pi*frequency*t/1000.0) )/2.0</span>
+<span class="s1">        p = Uniform(0.0, 1.0) * 1000.0 / dt</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        p &lt; rates</span>
+<span class="s1">    &#39;&#39;&#39;</span>
+<span class="p">)</span>
 </code></pre></div>
 <p>The refractory period can also be set, so that a neuron can not emit two spikes too close from each other.</p>
 <p><strong>Case 2:</strong> Hybrid population</p>
@@ -1700,23 +1717,23 @@ definition of standard networks.</p>
 <p>The spike times are by default relative to the start of a simulation (<code>ANNarchy.get_time()</code> is 0.0).
 If you call the <code>reset()</code> method of a <code>SpikeSourceArray</code>, this will set the spike times relative to the current time.
 You can then repeat a stimulation many times.</p>
-<div class="highlight"><pre><span></span><code># 2 neurons firing at 100Hz with a 1 ms delay
-times = [
-    [ 10, 20, 30, 40],
-    [ 11, 21, 31, 41]
-]
-inp = SpikeSourceArray(spike_times=times)
+<div class="highlight"><pre><span></span><code><span class="c1"># 2 neurons firing at 100Hz with a 1 ms delay</span>
+<span class="n">times</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
+    <span class="p">[</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">41</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">inp</span> <span class="o">=</span> <span class="n">SpikeSourceArray</span><span class="p">(</span><span class="n">spike_times</span><span class="o">=</span><span class="n">times</span><span class="p">)</span>
 
-compile()
+<span class="nb">compile</span><span class="p">()</span>
 
-# Spikes at 10/11, 20/21, etc
-simulate(50)
+<span class="c1"># Spikes at 10/11, 20/21, etc</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
 
-# Reset the internal time of the SpikeSourceArray
-inp.reset()
+<span class="c1"># Reset the internal time of the SpikeSourceArray</span>
+<span class="n">inp</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 
-# Spikes at 60/61, 70/71, etc
-simulate(50)
+<span class="c1"># Spikes at 60/61, 70/71, etc</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
 </code></pre></div>
 
 
@@ -1840,51 +1857,51 @@ simulate(50)
       <p>Data structure holding sequential inputs for a rate-coded network.</p>
 <p>The input values are stored in the (recordable) attribute <code>r</code>, without any further processing. 
 You will need to connect this population to another one using the <code>connect_one_to_one()</code> method.</p>
-<p>By default, the firing rate of this population will iterate over the different values step by step::</p>
-<div class="highlight"><pre><span></span><code>inputs = np.array(
-    [
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
-    ]
-)
+<p>By default, the firing rate of this population will iterate over the different values step by step:</p>
+<div class="highlight"><pre><span></span><code><span class="n">inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 
-inp = TimedArray(rates=inputs)
+<span class="n">inp</span> <span class="o">=</span> <span class="n">TimedArray</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="n">inputs</span><span class="p">)</span>
 
-pop = Population(10, ...)
+<span class="n">pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
 
-proj = Projection(inp, pop, &#39;exc&#39;)
-proj.connect_one_to_one(1.0)
+<span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_one_to_one</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
 
-compile()
+<span class="nb">compile</span><span class="p">()</span>
 
-simulate(10.)
+<span class="n">simulate</span><span class="p">(</span><span class="mf">10.</span><span class="p">)</span>
 </code></pre></div>
 <p>This creates a population of 10 neurons whose activity will change during the first 10*dt milliseconds of the simulation. After that delay, the last input will be kept (i.e. 1 for the last neuron).</p>
 <p>If you want the TimedArray to "loop" over the different input vectors, you can specify a period for the inputs:</p>
-<div class="highlight"><pre><span></span><code>inp = TimedArray(rates=inputs, period=10.)
+<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">TimedArray</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
 </code></pre></div>
 <p>If the period is smaller than the length of the rates, the last inputs will not be set.</p>
 <p>If you do not want the inputs to be set at every step, but every 10 ms for example, youcan use the <code>schedule</code> argument:</p>
-<div class="highlight"><pre><span></span><code>inp = TimedArray(rates=inputs, schedule=10.)
+<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">TimedArray</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">schedule</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
 </code></pre></div>
 <p>The input [1, 0, 0,...] will stay for 10 ms, then[0, 1, 0, ...] for the next 10 ms, etc...</p>
 <p>If you need a less regular schedule, you can specify it as a list of times:</p>
-<div class="highlight"><pre><span></span><code>inp = TimedArray(rates=inputs, schedule=[10., 20., 50., 60., 100., 110.])
+<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">TimedArray</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">schedule</span><span class="o">=</span><span class="p">[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">50.</span><span class="p">,</span> <span class="mf">60.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">,</span> <span class="mf">110.</span><span class="p">])</span>
 </code></pre></div>
 <p>The first input is set at t = 10 ms (r = 0.0 in the first 10 ms), the second at t = 20 ms, the third at t = 50 ms, etc.</p>
 <p>If you specify less times than in the array of rates, the last ones will be ignored.</p>
 <p>Scheduling can be combined with periodic cycling. Note that you can use the <code>reset()</code> method to manually reinitialize the TimedArray, times becoming relative to that call:</p>
-<div class="highlight"><pre><span></span><code>simulate(100.) # ten inputs are shown with a schedule of 10 ms
-inp.reset()
-simulate(100.) # the same ten inputs are presented again.
+<div class="highlight"><pre><span></span><code><span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span> <span class="c1"># ten inputs are shown with a schedule of 10 ms</span>
+<span class="n">inp</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span> <span class="c1"># the same ten inputs are presented again.</span>
 </code></pre></div>
 
 
@@ -2017,31 +2034,31 @@ simulate(100.) # the same ten inputs are presented again.
 
       <p>Population of spiking neurons following a homogeneous distribution with correlated spike trains.</p>
 <p>The method describing the generation of homogeneous correlated spike trains is described in:</p>
+<blockquote>
 <p>Brette, R. (2009). Generation of correlated spike trains. <a href="http://audition.ens.fr/brette/papers/Brette2008NC.html">http://audition.ens.fr/brette/papers/Brette2008NC.html</a></p>
+</blockquote>
 <p>The implementation is based on the one provided by Brian <a href="http://briansimulator.org">http://briansimulator.org</a>.</p>
 <p>To generate correlated spike trains, the population rate of the group of Poisson-like spiking neurons varies following a stochastic differential equation:</p>
-<p>.. math::</p>
-<div class="highlight"><pre><span></span><code>dx/dt = (mu - x)/tau + sigma * Xi / sqrt(tau)
-</code></pre></div>
-<p>where Xi is a random variable. Basically, x will randomly vary around mu over time, with an amplitude determined by sigma and a speed determined by tau.</p>
+<div class="arithmatex">\[\frac{dx}{dt} = \frac{(\mu - x)}{\tau} + \sigma \, \frac{\xi}{\sqrt{\tau}}\]</div>
+<p>where <span class="arithmatex">\(\xi\)</span> is a random variable. Basically, x will randomly vary around mu over time, with an amplitude determined by sigma and a speed determined by tau.</p>
 <p>This doubly stochastic process is called a Cox process or Ornstein-Uhlenbeck process.</p>
 <p>To avoid that x becomes negative, the values of mu and sigma are computed from a rectified Gaussian distribution, parameterized by the desired population rate <strong>rates</strong>, the desired correlation strength <strong>corr</strong> and the time constant <strong>tau</strong>. See Brette's paper for details.</p>
 <p>In short, you should only define the parameters <code>rates</code>, <code>corr</code> and <code>tau</code>, and let the class compute mu and sigma for you. Changing <code>rates</code>, <code>corr</code> or <code>tau</code> after initialization automatically recomputes mu and sigma.</p>
 <p>Example:</p>
-<div class="highlight"><pre><span></span><code>from ANNarchy import *
-setup(dt=0.1)
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">setup</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 
-pop_poisson = PoissonPopulation(200, rates=10.)
-pop_corr    = HomogeneousCorrelatedSpikeTrains(200, rates=10., corr=0.3, tau=10.)
+<span class="n">pop_poisson</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
+<span class="n">pop_corr</span>    <span class="o">=</span> <span class="n">HomogeneousCorrelatedSpikeTrains</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">corr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
 
-compile()
+<span class="nb">compile</span><span class="p">()</span>
 
-simulate(1000.)
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
 
-pop_poisson.rates=30.
-pop_corr.rates=30.
+<span class="n">pop_poisson</span><span class="o">.</span><span class="n">rates</span><span class="o">=</span><span class="mf">30.</span>
+<span class="n">pop_corr</span><span class="o">.</span><span class="n">rates</span><span class="o">=</span><span class="mf">30.</span>
 
-simulate(1000.)
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
 </code></pre></div>
 
 
@@ -2169,6 +2186,38 @@ simulate(1000.)
 
 
 
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="ANNarchy.core.SpecificPopulation.HomogeneousCorrelatedSpikeTrains.__setattr__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ANNarchy.core.SpecificPopulation.HomogeneousCorrelatedSpikeTrains.__setattr__" class="headerlink" title="Permanent link">#</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Method called when setting an attribute.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ANNarchy/core/SpecificPopulation.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="s2">&quot; Method called when setting an attribute.&quot;</span>
+    <span class="n">Population</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rates&#39;</span><span class="p">,</span> <span class="s1">&#39;corr&#39;</span><span class="p">,</span> <span class="s1">&#39;tau&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;initialized&#39;</span><span class="p">):</span>
+        <span class="c1"># Correction of mu and sigma everytime r, c or tau is changed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rectify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rates</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">corr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
 
 
 
@@ -2195,11 +2244,11 @@ simulate(1000.)
 
       <p>Poisson population whose rate vary with the provided schedule.</p>
 <p>Example:</p>
-<div class="highlight"><pre><span></span><code>inp = TimedPoissonPopulation(
-    geometry = 100,
-    rates = [10., 20., 100., 20., 5.],
-    schedule = [0., 100., 200., 500., 600.],
-)
+<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">TimedPoissonPopulation</span><span class="p">(</span>
+    <span class="n">geometry</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">],</span>
+    <span class="n">schedule</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">,</span> <span class="mf">200.</span><span class="p">,</span> <span class="mf">500.</span><span class="p">,</span> <span class="mf">600.</span><span class="p">],</span>
+<span class="p">)</span>
 </code></pre></div>
 <p>This creates a population of 100 Poisson neurons whose rate will be:</p>
 <ul>
@@ -2210,29 +2259,29 @@ simulate(1000.)
 <li>5 Hz until the end of the simulation.</li>
 </ul>
 <p>If you want the TimedPoissonPopulation to "loop" over the schedule, you can specify a period:</p>
-<div class="highlight"><pre><span></span><code>inp = TimedPoissonPopulation(
-    geometry = 100,
-    rates = [10., 20., 100., 20., 5.],
-    schedule = [0., 100., 200., 500., 600.],
-    period = 1000.,
-)
+<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">TimedPoissonPopulation</span><span class="p">(</span>
+    <span class="n">geometry</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">],</span>
+    <span class="n">schedule</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">,</span> <span class="mf">200.</span><span class="p">,</span> <span class="mf">500.</span><span class="p">,</span> <span class="mf">600.</span><span class="p">],</span>
+    <span class="n">period</span> <span class="o">=</span> <span class="mf">1000.</span><span class="p">,</span>
+<span class="p">)</span>
 </code></pre></div>
 <p>Here the rate will become 10Hz again every 1 second of simulation. If the period is smaller than the schedule, the remaining rates will not be set.</p>
 <p>Note that you can use the <code>reset()</code> method to manually reinitialize the schedule, times becoming relative to that call:</p>
-<div class="highlight"><pre><span></span><code>simulate(1200.) # Should switch to 100 Hz due to the period of 1000.
-inp.reset()
-simulate(1000.) # Starts at 10 Hz again.
+<div class="highlight"><pre><span></span><code><span class="n">simulate</span><span class="p">(</span><span class="mf">1200.</span><span class="p">)</span> <span class="c1"># Should switch to 100 Hz due to the period of 1000.</span>
+<span class="n">inp</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span> <span class="c1"># Starts at 10 Hz again.</span>
 </code></pre></div>
 <p>The rates were here global to the population. If you want each neuron to have a different rate, <code>rates</code> must have additional dimensions corresponding to the geometry of the population.</p>
-<div class="highlight"><pre><span></span><code>inp = TimedPoissonPopulation(
-    geometry = 100,
-    rates = [ 
-        [10. + 0.05*i for i in range(100)], 
-        [20. + 0.05*i for i in range(100)],
-    ],
-    schedule = [0., 100.],
-    period = 1000.,
-)
+<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">TimedPoissonPopulation</span><span class="p">(</span>
+    <span class="n">geometry</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">rates</span> <span class="o">=</span> <span class="p">[</span> 
+        <span class="p">[</span><span class="mf">10.</span> <span class="o">+</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)],</span> 
+        <span class="p">[</span><span class="mf">20.</span> <span class="o">+</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)],</span>
+    <span class="p">],</span>
+    <span class="n">schedule</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">],</span>
+    <span class="n">period</span> <span class="o">=</span> <span class="mf">1000.</span><span class="p">,</span>
+<span class="p">)</span>
 </code></pre></div>
 
 
@@ -2378,11 +2427,11 @@ simulate(1000.) # Starts at 10 Hz again.
       <p>Specific rate-coded Population allowing to represent images (png, jpg...) as the firing rate of a population (each neuron represents one pixel).</p>
 <p>This extension requires the Python Image Library (pip install Pillow).</p>
 <p>Usage:</p>
-<div class="highlight"><pre><span></span><code>from ANNarchy import *
-from ANNarchy.extensions.image import ImagePopulation
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">ANNarchy.extensions.image</span> <span class="kn">import</span> <span class="n">ImagePopulation</span>
 
-pop = ImagePopulation(geometry=(480, 640))
-pop.set_image(&#39;image.jpg&#39;)
+<span class="n">pop</span> <span class="o">=</span> <span class="n">ImagePopulation</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">))</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">set_image</span><span class="p">(</span><span class="s1">&#39;image.jpg&#39;</span><span class="p">)</span>
 </code></pre></div>
 <p>About the geometry:</p>
 <ul>
@@ -2552,18 +2601,18 @@ pop.set_image(&#39;image.jpg&#39;)
       <p>Specific rate-coded Population allowing to feed a webcam input into the firing rate of a population (each neuron represents one pixel).</p>
 <p>This extension requires the C++ library OpenCV &gt;= 4.0 (apt-get/yum install opencv). <code>pkg-config opencv4 --cflags --libs</code> should not return an error. <code>vtk</code> might additionally have to be installed.</p>
 <p>Usage:</p>
-<div class="highlight"><pre><span></span><code>from ANNarchy import *
-from ANNarchy.extensions.image import VideoPopulation
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">ANNarchy.extensions.image</span> <span class="kn">import</span> <span class="n">VideoPopulation</span>
 
-pop = VideoPopulation(geometry=(480, 640))
+<span class="n">pop</span> <span class="o">=</span> <span class="n">VideoPopulation</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">))</span>
 
-compile()
+<span class="nb">compile</span><span class="p">()</span>
 
-pop.start_camera(0)
+<span class="n">pop</span><span class="o">.</span><span class="n">start_camera</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-while(True):
-  pop.grab_image()
-  simulate(10.0)
+<span class="k">while</span><span class="p">(</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">grab_image</span><span class="p">()</span>
+    <span class="n">simulate</span><span class="p">(</span><span class="mf">10.0</span><span class="p">)</span>
 </code></pre></div>
 <p>About the geometry:</p>
 <ul>

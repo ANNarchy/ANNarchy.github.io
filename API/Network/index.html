@@ -739,13 +739,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ANNarchy.core.Network.Network.__del__" class="md-nav__link">
-    __del__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ANNarchy.core.Network.Network.__init__" class="md-nav__link">
     __init__()
   </a>
@@ -1260,13 +1253,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ANNarchy.core.Network.Network.__del__" class="md-nav__link">
-    __del__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ANNarchy.core.Network.Network.__init__" class="md-nav__link">
     __init__()
   </a>
@@ -1469,47 +1455,47 @@ The objects must be accessed through the <code>get()</code> method, as the origi
 <p>Each network must be individually compiled, but it does not matter if the original objects were already compiled.</p>
 <p>When passing <code>everything=True</code> to the constructor, all populations/projections/monitors already defined at the global level will be added to the network.</p>
 <p>If not, you can select which object will be added to network with the <code>add()</code> method.</p>
-<p>Example with <code>everything=True</code>::</p>
-<div class="highlight"><pre><span></span><code>pop = Population(100, Izhikevich)
-proj = Projection(pop, pop, &#39;exc&#39;)
-proj.connect_all_to_all(1.0)
-m = Monitor(pop, &#39;spike&#39;)
+<p>Example with <code>everything=True</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">Izhikevich</span><span class="p">)</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
 
-compile() # Optional
+<span class="nb">compile</span><span class="p">()</span> <span class="c1"># Optional</span>
 
-net = Network(everything=True)
-net.get(pop).a = 0.02
-net.compile()
-net.simulate(1000.)
+<span class="n">net</span> <span class="o">=</span> <span class="n">Network</span><span class="p">(</span><span class="n">everything</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">net</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mf">0.02</span>
+<span class="n">net</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="n">net</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
 
-net2 = Network(everything=True)
-net2.get(pop).a = 0.05
-net2.compile()
-net2.simulate(1000.)
+<span class="n">net2</span> <span class="o">=</span> <span class="n">Network</span><span class="p">(</span><span class="n">everything</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">net2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">net2</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="n">net2</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
 
-t, n = net.get(m).raster_plot()
-t2, n2 = net2.get(m).raster_plot()
+<span class="n">t</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">()</span>
+<span class="n">t2</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">net2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">()</span>
 </code></pre></div>
-<p>Example with <code>everything=False</code> (the default)::</p>
-<div class="highlight"><pre><span></span><code>pop = Population(100, Izhikevich)
-proj1 = Projection(pop, pop, &#39;exc&#39;)
-proj1.connect_all_to_all(1.0)
-proj2 = Projection(pop, pop, &#39;exc&#39;)
-proj2.connect_all_to_all(2.0)
-m = Monitor(pop, &#39;spike&#39;)
+<p>Example with <code>everything=False</code> (the default):</p>
+<div class="highlight"><pre><span></span><code><span class="n">pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">Izhikevich</span><span class="p">)</span>
+<span class="n">proj1</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
+<span class="n">proj1</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">proj2</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
+<span class="n">proj2</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
 
-net = Network()
-net.add([pop, proj1, m])
-net.compile()
-net.simulate(1000.)
+<span class="n">net</span> <span class="o">=</span> <span class="n">Network</span><span class="p">()</span>
+<span class="n">net</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="n">pop</span><span class="p">,</span> <span class="n">proj1</span><span class="p">,</span> <span class="n">m</span><span class="p">])</span>
+<span class="n">net</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="n">net</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
 
-net2 = Network()
-net2.add([pop, proj2, m])
-net2.compile()
-net2.simulate(1000.)
+<span class="n">net2</span> <span class="o">=</span> <span class="n">Network</span><span class="p">()</span>
+<span class="n">net2</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="n">pop</span><span class="p">,</span> <span class="n">proj2</span><span class="p">,</span> <span class="n">m</span><span class="p">])</span>
+<span class="n">net2</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="n">net2</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
 
-t, n = net.get(m).raster_plot()
-t2, n2 = net2.get(m).raster_plot()
+<span class="n">t</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">()</span>
+<span class="n">t2</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">net2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">()</span>
 </code></pre></div>
 
 
@@ -1523,63 +1509,6 @@ t2, n2 = net2.get(m).raster_plot()
 
 
 
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Network.Network.__del__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Network.Network.__del__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Overridden destructor for two reasons:</p>
-<p>a) track destruction of objects
-b) manually deallocate C++ container data</p>
-<p>Hint: this function can be called explicitly (which is not recommended in many cases) or as
-      finalizer from the garbage collection. If called explicitely, one should take in mind,
-      that the function will be called twice. The better approach is to trigger this function
-      by del on the network object.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Network.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overridden destructor for two reasons:</span>
-
-<span class="sd">    a) track destruction of objects</span>
-<span class="sd">    b) manually deallocate C++ container data</span>
-
-<span class="sd">    Hint: this function can be called explicitly (which is not recommended in many cases) or as</span>
-<span class="sd">          finalizer from the garbage collection. If called explicitely, one should take in mind,</span>
-<span class="sd">          that the function will be called twice. The better approach is to trigger this function</span>
-<span class="sd">          by del on the network object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">pop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_populations</span><span class="p">():</span>
-        <span class="n">pop</span><span class="o">.</span><span class="n">_clear</span><span class="p">()</span>
-        <span class="k">del</span> <span class="n">pop</span>
-
-    <span class="k">for</span> <span class="n">proj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_projections</span><span class="p">(</span><span class="n">suppress_error</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="n">proj</span><span class="o">.</span><span class="n">_clear</span><span class="p">()</span>
-        <span class="k">del</span> <span class="n">proj</span>
-
-    <span class="k">for</span> <span class="n">mon</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">monitors</span><span class="p">:</span>
-        <span class="n">mon</span><span class="o">.</span><span class="n">_clear</span><span class="p">()</span>
-        <span class="k">del</span> <span class="n">mon</span>
-
-    <span class="n">Global</span><span class="o">.</span><span class="n">_network</span><span class="o">.</span><span class="n">_remove_network</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
 
 
 
@@ -1920,12 +1849,12 @@ b) manually deallocate C++ container data</p>
 
       <p>Returns the local Population, Projection or Monitor identical to the provided argument.</p>
 <p>Example:</p>
-<div class="highlight"><pre><span></span><code>pop = Population(100, Izhikevich)
-net = Network()
-net.add(pop)
-net.compile()
-net.simulate(100.)
-print net.get(pop).v
+<div class="highlight"><pre><span></span><code><span class="n">pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">Izhikevich</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">Network</span><span class="p">()</span>
+<span class="n">net</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span>
+<span class="n">net</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="n">net</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">net</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span><span class="o">.</span><span class="n">v</span>
 </code></pre></div>
 
 <p><strong>Parameters:</strong></p>
@@ -1970,12 +1899,14 @@ print net.get(pop).v
 
 <span class="sd">    Example:</span>
 
-<span class="sd">        pop = Population(100, Izhikevich)</span>
-<span class="sd">        net = Network()</span>
-<span class="sd">        net.add(pop)</span>
-<span class="sd">        net.compile()</span>
-<span class="sd">        net.simulate(100.)</span>
-<span class="sd">        print net.get(pop).v</span>
+<span class="sd">    ```python</span>
+<span class="sd">    pop = Population(100, Izhikevich)</span>
+<span class="sd">    net = Network()</span>
+<span class="sd">    net.add(pop)</span>
+<span class="sd">    net.compile()</span>
+<span class="sd">    net.simulate(100.)</span>
+<span class="sd">    print net.get(pop).v</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    :param obj: A single object or a list of objects.</span>
 <span class="sd">    :return: The corresponding object or list of objects.</span>
@@ -2540,9 +2471,7 @@ the method returns all connections within the network.</p>
     <div class="doc doc-contents ">
 
       <p>Sets the current simulation step.</p>
-<p>.. warning::</p>
-<div class="highlight"><pre><span></span><code>Can be dangerous for some spiking models.
-</code></pre></div>
+<p><strong>Warning:</strong> can be dangerous for some spiking models.</p>
 
         <details class="quote">
           <summary>Source code in <code>ANNarchy/core/Network.py</code></summary>
@@ -2550,9 +2479,7 @@ the method returns all connections within the network.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sets the current simulation step.</span>
 
-<span class="sd">    .. warning::</span>
-
-<span class="sd">        Can be dangerous for some spiking models.</span>
+<span class="sd">    **Warning:** can be dangerous for some spiking models.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Global</span><span class="o">.</span><span class="n">set_current_step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </code></pre></div>
@@ -2605,9 +2532,7 @@ the method returns all connections within the network.</p>
     <div class="doc doc-contents ">
 
       <p>Sets the current time in ms.</p>
-<p>.. warning::</p>
-<div class="highlight"><pre><span></span><code>Can be dangerous for some spiking models.
-</code></pre></div>
+<p><strong>Warning:</strong> can be dangerous for some spiking models.</p>
 
         <details class="quote">
           <summary>Source code in <code>ANNarchy/core/Network.py</code></summary>
@@ -2615,9 +2540,7 @@ the method returns all connections within the network.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sets the current time in ms.</span>
 
-<span class="sd">    .. warning::</span>
-
-<span class="sd">        Can be dangerous for some spiking models.</span>
+<span class="sd">    **Warning:** can be dangerous for some spiking models.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Global</span><span class="o">.</span><span class="n">set_time</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </code></pre></div>
@@ -2640,8 +2563,9 @@ the method returns all connections within the network.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Runs the network for the given duration in milliseconds. The number of simulation steps is  computed relative to the discretization step <code>dt</code> declared in <code>setup()</code> (default: 1ms)::</p>
-<div class="highlight"><pre><span></span><code>simulate(1000.0)
+      <p>Runs the network for the given duration in milliseconds. </p>
+<p>The number of simulation steps is  computed relative to the discretization step <code>dt</code> declared in <code>setup()</code> (default: 1ms):</p>
+<div class="highlight"><pre><span></span><code><span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
 </code></pre></div>
 
 <p><strong>Parameters:</strong></p>
@@ -2673,9 +2597,13 @@ the method returns all connections within the network.</p>
           <summary>Source code in <code>ANNarchy/core/Network.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">measure_time</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Runs the network for the given duration in milliseconds. The number of simulation steps is  computed relative to the discretization step ``dt`` declared in ``setup()`` (default: 1ms)::</span>
+<span class="sd">    Runs the network for the given duration in milliseconds. </span>
 
-<span class="sd">        simulate(1000.0)</span>
+<span class="sd">    The number of simulation steps is  computed relative to the discretization step ``dt`` declared in ``setup()`` (default: 1ms):</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    simulate(1000.0)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    :param duration: the duration in milliseconds.</span>
 <span class="sd">    :param measure_time: defines whether the simulation time should be printed (default=False).</span>
@@ -2704,10 +2632,10 @@ the method returns all connections within the network.</p>
 
       <p>Runs the network for the maximal duration in milliseconds. If the <code>stop_condition</code> defined in the population becomes true during the simulation, it is stopped.</p>
 <p>One can specify several populations. If the stop condition is true for any of the populations, the simulation will stop ('or' function).</p>
-<p>Example::</p>
-<div class="highlight"><pre><span></span><code>pop1 = Population( ..., stop_condition = &quot;r &gt; 1.0 : any&quot;)
-compile()
-simulate_until(max_duration=1000.0. population=pop1)
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">pop1</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span> <span class="o">...</span><span class="p">,</span> <span class="n">stop_condition</span> <span class="o">=</span> <span class="s2">&quot;r &gt; 1.0 : any&quot;</span><span class="p">)</span>
+<span class="nb">compile</span><span class="p">()</span>
+<span class="n">simulate_until</span><span class="p">(</span><span class="n">max_duration</span><span class="o">=</span><span class="mf">1000.0</span><span class="o">.</span> <span class="n">population</span><span class="o">=</span><span class="n">pop1</span><span class="p">)</span>
 </code></pre></div>
 
 <p><strong>Parameters:</strong></p>
@@ -2770,11 +2698,13 @@ simulate_until(max_duration=1000.0. population=pop1)
 
 <span class="sd">    One can specify several populations. If the stop condition is true for any of the populations, the simulation will stop (&#39;or&#39; function).</span>
 
-<span class="sd">    Example::</span>
+<span class="sd">    Example:</span>
 
-<span class="sd">        pop1 = Population( ..., stop_condition = &quot;r &gt; 1.0 : any&quot;)</span>
-<span class="sd">        compile()</span>
-<span class="sd">        simulate_until(max_duration=1000.0. population=pop1)</span>
+<span class="sd">    ```python</span>
+<span class="sd">    pop1 = Population( ..., stop_condition = &quot;r &gt; 1.0 : any&quot;)</span>
+<span class="sd">    compile()</span>
+<span class="sd">    simulate_until(max_duration=1000.0. population=pop1)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    :param max_duration: the maximum duration of the simulation in milliseconds.</span>
 <span class="sd">    :param population: the (list of) population whose ``stop_condition`` should be checked to stop the simulation.</span>
@@ -2847,24 +2777,24 @@ simulate_until(max_duration=1000.0. population=pop1)
 <p>If <code>number</code> is given instead, the same number of networks will be created and the method is applied.</p>
 <p>If <code>number</code> is used, the created networks are not returned, you should return what you need to analyse.</p>
 <p>Example:</p>
-<div class="highlight"><pre><span></span><code>pop1 = PoissonPopulation(100, rates=10.0)
-pop2 = Population(100, Izhikevich)
-proj = Projection(pop1, pop2, &#39;exc&#39;)
-proj.connect_fixed_probability(weights=5.0, probability=0.2)
-m = Monitor(pop2, &#39;spike&#39;)
+<div class="highlight"><pre><span></span><code><span class="n">pop1</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="n">pop2</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">Izhikevich</span><span class="p">)</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_fixed_probability</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop2</span><span class="p">,</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
 
-compile()
+<span class="nb">compile</span><span class="p">()</span>
 
-def simulation(idx, net):
-    net.get(pop1).rates = 10. * idx
-    net.simulate(1000.)
-    return net.get(m).raster_plot()
+<span class="k">def</span> <span class="nf">simulation</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">net</span><span class="p">):</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pop1</span><span class="p">)</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="mf">10.</span> <span class="o">*</span> <span class="n">idx</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">net</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">()</span>
 
-results = parallel_run(method=simulation, number = 3)
+<span class="n">results</span> <span class="o">=</span> <span class="n">parallel_run</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">simulation</span><span class="p">,</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
 
-t1, n1 = results[0]
-t2, n2 = results[1]
-t3, n3 = results[2]
+<span class="n">t1</span><span class="p">,</span> <span class="n">n1</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">t2</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">t3</span><span class="p">,</span> <span class="n">n3</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 </code></pre></div>
 
 <p><strong>Parameters:</strong></p>
@@ -2957,24 +2887,26 @@ t3, n3 = results[2]
 
 <span class="sd">    Example:</span>
 
-<span class="sd">        pop1 = PoissonPopulation(100, rates=10.0)</span>
-<span class="sd">        pop2 = Population(100, Izhikevich)</span>
-<span class="sd">        proj = Projection(pop1, pop2, &#39;exc&#39;)</span>
-<span class="sd">        proj.connect_fixed_probability(weights=5.0, probability=0.2)</span>
-<span class="sd">        m = Monitor(pop2, &#39;spike&#39;)</span>
+<span class="sd">    ```python</span>
+<span class="sd">    pop1 = PoissonPopulation(100, rates=10.0)</span>
+<span class="sd">    pop2 = Population(100, Izhikevich)</span>
+<span class="sd">    proj = Projection(pop1, pop2, &#39;exc&#39;)</span>
+<span class="sd">    proj.connect_fixed_probability(weights=5.0, probability=0.2)</span>
+<span class="sd">    m = Monitor(pop2, &#39;spike&#39;)</span>
 
-<span class="sd">        compile()</span>
+<span class="sd">    compile()</span>
 
-<span class="sd">        def simulation(idx, net):</span>
-<span class="sd">            net.get(pop1).rates = 10. * idx</span>
-<span class="sd">            net.simulate(1000.)</span>
-<span class="sd">            return net.get(m).raster_plot()</span>
+<span class="sd">    def simulation(idx, net):</span>
+<span class="sd">        net.get(pop1).rates = 10. * idx</span>
+<span class="sd">        net.simulate(1000.)</span>
+<span class="sd">        return net.get(m).raster_plot()</span>
 
-<span class="sd">        results = parallel_run(method=simulation, number = 3)</span>
+<span class="sd">    results = parallel_run(method=simulation, number = 3)</span>
 
-<span class="sd">        t1, n1 = results[0]</span>
-<span class="sd">        t2, n2 = results[1]</span>
-<span class="sd">        t3, n3 = results[2]</span>
+<span class="sd">    t1, n1 = results[0]</span>
+<span class="sd">    t2, n2 = results[1]</span>
+<span class="sd">    t3, n3 = results[2]</span>
+<span class="sd">    ```</span>
 
 
 <span class="sd">    :param method: a Python method which will be executed for each network. This function must accept an integer as first argument (id of the simulation) and a Network object as second argument.</span>

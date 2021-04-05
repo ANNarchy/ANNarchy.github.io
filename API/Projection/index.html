@@ -700,43 +700,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ANNarchy.core.Projection.Projection.__getattr__" class="md-nav__link">
-    __getattr__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Projection.Projection.__getitem__" class="md-nav__link">
-    __getitem__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ANNarchy.core.Projection.Projection.__init__" class="md-nav__link">
     __init__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Projection.Projection.__iter__" class="md-nav__link">
-    __iter__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Projection.Projection.__len__" class="md-nav__link">
-    __len__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Projection.Projection.__setattr__" class="md-nav__link">
-    __setattr__()
   </a>
   
 </li>
@@ -1386,43 +1351,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ANNarchy.core.Projection.Projection.__getattr__" class="md-nav__link">
-    __getattr__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Projection.Projection.__getitem__" class="md-nav__link">
-    __getitem__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ANNarchy.core.Projection.Projection.__init__" class="md-nav__link">
     __init__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Projection.Projection.__iter__" class="md-nav__link">
-    __iter__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Projection.Projection.__len__" class="md-nav__link">
-    __len__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.Projection.Projection.__setattr__" class="md-nav__link">
-    __setattr__()
   </a>
   
 </li>
@@ -1758,87 +1688,6 @@ the same.</p>
 
 
 
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Projection.Projection.__getattr__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Projection.Projection.__getattr__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Method called when accessing an attribute.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Projection.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-    <span class="s2">&quot; Method called when accessing an attribute.&quot;</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;initialized&#39;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;initialized&#39;</span><span class="p">):</span> <span class="c1"># Before the end of the constructor</span>
-        <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;attributes&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;plasticity&#39;</span><span class="p">,</span> <span class="s1">&#39;transmission&#39;</span><span class="p">,</span> <span class="s1">&#39;update&#39;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_flag</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;delay&#39;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_delay</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cython_attribute</span><span class="p">(</span> <span class="n">name</span> <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_function</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Projection.Projection.__getitem__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Projection.Projection.__getitem__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Returns dendrite of the given position in the postsynaptic population.</p>
-<p>If only one argument is given, it is a rank. If it is a tuple, it is coordinates.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Projection.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns dendrite of the given position in the postsynaptic population.</span>
-
-<span class="sd">    If only one argument is given, it is a rank. If it is a tuple, it is coordinates.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dendrite</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dendrite</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
 
 
   <div class="doc doc-object doc-method">
@@ -2068,111 +1917,6 @@ the same.</p>
 
 
 
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Projection.Projection.__iter__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Projection.Projection.__iter__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Returns iteratively each dendrite in the population in ascending postsynaptic rank order.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Projection.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="s2">&quot; Returns iteratively each dendrite in the population in ascending postsynaptic rank order.&quot;</span>
-    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post_ranks</span><span class="p">):</span>
-        <span class="k">yield</span> <span class="n">Dendrite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Projection.Projection.__len__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Projection.Projection.__len__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Number of postsynaptic neurons receiving synapses in this projection.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Projection.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="s2">&quot; Number of postsynaptic neurons receiving synapses in this projection.&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.Projection.Projection.__setattr__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.Projection.Projection.__setattr__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Method called when setting an attribute.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/Projection.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-    <span class="s2">&quot; Method called when setting an attribute.&quot;</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;initialized&#39;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;initialized&#39;</span><span class="p">):</span> <span class="c1"># Before the end of the constructor</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;attributes&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;plasticity&#39;</span><span class="p">,</span> <span class="s1">&#39;transmission&#39;</span><span class="p">,</span> <span class="s1">&#39;update&#39;</span><span class="p">]:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_set_flag</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
-            <span class="k">return</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;delay&#39;</span><span class="p">]:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_set_delay</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="k">return</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_set_cython_attribute</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
 
 
 
@@ -3385,6 +3129,11 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
     <div class="doc doc-contents ">
 
       <p>Enables learning for all the synapses of this projection.</p>
+<p>For example, providing the following parameters at time 10 ms:</p>
+<div class="highlight"><pre><span></span><code><span class="n">enable_learning</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">5.</span><span class="p">)</span>
+</code></pre></div>
+<p>would call the updating methods at times 15, 25, 35, etc...</p>
+<p>The default behaviour is that the synaptic variables are updated at each time step. The parameters must be multiple of <code>dt</code>.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3406,7 +3155,7 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
       <tr>
         <td><code>offset</code></td>
         <td><code></code></td>
-        <td><p>determines the offset at which the synaptic variables will be updated relative to the current time.  For example, providing the following parameters at time 10 ms::  enable_learning(period=10., offset=5.)  would call the updating methods at times 15, 25, 35, etc...  The default behaviour is that the synaptic variables are updated at each time step. The parameters must be multiple of <code>dt</code></p></td>
+        <td><p>determines the offset at which the synaptic variables will be updated relative to the current time.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -3417,16 +3166,19 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enables learning for all the synapses of this projection.</span>
 
-<span class="sd">    :param period: determines how often the synaptic variables will be updated.</span>
-<span class="sd">    :param offset: determines the offset at which the synaptic variables will be updated relative to the current time.</span>
+<span class="sd">    For example, providing the following parameters at time 10 ms:</span>
 
-<span class="sd">    For example, providing the following parameters at time 10 ms::</span>
-
-<span class="sd">        enable_learning(period=10., offset=5.)</span>
+<span class="sd">    ```python</span>
+<span class="sd">    enable_learning(period=10., offset=5.)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    would call the updating methods at times 15, 25, 35, etc...</span>
 
-<span class="sd">    The default behaviour is that the synaptic variables are updated at each time step. The parameters must be multiple of ``dt``</span>
+<span class="sd">    The default behaviour is that the synaptic variables are updated at each time step. The parameters must be multiple of ``dt``.</span>
+
+<span class="sd">    :param period: determines how often the synaptic variables will be updated.</span>
+<span class="sd">    :param offset: determines the offset at which the synaptic variables will be updated relative to the current time.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Check arguments</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">period</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">offset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -3526,6 +3278,11 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
 
       <p>Loads the saved state of the projection by <code>Projection.save()</code>.</p>
 <p>Warning: Matlab data can not be loaded.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;proj1.npz&#39;</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;proj1.txt&#39;</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;proj1.txt.gz&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3541,7 +3298,7 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
       <tr>
         <td><code>filename</code></td>
         <td><code></code></td>
-        <td><p>the file name with relative or absolute path.  Example::  proj.load('proj1.npz') proj.load('proj1.txt') proj.load('proj1.txt.gz')</p></td>
+        <td><p>the file name with relative or absolute path.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -3554,14 +3311,15 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
 
 <span class="sd">    Warning: Matlab data can not be loaded.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    proj.load(&#39;proj1.npz&#39;)</span>
+<span class="sd">    proj.load(&#39;proj1.txt&#39;)</span>
+<span class="sd">    proj.load(&#39;proj1.txt.gz&#39;)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param filename: the file name with relative or absolute path.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        proj.load(&#39;proj1.npz&#39;)</span>
-<span class="sd">        proj.load(&#39;proj1.txt&#39;)</span>
-<span class="sd">        proj.load(&#39;proj1.txt.gz&#39;)</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">ANNarchy.core.IO</span> <span class="kn">import</span> <span class="n">_load_connectivity_data</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_load_proj_data</span><span class="p">(</span><span class="n">_load_connectivity_data</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
@@ -3696,6 +3454,8 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
     <div class="doc doc-contents ">
 
       <p>Resets all parameters and variables of the projection to the value they had before the call to compile.</p>
+<p><strong>Note:</strong> Only parameters and variables are reinitialized, not the connectivity structure (including the weights and delays).
+The parameter <code>synapses</code> will be used in a future release to also reinitialize the connectivity structure.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3711,7 +3471,7 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
       <tr>
         <td><code>attributes</code></td>
         <td><code></code></td>
-        <td><p>list of attributes (parameter or variable) which should be reinitialized. Default: all attributes.  .. note::  Only parameters and variables are reinitialized, not the connectivity structure (including the weights and delays).  The parameter <code>synapses</code> will be used in a future release to also reinitialize the connectivity structure.</p></td>
+        <td><p>list of attributes (parameter or variable) which should be reinitialized. Default: all attributes.</p></td>
         <td><code>-1</code></td>
       </tr>
   </tbody>
@@ -3722,14 +3482,10 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Resets all parameters and variables of the projection to the value they had before the call to compile.</span>
 
+<span class="sd">    **Note:** Only parameters and variables are reinitialized, not the connectivity structure (including the weights and delays).</span>
+<span class="sd">    The parameter ``synapses`` will be used in a future release to also reinitialize the connectivity structure.</span>
+
 <span class="sd">    :param attributes: list of attributes (parameter or variable) which should be reinitialized. Default: all attributes.</span>
-
-<span class="sd">    .. note::</span>
-
-<span class="sd">        Only parameters and variables are reinitialized, not the connectivity structure (including the weights and delays).</span>
-
-<span class="sd">        The parameter ``synapses`` will be used in a future release to also reinitialize the connectivity structure.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">attributes</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
         <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span>
@@ -3799,7 +3555,7 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
       <tr>
         <td><code>filename</code></td>
         <td><code></code></td>
-        <td><p>file name, may contain relative or absolute path.  .. warning::  The '.mat' data will not be loadable by ANNarchy, it is only for external analysis purpose.  <em>Example</em>::  proj.save('proj1.npz') proj.save('proj1.txt') proj.save('proj1.txt.gz') proj.save('proj1.mat')</p></td>
+        <td><p>file name, may contain relative or absolute path.  <strong>Warning:</strong> the '.mat' data will not be loadable by ANNarchy, it is only for external analysis purpose.  Example:  <code>python proj.save('proj1.npz') proj.save('proj1.txt') proj.save('proj1.txt.gz') proj.save('proj1.mat')</code></p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -3820,17 +3576,16 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
 
 <span class="sd">    :param filename: file name, may contain relative or absolute path.</span>
 
-<span class="sd">    .. warning::</span>
+<span class="sd">    **Warning:** the &#39;.mat&#39; data will not be loadable by ANNarchy, it is only for external analysis purpose.</span>
 
-<span class="sd">        The &#39;.mat&#39; data will not be loadable by ANNarchy, it is only for external analysis purpose.</span>
+<span class="sd">    Example:</span>
 
-<span class="sd">    *Example*::</span>
-
-<span class="sd">        proj.save(&#39;proj1.npz&#39;)</span>
-<span class="sd">        proj.save(&#39;proj1.txt&#39;)</span>
-<span class="sd">        proj.save(&#39;proj1.txt.gz&#39;)</span>
-<span class="sd">        proj.save(&#39;proj1.mat&#39;)</span>
-
+<span class="sd">    ```python</span>
+<span class="sd">    proj.save(&#39;proj1.npz&#39;)</span>
+<span class="sd">    proj.save(&#39;proj1.txt&#39;)</span>
+<span class="sd">    proj.save(&#39;proj1.txt.gz&#39;)</span>
+<span class="sd">    proj.save(&#39;proj1.mat&#39;)</span>
+<span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">ANNarchy.core.IO</span> <span class="kn">import</span> <span class="n">_save_data</span>
     <span class="n">_save_data</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">())</span>
@@ -3856,8 +3611,8 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
 
       <p>Saves the connectivity of the projection into a file.</p>
 <p>Only the connectivity matrix, the weights and delays are saved, not the other synaptic variables.</p>
-<p>The generated data can be used to create a projection in another network::</p>
-<div class="highlight"><pre><span></span><code>proj.connect_from_file(filename)
+<p>The generated data can be used to create a projection in another network:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">connect_from_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </code></pre></div>
 <ul>
 <li>
@@ -3901,9 +3656,11 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
 
 <span class="sd">    Only the connectivity matrix, the weights and delays are saved, not the other synaptic variables.</span>
 
-<span class="sd">    The generated data can be used to create a projection in another network::</span>
+<span class="sd">    The generated data can be used to create a projection in another network:</span>
 
-<span class="sd">        proj.connect_from_file(filename)</span>
+<span class="sd">    ```python</span>
+<span class="sd">    proj.connect_from_file(filename)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    * If the file name is &#39;.npz&#39;, the data will be saved and compressed using `np.savez_compressed` (recommended).</span>
 
@@ -4032,9 +3789,9 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
 <p>a list or 1D numpy array of the same length as the number of actual dendrites (self.size). The synapses of each postsynaptic neuron will take the same value.</p>
 </li>
 </ul>
-<p><strong>Warning:</strong> it is not possible to set different values to each synapse using this method. One should iterate over the dendrites::</p>
-<div class="highlight"><pre><span></span><code>for dendrite in proj.dendrites:
-    dendrite.w = np.ones(dendrite.size)
+<p><strong>Warning:</strong> it is not possible to set different values to each synapse using this method. One should iterate over the dendrites:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">dendrite</span> <span class="ow">in</span> <span class="n">proj</span><span class="o">.</span><span class="n">dendrites</span><span class="p">:</span>
+    <span class="n">dendrite</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">dendrite</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 </code></pre></div>
 
 <p><strong>Parameters:</strong></p>
@@ -4074,10 +3831,12 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
 
 <span class="sd">    * a list or 1D numpy array of the same length as the number of actual dendrites (self.size). The synapses of each postsynaptic neuron will take the same value.</span>
 
-<span class="sd">    **Warning:** it is not possible to set different values to each synapse using this method. One should iterate over the dendrites::</span>
+<span class="sd">    **Warning:** it is not possible to set different values to each synapse using this method. One should iterate over the dendrites:</span>
 
-<span class="sd">        for dendrite in proj.dendrites:</span>
-<span class="sd">            dendrite.w = np.ones(dendrite.size)</span>
+<span class="sd">    ```python</span>
+<span class="sd">    for dendrite in proj.dendrites:</span>
+<span class="sd">        dendrite.w = np.ones(dendrite.size)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    :param value: a dictionary with the name of the parameter/variable as key.</span>
 

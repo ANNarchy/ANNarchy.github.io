@@ -1328,28 +1328,31 @@
 
       <p>Logger class to use tensorboard to visualize ANNarchy simulations. Requires the <code>tensorboardX</code> package (pip install tensorboardX). </p>
 <p>The Logger class is a thin wrapper around tensorboardX.SummaryWriter, which you could also use directly. The doc is available at <a href="https://tensorboardx.readthedocs.io/">https://tensorboardx.readthedocs.io/</a>. Tensorboard can read any logging data, as long as they are saved in the right format (tfevents), so it is not limited to tensorflow. TensorboardX has been developed to allow the use of tensorboard with pytorch.</p>
-<p>The extension has to be imported explictly::</p>
-<div class="highlight"><pre><span></span><code>from ANNarchy.extensions.tensorboard import Logger
+<p>The extension has to be imported explictly:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy.extensions.tensorboard</span> <span class="kn">import</span> <span class="n">Logger</span>
 </code></pre></div>
-<p>The <code>Logger</code> class has to be closed properly at the end of the script, so it is advised to use a context::</p>
-<div class="highlight"><pre><span></span><code>with Logger() as logger:
-    logger.add_scalar(&quot;Accuracy&quot;, acc, trial)
+<p>The <code>Logger</code> class has to be closed properly at the end of the script, so it is advised to use a context:</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">Logger</span><span class="p">()</span> <span class="k">as</span> <span class="n">logger</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">add_scalar</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> <span class="n">acc</span><span class="p">,</span> <span class="n">trial</span><span class="p">)</span>
 </code></pre></div>
-<p>You can also make sure to close it::</p>
-<div class="highlight"><pre><span></span><code>logger = Logger()
-logger.add_scalar(&quot;Accuracy&quot;, acc, trial)
-logger.close()
+<p>You can also make sure to close it:</p>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">add_scalar</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> <span class="n">acc</span><span class="p">,</span> <span class="n">trial</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div>
-<p>By default, the logs will be written in a subfolder of <code>./runs/</code> (which will be created in the current directory). The subfolder is a combination of the current datetime and of the hostname, e.g. <code>./runs/Apr22_12-11-22_machine</code>. You can control these two elements by passing arguments to <code>Logger()</code>::</p>
-<div class="highlight"><pre><span></span><code>with Logger(logdir=&quot;/tmp/annarchy&quot;, experiment=&quot;trial1&quot;): # logs in /tmp/annarchy/trial1
+<p>By default, the logs will be written in a subfolder of <code>./runs/</code> (which will be created in the current directory). 
+The subfolder is a combination of the current datetime and of the hostname, e.g. <code>./runs/Apr22_12-11-22_machine</code>. 
+You can control these two elements by passing arguments to <code>Logger()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">Logger</span><span class="p">(</span><span class="n">logdir</span><span class="o">=</span><span class="s2">&quot;/tmp/annarchy&quot;</span><span class="p">,</span> <span class="n">experiment</span><span class="o">=</span><span class="s2">&quot;trial1&quot;</span><span class="p">):</span> <span class="c1"># logs in /tmp/annarchy/trial1</span>
 </code></pre></div>
 <p>The <code>add_*</code> methods allow you to log various structures, such as scalars, images, histograms, figures, etc.</p>
-<p>A tag should be given to each plot. In the example above, the figure with the accuracy will be labelled "Accuracy" in tensorboard. You can also group plots together with tags such as "Global performance/Accuracy", "Global performance/Error rate", "Neural activity/Population 1", etc.</p>
-<p>After (or while) logging data within your simulation, run <code>tensorboard</code> in the terminal by specifying the log directory::</p>
-<div class="highlight"><pre><span></span><code>&gt; tensorboard --logdir runs
+<p>A tag should be given to each plot. In the example above, the figure with the accuracy will be labelled "Accuracy" in tensorboard. 
+You can also group plots together with tags such as "Global performance/Accuracy", "Global performance/Error rate", "Neural activity/Population 1", etc.</p>
+<p>After (or while) logging data within your simulation, run <code>tensorboard</code> in the terminal by specifying the log directory:</p>
+<div class="highlight"><pre><span></span><code>tensorboard --logdir runs
 </code></pre></div>
-<p>TensorboardX enqueues the data in memory before writing to disk. You can force flushing with::</p>
-<div class="highlight"><pre><span></span><code>logger.flush()
+<p>TensorboardX enqueues the data in memory before writing to disk. You can force flushing with:</p>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 </code></pre></div>
 
 
@@ -1454,6 +1457,14 @@ logger.close()
     <div class="doc doc-contents ">
 
       <p>Logs a Matplotlib figure.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">Logger</span><span class="p">()</span> <span class="k">as</span> <span class="n">logger</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">r</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">add_figure</span><span class="p">(</span><span class="s2">&quot;Activity&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">trial</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1487,7 +1498,7 @@ logger.close()
       <tr>
         <td><code>close</code></td>
         <td><code></code></td>
-        <td><p>whether the logger will close the figure when done (default: True).  Example::  with Logger() as logger: for trial in range(100): simulate(1000.0) fig = plt.figure() plt.plot(pop.r) logger.add_figure("Activity", fig, trial)</p></td>
+        <td><p>whether the logger will close the figure when done (default: True).</p></td>
         <td><code>True</code></td>
       </tr>
   </tbody>
@@ -1498,19 +1509,21 @@ logger.close()
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Logs a Matplotlib figure.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    with Logger() as logger:</span>
+<span class="sd">        for trial in range(100):</span>
+<span class="sd">            simulate(1000.0)</span>
+<span class="sd">            fig = plt.figure()</span>
+<span class="sd">            plt.plot(pop.r)</span>
+<span class="sd">            logger.add_figure(&quot;Activity&quot;, fig, trial)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param tag: name of the image in tensorboard.</span>
 <span class="sd">    :param figure: a list or 1D numpy array of values.</span>
 <span class="sd">    :param step: time index.</span>
 <span class="sd">    :param close: whether the logger will close the figure when done (default: True).</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        with Logger() as logger:</span>
-<span class="sd">            for trial in range(100):</span>
-<span class="sd">                simulate(1000.0)</span>
-<span class="sd">                fig = plt.figure()</span>
-<span class="sd">                plt.plot(pop.r)</span>
-<span class="sd">                logger.add_figure(&quot;Activity&quot;, fig, trial)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -1545,6 +1558,13 @@ logger.close()
     <div class="doc doc-contents ">
 
       <p>Logs an histogram.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">Logger</span><span class="p">()</span> <span class="k">as</span> <span class="n">logger</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+        <span class="n">weights</span><span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">add_histogram</span><span class="p">(</span><span class="s2">&quot;Weight distribution&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">trial</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1572,7 +1592,7 @@ logger.close()
       <tr>
         <td><code>step</code></td>
         <td><code></code></td>
-        <td><p>time index.  Example::  with Logger() as logger: for trial in range(100): simulate(1000.0) weights= proj.w.flatten() logger.add_histogram("Weight distribution", weights, trial)</p></td>
+        <td><p>time index.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -1583,17 +1603,20 @@ logger.close()
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Logs an histogram.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    with Logger() as logger:</span>
+<span class="sd">        for trial in range(100):</span>
+<span class="sd">            simulate(1000.0)</span>
+<span class="sd">            weights= proj.w.flatten()</span>
+<span class="sd">            logger.add_histogram(&quot;Weight distribution&quot;, weights, trial)</span>
+<span class="sd">    ```</span>
+
+
 <span class="sd">    :param tag: name of the figure in tensorboard.</span>
 <span class="sd">    :param hist: a list or 1D numpy array of values.</span>
 <span class="sd">    :param step: time index.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        with Logger() as logger:</span>
-<span class="sd">            for trial in range(100):</span>
-<span class="sd">                simulate(1000.0)</span>
-<span class="sd">                weights= proj.w.flatten()</span>
-<span class="sd">                logger.add_histogram(&quot;Weight distribution&quot;, weights, trial)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="o">.</span><span class="n">add_histogram</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">hist</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
@@ -1618,6 +1641,14 @@ logger.close()
     <div class="doc doc-contents ">
 
       <p>Logs an image.</p>
+<p>The image must be a numpy array of size (height, width) for monochrome images or (height, width, 3) for colored images. The values should either be integers between 0 and 255 or floats between 0 and 1. The parameter <code>equalize</code> forces the values to be between 0 and 1 by equalizing using the min/max values.</p>
+<p>Example::</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">Logger</span><span class="p">()</span> <span class="k">as</span> <span class="n">logger</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span><span class="s2">&quot;Population / Firing rate&quot;</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">equalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1651,7 +1682,7 @@ logger.close()
       <tr>
         <td><code>equalize</code></td>
         <td><code></code></td>
-        <td><p>rescales the pixels between 0 and 1 using the min and max values of the array.  The image must be a numpy array of size (height, width) for monochrome images or (height, width, 3) for colored images. The values should either be integers between 0 and 255 or floats between 0 and 1. The parameter <code>equalize</code> forces the values to be between 0 and 1 by equalizing using the min/max values.  Example::  with Logger() as logger: for trial in range(100): simulate(1000.0) img = pop.r.reshape((10, 10)) logger.add_image("Population / Firing rate", img, trial, equalize=True)</p></td>
+        <td><p>rescales the pixels between 0 and 1 using the min and max values of the array.</p></td>
         <td><code>False</code></td>
       </tr>
   </tbody>
@@ -1662,20 +1693,22 @@ logger.close()
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Logs an image.</span>
 
-<span class="sd">    :param tag: name of the figure in tensorboard.</span>
-<span class="sd">    :param img: array for the image.</span>
-<span class="sd">    :param step: time index.</span>
-<span class="sd">    :param equalize: rescales the pixels between 0 and 1 using the min and max values of the array.</span>
-
 <span class="sd">    The image must be a numpy array of size (height, width) for monochrome images or (height, width, 3) for colored images. The values should either be integers between 0 and 255 or floats between 0 and 1. The parameter ``equalize`` forces the values to be between 0 and 1 by equalizing using the min/max values.</span>
 
 <span class="sd">    Example::</span>
 
-<span class="sd">        with Logger() as logger:</span>
-<span class="sd">            for trial in range(100):</span>
-<span class="sd">                simulate(1000.0)</span>
-<span class="sd">                img = pop.r.reshape((10, 10))</span>
-<span class="sd">                logger.add_image(&quot;Population / Firing rate&quot;, img, trial, equalize=True)</span>
+<span class="sd">    ```python</span>
+<span class="sd">    with Logger() as logger:</span>
+<span class="sd">        for trial in range(100):</span>
+<span class="sd">            simulate(1000.0)</span>
+<span class="sd">            img = pop.r.reshape((10, 10))</span>
+<span class="sd">            logger.add_image(&quot;Population / Firing rate&quot;, img, trial, equalize=True)</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    :param tag: name of the figure in tensorboard.</span>
+<span class="sd">    :param img: array for the image.</span>
+<span class="sd">    :param step: time index.</span>
+<span class="sd">    :param equalize: rescales the pixels between 0 and 1 using the min and max values of the array.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span><span class="mi">2</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">equalize</span><span class="p">:</span>  
@@ -1717,6 +1750,14 @@ logger.close()
     <div class="doc doc-contents ">
 
       <p>Logs a set of images (e.g. receptive fields).</p>
+<p>The numpy array must be of size (number, height, width) for monochrome images or (number, height, width, 3) for colored images. The values should either be integers between 0 and 255 or floats between 0 and 1. The parameter <code>equalize</code> forces the values to be between 0 and 1 by equalizing using the min/max values.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">Logger</span><span class="p">()</span> <span class="k">as</span> <span class="n">logger</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+        <span class="n">weights</span><span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="c1"># 100 post neurons, 10*10 pre neurons</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">add_images</span><span class="p">(</span><span class="s2">&quot;Projection/Receptive fields&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">equalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1756,7 +1797,7 @@ logger.close()
       <tr>
         <td><code>equalize_per_image</code></td>
         <td><code></code></td>
-        <td><p>whether the rescaling should be using the global min/max values of the array, or per image. Has no effect if equalize of False.  The numpy array must be of size (number, height, width) for monochrome images or (number, height, width, 3) for colored images. The values should either be integers between 0 and 255 or floats between 0 and 1. The parameter <code>equalize</code> forces the values to be between 0 and 1 by equalizing using the min/max values.  Example::  with Logger() as logger: for trial in range(100): simulate(1000.0) weights= proj.w.reshape(100, 10, 10) # 100 post neurons, 10*10 pre neurons logger.add_images("Projection/Receptive fields", weights, trial, equalize=True)</p></td>
+        <td><p>whether the rescaling should be using the global min/max values of the array, or per image. Has no effect if equalize of False.</p></td>
         <td><code>False</code></td>
       </tr>
   </tbody>
@@ -1767,21 +1808,24 @@ logger.close()
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Logs a set of images (e.g. receptive fields).</span>
 
+<span class="sd">    The numpy array must be of size (number, height, width) for monochrome images or (number, height, width, 3) for colored images. The values should either be integers between 0 and 255 or floats between 0 and 1. The parameter ``equalize`` forces the values to be between 0 and 1 by equalizing using the min/max values.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    with Logger() as logger:</span>
+<span class="sd">        for trial in range(100):</span>
+<span class="sd">            simulate(1000.0)</span>
+<span class="sd">            weights= proj.w.reshape(100, 10, 10) # 100 post neurons, 10*10 pre neurons</span>
+<span class="sd">            logger.add_images(&quot;Projection/Receptive fields&quot;, weights, trial, equalize=True)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param tag: name of the figure in tensorboard.</span>
 <span class="sd">    :param img: array for the images.</span>
 <span class="sd">    :param step: time index.</span>
 <span class="sd">    :param equalize: rescales the pixels between 0 and 1 using the min and max values of the array.</span>
 <span class="sd">    :param equalize_per_image: whether the rescaling should be using the global min/max values of the array, or per image. Has no effect if equalize of False.</span>
 
-<span class="sd">    The numpy array must be of size (number, height, width) for monochrome images or (number, height, width, 3) for colored images. The values should either be integers between 0 and 255 or floats between 0 and 1. The parameter ``equalize`` forces the values to be between 0 and 1 by equalizing using the min/max values.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        with Logger() as logger:</span>
-<span class="sd">            for trial in range(100):</span>
-<span class="sd">                simulate(1000.0)</span>
-<span class="sd">                weights= proj.w.reshape(100, 10, 10) # 100 post neurons, 10*10 pre neurons</span>
-<span class="sd">                logger.add_images(&quot;Projection/Receptive fields&quot;, weights, trial, equalize=True)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
         <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
@@ -1816,6 +1860,15 @@ logger.close()
     <div class="doc doc-contents ">
 
       <p>Logs parameters of a simulation.</p>
+<p>This should be run only once per simulation, generally at the end. 
+This allows to compare different runs of the same network using 
+different parameter values and study how they influence the global output metrics, 
+such as accuracy, error rate, reaction speed, etc.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">Logger</span><span class="p">()</span> <span class="k">as</span> <span class="n">logger</span><span class="p">:</span>
+    <span class="c1"># ...</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">add_parameters</span><span class="p">({</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="n">lr</span><span class="p">,</span> <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="n">tau</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="p">:</span> <span class="n">accuracy</span><span class="p">})</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1837,7 +1890,7 @@ logger.close()
       <tr>
         <td><code>metrics</code></td>
         <td><code></code></td>
-        <td><p>dictionary of metrics.  This should be run only once per simulation, generally at the end. This allows to compare different runs of the same network using different parameter values and study how they influence the global output metrics, such as accuracy, error rate, reaction speed, etc.  Example::  with Logger() as logger: # ... logger.add_parameters({'learning_rate': lr, 'tau': tau}, {'accuracy': accuracy})</p></td>
+        <td><p>dictionary of metrics.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1848,16 +1901,21 @@ logger.close()
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Logs parameters of a simulation.</span>
 
+<span class="sd">    This should be run only once per simulation, generally at the end. </span>
+<span class="sd">    This allows to compare different runs of the same network using </span>
+<span class="sd">    different parameter values and study how they influence the global output metrics, </span>
+<span class="sd">    such as accuracy, error rate, reaction speed, etc.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    with Logger() as logger:</span>
+<span class="sd">        # ...</span>
+<span class="sd">        logger.add_parameters({&#39;learning_rate&#39;: lr, &#39;tau&#39;: tau}, {&#39;accuracy&#39;: accuracy})</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param params: dictionary of parameters.</span>
 <span class="sd">    :param metrics: dictionary of metrics.</span>
-
-<span class="sd">    This should be run only once per simulation, generally at the end. This allows to compare different runs of the same network using different parameter values and study how they influence the global output metrics, such as accuracy, error rate, reaction speed, etc.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        with Logger() as logger:</span>
-<span class="sd">            # ...</span>
-<span class="sd">            logger.add_parameters({&#39;learning_rate&#39;: lr, &#39;tau&#39;: tau}, {&#39;accuracy&#39;: accuracy})</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="o">.</span><span class="n">add_hparams</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)</span>
@@ -1882,6 +1940,13 @@ logger.close()
     <div class="doc doc-contents ">
 
       <p>Logs a single scalar value, e.g. a success rate at various stages of learning.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">Logger</span><span class="p">()</span> <span class="k">as</span> <span class="n">logger</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+        <span class="n">accuracy</span> <span class="o">=</span> <span class="o">...</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">add_scalar</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">,</span> <span class="n">trial</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1909,7 +1974,7 @@ logger.close()
       <tr>
         <td><code>step</code></td>
         <td><code></code></td>
-        <td><p>time index.  Example::  with Logger() as logger: for trial in range(100): simulate(1000.0) accuracy = ... logger.add_scalar("Accuracy", accuracy, trial)</p></td>
+        <td><p>time index.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -1920,17 +1985,19 @@ logger.close()
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Logs a single scalar value, e.g. a success rate at various stages of learning.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    with Logger() as logger:</span>
+<span class="sd">        for trial in range(100):</span>
+<span class="sd">            simulate(1000.0)</span>
+<span class="sd">            accuracy = ...</span>
+<span class="sd">            logger.add_scalar(&quot;Accuracy&quot;, accuracy, trial)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param tag: name of the figure in tensorboard.</span>
 <span class="sd">    :param value: value.</span>
 <span class="sd">    :param step: time index.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        with Logger() as logger:</span>
-<span class="sd">            for trial in range(100):</span>
-<span class="sd">                simulate(1000.0)</span>
-<span class="sd">                accuracy = ...</span>
-<span class="sd">                logger.add_scalar(&quot;Accuracy&quot;, accuracy, trial)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="o">.</span><span class="n">add_scalar</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">scalar_value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">global_step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">walltime</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -1955,6 +2022,17 @@ logger.close()
     <div class="doc doc-contents ">
 
       <p>Logs multiple scalar values to be displayed in the same figure, e.g. several metrics or neural activities.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">Logger</span><span class="p">()</span> <span class="k">as</span> <span class="n">logger</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+        <span class="n">act1</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">act2</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">add_scalars</span><span class="p">(</span>
+            <span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> 
+            <span class="p">{</span><span class="s1">&#39;First neuron&#39;</span><span class="p">:</span> <span class="n">act1</span><span class="p">,</span> <span class="s1">&#39;Second neuron&#39;</span><span class="p">:</span> <span class="n">act2</span><span class="p">},</span> 
+            <span class="n">trial</span><span class="p">)</span>
+</code></pre></div>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1982,7 +2060,7 @@ logger.close()
       <tr>
         <td><code>step</code></td>
         <td><code></code></td>
-        <td><p>time index.  Example::  with Logger() as logger: for trial in range(100): simulate(1000.0) act1 = pop.r[0] act2 = pop.r[1] logger.add_scalars( "Accuracy",  {'First neuron': act1, 'Second neuron': act2},  trial)</p></td>
+        <td><p>time index.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -1993,21 +2071,23 @@ logger.close()
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Logs multiple scalar values to be displayed in the same figure, e.g. several metrics or neural activities.</span>
 
+<span class="sd">    Example:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    with Logger() as logger:</span>
+<span class="sd">        for trial in range(100):</span>
+<span class="sd">            simulate(1000.0)</span>
+<span class="sd">            act1 = pop.r[0]</span>
+<span class="sd">            act2 = pop.r[1]</span>
+<span class="sd">            logger.add_scalars(</span>
+<span class="sd">                &quot;Accuracy&quot;, </span>
+<span class="sd">                {&#39;First neuron&#39;: act1, &#39;Second neuron&#39;: act2}, </span>
+<span class="sd">                trial)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    :param tag: name of the figure in tensorboard.</span>
 <span class="sd">    :param value: dictionary of values.</span>
 <span class="sd">    :param step: time index.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        with Logger() as logger:</span>
-<span class="sd">            for trial in range(100):</span>
-<span class="sd">                simulate(1000.0)</span>
-<span class="sd">                act1 = pop.r[0]</span>
-<span class="sd">                act2 = pop.r[1]</span>
-<span class="sd">                logger.add_scalars(</span>
-<span class="sd">                    &quot;Accuracy&quot;, </span>
-<span class="sd">                    {&#39;First neuron&#39;: act1, &#39;Second neuron&#39;: act2}, </span>
-<span class="sd">                    trial)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="o">.</span><span class="n">add_scalars</span><span class="p">(</span><span class="n">main_tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">tag_scalar_dict</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">global_step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">walltime</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
