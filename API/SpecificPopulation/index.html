@@ -733,13 +733,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.SpecificPopulation.HomogeneousCorrelatedSpikeTrains.__setattr__" class="md-nav__link">
-    __setattr__()
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -1323,13 +1316,6 @@
           <li class="md-nav__item">
   <a href="#ANNarchy.core.SpecificPopulation.HomogeneousCorrelatedSpikeTrains.__init__" class="md-nav__link">
     __init__()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ANNarchy.core.SpecificPopulation.HomogeneousCorrelatedSpikeTrains.__setattr__" class="md-nav__link">
-    __setattr__()
   </a>
   
 </li>
@@ -2035,12 +2021,12 @@ You will need to connect this population to another one using the <code>connect_
       <p>Population of spiking neurons following a homogeneous distribution with correlated spike trains.</p>
 <p>The method describing the generation of homogeneous correlated spike trains is described in:</p>
 <blockquote>
-<p>Brette, R. (2009). Generation of correlated spike trains. <a href="http://audition.ens.fr/brette/papers/Brette2008NC.html">http://audition.ens.fr/brette/papers/Brette2008NC.html</a></p>
+<p>Brette, R. (2009). Generation of correlated spike trains. Neural Computation 21(1). <a href="http://romainbrette.fr/WordPress3/wp-content/uploads/2014/06/Brette2008NC.pdf">http://romainbrette.fr/WordPress3/wp-content/uploads/2014/06/Brette2008NC.pdf</a></p>
 </blockquote>
 <p>The implementation is based on the one provided by Brian <a href="http://briansimulator.org">http://briansimulator.org</a>.</p>
 <p>To generate correlated spike trains, the population rate of the group of Poisson-like spiking neurons varies following a stochastic differential equation:</p>
 <div class="arithmatex">\[\frac{dx}{dt} = \frac{(\mu - x)}{\tau} + \sigma \, \frac{\xi}{\sqrt{\tau}}\]</div>
-<p>where <span class="arithmatex">\(\xi\)</span> is a random variable. Basically, x will randomly vary around mu over time, with an amplitude determined by sigma and a speed determined by tau.</p>
+<p>where <span class="arithmatex">\(\xi\)</span> is a random variable. In short, <span class="arithmatex">\(x\)</span> will randomly vary around mu over time, with an amplitude determined by sigma and a speed determined by tau.</p>
 <p>This doubly stochastic process is called a Cox process or Ornstein-Uhlenbeck process.</p>
 <p>To avoid that x becomes negative, the values of mu and sigma are computed from a rectified Gaussian distribution, parameterized by the desired population rate <strong>rates</strong>, the desired correlation strength <strong>corr</strong> and the time constant <strong>tau</strong>. See Brette's paper for details.</p>
 <p>In short, you should only define the parameters <code>rates</code>, <code>corr</code> and <code>tau</code>, and let the class compute mu and sigma for you. Changing <code>rates</code>, <code>corr</code> or <code>tau</code> after initialization automatically recomputes mu and sigma.</p>
@@ -2048,18 +2034,33 @@ You will need to connect this population to another one using the <code>connect_
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">setup</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 
-<span class="n">pop_poisson</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
-<span class="n">pop_corr</span>    <span class="o">=</span> <span class="n">HomogeneousCorrelatedSpikeTrains</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">corr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
+<span class="n">pop_corr</span> <span class="o">=</span> <span class="n">HomogeneousCorrelatedSpikeTrains</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">corr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
 
 <span class="nb">compile</span><span class="p">()</span>
 
 <span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
 
-<span class="n">pop_poisson</span><span class="o">.</span><span class="n">rates</span><span class="o">=</span><span class="mf">30.</span>
 <span class="n">pop_corr</span><span class="o">.</span><span class="n">rates</span><span class="o">=</span><span class="mf">30.</span>
 
 <span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
 </code></pre></div>
+<p>Alternatively, a schedule can be provided to change automatically the value of <code>rates</code> and <code>corr</code>(but not <code>tau</code>) at the required times (as in TimedArray or TimedPoissonPopulation):</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">setup</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="n">pop_corr</span> <span class="o">=</span> <span class="n">HomogeneousCorrelatedSpikeTrains</span><span class="p">(</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> 
+    <span class="n">rates</span><span class="o">=</span> <span class="p">[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">30.</span><span class="p">],</span> 
+    <span class="n">corr</span><span class="o">=</span><span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> 
+    <span class="n">tau</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span>
+    <span class="n">schedule</span><span class="o">=</span><span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1000.</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="nb">compile</span><span class="p">()</span>
+
+<span class="n">simulate</span><span class="p">(</span><span class="mf">2000.</span><span class="p">)</span>
+</code></pre></div>
+<p>Even when using a schedule, <code>corr</code> accepts a single constant value. The first value of <code>schedule</code> must be 0. <code>period</code>specifies when the schedule "loops" back to its initial value. </p>
 
 
 
@@ -2074,12 +2075,13 @@ You will need to connect this population to another one using the <code>connect_
 
 
 
+
   <div class="doc doc-object doc-method">
 
 
 
 <h3 id="ANNarchy.core.SpecificPopulation.HomogeneousCorrelatedSpikeTrains.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">rates</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">copied</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">rates</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">schedule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">period</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">copied</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -2111,13 +2113,13 @@ You will need to connect this population to another one using the <code>connect_
       <tr>
         <td><code>rates</code></td>
         <td><code></code></td>
-        <td><p>rate in Hz of the population (must be a positive float)</p></td>
+        <td><p>rate in Hz of the population (must be a positive float or a list)</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>corr</code></td>
         <td><code></code></td>
-        <td><p>total correlation strength (float in [0, 1])</p></td>
+        <td><p>total correlation strength (float in [0, 1], or a list)</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
@@ -2125,6 +2127,18 @@ You will need to connect this population to another one using the <code>connect_
         <td><code></code></td>
         <td><p>correlation time constant in ms.</p></td>
         <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>schedule</code></td>
+        <td><code></code></td>
+        <td><p>list of times where new values of <code>rates</code>and <code>corr</code>will be used to computre mu and sigma.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>period</code></td>
+        <td><code></code></td>
+        <td><p>time when the array will be reset and start again, allowing cycling over the schedule. Default: no cycling (-1.)</p></td>
+        <td><code>-1.0</code></td>
       </tr>
       <tr>
         <td><code>name</code></td>
@@ -2142,23 +2156,60 @@ You will need to connect this population to another one using the <code>connect_
 </table>
         <details class="quote">
           <summary>Source code in <code>ANNarchy/core/SpecificPopulation.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">rates</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">copied</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+    <span class="n">geometry</span><span class="p">,</span> 
+    <span class="n">rates</span><span class="p">,</span> 
+    <span class="n">corr</span><span class="p">,</span> 
+    <span class="n">tau</span><span class="p">,</span> 
+    <span class="n">schedule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+    <span class="n">period</span><span class="o">=-</span><span class="mf">1.</span><span class="p">,</span> 
+    <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+    <span class="n">refractory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+    <span class="n">copied</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;    </span>
 <span class="sd">    :param geometry: population geometry as tuple.</span>
-<span class="sd">    :param rates: rate in Hz of the population (must be a positive float)</span>
-<span class="sd">    :param corr: total correlation strength (float in [0, 1])</span>
+<span class="sd">    :param rates: rate in Hz of the population (must be a positive float or a list)</span>
+<span class="sd">    :param corr: total correlation strength (float in [0, 1], or a list)</span>
 <span class="sd">    :param tau: correlation time constant in ms.</span>
+<span class="sd">    :param schedule: list of times where new values of ``rates``and ``corr``will be used to computre mu and sigma.</span>
+<span class="sd">    :param period: time when the array will be reset and start again, allowing cycling over the schedule. Default: no cycling (-1.)</span>
 <span class="sd">    :param name: unique name of the population (optional).</span>
 <span class="sd">    :param refractory: refractory period in ms (careful: may break the correlation)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Store parameters</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">corr</span> <span class="o">=</span> <span class="n">corr</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="n">tau</span>
+    <span class="k">if</span> <span class="n">schedule</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_schedule</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># Rates</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rates</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+            <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s2">&quot;TimedHomogeneousCorrelatedSpikeTrains: the rates argument must be a list or a numpy array.&quot;</span><span class="p">)</span>
+        <span class="n">rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span>
+
+        <span class="c1"># Schedule</span>
+        <span class="n">schedule</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span>
+
+        <span class="n">nb_schedules</span> <span class="o">=</span> <span class="n">rates</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">nb_schedules</span> <span class="o">!=</span> <span class="n">schedule</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s2">&quot;TimedHomogeneousCorrelatedSpikeTrains: the length of rates must be the same length as for schedule.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># corr</span>
+        <span class="n">corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">corr</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">nb_schedules</span><span class="p">,</span> <span class="n">corr</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_schedule</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">rates</span><span class="p">)])</span>
+        <span class="n">schedule</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
+        <span class="n">corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">corr</span><span class="p">])</span>
+
+
+    <span class="c1"># Store refractory</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">refractory_init</span> <span class="o">=</span> <span class="n">refractory</span>
 
     <span class="c1"># Correction of mu and sigma</span>
-    <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rectify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rates</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">corr</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="n">mu_list</span><span class="p">,</span> <span class="n">sigma_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_correction</span><span class="p">(</span><span class="n">rates</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="n">rates</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">corr</span> <span class="o">=</span> <span class="n">corr</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="n">tau</span>
 
     <span class="c1"># Create the neuron</span>
     <span class="n">corr_neuron</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
@@ -2166,11 +2217,11 @@ You will need to connect this population to another one using the <code>connect_
 <span class="s2">            tau = </span><span class="si">%(tau)s</span><span class="s2"> : population</span>
 <span class="s2">            mu = </span><span class="si">%(mu)s</span><span class="s2"> : population</span>
 <span class="s2">            sigma = </span><span class="si">%(sigma)s</span><span class="s2"> : population</span>
-<span class="s2">        &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="n">tau</span><span class="p">,</span> <span class="s1">&#39;mu&#39;</span><span class="p">:</span> <span class="n">mu</span><span class="p">,</span> <span class="s1">&#39;sigma&#39;</span><span class="p">:</span> <span class="n">sigma</span><span class="p">},</span>
+<span class="s2">        &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="n">tau</span><span class="p">,</span> <span class="s1">&#39;mu&#39;</span><span class="p">:</span> <span class="n">mu_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;sigma&#39;</span><span class="p">:</span> <span class="n">sigma_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
         <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            x += dt*(mu - x)/tau + sqrt(dt/tau) * sigma * Normal(0., 1.) : population, init=</span><span class="si">%(mu)s</span><span class="s2"></span>
 <span class="s2">            p = Uniform(0.0, 1.0) * 1000.0 / dt</span>
-<span class="s2">        &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s1">&#39;mu&#39;</span><span class="p">:</span> <span class="n">mu</span><span class="p">},</span>
+<span class="s2">        &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s1">&#39;mu&#39;</span><span class="p">:</span> <span class="n">mu_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
         <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;p &lt; x&quot;</span><span class="p">,</span>
         <span class="n">refractory</span><span class="o">=</span><span class="n">refractory</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="s2">&quot;HomogeneousCorrelated&quot;</span><span class="p">,</span>
@@ -2178,44 +2229,27 @@ You will need to connect this population to another one using the <code>connect_
     <span class="p">)</span>
 
     <span class="n">SpecificPopulation</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span> <span class="n">neuron</span><span class="o">=</span><span class="n">corr_neuron</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">copied</span><span class="o">=</span><span class="n">copied</span><span class="p">)</span>
+
+    <span class="c1"># Initial values</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="s1">&#39;schedule&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">schedule</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="s1">&#39;rates&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rates</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">corr</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="s1">&#39;tau&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tau</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">period</span>
+
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_schedule</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mu_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="s1">&#39;sigma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sigma_list</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mu_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="s1">&#39;sigma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sigma_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </code></pre></div>
         </details>
     </div>
 
   </div>
 
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="ANNarchy.core.SpecificPopulation.HomogeneousCorrelatedSpikeTrains.__setattr__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#ANNarchy.core.SpecificPopulation.HomogeneousCorrelatedSpikeTrains.__setattr__" class="headerlink" title="Permanent link">#</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Method called when setting an attribute.</p>
-
-        <details class="quote">
-          <summary>Source code in <code>ANNarchy/core/SpecificPopulation.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-    <span class="s2">&quot; Method called when setting an attribute.&quot;</span>
-    <span class="n">Population</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rates&#39;</span><span class="p">,</span> <span class="s1">&#39;corr&#39;</span><span class="p">,</span> <span class="s1">&#39;tau&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;initialized&#39;</span><span class="p">):</span>
-        <span class="c1"># Correction of mu and sigma everytime r, c or tau is changed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rectify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rates</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">corr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
 
 
 
