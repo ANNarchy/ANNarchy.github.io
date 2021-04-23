@@ -81,10 +81,15 @@ pip install ANNarchy --user
 
 if you do not have administrator permissions. Omit `--user` in a virtual environment.
 
+You may also install directly the latest commit in the `master` (stable) or `develop` branches with:
+
+```bash
+pip install git+https://bitbucket.org/annarchy/annarchy.git@master
+```
+
 #### Using the source code
 
-Installation of ANNarchy is possible using one of the three following
-methods:
+Installation of ANNarchy is possible using one of the three following methods:
 
 **Local installation in home directory**
 
@@ -108,7 +113,7 @@ sudo python setup.py install
 
 This simply installs the code in `/usr/local/lib/pythonx.y/dist-packages/`.
 
-**Specific installation**
+**Custom installation**
 
 If you want to install ANNarchy in another directory (let's say in
 `/path/to/repertory`), you should first set your Python path to this
@@ -118,8 +123,8 @@ directory:
 export PYTHONPATH=$PYTHONPATH:/path/to/repertory/lib/pythonx.y/site-packages
 ```
 
-Again, replace \'x.y\' with your Python version. If this directory does
-not exist, you should create it now. Don\'t forget to set this value in
+Again, replace 'x.y' with your Python version. If this directory does
+not exist, you should create it now. Don't forget to set this value in
 your `~/.bash_profile` or `~/.bashrc` to avoid typing this command
 before every session. You can then install ANNarchy by typing:
 
@@ -205,8 +210,7 @@ We advise using a full Python distribution such as
 automatically all dependencies of ANNarchy, rather than using the old
 python provided by Apple.
 
-The only problem with Anaconda (and potentially other Python
-distributions, not tested) is that the compiler will use by default the
+The only problem with Anaconda is that the compiler will use by default the
 Python shared library provided by Apple, leading to the following crash
 when simulating:
 
