@@ -1,0 +1,3404 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../../_static/logo.svg">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.0.5">
+    
+    
+      
+        <title>BOLD monitoring - ANNarchy</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.77f3fd56.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.7fa14f5b.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../../css/pandas-dataframe.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="indigo">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#bold-monitoring" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ANNarchy" class="md-header__button md-logo" aria-label="ANNarchy">
+      
+  <img src="../../_static/logowhite.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ANNarchy
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              BOLD monitoring
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="md-header__options">
+      
+    </div>
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://bitbucket.org/ANNarchy/ANNarchy/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M22.2 32A16 16 0 0 0 6 47.8a26.35 26.35 0 0 0 .2 2.8l67.9 412.1a21.77 21.77 0 0 0 21.3 18.2h325.7a16 16 0 0 0 16-13.4L505 50.7a16 16 0 0 0-13.2-18.3 24.58 24.58 0 0 0-2.8-.2L22.2 32zm285.9 297.8h-104l-28.1-147h157.3l-25.2 147z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Bitbucket
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ANNarchy" class="md-nav__button md-logo" aria-label="ANNarchy">
+      
+  <img src="../../_static/logowhite.svg" alt="logo">
+
+    </a>
+    ANNarchy
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://bitbucket.org/ANNarchy/ANNarchy/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M22.2 32A16 16 0 0 0 6 47.8a26.35 26.35 0 0 0 .2 2.8l67.9 412.1a21.77 21.77 0 0 0 21.3 18.2h325.7a16 16 0 0 0 16-13.4L505 50.7a16 16 0 0 0-13.2-18.3 24.58 24.58 0 0 0-2.8-.2L22.2 32zm285.9 297.8h-104l-28.1-147h157.3l-25.2 147z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Bitbucket
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Manual
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Manual" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Manual
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Structure/" class="md-nav__link">
+        General structure
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Parser/" class="md-nav__link">
+        Parser
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/RateNeuron/" class="md-nav__link">
+        Rate-coded neurons
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/SpikeNeuron/" class="md-nav__link">
+        Spiking neurons
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/RateSynapse/" class="md-nav__link">
+        Rate-coded synapses
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/SpikeSynapse/" class="md-nav__link">
+        Spiking synapses
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Populations/" class="md-nav__link">
+        Populations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Projections/" class="md-nav__link">
+        Projections
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Connector/" class="md-nav__link">
+        Connectivity
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Inputs/" class="md-nav__link">
+        Setting inputs
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Simulation/" class="md-nav__link">
+        Simulation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Configuration/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/NumericalMethods/" class="md-nav__link">
+        Equations and numerical methods
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Recording/" class="md-nav__link">
+        Recording with Monitors
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Saving/" class="md-nav__link">
+        Saving and loading a network
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Network/" class="md-nav__link">
+        Parallel simulations and networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Hybrid/" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/StructuralPlasticity/" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/ConvolutionalNetworks/" class="md-nav__link">
+        Convolution and pooling
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Notebooks/" class="md-nav__link">
+        Notebooks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Reporting/" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual/Logging/" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      <label class="md-nav__link" for="__nav_4">
+        API
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      <label class="md-nav__link" for="__nav_4_1">
+        core
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="core" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          core
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ANNarchy/" class="md-nav__link">
+        Top-level methods
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Neuron/" class="md-nav__link">
+        Neuron class
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpecificNeuron/" class="md-nav__link">
+        Built-in neuron types
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Synapse/" class="md-nav__link">
+        Synapse class
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpecificSynapse/" class="md-nav__link">
+        Built-in synapse types
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Population/" class="md-nav__link">
+        Population class
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpecificPopulation/" class="md-nav__link">
+        Specific Populations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Projection/" class="md-nav__link">
+        Projection class
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SpecificProjection/" class="md-nav__link">
+        Specific Projections
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dendrite/" class="md-nav__link">
+        Dendrite class
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitor/" class="md-nav__link">
+        Monitoring
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RandomDistribution/" class="md-nav__link">
+        Random Distributions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Network/" class="md-nav__link">
+        Network class
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IO/" class="md-nav__link">
+        Saving / Loading
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Utilities/" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hybrid/" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
+      
+      <label class="md-nav__link" for="__nav_4_2">
+        extensions
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="extensions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          extensions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Convolution/" class="md-nav__link">
+        Convolution and Pooling
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Logging/" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          BOLD monitoring
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        BOLD monitoring
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor" class="md-nav__link">
+    BoldMonitor
+  </a>
+  
+    <nav class="md-nav" aria-label="BoldMonitor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor" class="md-nav__link">
+    BoldMonitor
+  </a>
+  
+    <nav class="md-nav" aria-label="BoldMonitor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.get" class="md-nav__link">
+    get()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.start" class="md-nav__link">
+    start()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.stop" class="md-nav__link">
+    stop()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bold-models" class="md-nav__link">
+    BOLD models
+  </a>
+  
+    <nav class="md-nav" aria-label="BOLD models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldModel" class="md-nav__link">
+    BoldModel
+  </a>
+  
+    <nav class="md-nav" aria-label="BoldModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldModel.BoldModel" class="md-nav__link">
+    BoldModel
+  </a>
+  
+    <nav class="md-nav" aria-label="BoldModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldModel.BoldModel.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RN" class="md-nav__link">
+    balloon_RN
+  </a>
+  
+    <nav class="md-nav" aria-label="balloon_RN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RN.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RL" class="md-nav__link">
+    balloon_RL
+  </a>
+  
+    <nav class="md-nav" aria-label="balloon_RL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RL.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CL" class="md-nav__link">
+    balloon_CL
+  </a>
+  
+    <nav class="md-nav" aria-label="balloon_CL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CL.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CN" class="md-nav__link">
+    balloon_CN
+  </a>
+  
+    <nav class="md-nav" aria-label="balloon_CN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CN.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_maith2021" class="md-nav__link">
+    balloon_maith2021
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_two_inputs" class="md-nav__link">
+    balloon_two_inputs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Examples
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/List/" class="md-nav__link">
+        List of notebooks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/NeuralField/" class="md-nav__link">
+        Neural Field
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/BarLearning/" class="md-nav__link">
+        Bar Learning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/Image/" class="md-nav__link">
+        Image
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/Webcam/" class="md-nav__link">
+        Webcam
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/MultipleNetworks/" class="md-nav__link">
+        Multiple networks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/StructuralPlasticity/" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/Izhikevich/" class="md-nav__link">
+        Izhikevich
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/GapJunctions/" class="md-nav__link">
+        Gap junctions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/HodgkinHuxley/" class="md-nav__link">
+        Hodgkin-Huxley
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/COBA/" class="md-nav__link">
+        COBA
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/STP/" class="md-nav__link">
+        STP
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/SimpleSTDP/" class="md-nav__link">
+        STDP
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/Ramp/" class="md-nav__link">
+        Ramp
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/Hybrid/" class="md-nav__link">
+        Hybrid
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/BayesianOptimization/" class="md-nav__link">
+        Bayesian optimization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/BasalGanglia/" class="md-nav__link">
+        Basal Ganglia
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/BoldMonitoring/" class="md-nav__link">
+        BOLD monitoring
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../License/" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor" class="md-nav__link">
+    BoldMonitor
+  </a>
+  
+    <nav class="md-nav" aria-label="BoldMonitor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor" class="md-nav__link">
+    BoldMonitor
+  </a>
+  
+    <nav class="md-nav" aria-label="BoldMonitor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.get" class="md-nav__link">
+    get()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.start" class="md-nav__link">
+    start()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.stop" class="md-nav__link">
+    stop()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bold-models" class="md-nav__link">
+    BOLD models
+  </a>
+  
+    <nav class="md-nav" aria-label="BOLD models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldModel" class="md-nav__link">
+    BoldModel
+  </a>
+  
+    <nav class="md-nav" aria-label="BoldModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldModel.BoldModel" class="md-nav__link">
+    BoldModel
+  </a>
+  
+    <nav class="md-nav" aria-label="BoldModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.BoldModel.BoldModel.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RN" class="md-nav__link">
+    balloon_RN
+  </a>
+  
+    <nav class="md-nav" aria-label="balloon_RN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RN.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RL" class="md-nav__link">
+    balloon_RL
+  </a>
+  
+    <nav class="md-nav" aria-label="balloon_RL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RL.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CL" class="md-nav__link">
+    balloon_CL
+  </a>
+  
+    <nav class="md-nav" aria-label="balloon_CL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CL.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CN" class="md-nav__link">
+    balloon_CN
+  </a>
+  
+    <nav class="md-nav" aria-label="balloon_CN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CN.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_maith2021" class="md-nav__link">
+    balloon_maith2021
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_two_inputs" class="md-nav__link">
+    balloon_two_inputs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://bitbucket.org/ANNarchy/ANNarchy/src/default/docs/API/BOLD.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="bold-monitoring">BOLD monitoring<a class="headerlink" href="#bold-monitoring" title="Permanent link">#</a></h1>
+<p>BOLD monitoring utilities are provided in the module <code>ANNarchy.extensions.bold</code>, which must be explicitely imported:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">ANNarchy.extensions.bold</span> <span class="kn">import</span> <span class="n">BoldMonitor</span>
+</code></pre></div>
+
+
+  <div class="doc doc-object doc-module">
+
+
+
+<h2 id="ANNarchy.extensions.bold.BoldMonitor" class="doc doc-heading">
+        <code>BoldMonitor</code>
+
+
+
+<a href="#ANNarchy.extensions.bold.BoldMonitor" class="headerlink" title="Permanent link">#</a></h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor" class="doc doc-heading">
+        <code>
+BoldMonitor        </code>
+
+
+
+<a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor" class="headerlink" title="Permanent link">#</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Monitors the BOLD signal for several populations using a computational model.</p>
+<p>The BOLD monitor transforms one or two input population variables (such as the mean firing rate) into a recordable BOLD signal according to a computational model (for example a variation of the Balloon model).</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">populations</span><span class="o">=</span><span class="p">[],</span> <span class="n">bold_model</span><span class="o">=&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">ANNarchy</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">bold</span><span class="o">.</span><span class="n">PredefinedModels</span><span class="o">.</span><span class="n">balloon_RN</span><span class="s1">&#39;&gt;, mapping={&#39;</span><span class="n">I</span><span class="s1">&#39;: &#39;</span><span class="sa">r</span><span class="s1">&#39;}, scale_factor=[], normalize_input=[], recorded_variables=[], start=False, net_id=0, copied=False)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.__init__" class="headerlink" title="Permanent link">#</a></h4>
+
+    <div class="doc doc-contents ">
+
+      
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>populations</code></td>
+        <td></td>
+        <td><p>list of recorded populations.</p></td>
+        <td><code>[]</code></td>
+      </tr>
+      <tr>
+        <td><code>bold_model</code></td>
+        <td></td>
+        <td><p>computational model for BOLD signal defined as a BoldModel class/object (see ANNarchy.extensions.bold.PredefinedModels for more predefined examples). Default is <code>balloon_RN</code>.</p></td>
+        <td><code>&lt;class &#39;ANNarchy.extensions.bold.PredefinedModels.balloon_RN&#39;&gt;</code></td>
+      </tr>
+      <tr>
+        <td><code>mapping</code></td>
+        <td></td>
+        <td><p>mapping dictionary between the inputs of the BOLD model (<code>I</code> for single inputs, <code>I_f</code> and <code>I_r</code> for double inputs in the provided examples) and the variables of the input populations. By default, <code>{'I': 'r'}</code> maps the firing rate <code>r</code> of the input population(s) to the variable <code>I</code> of the BOLD model.</p></td>
+        <td><code>{&#39;I&#39;: &#39;r&#39;}</code></td>
+      </tr>
+      <tr>
+        <td><code>scale_factor</code></td>
+        <td></td>
+        <td><p>list of float values to allow a weighting of signals between populations. By default, the input signal is weighted by the ratio of the population size to all populations within the recorded region.</p></td>
+        <td><code>[]</code></td>
+      </tr>
+      <tr>
+        <td><code>normalize_input</code></td>
+        <td></td>
+        <td><p>list of integer values which represent a optional baseline per population. The input signals will require an additional normalization using a baseline value. A value different from 0 represents the time period for determing this baseline in milliseconds (biological time).</p></td>
+        <td><code>[]</code></td>
+      </tr>
+      <tr>
+        <td><code>recorded_variables</code></td>
+        <td></td>
+        <td><p>which variables of the BOLD model should be recorded? (by default, the output variable of the BOLD model is added, e.g. ["BOLD"] for the provided examples).</p></td>
+        <td><code>[]</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ANNarchy/extensions/bold/BoldMonitor.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+    <span class="n">populations</span><span class="o">=</span><span class="p">[],</span> 
+    <span class="n">bold_model</span><span class="o">=</span><span class="n">balloon_RN</span><span class="p">,</span>
+    <span class="n">mapping</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="s1">&#39;r&#39;</span><span class="p">},</span>
+    <span class="n">scale_factor</span><span class="o">=</span><span class="p">[],</span> 
+    <span class="n">normalize_input</span><span class="o">=</span><span class="p">[],</span> 
+    <span class="n">recorded_variables</span><span class="o">=</span><span class="p">[],</span> 
+    <span class="n">start</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+    <span class="n">net_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">copied</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param populations: list of recorded populations.</span>
+
+<span class="sd">    :param bold_model: computational model for BOLD signal defined as a BoldModel class/object (see ANNarchy.extensions.bold.PredefinedModels for more predefined examples). Default is `balloon_RN`.</span>
+
+<span class="sd">    :param mapping: mapping dictionary between the inputs of the BOLD model (`I` for single inputs, `I_f` and `I_r` for double inputs in the provided examples) and the variables of the input populations. By default, `{&#39;I&#39;: &#39;r&#39;}` maps the firing rate `r` of the input population(s) to the variable `I` of the BOLD model. </span>
+
+<span class="sd">    :param scale_factor: list of float values to allow a weighting of signals between populations. By default, the input signal is weighted by the ratio of the population size to all populations within the recorded region.</span>
+
+<span class="sd">    :param normalize_input: list of integer values which represent a optional baseline per population. The input signals will require an additional normalization using a baseline value. A value different from 0 represents the time period for determing this baseline in milliseconds (biological time).</span>
+
+<span class="sd">    :param recorded_variables: which variables of the BOLD model should be recorded? (by default, the output variable of the BOLD model is added, e.g. [&quot;BOLD&quot;] for the provided examples).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">net_id</span> <span class="o">=</span> <span class="n">net_id</span>
+
+    <span class="c1"># instantiate if necessary, please note</span>
+    <span class="c1"># that population will make a deepcopy on this objects</span>
+    <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">bold_model</span><span class="p">):</span>
+        <span class="n">bold_model</span> <span class="o">=</span> <span class="n">bold_model</span><span class="p">()</span>
+
+    <span class="c1"># for reporting</span>
+    <span class="n">bold_model</span><span class="o">.</span><span class="n">_model_instantiated</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># argument check</span>
+    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">populations</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="n">populations</span> <span class="o">=</span> <span class="p">[</span><span class="n">populations</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">scale_factor</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="n">scale_factor</span> <span class="o">=</span> <span class="p">[</span><span class="n">scale_factor</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">populations</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">normalize_input</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="n">normalize_input</span> <span class="o">=</span> <span class="p">[</span><span class="n">normalize_input</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">populations</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recorded_variables</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">recorded_variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">recorded_variables</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scale_factor</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span><span class="c1">###TODO: this leads to errors, because scale_factor is somehow globally set</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">populations</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">scale_factor</span><span class="p">):</span>
+            <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s2">&quot;BoldMonitor: Length of scale_factor must be equal to number of populations&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">normalize_input</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">populations</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">normalize_input</span><span class="p">):</span>
+            <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s2">&quot;BoldMonitor: Length of normalize_input must be equal to number of populations&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check mapping</span>
+    <span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">input_var</span> <span class="ow">in</span> <span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">bold_model</span><span class="o">.</span><span class="n">_inputs</span><span class="p">:</span>
+            <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s2">&quot;BoldMonitor: the key &quot;</span> <span class="o">+</span> <span class="n">target</span> <span class="o">+</span> <span class="s2">&quot; of mapping is not part of the BOLD model.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check recorded variables</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">recorded_variables</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">recorded_variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">bold_model</span><span class="o">.</span><span class="n">_output</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">copied</span><span class="p">:</span>
+        <span class="c1"># Add the container to the object management</span>
+        <span class="n">Global</span><span class="o">.</span><span class="n">_network</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;extensions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Global</span><span class="o">.</span><span class="n">_network</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;extensions&#39;</span><span class="p">])</span>
+
+        <span class="c1"># create the population</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bold_pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">neuron</span><span class="o">=</span><span class="n">bold_model</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span> <span class="n">bold_model</span><span class="o">.</span><span class="n">name</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bold_pop</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">start</span>
+
+        <span class="c1"># create the monitor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_monitor</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bold_pop</span><span class="p">,</span> <span class="n">recorded_variables</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">)</span>
+
+        <span class="c1"># create the projection(s)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_acc_proj</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scale_factor</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">pop_overall_size</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">pop</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">populations</span><span class="p">):</span>
+                <span class="n">pop_overall_size</span> <span class="o">+=</span> <span class="n">pop</span><span class="o">.</span><span class="n">size</span>
+
+            <span class="c1"># the conductance is normalized between [0 .. 1]. This scale factor</span>
+            <span class="c1"># should balance different population sizes</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">pop</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">populations</span><span class="p">):</span>
+                <span class="n">scale_factor_conductance</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">size</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">pop_overall_size</span><span class="p">)</span>
+                <span class="n">scale_factor</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scale_factor_conductance</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">normalize_input</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">normalize_input</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">populations</span><span class="p">)</span>
+            <span class="c1"># TODO: can we check if users used NormProjections? If not, this will crash ...</span>
+
+        <span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">input_var</span> <span class="ow">in</span> <span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">pop</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">normalize</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">populations</span><span class="p">,</span> <span class="n">scale_factor</span><span class="p">,</span> <span class="n">normalize_input</span><span class="p">):</span>
+
+                <span class="n">tmp_proj</span> <span class="o">=</span> <span class="n">AccProjection</span><span class="p">(</span><span class="n">pre</span> <span class="o">=</span> <span class="n">pop</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_bold_pop</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">input_var</span><span class="p">,</span> <span class="n">scale_factor</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">normalize_input</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
+
+                <span class="n">tmp_proj</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_acc_proj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_proj</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Add the container to the object management</span>
+        <span class="n">Global</span><span class="o">.</span><span class="n">_network</span><span class="p">[</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;extensions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Global</span><span class="o">.</span><span class="n">_network</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;extensions&#39;</span><span class="p">])</span>
+
+        <span class="c1"># instances are assigned by the copying instance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bold_pop</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_monitor</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_acc_proj</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;bold_monitor&quot;</span>
+
+    <span class="c1"># store arguments for copy </span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_populations</span> <span class="o">=</span> <span class="n">populations</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span> <span class="o">=</span> <span class="n">mapping</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span> <span class="o">=</span> <span class="n">recorded_variables</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_bold_model</span> <span class="o">=</span> <span class="n">bold_model</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="n">start</span>
+
+    <span class="c1"># Finalize initialization</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">copied</span> <span class="k">else</span> <span class="kc">False</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.get" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">)</span></code>
+
+
+<a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.get" class="headerlink" title="Permanent link">#</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Same as <code>ANNarchy.core.Monitor.get()</code></p>
+
+        <details class="quote">
+          <summary>Source code in <code>ANNarchy/extensions/bold/BoldMonitor.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Same as `ANNarchy.core.Monitor.get()`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_monitor</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.start" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.start" class="headerlink" title="Permanent link">#</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Same as <code>ANNarchy.core.Monitor.start()</code></p>
+
+        <details class="quote">
+          <summary>Source code in <code>ANNarchy/extensions/bold/BoldMonitor.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Same as `ANNarchy.core.Monitor.start()`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_monitor</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1"># enable ODEs</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_bold_pop</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># check if we have projections with baseline</span>
+    <span class="k">for</span> <span class="n">proj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_acc_proj</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">proj</span><span class="o">.</span><span class="n">_normalize_input</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">proj</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">_normalize_input</span><span class="o">/</span><span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;dt&quot;</span><span class="p">])</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.stop" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.stop" class="headerlink" title="Permanent link">#</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Same as <code>ANNarchy.core.Monitor.stop()</code></p>
+
+        <details class="quote">
+          <summary>Source code in <code>ANNarchy/extensions/bold/BoldMonitor.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Same as `ANNarchy.core.Monitor.stop()`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_monitor</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+    <span class="c1"># enable ODEs</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_bold_pop</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<h2 id="bold-models">BOLD models<a class="headerlink" href="#bold-models" title="Permanent link">#</a></h2>
+<p>The provided BOLD models follow the Balloon model (Buxton et al., 1998) with the different variations studied in (Stephan et al., 2007). Those models all compute the vascular response to neural activity through a dampened oscillator:</p>
+<div class="arithmatex">\[
+    \frac{ds}{dt} = \phi \, I - \kappa \, s - \gamma \, (f_{in} - 1)
+\]</div>
+<div class="arithmatex">\[
+    \frac{df_{in}}{dt} = s
+\]</div>
+<p>This allows to compute the oxygen extraction fraction:</p>
+<div class="arithmatex">\[
+    E = 1 - (1 - E_{0})^{ \frac{1}{f_{in}} }
+\]</div>
+<p>The (normalized) venous blood volume is computed as:</p>
+<div class="arithmatex">\[
+    \tau_0 \, \frac{dv}{dt} = (f_{in} - f_{out})
+\]</div>
+<div class="arithmatex">\[
+    f_{out} = v^{\frac{1}{\alpha}}
+\]</div>
+<p>The level of deoxyhemoglobin into the venous compartment is computed by:</p>
+<div class="arithmatex">\[
+    \tau_0 \, \frac{dq}{dt} = f_{in} \, \frac{E}{E_0} - \frac{q}{v} \, f_{out}
+\]</div>
+<p>Using the two signals <span class="arithmatex">\(v\)</span> and <span class="arithmatex">\(q\)</span>, there are two ways to compute the corresponding BOLD signal:</p>
+<ul>
+<li><strong>N:</strong> Non-linear BOLD equation:</li>
+</ul>
+<div class="arithmatex">\[
+    BOLD = v_0 \, ( k_1 \, (1-q) + k_2 \, (1- \dfrac{q}{v}) + k_3 \, (1 - v) )
+\]</div>
+<ul>
+<li><strong>L:</strong> Linear BOLD equation:</li>
+</ul>
+<div class="arithmatex">\[
+    BOLD = v_0 \, ((k_1 + k_2) \, (1 - q) + (k_3 - k_2) \, (1 - v)) 
+\]</div>
+<p>Additionally, the three coefficients <span class="arithmatex">\(k_1\)</span>, <span class="arithmatex">\(k_2\)</span>, <span class="arithmatex">\(k_3\)</span> can be computed in two different ways:</p>
+<ul>
+<li><strong>C:</strong> classical coefficients from (Buxton et al., 1998):</li>
+</ul>
+<div class="arithmatex">\[k_1            = (1 - v_0) \, 4.3 \, v_0 \, E_0 \, \text{TE}\]</div>
+<div class="arithmatex">\[k_2            = 2 \, E_0\]</div>
+<div class="arithmatex">\[k_3            = 1 - \epsilon\]</div>
+<ul>
+<li><strong>R:</strong> revised coefficients from (Obata et al., 2004):</li>
+</ul>
+<div class="arithmatex">\[k_1            = 4.3 \, v_0 \, E_0 \, \text{TE}\]</div>
+<div class="arithmatex">\[k_2            = \epsilon \, r_0 \, E_0 \, \text{TE}\]</div>
+<div class="arithmatex">\[k_3            = 1 - \epsilon\]</div>
+<p>This makes a total of four different BOLD model (RN, RL, CN, CL) which are provided by the extension. The different parameters can be modified in the constructor. Additionally, we also provide the model that was used in (Maith et al., 2021) and the two-inputs model of (Buxton et al., 2004).</p>
+
+
+  <div class="doc doc-object doc-module">
+
+
+
+<h3 id="ANNarchy.extensions.bold.BoldModel" class="doc doc-heading">
+        <code>BoldModel</code>
+
+
+
+<a href="#ANNarchy.extensions.bold.BoldModel" class="headerlink" title="Permanent link">#</a></h3>
+
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h4 id="ANNarchy.extensions.bold.BoldModel.BoldModel" class="doc doc-heading">
+        <code>
+BoldModel        </code>
+
+
+
+<a href="#ANNarchy.extensions.bold.BoldModel.BoldModel" class="headerlink" title="Permanent link">#</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Base class to define a BOLD model to be used in a BOLD monitor.</p>
+<p>A BOLD model is quite similar to a regular rate-coded neuron. It gets a weighted sum of inputs with a specific target (e.g. I) and compute a single output variable (called <code>BOLD</code> in the predefined models, but it could be <code>r</code> as well).</p>
+<p>The main difference is that a BOLD model should also declare which targets are used and which variable is the output:</p>
+<div class="highlight"><pre><span></span><code><span class="n">bold_model</span> <span class="o">=</span> <span class="n">BoldModel</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        tau = 1000.</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        I = sum(I)</span>
+<span class="s1">        # ...</span>
+<span class="s1">        tau * dBOLD/dt = I - BOLD</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">],</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;BOLD&#39;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h5 id="ANNarchy.extensions.bold.BoldModel.BoldModel.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">equations</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Custom BOLD model&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ANNarchy.extensions.bold.BoldModel.BoldModel.__init__" class="headerlink" title="Permanent link">#</a></h5>
+
+    <div class="doc doc-contents ">
+
+      <p>See ANNarchy.extensions.bold.PredefinedModels.py for some example models.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>parameters</code></td>
+        <td></td>
+        <td><p>parameters of the model and their initial value.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>equations</code></td>
+        <td></td>
+        <td><p>equations defining the temporal evolution of variables.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>inputs</code></td>
+        <td></td>
+        <td><p>list of input signals (e.g. ['I'] or ['I_f', 'I_r']).</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>output</code></td>
+        <td></td>
+        <td><p>output variable of the model (e.g. 'BOLD').</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td></td>
+        <td><p>optional model name.</p></td>
+        <td><code>&#39;Custom BOLD model&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>description</code></td>
+        <td></td>
+        <td><p>optional model description.</p></td>
+        <td><code>&#39;&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ANNarchy/extensions/bold/BoldModel.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">equations</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Custom BOLD model&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    See ANNarchy.extensions.bold.PredefinedModels.py for some example models.</span>
+
+<span class="sd">    :param parameters: parameters of the model and their initial value.</span>
+<span class="sd">    :param equations: equations defining the temporal evolution of variables.</span>
+<span class="sd">    :param inputs: list of input signals (e.g. [&#39;I&#39;] or [&#39;I_f&#39;, &#39;I_r&#39;]).</span>
+<span class="sd">    :param output: output variable of the model (e.g. &#39;BOLD&#39;).</span>
+<span class="sd">    :param name: optional model name.</span>
+<span class="sd">    :param description: optional model description.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_inputs</span> <span class="o">=</span> <span class="n">inputs</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_output</span> <span class="o">=</span> <span class="n">output</span>
+
+    <span class="n">Neuron</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">equations</span><span class="o">=</span><span class="n">equations</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_model_instantiated</span> <span class="o">=</span> <span class="kc">False</span>    <span class="c1"># activated by BoldMonitor</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="ANNarchy.extensions.bold.PredefinedModels.balloon_RN" class="doc doc-heading">
+        <code>
+balloon_RN        </code>
+
+
+
+<a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RN" class="headerlink" title="Permanent link">#</a></h3>
+
+    <div class="doc doc-contents first">
+
+      <p>A balloon model with revised coefficient and non-linear BOLD equation derived from:</p>
+<blockquote>
+<p>Stephan et al. (2007). Comparing hemodynamic models with dcm. Neuroimage 38, 387–401. doi:10.1016/j.neuroimage.2007.07.040</p>
+</blockquote>
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">balloon_RN</span> <span class="o">=</span> <span class="n">BoldModel</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        second    = 1000.0</span>
+<span class="s1">        phi       = 1.0</span>
+<span class="s1">        kappa     = 1/1.54</span>
+<span class="s1">        gamma     = 1/2.46</span>
+<span class="s1">        E_0       = 0.34</span>
+<span class="s1">        tau       = 0.98</span>
+<span class="s1">        alpha     = 0.33</span>
+<span class="s1">        V_0       = 0.02</span>
+<span class="s1">        v_0       = 40.3</span>
+<span class="s1">        TE        = 40/1000.</span>
+<span class="s1">        epsilon   = 1.43</span>
+<span class="s1">        r_0       = 25.</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        # Single input</span>
+<span class="s1">        I              = sum(I)                                                    : init=0</span>
+<span class="s1">        ds/dt          = (phi * I - kappa * s - gamma * (f_in - 1))/second         : init=0</span>
+<span class="s1">        df_in/dt       = s / second                                                : init=1, min=0.01</span>
+
+<span class="s1">        E              = 1 - (1 - E_0)**(1 / f_in)                                 : init=0.3424</span>
+<span class="s1">        dq/dt          = (f_in * E / E_0 - (q / v) * f_out)/(tau*second)           : init=1, min=0.01</span>
+<span class="s1">        dv/dt          = (f_in - f_out)/(tau*second)                               : init=1, min=0.01</span>
+<span class="s1">        f_out          = v**(1 / alpha)                                            : init=1, min=0.01</span>
+
+<span class="s1">        # Revised coefficients</span>
+<span class="s1">        k_1            = 4.3 * v_0 * E_0 * TE</span>
+<span class="s1">        k_2            = epsilon * r_0 * E_0 * TE</span>
+<span class="s1">        k_3            = 1.0 - epsilon</span>
+
+<span class="s1">        # Non-linear equation</span>
+<span class="s1">        BOLD           = V_0 * (k_1 * (1 - q) + k_2 * (1 - (q / v)) + k_3 * (1 - v))  : init=0</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">],</span>
+    <span class="n">output</span><span class="o">=</span><span class="s2">&quot;BOLD&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ANNarchy.extensions.bold.PredefinedModels.balloon_RN.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.6493506493506493</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.4065040650406504</span><span class="p">,</span> <span class="n">E_0</span><span class="o">=</span><span class="mf">0.34</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">V_0</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">v_0</span><span class="o">=</span><span class="mf">40.3</span><span class="p">,</span> <span class="n">TE</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.43</span><span class="p">,</span> <span class="n">r_0</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RN.__init__" class="headerlink" title="Permanent link">#</a></h4>
+
+    <div class="doc doc-contents ">
+
+      
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>phi</code></td>
+        <td></td>
+        <td><p>input coefficient</p></td>
+        <td><code>1.0</code></td>
+      </tr>
+      <tr>
+        <td><code>kappa</code></td>
+        <td></td>
+        <td><p>signal decay</p></td>
+        <td><code>0.6493506493506493</code></td>
+      </tr>
+      <tr>
+        <td><code>gamma</code></td>
+        <td></td>
+        <td><p>feedback regulation</p></td>
+        <td><code>0.4065040650406504</code></td>
+      </tr>
+      <tr>
+        <td><code>E_0</code></td>
+        <td></td>
+        <td><p>oxygen extraction fraction at rest</p></td>
+        <td><code>0.34</code></td>
+      </tr>
+      <tr>
+        <td><code>tau</code></td>
+        <td></td>
+        <td><p>time constant (in s!)</p></td>
+        <td><code>0.98</code></td>
+      </tr>
+      <tr>
+        <td><code>alpha</code></td>
+        <td></td>
+        <td><p>vessel stiffness</p></td>
+        <td><code>0.33</code></td>
+      </tr>
+      <tr>
+        <td><code>V_0</code></td>
+        <td></td>
+        <td><p>resting venous blood volume fraction</p></td>
+        <td><code>0.02</code></td>
+      </tr>
+      <tr>
+        <td><code>v_0</code></td>
+        <td></td>
+        <td><p>frequency offset at the outer surface of the magnetized vessel for fully deoxygenated blood at 1.5 T</p></td>
+        <td><code>40.3</code></td>
+      </tr>
+      <tr>
+        <td><code>TE</code></td>
+        <td></td>
+        <td><p>echo time</p></td>
+        <td><code>0.04</code></td>
+      </tr>
+      <tr>
+        <td><code>epsilon</code></td>
+        <td></td>
+        <td><p>ratio of intra- and extravascular signal</p></td>
+        <td><code>1.43</code></td>
+      </tr>
+      <tr>
+        <td><code>r_0</code></td>
+        <td></td>
+        <td><p>slope of the relation between the intravascular relaxation rate and oxygen saturation</p></td>
+        <td><code>25</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ANNarchy/extensions/bold/PredefinedModels.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">phi</span>       <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">kappa</span>     <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mf">1.54</span><span class="p">,</span>
+        <span class="n">gamma</span>     <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mf">2.46</span><span class="p">,</span>
+        <span class="n">E_0</span>       <span class="o">=</span> <span class="mf">0.34</span><span class="p">,</span>
+        <span class="n">tau</span>       <span class="o">=</span> <span class="mf">0.98</span><span class="p">,</span>
+        <span class="n">alpha</span>     <span class="o">=</span> <span class="mf">0.33</span><span class="p">,</span>
+        <span class="n">V_0</span>       <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span>
+        <span class="n">v_0</span>       <span class="o">=</span> <span class="mf">40.3</span><span class="p">,</span>
+        <span class="n">TE</span>        <span class="o">=</span> <span class="mi">40</span><span class="o">/</span><span class="mf">1000.</span><span class="p">,</span>
+        <span class="n">epsilon</span>   <span class="o">=</span> <span class="mf">1.43</span><span class="p">,</span>
+        <span class="n">r_0</span>       <span class="o">=</span> <span class="mi">25</span><span class="p">,</span>
+    <span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param phi:       input coefficient</span>
+<span class="sd">    :param kappa:     signal decay</span>
+<span class="sd">    :param gamma:     feedback regulation</span>
+<span class="sd">    :param E_0:       oxygen extraction fraction at rest</span>
+<span class="sd">    :param tau:       time constant (in s!)</span>
+<span class="sd">    :param alpha:     vessel stiffness</span>
+<span class="sd">    :param V_0:       resting venous blood volume fraction</span>
+<span class="sd">    :param v_0:       frequency offset at the outer surface of the magnetized vessel for fully deoxygenated blood at 1.5 T</span>
+<span class="sd">    :param TE:        echo time</span>
+<span class="sd">    :param epsilon:   ratio of intra- and extravascular signal</span>
+<span class="sd">    :param r_0:       slope of the relation between the intravascular relaxation rate and oxygen saturation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        second    = 1000.0 : population</span>
+<span class="s2">        phi       = </span><span class="si">%(phi)s</span><span class="s2"> : population</span>
+<span class="s2">        kappa     = </span><span class="si">%(kappa)s</span><span class="s2"> : population</span>
+<span class="s2">        gamma     = </span><span class="si">%(gamma)s</span><span class="s2"> : population</span>
+<span class="s2">        E_0       = </span><span class="si">%(E_0)s</span><span class="s2"> : population</span>
+<span class="s2">        tau       = </span><span class="si">%(tau)s</span><span class="s2"> : population</span>
+<span class="s2">        alpha     = </span><span class="si">%(alpha)s</span><span class="s2"> : population</span>
+<span class="s2">        V_0       = </span><span class="si">%(V_0)s</span><span class="s2"> : population</span>
+<span class="s2">        v_0       = </span><span class="si">%(v_0)s</span><span class="s2"> : population</span>
+<span class="s2">        TE        = </span><span class="si">%(TE)s</span><span class="s2"> : population</span>
+<span class="s2">        epsilon   = </span><span class="si">%(epsilon)s</span><span class="s2"> : population</span>
+<span class="s2">        r_0       = </span><span class="si">%(r_0)s</span><span class="s2"> : population</span>
+<span class="s2">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">{</span>
+        <span class="s1">&#39;phi&#39;</span><span class="p">:</span> <span class="n">phi</span><span class="p">,</span>
+        <span class="s1">&#39;kappa&#39;</span><span class="p">:</span> <span class="n">kappa</span><span class="p">,</span>
+        <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="n">gamma</span><span class="p">,</span>
+        <span class="s1">&#39;E_0&#39;</span><span class="p">:</span> <span class="n">E_0</span><span class="p">,</span>
+        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="n">tau</span><span class="p">,</span>
+        <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">alpha</span><span class="p">,</span>
+        <span class="s1">&#39;V_0&#39;</span><span class="p">:</span> <span class="n">V_0</span><span class="p">,</span>
+        <span class="s1">&#39;v_0&#39;</span><span class="p">:</span> <span class="n">v_0</span><span class="p">,</span>
+        <span class="s1">&#39;TE&#39;</span><span class="p">:</span> <span class="n">TE</span><span class="p">,</span>
+        <span class="s1">&#39;epsilon&#39;</span><span class="p">:</span> <span class="n">epsilon</span><span class="p">,</span>
+        <span class="s1">&#39;r_0&#39;</span><span class="p">:</span> <span class="n">r_0</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        # Single input</span>
+<span class="s2">        I              = sum(I)                                                    : init=0</span>
+<span class="s2">        ds/dt          = (phi * I - kappa * s - gamma * (f_in - 1))/second         : init=0</span>
+<span class="s2">        df_in/dt       = s / second                                                : init=1, min=0.01</span>
+
+<span class="s2">        E              = 1 - (1 - E_0)**(1 / f_in)                                 : init=0.3424</span>
+<span class="s2">        dq/dt          = (f_in * E / E_0 - (q / v) * f_out)/(tau*second)           : init=1, min=0.01</span>
+<span class="s2">        dv/dt          = (f_in - f_out)/(tau*second)                               : init=1, min=0.01</span>
+<span class="s2">        f_out          = v**(1 / alpha)                                            : init=1, min=0.01</span>
+
+<span class="s2">        # Revised coefficients</span>
+<span class="s2">        k_1            = 4.3 * v_0 * E_0 * TE</span>
+<span class="s2">        k_2            = epsilon * r_0 * E_0 * TE</span>
+<span class="s2">        k_3            = 1.0 - epsilon</span>
+
+<span class="s2">        # Non-linear equation</span>
+<span class="s2">        BOLD           = V_0 * (k_1 * (1 - q) + k_2 * (1 - (q / v)) + k_3 * (1 - v))  : init=0</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BOLD model RN&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;BOLD computation with revised coefficients and non-linear BOLD equation (Stephan et al., 2007).&quot;</span>
+
+    <span class="n">BoldModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+        <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> 
+        <span class="n">equations</span><span class="o">=</span><span class="n">equations</span><span class="p">,</span>  
+        <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">],</span>
+        <span class="n">output</span><span class="o">=</span><span class="s2">&quot;BOLD&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="ANNarchy.extensions.bold.PredefinedModels.balloon_RL" class="doc doc-heading">
+        <code>
+balloon_RL        </code>
+
+
+
+<a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RL" class="headerlink" title="Permanent link">#</a></h3>
+
+    <div class="doc doc-contents first">
+
+      <p>A balloon model with revised coefficients and linear BOLD equation derived from:</p>
+<blockquote>
+<p>Stephan et al. (2007). Comparing hemodynamic models with dcm. Neuroimage 38, 387–401. doi:10.1016/j.neuroimage.2007.07.040</p>
+</blockquote>
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">balloon_RL</span> <span class="o">=</span> <span class="n">BoldModel</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        second    = 1000.0</span>
+<span class="s1">        phi       = 1.0</span>
+<span class="s1">        kappa     = 1/1.54</span>
+<span class="s1">        gamma     = 1/2.46</span>
+<span class="s1">        E_0       = 0.34</span>
+<span class="s1">        tau       = 0.98</span>
+<span class="s1">        alpha     = 0.33</span>
+<span class="s1">        V_0       = 0.02</span>
+<span class="s1">        v_0       = 40.3</span>
+<span class="s1">        TE        = 40/1000.</span>
+<span class="s1">        epsilon   = 1.43</span>
+<span class="s1">        r_0       = 25.</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        # Single input</span>
+<span class="s1">        I              = sum(I)                                                    : init=0</span>
+<span class="s1">        ds/dt          = (phi * I - kappa * s - gamma * (f_in - 1))/second         : init=0</span>
+<span class="s1">        df_in/dt       = s / second                                                : init=1, min=0.01</span>
+
+<span class="s1">        E              = 1 - (1 - E_0)**(1 / f_in)                                 : init=0.3424</span>
+<span class="s1">        dq/dt          = (f_in * E / E_0 - (q / v) * f_out)/(tau*second)           : init=1, min=0.01</span>
+<span class="s1">        dv/dt          = (f_in - f_out)/(tau*second)                               : init=1, min=0.01</span>
+<span class="s1">        f_out          = v**(1 / alpha)                                            : init=1, min=0.01</span>
+
+<span class="s1">        # Revised coefficients</span>
+<span class="s1">        k_1            = 4.3 * v_0 * E_0 * TE</span>
+<span class="s1">        k_2            = epsilon * r_0 * E_0 * TE</span>
+<span class="s1">        k_3            = 1.0 - epsilon</span>
+
+<span class="s1">        # Linear equation</span>
+<span class="s1">        BOLD           = V_0 * ((k_1 + k_2) * (1 - q) + (k_3 - k_2) * (1 - v))         : init=0</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">],</span>
+    <span class="n">output</span><span class="o">=</span><span class="s2">&quot;BOLD&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ANNarchy.extensions.bold.PredefinedModels.balloon_RL.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.6493506493506493</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.4065040650406504</span><span class="p">,</span> <span class="n">E_0</span><span class="o">=</span><span class="mf">0.34</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">V_0</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">v_0</span><span class="o">=</span><span class="mf">40.3</span><span class="p">,</span> <span class="n">TE</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.43</span><span class="p">,</span> <span class="n">r_0</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_RL.__init__" class="headerlink" title="Permanent link">#</a></h4>
+
+    <div class="doc doc-contents ">
+
+      
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>phi</code></td>
+        <td></td>
+        <td><p>input coefficient</p></td>
+        <td><code>1.0</code></td>
+      </tr>
+      <tr>
+        <td><code>kappa</code></td>
+        <td></td>
+        <td><p>signal decay</p></td>
+        <td><code>0.6493506493506493</code></td>
+      </tr>
+      <tr>
+        <td><code>gamma</code></td>
+        <td></td>
+        <td><p>feedback regulation</p></td>
+        <td><code>0.4065040650406504</code></td>
+      </tr>
+      <tr>
+        <td><code>E_0</code></td>
+        <td></td>
+        <td><p>oxygen extraction fraction at rest</p></td>
+        <td><code>0.34</code></td>
+      </tr>
+      <tr>
+        <td><code>tau</code></td>
+        <td></td>
+        <td><p>time constant (in s!)</p></td>
+        <td><code>0.98</code></td>
+      </tr>
+      <tr>
+        <td><code>alpha</code></td>
+        <td></td>
+        <td><p>vessel stiffness</p></td>
+        <td><code>0.33</code></td>
+      </tr>
+      <tr>
+        <td><code>V_0</code></td>
+        <td></td>
+        <td><p>resting venous blood volume fraction</p></td>
+        <td><code>0.02</code></td>
+      </tr>
+      <tr>
+        <td><code>v_0</code></td>
+        <td></td>
+        <td><p>frequency offset at the outer surface of the magnetized vessel for fully deoxygenated blood at 1.5 T</p></td>
+        <td><code>40.3</code></td>
+      </tr>
+      <tr>
+        <td><code>TE</code></td>
+        <td></td>
+        <td><p>echo time</p></td>
+        <td><code>0.04</code></td>
+      </tr>
+      <tr>
+        <td><code>epsilon</code></td>
+        <td></td>
+        <td><p>ratio of intra- and extravascular signal</p></td>
+        <td><code>1.43</code></td>
+      </tr>
+      <tr>
+        <td><code>r_0</code></td>
+        <td></td>
+        <td><p>slope of the relation between the intravascular relaxation rate and oxygen saturation</p></td>
+        <td><code>25</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ANNarchy/extensions/bold/PredefinedModels.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">phi</span>       <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">kappa</span>     <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mf">1.54</span><span class="p">,</span>
+        <span class="n">gamma</span>     <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mf">2.46</span><span class="p">,</span>
+        <span class="n">E_0</span>       <span class="o">=</span> <span class="mf">0.34</span><span class="p">,</span>
+        <span class="n">tau</span>       <span class="o">=</span> <span class="mf">0.98</span><span class="p">,</span>
+        <span class="n">alpha</span>     <span class="o">=</span> <span class="mf">0.33</span><span class="p">,</span>
+        <span class="n">V_0</span>       <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span>
+        <span class="n">v_0</span>       <span class="o">=</span> <span class="mf">40.3</span><span class="p">,</span>
+        <span class="n">TE</span>        <span class="o">=</span> <span class="mi">40</span><span class="o">/</span><span class="mf">1000.</span><span class="p">,</span>
+        <span class="n">epsilon</span>   <span class="o">=</span> <span class="mf">1.43</span><span class="p">,</span>
+        <span class="n">r_0</span>       <span class="o">=</span> <span class="mi">25</span><span class="p">,</span>
+    <span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param phi:       input coefficient</span>
+<span class="sd">    :param kappa:     signal decay</span>
+<span class="sd">    :param gamma:     feedback regulation</span>
+<span class="sd">    :param E_0:       oxygen extraction fraction at rest</span>
+<span class="sd">    :param tau:       time constant (in s!)</span>
+<span class="sd">    :param alpha:     vessel stiffness</span>
+<span class="sd">    :param V_0:       resting venous blood volume fraction</span>
+<span class="sd">    :param v_0:       frequency offset at the outer surface of the magnetized vessel for fully deoxygenated blood at 1.5 T</span>
+<span class="sd">    :param TE:        echo time</span>
+<span class="sd">    :param epsilon:   ratio of intra- and extravascular signal</span>
+<span class="sd">    :param r_0:       slope of the relation between the intravascular relaxation rate and oxygen saturation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        second    = 1000.0 : population</span>
+<span class="s2">        phi       = </span><span class="si">%(phi)s</span><span class="s2"> : population</span>
+<span class="s2">        kappa     = </span><span class="si">%(kappa)s</span><span class="s2"> : population</span>
+<span class="s2">        gamma     = </span><span class="si">%(gamma)s</span><span class="s2"> : population</span>
+<span class="s2">        E_0       = </span><span class="si">%(E_0)s</span><span class="s2"> : population</span>
+<span class="s2">        tau       = </span><span class="si">%(tau)s</span><span class="s2"> : population</span>
+<span class="s2">        alpha     = </span><span class="si">%(alpha)s</span><span class="s2"> : population</span>
+<span class="s2">        V_0       = </span><span class="si">%(V_0)s</span><span class="s2"> : population</span>
+<span class="s2">        v_0       = </span><span class="si">%(v_0)s</span><span class="s2"> : population</span>
+<span class="s2">        TE        = </span><span class="si">%(TE)s</span><span class="s2"> : population</span>
+<span class="s2">        epsilon   = </span><span class="si">%(epsilon)s</span><span class="s2"> : population</span>
+<span class="s2">        r_0       = </span><span class="si">%(r_0)s</span><span class="s2"> : population</span>
+<span class="s2">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">{</span>
+        <span class="s1">&#39;phi&#39;</span><span class="p">:</span> <span class="n">phi</span><span class="p">,</span>
+        <span class="s1">&#39;kappa&#39;</span><span class="p">:</span> <span class="n">kappa</span><span class="p">,</span>
+        <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="n">gamma</span><span class="p">,</span>
+        <span class="s1">&#39;E_0&#39;</span><span class="p">:</span> <span class="n">E_0</span><span class="p">,</span>
+        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="n">tau</span><span class="p">,</span>
+        <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">alpha</span><span class="p">,</span>
+        <span class="s1">&#39;V_0&#39;</span><span class="p">:</span> <span class="n">V_0</span><span class="p">,</span>
+        <span class="s1">&#39;v_0&#39;</span><span class="p">:</span> <span class="n">v_0</span><span class="p">,</span>
+        <span class="s1">&#39;TE&#39;</span><span class="p">:</span> <span class="n">TE</span><span class="p">,</span>
+        <span class="s1">&#39;epsilon&#39;</span><span class="p">:</span> <span class="n">epsilon</span><span class="p">,</span>
+        <span class="s1">&#39;r_0&#39;</span><span class="p">:</span> <span class="n">r_0</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        # Single input</span>
+<span class="s2">        I              = sum(I)                                                        : init=0</span>
+<span class="s2">        ds/dt          = (phi * I - kappa * s - gamma * (f_in - 1))/second             : init=0</span>
+<span class="s2">        df_in/dt       = s  / second                                                   : init=1, min=0.01</span>
+
+<span class="s2">        E              = 1 - (1 - E_0)**(1 / f_in)                                     : init=0.3424</span>
+<span class="s2">        tau*dq/dt      = f_in * E / E_0 - (q / v) * f_out                              : init=1, min=0.01</span>
+<span class="s2">        tau*dv/dt      = f_in - f_out                                                  : init=1, min=0.01</span>
+<span class="s2">        f_out          = v**(1 / alpha)                                                : init=1, min=0.01</span>
+
+<span class="s2">        # Revised coeeficients</span>
+<span class="s2">        k_1            = 4.3 * v_0 * E_0 * TE</span>
+<span class="s2">        k_2            = epsilon * r_0 * E_0 * TE</span>
+<span class="s2">        k_3            = 1 - epsilon</span>
+
+<span class="s2">        # Linear equation</span>
+<span class="s2">        BOLD           = V_0 * ((k_1 + k_2) * (1 - q) + (k_3 - k_2) * (1 - v))         : init=0</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BOLD model RL&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;BOLD computation with revised coefficients and linear BOLD equation (Stephan et al., 2007).&quot;</span>
+
+    <span class="n">BoldModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+        <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> 
+        <span class="n">equations</span><span class="o">=</span><span class="n">equations</span><span class="p">,</span>  
+        <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">],</span>
+        <span class="n">output</span><span class="o">=</span><span class="s2">&quot;BOLD&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="ANNarchy.extensions.bold.PredefinedModels.balloon_CL" class="doc doc-heading">
+        <code>
+balloon_CL        </code>
+
+
+
+<a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CL" class="headerlink" title="Permanent link">#</a></h3>
+
+    <div class="doc doc-contents first">
+
+      <p>A balloon model with classical coefficient and linear BOLD equation derived from:</p>
+<blockquote>
+<p>Stephan et al. (2007). Comparing hemodynamic models with dcm. Neuroimage 38, 387–401. doi:10.1016/j.neuroimage.2007.07.040</p>
+</blockquote>
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">balloon_CL</span> <span class="o">=</span> <span class="n">BoldModel</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        second    = 1000.0</span>
+<span class="s1">        phi       = 1.0</span>
+<span class="s1">        kappa     = 1/1.54</span>
+<span class="s1">        gamma     = 1/2.46</span>
+<span class="s1">        E_0       = 0.34</span>
+<span class="s1">        tau       = 0.98</span>
+<span class="s1">        alpha     = 0.33</span>
+<span class="s1">        V_0       = 0.02</span>
+<span class="s1">        v_0       = 40.3</span>
+<span class="s1">        TE        = 40/1000.</span>
+<span class="s1">        epsilon   = 1.43</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        # Single input</span>
+<span class="s1">        I              = sum(I)                                                    : init=0</span>
+<span class="s1">        ds/dt          = (phi * I - kappa * s - gamma * (f_in - 1))/second         : init=0</span>
+<span class="s1">        df_in/dt       = s / second                                                : init=1, min=0.01</span>
+
+<span class="s1">        E              = 1 - (1 - E_0)**(1 / f_in)                                 : init=0.3424</span>
+<span class="s1">        dq/dt          = (f_in * E / E_0 - (q / v) * f_out)/(tau*second)           : init=1, min=0.01</span>
+<span class="s1">        dv/dt          = (f_in - f_out)/(tau*second)                               : init=1, min=0.01</span>
+<span class="s1">        f_out          = v**(1 / alpha)                                            : init=1, min=0.01</span>
+
+<span class="s1">        # Classic coefficients</span>
+<span class="s1">        k_1            = (1 - V_0) * 4.3 * v_0 * E_0 * TE</span>
+<span class="s1">        k_2            = 2 * E_0</span>
+<span class="s1">        k_3            = 1 - epsilon</span>
+
+<span class="s1">        # Linear equation</span>
+<span class="s1">        BOLD           = V_0 * ((k_1 + k_2) * (1 - q) + (k_3 - k_2) * (1 - v))        : init=0</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">],</span>
+    <span class="n">output</span><span class="o">=</span><span class="s2">&quot;BOLD&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ANNarchy.extensions.bold.PredefinedModels.balloon_CL.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.6493506493506493</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.4065040650406504</span><span class="p">,</span> <span class="n">E_0</span><span class="o">=</span><span class="mf">0.34</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">V_0</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">v_0</span><span class="o">=</span><span class="mf">40.3</span><span class="p">,</span> <span class="n">TE</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.43</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CL.__init__" class="headerlink" title="Permanent link">#</a></h4>
+
+    <div class="doc doc-contents ">
+
+      
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>phi</code></td>
+        <td></td>
+        <td><p>input coefficient</p></td>
+        <td><code>1.0</code></td>
+      </tr>
+      <tr>
+        <td><code>kappa</code></td>
+        <td></td>
+        <td><p>signal decay</p></td>
+        <td><code>0.6493506493506493</code></td>
+      </tr>
+      <tr>
+        <td><code>gamma</code></td>
+        <td></td>
+        <td><p>feedback regulation</p></td>
+        <td><code>0.4065040650406504</code></td>
+      </tr>
+      <tr>
+        <td><code>E_0</code></td>
+        <td></td>
+        <td><p>oxygen extraction fraction at rest</p></td>
+        <td><code>0.34</code></td>
+      </tr>
+      <tr>
+        <td><code>tau</code></td>
+        <td></td>
+        <td><p>time constant (in s!)</p></td>
+        <td><code>0.98</code></td>
+      </tr>
+      <tr>
+        <td><code>alpha</code></td>
+        <td></td>
+        <td><p>vessel stiffness</p></td>
+        <td><code>0.33</code></td>
+      </tr>
+      <tr>
+        <td><code>V_0</code></td>
+        <td></td>
+        <td><p>resting venous blood volume fraction</p></td>
+        <td><code>0.02</code></td>
+      </tr>
+      <tr>
+        <td><code>v_0</code></td>
+        <td></td>
+        <td><p>frequency offset at the outer surface of the magnetized vessel for fully deoxygenated blood at 1.5 T</p></td>
+        <td><code>40.3</code></td>
+      </tr>
+      <tr>
+        <td><code>TE</code></td>
+        <td></td>
+        <td><p>echo time</p></td>
+        <td><code>0.04</code></td>
+      </tr>
+      <tr>
+        <td><code>epsilon</code></td>
+        <td></td>
+        <td><p>ratio of intra- and extravascular signal</p></td>
+        <td><code>1.43</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ANNarchy/extensions/bold/PredefinedModels.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">phi</span>       <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">kappa</span>     <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mf">1.54</span><span class="p">,</span>
+        <span class="n">gamma</span>     <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mf">2.46</span><span class="p">,</span>
+        <span class="n">E_0</span>       <span class="o">=</span> <span class="mf">0.34</span><span class="p">,</span>
+        <span class="n">tau</span>       <span class="o">=</span> <span class="mf">0.98</span><span class="p">,</span>
+        <span class="n">alpha</span>     <span class="o">=</span> <span class="mf">0.33</span><span class="p">,</span>
+        <span class="n">V_0</span>       <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span>
+        <span class="n">v_0</span>       <span class="o">=</span> <span class="mf">40.3</span><span class="p">,</span>
+        <span class="n">TE</span>        <span class="o">=</span> <span class="mi">40</span><span class="o">/</span><span class="mf">1000.</span><span class="p">,</span>
+        <span class="n">epsilon</span>   <span class="o">=</span> <span class="mf">1.43</span><span class="p">,</span>
+    <span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param phi:       input coefficient</span>
+<span class="sd">    :param kappa:     signal decay</span>
+<span class="sd">    :param gamma:     feedback regulation</span>
+<span class="sd">    :param E_0:       oxygen extraction fraction at rest</span>
+<span class="sd">    :param tau:       time constant (in s!)</span>
+<span class="sd">    :param alpha:     vessel stiffness</span>
+<span class="sd">    :param V_0:       resting venous blood volume fraction</span>
+<span class="sd">    :param v_0:       frequency offset at the outer surface of the magnetized vessel for fully deoxygenated blood at 1.5 T</span>
+<span class="sd">    :param TE:        echo time</span>
+<span class="sd">    :param epsilon:   ratio of intra- and extravascular signal</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        second    = 1000.0 : population</span>
+<span class="s2">        phi       = </span><span class="si">%(phi)s</span><span class="s2"> : population</span>
+<span class="s2">        kappa     = </span><span class="si">%(kappa)s</span><span class="s2"> : population</span>
+<span class="s2">        gamma     = </span><span class="si">%(gamma)s</span><span class="s2"> : population</span>
+<span class="s2">        E_0       = </span><span class="si">%(E_0)s</span><span class="s2"> : population</span>
+<span class="s2">        tau       = </span><span class="si">%(tau)s</span><span class="s2"> : population</span>
+<span class="s2">        alpha     = </span><span class="si">%(alpha)s</span><span class="s2"> : population</span>
+<span class="s2">        V_0       = </span><span class="si">%(V_0)s</span><span class="s2"> : population</span>
+<span class="s2">        v_0       = </span><span class="si">%(v_0)s</span><span class="s2"> : population</span>
+<span class="s2">        TE        = </span><span class="si">%(TE)s</span><span class="s2"> : population</span>
+<span class="s2">        epsilon   = </span><span class="si">%(epsilon)s</span><span class="s2"> : population</span>
+<span class="s2">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">{</span>
+        <span class="s1">&#39;phi&#39;</span><span class="p">:</span> <span class="n">phi</span><span class="p">,</span>
+        <span class="s1">&#39;kappa&#39;</span><span class="p">:</span> <span class="n">kappa</span><span class="p">,</span>
+        <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="n">gamma</span><span class="p">,</span>
+        <span class="s1">&#39;E_0&#39;</span><span class="p">:</span> <span class="n">E_0</span><span class="p">,</span>
+        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="n">tau</span><span class="p">,</span>
+        <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">alpha</span><span class="p">,</span>
+        <span class="s1">&#39;V_0&#39;</span><span class="p">:</span> <span class="n">V_0</span><span class="p">,</span>
+        <span class="s1">&#39;v_0&#39;</span><span class="p">:</span> <span class="n">v_0</span><span class="p">,</span>
+        <span class="s1">&#39;TE&#39;</span><span class="p">:</span> <span class="n">TE</span><span class="p">,</span>
+        <span class="s1">&#39;epsilon&#39;</span><span class="p">:</span> <span class="n">epsilon</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        # Single input</span>
+<span class="s2">        I              = sum(I)                                                    : init=0</span>
+<span class="s2">        ds/dt          = (phi * I - kappa * s - gamma * (f_in - 1))/second         : init=0</span>
+<span class="s2">        df_in/dt       = s / second                                                : init=1, min=0.01</span>
+
+<span class="s2">        E              = 1 - (1 - E_0)**(1 / f_in)                                 : init=0.3424</span>
+<span class="s2">        dq/dt          = (f_in * E / E_0 - (q / v) * f_out)/(tau*second)           : init=1, min=0.01</span>
+<span class="s2">        dv/dt          = (f_in - f_out)/(tau*second)                               : init=1, min=0.01</span>
+<span class="s2">        f_out          = v**(1 / alpha)                                            : init=1, min=0.01</span>
+
+<span class="s2">        # Classic coefficients</span>
+<span class="s2">        k_1            = (1 - V_0) * 4.3 * v_0 * E_0 * TE</span>
+<span class="s2">        k_2            = 2 * E_0</span>
+<span class="s2">        k_3            = 1 - epsilon</span>
+
+<span class="s2">        # Linear equation</span>
+<span class="s2">        BOLD           = V_0 * ((k_1 + k_2) * (1 - q) + (k_3 - k_2) * (1 - v))        : init=0</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BoldNeuron CL&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;BOLD computation with classic coefficients and linear BOLD equation (Stephan et al., 2007).&quot;</span>
+
+    <span class="n">BoldModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+        <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> 
+        <span class="n">equations</span><span class="o">=</span><span class="n">equations</span><span class="p">,</span>  
+        <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">],</span>
+        <span class="n">output</span><span class="o">=</span><span class="s2">&quot;BOLD&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="ANNarchy.extensions.bold.PredefinedModels.balloon_CN" class="doc doc-heading">
+        <code>
+balloon_CN        </code>
+
+
+
+<a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CN" class="headerlink" title="Permanent link">#</a></h3>
+
+    <div class="doc doc-contents first">
+
+      <p>A balloon model with classic coefficient and non-linear BOLD equation derived from:</p>
+<blockquote>
+<p>Stephan et al. (2007). Comparing hemodynamic models with dcm. Neuroimage 38, 387–401. doi:10.1016/j.neuroimage.2007.07.040</p>
+</blockquote>
+<p>Equivalent code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">balloon_CN</span> <span class="o">=</span> <span class="n">BoldModel</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        second    = 1000.0</span>
+<span class="s1">        phi       = 1.0</span>
+<span class="s1">        kappa     = 1/1.54</span>
+<span class="s1">        gamma     = 1/2.46</span>
+<span class="s1">        E_0       = 0.34</span>
+<span class="s1">        tau       = 0.98</span>
+<span class="s1">        alpha     = 0.33</span>
+<span class="s1">        V_0       = 0.02</span>
+<span class="s1">        v_0       = 40.3</span>
+<span class="s1">        TE        = 40/1000.</span>
+<span class="s1">        epsilon   = 1.43</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        # Single input</span>
+<span class="s1">        I              = sum(I)                                                    : init=0</span>
+<span class="s1">        ds/dt          = (phi * I - kappa * s - gamma * (f_in - 1))/second         : init=0</span>
+<span class="s1">        df_in/dt       = s / second                                                : init=1, min=0.01</span>
+
+<span class="s1">        E              = 1 - (1 - E_0)**(1 / f_in)                                 : init=0.3424</span>
+<span class="s1">        dq/dt          = (f_in * E / E_0 - (q / v) * f_out)/(tau*second)           : init=1, min=0.01</span>
+<span class="s1">        dv/dt          = (f_in - f_out)/(tau*second)                               : init=1, min=0.01</span>
+<span class="s1">        f_out          = v**(1 / alpha)                                            : init=1, min=0.01</span>
+
+<span class="s1">        # Classic coefficients</span>
+<span class="s1">        k_1            = (1 - V_0) * 4.3 * v_0 * E_0 * TE</span>
+<span class="s1">        k_2            = 2 * E_0</span>
+<span class="s1">        k_3            = 1 - epsilon</span>
+
+<span class="s1">        # Non-linear equation</span>
+<span class="s1">        BOLD           = V_0 * (k_1 * (1 - q) + k_2 * (1 - (q / v)) + k_3 * (1 - v))  : init=0</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">],</span>
+    <span class="n">output</span><span class="o">=</span><span class="s2">&quot;BOLD&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ANNarchy.extensions.bold.PredefinedModels.balloon_CN.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.6493506493506493</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.4065040650406504</span><span class="p">,</span> <span class="n">E_0</span><span class="o">=</span><span class="mf">0.34</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">V_0</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">v_0</span><span class="o">=</span><span class="mf">40.3</span><span class="p">,</span> <span class="n">TE</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.43</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_CN.__init__" class="headerlink" title="Permanent link">#</a></h4>
+
+    <div class="doc doc-contents ">
+
+      
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>phi</code></td>
+        <td></td>
+        <td><p>input coefficient</p></td>
+        <td><code>1.0</code></td>
+      </tr>
+      <tr>
+        <td><code>kappa</code></td>
+        <td></td>
+        <td><p>signal decay</p></td>
+        <td><code>0.6493506493506493</code></td>
+      </tr>
+      <tr>
+        <td><code>gamma</code></td>
+        <td></td>
+        <td><p>feedback regulation</p></td>
+        <td><code>0.4065040650406504</code></td>
+      </tr>
+      <tr>
+        <td><code>E_0</code></td>
+        <td></td>
+        <td><p>oxygen extraction fraction at rest</p></td>
+        <td><code>0.34</code></td>
+      </tr>
+      <tr>
+        <td><code>tau</code></td>
+        <td></td>
+        <td><p>time constant (in s!)</p></td>
+        <td><code>0.98</code></td>
+      </tr>
+      <tr>
+        <td><code>alpha</code></td>
+        <td></td>
+        <td><p>vessel stiffness</p></td>
+        <td><code>0.33</code></td>
+      </tr>
+      <tr>
+        <td><code>V_0</code></td>
+        <td></td>
+        <td><p>resting venous blood volume fraction</p></td>
+        <td><code>0.02</code></td>
+      </tr>
+      <tr>
+        <td><code>v_0</code></td>
+        <td></td>
+        <td><p>frequency offset at the outer surface of the magnetized vessel for fully deoxygenated blood at 1.5 T</p></td>
+        <td><code>40.3</code></td>
+      </tr>
+      <tr>
+        <td><code>TE</code></td>
+        <td></td>
+        <td><p>echo time</p></td>
+        <td><code>0.04</code></td>
+      </tr>
+      <tr>
+        <td><code>epsilon</code></td>
+        <td></td>
+        <td><p>ratio of intra- and extravascular signal</p></td>
+        <td><code>1.43</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ANNarchy/extensions/bold/PredefinedModels.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">phi</span>       <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">kappa</span>     <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mf">1.54</span><span class="p">,</span>
+        <span class="n">gamma</span>     <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mf">2.46</span><span class="p">,</span>
+        <span class="n">E_0</span>       <span class="o">=</span> <span class="mf">0.34</span><span class="p">,</span>
+        <span class="n">tau</span>       <span class="o">=</span> <span class="mf">0.98</span><span class="p">,</span>
+        <span class="n">alpha</span>     <span class="o">=</span> <span class="mf">0.33</span><span class="p">,</span>
+        <span class="n">V_0</span>       <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span>
+        <span class="n">v_0</span>       <span class="o">=</span> <span class="mf">40.3</span><span class="p">,</span>
+        <span class="n">TE</span>        <span class="o">=</span> <span class="mi">40</span><span class="o">/</span><span class="mf">1000.</span><span class="p">,</span>
+        <span class="n">epsilon</span>   <span class="o">=</span> <span class="mf">1.43</span><span class="p">,</span>
+    <span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param phi:       input coefficient</span>
+<span class="sd">    :param kappa:     signal decay</span>
+<span class="sd">    :param gamma:     feedback regulation</span>
+<span class="sd">    :param E_0:       oxygen extraction fraction at rest</span>
+<span class="sd">    :param tau:       time constant (in s!)</span>
+<span class="sd">    :param alpha:     vessel stiffness</span>
+<span class="sd">    :param V_0:       resting venous blood volume fraction</span>
+<span class="sd">    :param v_0:       frequency offset at the outer surface of the magnetized vessel for fully deoxygenated blood at 1.5 T</span>
+<span class="sd">    :param TE:        echo time</span>
+<span class="sd">    :param epsilon:   ratio of intra- and extravascular signal</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        second    = 1000.0 : population</span>
+<span class="s2">        phi       = </span><span class="si">%(phi)s</span><span class="s2"> : population</span>
+<span class="s2">        kappa     = </span><span class="si">%(kappa)s</span><span class="s2"> : population</span>
+<span class="s2">        gamma     = </span><span class="si">%(gamma)s</span><span class="s2"> : population</span>
+<span class="s2">        E_0       = </span><span class="si">%(E_0)s</span><span class="s2"> : population</span>
+<span class="s2">        tau       = </span><span class="si">%(tau)s</span><span class="s2"> : population</span>
+<span class="s2">        alpha     = </span><span class="si">%(alpha)s</span><span class="s2"> : population</span>
+<span class="s2">        V_0       = </span><span class="si">%(V_0)s</span><span class="s2"> : population</span>
+<span class="s2">        v_0       = </span><span class="si">%(v_0)s</span><span class="s2"> : population</span>
+<span class="s2">        TE        = </span><span class="si">%(TE)s</span><span class="s2"> : population</span>
+<span class="s2">        epsilon   = </span><span class="si">%(epsilon)s</span><span class="s2"> : population</span>
+<span class="s2">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">{</span>
+        <span class="s1">&#39;phi&#39;</span><span class="p">:</span> <span class="n">phi</span><span class="p">,</span>
+        <span class="s1">&#39;kappa&#39;</span><span class="p">:</span> <span class="n">kappa</span><span class="p">,</span>
+        <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="n">gamma</span><span class="p">,</span>
+        <span class="s1">&#39;E_0&#39;</span><span class="p">:</span> <span class="n">E_0</span><span class="p">,</span>
+        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="n">tau</span><span class="p">,</span>
+        <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">alpha</span><span class="p">,</span>
+        <span class="s1">&#39;V_0&#39;</span><span class="p">:</span> <span class="n">V_0</span><span class="p">,</span>
+        <span class="s1">&#39;v_0&#39;</span><span class="p">:</span> <span class="n">v_0</span><span class="p">,</span>
+        <span class="s1">&#39;TE&#39;</span><span class="p">:</span> <span class="n">TE</span><span class="p">,</span>
+        <span class="s1">&#39;epsilon&#39;</span><span class="p">:</span> <span class="n">epsilon</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        # Single input</span>
+<span class="s2">        I              = sum(I)                                                    : init=0</span>
+<span class="s2">        ds/dt          = (phi * I - kappa * s - gamma * (f_in - 1))/second         : init=0</span>
+<span class="s2">        df_in/dt       = s / second                                                : init=1, min=0.01</span>
+
+<span class="s2">        E              = 1 - (1 - E_0)**(1 / f_in)                                 : init=0.3424</span>
+<span class="s2">        dq/dt          = (f_in * E / E_0 - (q / v) * f_out)/(tau*second)           : init=1, min=0.01</span>
+<span class="s2">        dv/dt          = (f_in - f_out)/(tau*second)                               : init=1, min=0.01</span>
+<span class="s2">        f_out          = v**(1 / alpha)                                            : init=1, min=0.01</span>
+
+<span class="s2">        # Classic coefficients</span>
+<span class="s2">        k_1            = (1 - V_0) * 4.3 * v_0 * E_0 * TE</span>
+<span class="s2">        k_2            = 2 * E_0</span>
+<span class="s2">        k_3            = 1 - epsilon</span>
+
+<span class="s2">        # Non-linear equation</span>
+<span class="s2">        BOLD           = V_0 * (k_1 * (1 - q) + k_2 * (1 - (q / v)) + k_3 * (1 - v))  : init=0</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BoldNeuron CN&quot;</span><span class="p">,</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;BOLD computation with classic coefficients and non-linear BOLD equation (Stephan et al., 2007).&quot;</span>
+
+    <span class="n">BoldModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+        <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> 
+        <span class="n">equations</span><span class="o">=</span><span class="n">equations</span><span class="p">,</span>  
+        <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">],</span>
+        <span class="n">output</span><span class="o">=</span><span class="s2">&quot;BOLD&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="ANNarchy.extensions.bold.PredefinedModels.balloon_maith2021" class="doc doc-heading">
+        <code>
+balloon_maith2021        </code>
+
+
+
+<a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_maith2021" class="headerlink" title="Permanent link">#</a></h3>
+
+    <div class="doc doc-contents first">
+
+      <p>The balloon model as used in:</p>
+<blockquote>
+<p>Maith et al. (2021) A computational model-based analysis of basal ganglia pathway changes in Parkinson’s disease inferred from resting-state fMRI. European Journal of Neuroscience. 2021; 53: 2278– 2295. doi:10.1111/ejn.14868 </p>
+</blockquote>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="ANNarchy.extensions.bold.PredefinedModels.balloon_two_inputs" class="doc doc-heading">
+        <code>
+balloon_two_inputs        </code>
+
+
+
+<a href="#ANNarchy.extensions.bold.PredefinedModels.balloon_two_inputs" class="headerlink" title="Permanent link">#</a></h3>
+
+    <div class="doc doc-contents first">
+
+      <p>BOLD model with two input signals (CBF-driving and CMRO2-driving) for the ballon model and non-linear BOLD equation with revised coefficients based on:</p>
+<blockquote>
+<p>Buxton et al. (2004). Modeling the hemodynamic response to brain activation. Neuroimage 23, S220–S233</p>
+<p>Friston et al. (2000). Nonlinear responses in fmri: the balloon model, volterra kernels, and other hemodynamics. NeuroImage 12, 466–477</p>
+<p>Stephan et al. (2007). Comparing hemodynamic models with dcm. Neuroimage 38, 387–401. doi:10.1016/j.neuroimage.2007.07.040</p>
+</blockquote>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../Logging/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Logging with tensorboard
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../../example/List/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              List of notebooks
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 Julien Vitay, Helge Ülo Dinkelbach, Fred H. Hamker
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5cf3e710.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
