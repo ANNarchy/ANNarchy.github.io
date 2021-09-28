@@ -69,4 +69,5 @@ This section provides a list of the sample models provided in the
     model.
 -   [Basal Ganglia](BasalGanglia.ipynb): a simple basal
     ganglia model to show how to use the `tensorboard` extension.
+-   [BOLD monitoring](BoldMonitoring.ipynb): a showcase of the `bold` extension allowing to record BOLD signals fron a network.
 

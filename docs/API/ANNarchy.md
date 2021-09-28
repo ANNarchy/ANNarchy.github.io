@@ -1,7 +1,16 @@
-# Module ANNarchy
+# Top-level methods
 
-This the main module of ANNarchy, which contains both Python Code and
-wrapping of the C++ library.
+These methods are directly available in the main namespace when importing ANNarhcy:
+
+```python
+from ANNarchy import *
+```
+
+Note that numpy is automatically imported as:
+
+```python
+import numpy as np
+```
 
 ## Configuration and compilation
 

@@ -1,4 +1,4 @@
-# Network
+# Network class
 
 A `Network` object holds copies of previously defined populations,
 projections or monitors in order to simulate them independently.

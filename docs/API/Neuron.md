@@ -1,4 +1,4 @@
-# Neuron
+# Neuron class
 
 Neurons are container objects for all information corresponding to a
 special neuron type. This encapsulation allows a higher readability of
