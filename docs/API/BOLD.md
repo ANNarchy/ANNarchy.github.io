@@ -20,7 +20,7 @@ from ANNarchy.extensions.bold import BoldMonitor
 The provided BOLD models follow the Balloon model (Buxton et al., 1998) with the different variations studied in (Stephan et al., 2007). Those models all compute the vascular response to neural activity through a dampened oscillator:
 
 $$
-    \frac{ds}{dt} = \phi \, I - \kappa \, s - \gamma \, (f_{in} - 1)
+    \frac{ds}{dt} = \phi \, I_\text{CBF} - \kappa \, s - \gamma \, (f_{in} - 1)
 $$
 
 $$
@@ -81,7 +81,7 @@ $$k_2            = \epsilon \, r_0 \, E_0 \, \text{TE}$$
 
 $$k_3            = 1 - \epsilon$$
 
-This makes a total of four different BOLD model (RN, RL, CN, CL) which are provided by the extension. The different parameters can be modified in the constructor. Additionally, we also provide the model that was used in (Maith et al., 2021) and the two-inputs model of (Buxton et al., 2004).
+This makes a total of four different BOLD model (RN, RL, CN, CL) which are provided by the extension. The different parameters can be modified in the constructor. Additionally, we also provide the model that was used in (Maith et al., 2021) and the two-inputs model of (Maith et al, 2021b).
 
 
 ::: ANNarchy.extensions.bold.BoldModel
@@ -140,3 +140,16 @@ This makes a total of four different BOLD model (RN, RL, CN, CL) which are provi
       show_root_full_path: false
       heading_level: 3
 
+## References
+
+> Buxton, R. B., Wong, E. C., and Frank, L. R. (1998). Dynamics of blood flow and oxygenation changes during brain activation: the balloon model. Magnetic resonance in medicine 39, 855–864. doi:10.1002/mrm.1910390602
+
+> Friston et al. (2000). Nonlinear responses in fMRI: the balloon model, volterra kernels, and other hemodynamics. NeuroImage 12, 466–477
+
+> Buxton et al. (2004). Modeling the hemodynamic response to brain activation. Neuroimage 23, S220–S233. doi:10.1016/j.neuroimage.2004.07.013
+
+> Stephan et al. (2007). Comparing hemodynamic models with DCM. Neuroimage 38, 387–401. doi:10.1016/j.neuroimage.2007.07.040
+
+> Maith et al. (2021) A computational model-based analysis of basal ganglia pathway changes in Parkinson’s disease inferred from resting-state fMRI. European Journal of Neuroscience. 2021; 53: 2278– 2295. doi:10.1111/ejn.14868 
+
+> Maith et al. (2021b) BOLD monitoring in the neural simulator ANNarchy. submitted.
