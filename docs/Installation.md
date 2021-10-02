@@ -26,11 +26,11 @@ packages may work but have not been tested.
 -   make \>= 3.0
 -   python \>= 3.6 (with the development files, e.g. `python-dev` or
     `python-devel`)
--   cython \>= 0.19
--   setuptools \>= 0.6
--   numpy \>= 1.8
--   sympy \>= 0.7.4
--   scipy \>= 0.12
+-   cython \>= 0.20
+-   setuptools \>= 40.0
+-   numpy \>= 1.13
+-   sympy \>= 1.6
+-   scipy \>= 0.19
 -   matplotlib \>= 2.0
 
 Additionally, the following packages are optional but strongly
