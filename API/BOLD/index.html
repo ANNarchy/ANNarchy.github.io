@@ -2196,7 +2196,7 @@ BoldModel        </code>
 
       <p>Base class to define a BOLD model to be used in a BOLD monitor.</p>
 <p>A BOLD model is quite similar to a regular rate-coded neuron. It gets a weighted sum of inputs with a specific target (e.g. I_CBF) and compute a single output variable (called <code>BOLD</code> in the predefined models, but it could be anything).</p>
-<p>The main difference is that a BOLD model should also declare which targets are used and which variable is the output:</p>
+<p>The main difference is that a BOLD model should also declare which targets are used for the input signal:</p>
 <div class="highlight"><pre><span></span><code><span class="n">bold_model</span> <span class="o">=</span> <span class="n">BoldModel</span><span class="p">(</span>
     <span class="n">parameters</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">        tau = 1000.</span>
@@ -2206,8 +2206,7 @@ BoldModel        </code>
 <span class="s1">        # ...</span>
 <span class="s1">        tau * dBOLD/dt = I_CBF - BOLD</span>
 <span class="s1">    &#39;&#39;&#39;</span><span class="p">,</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I_CBF&#39;</span><span class="p">],</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;BOLD&#39;</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I_CBF&#39;</span><span class="p">]</span>
 <span class="p">)</span>
 </code></pre></div>
 
