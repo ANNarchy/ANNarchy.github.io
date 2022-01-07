@@ -52,8 +52,7 @@ To use the CUDA backend:
     [Quickstart_8.0](https://developer.nvidia.com/compute/cuda/8.0/prod/docs/sidebar/CUDA_Quick_Start_Guide-pdf)
     for the SDK 8.x).
 
-ANNarchy works with full Python distributions such as Anaconda, as well
-as in virtual environments.
+ANNarchy works with full Python distributions such as Anaconda, as well as in virtual environments and Jupyter notebooks.
 
 On a fresh install of Ubuntu 18.10, here are the minimal packages to
 install before ANNarchy (using python 3):
@@ -70,7 +69,7 @@ sudo apt install python3-pyqtgraph python3-pyqt4.qtopengl python3-lxml
 Stable releases of ANNarchy are available on PyPi:
 
 ```bash
-sudo pip install ANNarchy
+pip install ANNarchy
 ```
 
 or:
@@ -89,62 +88,42 @@ pip install git+https://bitbucket.org/annarchy/annarchy.git@master
 
 #### Using the source code
 
-Installation of ANNarchy is possible using one of the three following methods:
-
-**Local installation in home directory**
-
-If you want to install ANNarchy in your home directory, type:
+Installation of ANNarchy from source is possible using `pip` in the top-level directory:
 
 ```bash
-python setup.py install --user
+pip install .
 ```
 
-The ANNarchy code will be installed in `$HOME/.local/lib/pythonx.y/site-packages/` (replace \'x.y\' with your
-Python version) and automatically added to your `PYTHONPATH`.
-
-**Global installation**
-
-If you have administrator permissions, you can install ANNarchy in
-`/usr/local` by typing in the top-level directory:
+or in development mode:
 
 ```bash
-sudo python setup.py install
+pip install -e .
 ```
 
-This simply installs the code in `/usr/local/lib/pythonx.y/dist-packages/`.
+Using `python setup.py install` is deprecated, but still works.
 
-**Custom installation**
+#### C++ compiler
 
-If you want to install ANNarchy in another directory (let's say in
-`/path/to/repertory`), you should first set your Python path to this
-directory:
+By default, ANNarchy will use the GNU C++ compiler `g++`, which should be in your PATH. If you want to use another compiler (clang++, icc), you can edit the configuration file located at `$HOME/.config/ANNarchy/annarchy.json` (created during installation) accordingly. By default, it is:
 
-```bash
-export PYTHONPATH=$PYTHONPATH:/path/to/repertory/lib/pythonx.y/site-packages
+``` {.json}
+{
+    "openmp": {
+        "compiler": "g++",
+        "flags": "-march=native -O2"
+    },
+    "cuda": {
+        "compiler": "nvcc",
+        "flags": "",
+        "device": 0,
+        "path": "/usr/local/cuda"
+    }
+}
 ```
 
-Again, replace 'x.y' with your Python version. If this directory does
-not exist, you should create it now. Don't forget to set this value in
-your `~/.bash_profile` or `~/.bashrc` to avoid typing this command
-before every session. You can then install ANNarchy by typing:
+The (path to the) compiler can be changed in the `openmp` section (ignore the `cuda` section if you do not have a GPU).
 
-
-```bash
-python setup.py install --prefix=/path/to/repertory
-```
-
-If you have multiple Python installations on your system (e.g. through
-Anaconda), you should update your `LD_LIBRARY_PATH` environment variable
-in `.bashrc` or `bash_profile` to point at the location of
-`libpython3.6.so` (or whatever version):
-
-
-```bash
-export LD_LIBRARY_PATH=$HOME/anaconda3/lib:$LD_LIBRARY_PATH
-```
-
-ANNarchy normally detects which python installation you are currently
-using, but helping it does not hurt\...
+You can also change the compiler flags if you know what you are doing. `-O3` does not always lead to faster simulation times, but it is worth a shot.
 
 #### CUDA
 
@@ -168,7 +147,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64/:$LD_LIBRARY_PATH
 This should in most cases work if you have only one CUDA installation.
 Otherwise, it is needed that you indicate where the CUDA libraries are,
 by modifying the ANNarchy configuration file located at
-`~/.config/ANNarchy/annarchy.json`:
+`$HOME/.config/ANNarchy/annarchy.json`:
 
 ``` {.json}
 {
@@ -194,7 +173,7 @@ It can happen that the detection of CUDA fails during installation, as
 some environment variables are not set. In this case try:
 
 ```bash
-sudo env "PATH=$PATH" "LIBRARY_PATH=$LIBRARY_PATH" python setup.py install
+env "PATH=$PATH" "LIBRARY_PATH=$LIBRARY_PATH" pip install .
 ```
 
 ## Installation on MacOS X
@@ -202,35 +181,88 @@ sudo env "PATH=$PATH" "LIBRARY_PATH=$LIBRARY_PATH" python setup.py install
 Installation on MacOS X is in principle similar to GNU/Linux:
 
 ```bash
-python setup.py install (--user or --prefix)
+pip install ANNarchy
 ```
 
-We advise using a full Python distribution such as
-[Anaconda](https://www.continuum.io/why-anaconda), which installs
-automatically all dependencies of ANNarchy, rather than using the old
-python provided by Apple.
+We advise using a full Python distribution such as [Miniforge](https://github.com/conda-forge/miniforge), which allows to install
+all dependencies of ANNarchy, rather than using the default python provided by Apple.
 
-The only problem with Anaconda is that the compiler will use by default the
-Python shared library provided by Apple, leading to the following crash
-when simulating:
+The main issue if the choice of the C++ compiler:
 
-    Fatal Python error: PyThreadState_Get: no current thread
-    Abort trap: 6
+### Using Apple's LLVM/clang
 
-The solution is to set the environment variable
-`DYLD_FALLBACK_LIBRARY_PATH` to point at the correct library
-`libpython3.6.dylib` in your `.bash_profile`. For a standard Anaconda
-installation, this should be:
+If not done already, you should first install the [Xcode Command Line Tools](https://developer.apple.com/), either through Apple's website or through [Homebrew](https://brew.sh/) (see <https://mac.install.guide/commandlinetools/> for a guide) to get the LLVM clang++ compiler.
+
+The major drawback is that Apple's clang++ still does not support OpenMP for parallel computing. Any attempt to use OpenMP with ANNarchy using this compiler will crash.
+
+If you have a M1 arm64 processor, it might be beneficial to tell clang++ to use optimizations for that hardware. Open the configuration file at `$HOME/.config/ANNarchy/annarchy.json` and add the following compiler flag (Xcode > 13.0):
+
+``` {.json}
+{
+    "openmp": {
+        "compiler": "clang++",
+        "flags": "-mcpu=apple-m1 -O2"
+    },
+    "cuda": {
+        "compiler": "nvcc",
+        "flags": "",
+        "device": 0,
+        "path": "/usr/local/cuda"
+    }
+}
+```
+
+### Using gcc
+
+In order to benefit from OpenMP parallelization, you should install `gcc`, the GNU C compiler, using [Homebrew](https://brew.sh/):
 
 ```bash
-export DYLD_FALLBACK_LIBRARY_PATH=$HOME/anaconda/lib:$DYLD_FALLBACK_LIBRARY_PATH
+brew install gcc
+```
+
+You will get the command-line C++ compiler with a **version number**, e.g.:
+
+```bash
+g++-11
+```
+The `g++` executable is a symlink to Apple's clang++, do not use it...
+
+You now have to tell ANNarchy which compiler to use, even if it is in your PATH. After installing ANNarchy, a config file is created in `$HOME/.config/ANNarchy/annarchy.json`. Open it and change the `openmp` entry to:
+
+``` {.json}
+{
+    "openmp": {
+        "compiler": "g++-11",
+        "flags": "-march=native -O2"
+    },
+    "cuda": {
+        "compiler": "nvcc",
+        "flags": "",
+        "device": 0,
+        "path": "/usr/local/cuda"
+    }
+}
 ```
 
 !!! note
 
-    The default compiler on OS X is clang-llvm. You should install the *command_line_tools* together with XCode in order to use it.
+    A potential problem with Anaconda/miniforge is that the compiler will use by default the
+    Python shared library provided by Apple, leading to the following crash
+    when simulating:
 
-    For some reasons, this compiler is not compatible with OpenMP, so the models will only run sequentially.
+        Fatal Python error: PyThreadState_Get: no current thread
+        Abort trap: 6
+
+    The solution is to set the environment variable
+    `DYLD_FALLBACK_LIBRARY_PATH` to point at the correct library
+    `libpython3.6.dylib` in your `.bash_profile`. For a standard Anaconda
+    installation, this should be:
+
+    ```bash
+    export DYLD_FALLBACK_LIBRARY_PATH=$HOME/anaconda/lib:$DYLD_FALLBACK_LIBRARY_PATH
+    ```
+
+!!! note
 
     The CUDA backend is not available on OS X.
 
