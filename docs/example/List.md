@@ -12,7 +12,6 @@ The Jupyter notebooks can be downloaded from:
 -   [Neural Field](NeuralField.ipynb): a simple model using [neural field](http://www.scholarpedia.org/article/Neural_fields) recurrent networks. This is a very simple rate-coded model without learning.
 -   [Bar learning](BarLearning.ipynb): an implementation of the bar learning problem, illustrating synaptic plasticity in rate-coded networks.
 -   [Structural Plasticity](StructuralPlasticity.ipynb): a dummy example using structural plasticity.
--   [Multiple Networks](MultipleNetworks.ipynb): shows how to use multiple networks and call `parallel_run` to run several networks in parallel.
 
 ## Spiking networks
 
@@ -41,6 +40,7 @@ The Jupyter notebooks can be downloaded from:
 ## Extensions
 
 -   [Image](Image.ipynb) and [Webcam](Webcam.ipynb): shows how to use the `ImagePopulation` and `VideoPopulation` classes of the `image` extension to clamp directly images and video streams into a rate-coded network. Also demonstrates the `convolution` extension.
+-   [Parallel simulations](MultipleNetworks.ipynb): shows how to call `parallel_run` to run several networks in parallel.
 -   [Bayesian optimization](BayesianOptimization.ipynb): a demo showing how to use `hyperopt` to search for hyperparameters of a  model.
 -   [Logging with tensorboard](BasalGanglia.ipynb): a simple basal ganglia model to show how to use the `tensorboard` extension.
 -   [BOLD monitoring](BoldMonitoring.ipynb): a showcase of the `bold` extension allowing to record BOLD signals fron a network.

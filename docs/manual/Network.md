@@ -9,7 +9,7 @@ is particularly tedious to implement.
 
 In order to run different networks using the same script, the `Network`
 object can be used to make copies of existing objects (populations,
-projections and monitors) and simulate them in parallel.
+projections and monitors) and simulate them in parallel using ``parallel_run()``.
 
 Let's suppose the following dummy network is defined:
 
@@ -33,6 +33,17 @@ One would like to compare the firing patterns in `pop2` when:
 !!! warning
 
     Running multiple networks in parallel is not supported on CUDA.
+
+!!! note
+
+    ``parallel_run()`` uses the ``multiprocessing`` module to start parallel processes. On Linux, it should work directly, but there is an issue on OSX. Since Python 3.8, the 'spawn' method is the default way to start processes, but it does not work on MacOS. The following code should fix the issue, but it should only be ran once in the script.
+
+    ```python
+    import platform
+    if platform.system() == "Darwin":
+        import multiprocessing as mp
+        mp.set_start_method('fork')
+    ```
 
 
 ## Parallel simulation
