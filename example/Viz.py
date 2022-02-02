@@ -59,7 +59,7 @@ class GLViewer(object):
         timer = QtCore.QTimer()
         timer.timeout.connect(self.update)
         timer.start(0)  
-        QtGui.QApplication.instance().exec_() 
+        QtGui.QApplication.instance().exec() 
 
 
 def loop_bubbles(populations, func, update_rate):

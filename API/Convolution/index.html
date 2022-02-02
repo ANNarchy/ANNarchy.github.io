@@ -1281,20 +1281,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../example/MultipleNetworks/" class="md-nav__link">
-        Multiple networks
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../example/StructuralPlasticity/" class="md-nav__link">
         Structural plasticity
       </a>
@@ -1437,6 +1423,20 @@
     <li class="md-nav__item">
       <a href="../../example/Webcam/" class="md-nav__link">
         Webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/MultipleNetworks/" class="md-nav__link">
+        Parallel simulations
       </a>
     </li>
   
@@ -1807,12 +1807,12 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
 <span class="n">proj</span> <span class="o">=</span> <span class="n">Convolution</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">connect_filter</span><span class="p">(</span>
     <span class="p">[</span>
-        <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span> 
-        <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span> 
+        <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]</span>
     <span class="p">])</span>
 </code></pre></div>
-<p>The maximum number of dimensions for populations and filters is 4, an error is thrown otherwise. </p>
+<p>The maximum number of dimensions for populations and filters is 4, an error is thrown otherwise.</p>
 <p>Depending on the number of dimensions of the pre- and post-synaptic populations, as well as of the kernel, the convolution is implemented differentely.</p>
 <p><strong>Method connect_filter()</strong></p>
 <ul>
@@ -1860,13 +1860,13 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
 <span class="sd">    proj = Convolution(inp, pop, &#39;exc&#39;)</span>
 <span class="sd">    proj.connect_filter(</span>
 <span class="sd">        [</span>
-<span class="sd">            [-1., 0., 1.], </span>
-<span class="sd">            [-1., 0., 1.], </span>
+<span class="sd">            [-1., 0., 1.],</span>
+<span class="sd">            [-1., 0., 1.],</span>
 <span class="sd">            [-1., 0., 1.]</span>
 <span class="sd">        ])</span>
 <span class="sd">    ```</span>
 
-<span class="sd">    The maximum number of dimensions for populations and filters is 4, an error is thrown otherwise. </span>
+<span class="sd">    The maximum number of dimensions for populations and filters is 4, an error is thrown otherwise.</span>
 
 <span class="sd">    Depending on the number of dimensions of the pre- and post-synaptic populations, as well as of the kernel, the convolution is implemented differentely.</span>
 
@@ -1906,7 +1906,7 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
 <span class="sd">        :param target: type of the connection</span>
 <span class="sd">        :param psp: continuous influence of a single synapse on the post-synaptic neuron (default for rate-coded: ``w*pre.r``).</span>
 <span class="sd">        :param operation: operation (sum, max, min, mean) performed by the kernel (default: sum).</span>
-<span class="sd">        &quot;&quot;&quot;</span>        
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Create the description, but it will not be used for generation</span>
         <span class="n">Projection</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -1922,6 +1922,10 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
         <span class="c1"># Disable saving</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_saveable</span> <span class="o">=</span> <span class="kc">False</span>
 
+        <span class="c1"># For copy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_used_single_filter</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_used_bank_of_filters</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operation</span> <span class="o">=</span> <span class="n">operation</span>
 
     <span class="k">def</span> <span class="nf">connect_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">delays</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">keep_last_dimension</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">subsampling</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1991,6 +1995,9 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
 
         <span class="c1"># Finish building the synapses</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_create</span><span class="p">()</span>
+
+        <span class="c1"># For copy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_used_single_filter</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">return</span> <span class="bp">self</span>
 
@@ -2067,11 +2074,39 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
         <span class="c1"># Finish building the synapses</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_create</span><span class="p">()</span>
 
+        <span class="c1"># For copy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_used_bank_of_filters</span> <span class="o">=</span> <span class="kc">True</span>
+
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">):</span>
         <span class="s2">&quot;Returns a copy of the projection when creating networks.  Internal use only.&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="n">copied_proj</span> <span class="o">=</span> <span class="n">Convolution</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">operation</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">copied</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">delays</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delays</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">subsampling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsampling</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">keep_last_dimension</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_last_dimension</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">padding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">multiple</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiple</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">dim_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">ndim</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">dim_pre</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">dimension</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">dim_post</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">dimension</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_used_single_filter</span><span class="p">:</span>
+            <span class="n">copied_proj</span><span class="o">.</span><span class="n">_generate_pre_coordinates</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_used_bank_of_filters</span><span class="p">:</span>
+            <span class="n">copied_proj</span><span class="o">.</span><span class="n">_generate_pre_coordinates_bank</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either use single filter or bank of filter must be True! (Missing connect?)&quot;</span><span class="p">)</span>
+
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_create</span><span class="p">()</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_connection_method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_method</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_connection_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_connection_delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_delay</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_storage_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage_format</span>
+        <span class="k">return</span> <span class="n">copied_proj</span>
 
     <span class="k">def</span> <span class="nf">_create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># create fake LIL object, just for compilation.</span>
@@ -2462,20 +2497,20 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
             <span class="c1"># Compute indices</span>
             <span class="k">if</span> <span class="n">dim</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim_kernel</span><span class="p">:</span>
                 <span class="n">code</span> <span class="o">+=</span> <span class="n">tabify</span><span class="p">(</span>
-                    <span class="sd">&quot;&quot;&quot;int %(index)s_pre = coord[%(dim)s] %(operator)s (%(index)s_w - %(center)s);&quot;&quot;&quot;</span> <span class="o">%</span> 
-                        <span class="p">{</span> 
-                            <span class="s1">&#39;id_proj&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> 
-                            <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">indices</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span> 
-                            <span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="n">dim</span><span class="p">,</span> 
-                            <span class="s1">&#39;operator&#39;</span><span class="p">:</span> <span class="s1">&#39;+&#39;</span> <span class="p">,</span> 
+                    <span class="sd">&quot;&quot;&quot;int %(index)s_pre = coord[%(dim)s] %(operator)s (%(index)s_w - %(center)s);&quot;&quot;&quot;</span> <span class="o">%</span>
+                        <span class="p">{</span>
+                            <span class="s1">&#39;id_proj&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                            <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">indices</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span>
+                            <span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="n">dim</span><span class="p">,</span>
+                            <span class="s1">&#39;operator&#39;</span><span class="p">:</span> <span class="s1">&#39;+&#39;</span> <span class="p">,</span>
                             <span class="s1">&#39;center&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_center_filter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">dim</span><span class="p">])</span>
                         <span class="p">},</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">code</span> <span class="o">+=</span> <span class="n">tabify</span><span class="p">(</span>
-                    <span class="sd">&quot;&quot;&quot;int %(index)s_pre = coord[%(dim)s];&quot;&quot;&quot;</span> <span class="o">%</span> 
+                    <span class="sd">&quot;&quot;&quot;int %(index)s_pre = coord[%(dim)s];&quot;&quot;&quot;</span> <span class="o">%</span>
                         <span class="p">{</span>
-                            <span class="s1">&#39;id_proj&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> 
-                            <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">indices</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span> 
+                            <span class="s1">&#39;id_proj&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                            <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">indices</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span>
                             <span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="n">dim</span>
                         <span class="p">},</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -2599,20 +2634,20 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
             <span class="c1"># Compute indices</span>
             <span class="k">if</span> <span class="n">dim</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim_kernel</span><span class="p">:</span>
                 <span class="n">code</span> <span class="o">+=</span> <span class="n">tabify</span><span class="p">(</span>
-                    <span class="sd">&quot;&quot;&quot;int %(index)s_pre = coord[%(dim)s] %(operator)s (%(index)s_w - %(center)s);&quot;&quot;&quot;</span> <span class="o">%</span> 
+                    <span class="sd">&quot;&quot;&quot;int %(index)s_pre = coord[%(dim)s] %(operator)s (%(index)s_w - %(center)s);&quot;&quot;&quot;</span> <span class="o">%</span>
                     <span class="p">{</span>
-                        <span class="s1">&#39;id_proj&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> 
-                        <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">indices</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span> 
-                        <span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="n">dim</span><span class="p">,</span> 
-                        <span class="s1">&#39;operator&#39;</span><span class="p">:</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> 
+                        <span class="s1">&#39;id_proj&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">indices</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span>
+                        <span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="n">dim</span><span class="p">,</span>
+                        <span class="s1">&#39;operator&#39;</span><span class="p">:</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span>
                         <span class="s1">&#39;center&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_center_filter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">dim</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
                     <span class="p">},</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">code</span> <span class="o">+=</span> <span class="n">tabify</span><span class="p">(</span>
-                    <span class="sd">&quot;&quot;&quot;int %(index)s_pre = coord[%(dim)s];&quot;&quot;&quot;</span> <span class="o">%</span> 
+                    <span class="sd">&quot;&quot;&quot;int %(index)s_pre = coord[%(dim)s];&quot;&quot;&quot;</span> <span class="o">%</span>
                     <span class="p">{</span>
-                        <span class="s1">&#39;id_proj&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> 
-                        <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">indices</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span> 
+                        <span class="s1">&#39;id_proj&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">indices</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span>
                         <span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="n">dim</span>
                     <span class="p">},</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -2815,7 +2850,7 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
 <span class="sd">    :param target: type of the connection</span>
 <span class="sd">    :param psp: continuous influence of a single synapse on the post-synaptic neuron (default for rate-coded: ``w*pre.r``).</span>
 <span class="sd">    :param operation: operation (sum, max, min, mean) performed by the kernel (default: sum).</span>
-<span class="sd">    &quot;&quot;&quot;</span>        
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Create the description, but it will not be used for generation</span>
     <span class="n">Projection</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -2830,6 +2865,11 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
 
     <span class="c1"># Disable saving</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_saveable</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># For copy</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_used_single_filter</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_used_bank_of_filters</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">operation</span> <span class="o">=</span> <span class="n">operation</span>
 </code></pre></div>
         </details>
     </div>
@@ -2965,6 +3005,9 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
 
     <span class="c1"># Finish building the synapses</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_create</span><span class="p">()</span>
+
+    <span class="c1"># For copy</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_used_single_filter</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div>
@@ -3106,6 +3149,9 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
 
     <span class="c1"># Finish building the synapses</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_create</span><span class="p">()</span>
+
+    <span class="c1"># For copy</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_used_bank_of_filters</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div>
@@ -3411,7 +3457,19 @@ assigned to sum(target).</p>
 
     <span class="k">def</span> <span class="nf">_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">):</span>
         <span class="s2">&quot;Returns a copy of the projection when creating networks.  Internal use only.&quot;</span>
-        <span class="k">return</span> <span class="ne">NotImplementedError</span>
+        <span class="n">copied_proj</span> <span class="o">=</span> <span class="n">Pooling</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">operation</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">copied</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extent</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">delays</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delays</span>
+
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_generate_extent_coordinates</span><span class="p">()</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_create</span><span class="p">()</span>
+
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_connection_method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_method</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_connection_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_connection_delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_delay</span>
+        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_storage_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage_format</span>
+        <span class="k">return</span> <span class="n">copied_proj</span>
 
     <span class="k">def</span> <span class="nf">_create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

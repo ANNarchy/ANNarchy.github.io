@@ -1087,20 +1087,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../example/MultipleNetworks/" class="md-nav__link">
-        Multiple networks
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../example/StructuralPlasticity/" class="md-nav__link">
         Structural plasticity
       </a>
@@ -1243,6 +1229,20 @@
     <li class="md-nav__item">
       <a href="../../example/Webcam/" class="md-nav__link">
         Webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/MultipleNetworks/" class="md-nav__link">
+        Parallel simulations
       </a>
     </li>
   
@@ -1398,7 +1398,7 @@ allows to return the network to its state before compilation, but this
 is particularly tedious to implement.</p>
 <p>In order to run different networks using the same script, the <code>Network</code>
 object can be used to make copies of existing objects (populations,
-projections and monitors) and simulate them in parallel.</p>
+projections and monitors) and simulate them in parallel using <code>parallel_run()</code>.</p>
 <p>Let's suppose the following dummy network is defined:</p>
 <div class="highlight"><pre><span></span><code><span class="n">pop1</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
 <span class="n">pop2</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">Izhikevich</span><span class="p">)</span>
@@ -1417,6 +1417,15 @@ projections and monitors) and simulate them in parallel.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Running multiple networks in parallel is not supported on CUDA.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>parallel_run()</code> uses the <code>multiprocessing</code> module to start parallel processes. On Linux, it should work directly, but there is an issue on OSX. Since Python 3.8, the 'spawn' method is the default way to start processes, but it does not work on MacOS. The following code should fix the issue, but it should only be ran once in the script.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">platform</span>
+<span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Darwin&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+    <span class="n">mp</span><span class="o">.</span><span class="n">set_start_method</span><span class="p">(</span><span class="s1">&#39;fork&#39;</span><span class="p">)</span>
+</code></pre></div>
 </div>
 <h2 id="parallel-simulation">Parallel simulation<a class="headerlink" href="#parallel-simulation" title="Permanent link">#</a></h2>
 <h3 id="parallel_run">parallel_run<a class="headerlink" href="#parallel_run" title="Permanent link">#</a></h3>

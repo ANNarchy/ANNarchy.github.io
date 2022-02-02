@@ -1146,20 +1146,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../example/MultipleNetworks/" class="md-nav__link">
-        Multiple networks
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../example/StructuralPlasticity/" class="md-nav__link">
         Structural plasticity
       </a>
@@ -1302,6 +1288,20 @@
     <li class="md-nav__item">
       <a href="../example/Webcam/" class="md-nav__link">
         Webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/MultipleNetworks/" class="md-nav__link">
+        Parallel simulations
       </a>
     </li>
   
@@ -1583,18 +1583,18 @@ sudo apt install python3-pyqtgraph python3-pyqt4.qtopengl python3-lxml
 <p>Using <code>python setup.py install</code> is deprecated, but still works.</p>
 <h4 id="c-compiler">C++ compiler<a class="headerlink" href="#c-compiler" title="Permanent link">#</a></h4>
 <p>By default, ANNarchy will use the GNU C++ compiler <code>g++</code>, which should be in your PATH. If you want to use another compiler (clang++, icc), you can edit the configuration file located at <code>$HOME/.config/ANNarchy/annarchy.json</code> (created during installation) accordingly. By default, it is:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-    <span class="nt">&quot;openmp&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;compiler&quot;</span><span class="p">:</span> <span class="s2">&quot;g++&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;flags&quot;</span><span class="p">:</span> <span class="s2">&quot;-march=native -O2&quot;</span>
-    <span class="p">},</span>
-    <span class="nt">&quot;cuda&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;compiler&quot;</span><span class="p">:</span> <span class="s2">&quot;nvcc&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;flags&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;device&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="nt">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/usr/local/cuda&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;openmp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;g++&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-march=native -O2&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;cuda&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nvcc&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/usr/local/cuda&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>The (path to the) compiler can be changed in the <code>openmp</code> section (ignore the <code>cuda</code> section if you do not have a GPU).</p>
 <p>You can also change the compiler flags if you know what you are doing. <code>-O3</code> does not always lead to faster simulation times, but it is worth a shot.</p>
@@ -1615,18 +1615,18 @@ subfolder:</p>
 Otherwise, it is needed that you indicate where the CUDA libraries are,
 by modifying the ANNarchy configuration file located at
 <code>$HOME/.config/ANNarchy/annarchy.json</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-    <span class="nt">&quot;openmp&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;compiler&quot;</span><span class="p">:</span> <span class="s2">&quot;g++&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;flags&quot;</span><span class="p">:</span> <span class="s2">&quot;-march=native -O2&quot;</span>
-    <span class="p">},</span>
-    <span class="nt">&quot;cuda&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;compiler&quot;</span><span class="p">:</span> <span class="s2">&quot;nvcc&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;flags&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;device&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="nt">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/usr/local/cuda&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;openmp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;g++&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-march=native -O2&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;cuda&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nvcc&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/usr/local/cuda&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>Simply point the <code>['cuda']['path']</code> field to the right location (without
 <code>lib64/</code>). If the nvcc compiler binary is at a different location, the
@@ -1647,18 +1647,18 @@ all dependencies of ANNarchy, rather than using the default python provided by A
 <p>If not done already, you should first install the <a href="https://developer.apple.com/">Xcode Command Line Tools</a>, either through Apple's website or through <a href="https://brew.sh/">Homebrew</a> (see <a href="https://mac.install.guide/commandlinetools/">https://mac.install.guide/commandlinetools/</a> for a guide) to get the LLVM clang++ compiler.</p>
 <p>The major drawback is that Apple's clang++ still does not support OpenMP for parallel computing. Any attempt to use OpenMP with ANNarchy using this compiler will crash.</p>
 <p>If you have a M1 arm64 processor, it might be beneficial to tell clang++ to use optimizations for that hardware. Open the configuration file at <code>$HOME/.config/ANNarchy/annarchy.json</code> and add the following compiler flag (Xcode &gt; 13.0):</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-    <span class="nt">&quot;openmp&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;compiler&quot;</span><span class="p">:</span> <span class="s2">&quot;clang++&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;flags&quot;</span><span class="p">:</span> <span class="s2">&quot;-mcpu=apple-m1 -O2&quot;</span>
-    <span class="p">},</span>
-    <span class="nt">&quot;cuda&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;compiler&quot;</span><span class="p">:</span> <span class="s2">&quot;nvcc&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;flags&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;device&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="nt">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/usr/local/cuda&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;openmp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;clang++&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-mcpu=apple-m1 -O2&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;cuda&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nvcc&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/usr/local/cuda&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h3 id="using-gcc">Using gcc<a class="headerlink" href="#using-gcc" title="Permanent link">#</a></h3>
 <p>In order to benefit from OpenMP parallelization, you should install <code>gcc</code>, the GNU C compiler, using <a href="https://brew.sh/">Homebrew</a>:</p>
@@ -1669,18 +1669,18 @@ all dependencies of ANNarchy, rather than using the default python provided by A
 </code></pre></div>
 The <code>g++</code> executable is a symlink to Apple's clang++, do not use it...</p>
 <p>You now have to tell ANNarchy which compiler to use, even if it is in your PATH. After installing ANNarchy, a config file is created in <code>$HOME/.config/ANNarchy/annarchy.json</code>. Open it and change the <code>openmp</code> entry to:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-    <span class="nt">&quot;openmp&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;compiler&quot;</span><span class="p">:</span> <span class="s2">&quot;g++-11&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;flags&quot;</span><span class="p">:</span> <span class="s2">&quot;-march=native -O2&quot;</span>
-    <span class="p">},</span>
-    <span class="nt">&quot;cuda&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;compiler&quot;</span><span class="p">:</span> <span class="s2">&quot;nvcc&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;flags&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;device&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="nt">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/usr/local/cuda&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;openmp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;g++-11&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-march=native -O2&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;cuda&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nvcc&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/usr/local/cuda&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

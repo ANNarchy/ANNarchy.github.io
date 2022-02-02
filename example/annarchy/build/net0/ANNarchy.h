@@ -15,7 +15,15 @@
 #include <cmath>
 #include <random>
 #include <cassert>
+// only included if compiled with -fopenmp
+#ifdef _OPENMP
+    #include <omp.h>
+#endif
 
+// Intrinsic operations (Intel/AMD)
+#ifdef __x86_64__
+    #include <immintrin.h>
+#endif
 
 /*
  * Built-in functions
@@ -55,8 +63,6 @@ inline double power(double x, unsigned int a){
  *
  */
 #include "pop0.hpp"
-#include "pop1.hpp"
-#include "pop2.hpp"
 
 /*
  * Structures for the projections
@@ -66,23 +72,11 @@ inline double power(double x, unsigned int a){
 #include "proj1.hpp"
 
 
-
-/*
- * Internal data
- *
-*/
-extern double dt;
-extern long int t;
-extern std::vector<std::mt19937> rng;
-
-
 /*
  * Declaration of the populations
  *
  */
 extern PopStruct0 pop0;
-extern PopStruct1 pop1;
-extern PopStruct2 pop2;
 
 
 /*
@@ -107,28 +101,25 @@ void removeRecorder(Monitor* recorder);
 /*
  * Simulation methods
  *
-*/
-
-void initialize(double _dt) ;
-
-void init_rng_dist();
-
-void run(int nbSteps);
-
-int run_until(int steps, std::vector<int> populations, bool or_and);
-
+ */
+void run(const int nbSteps);
+int run_until(const int steps, std::vector<int> populations, bool or_and);
 void step();
 
+/*
+ *  Initialization
+ */
+void initialize(const double dt_) ;
+void init_rng_dist();
 
 /*
  * Time export
  *
 */
-long int getTime() ;
-void setTime(long int t_) ;
-
-double getDt() ;
-void setDt(double dt_);
+long int getTime();
+void setTime(const long int t_);
+double getDt();
+void setDt(const double dt_);
 
 /*
  * Number of threads

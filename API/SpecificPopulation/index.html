@@ -1223,20 +1223,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../example/MultipleNetworks/" class="md-nav__link">
-        Multiple networks
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../example/StructuralPlasticity/" class="md-nav__link">
         Structural plasticity
       </a>
@@ -1379,6 +1365,20 @@
     <li class="md-nav__item">
       <a href="../../example/Webcam/" class="md-nav__link">
         Webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/MultipleNetworks/" class="md-nav__link">
+        Parallel simulations
       </a>
     </li>
   
@@ -2300,19 +2300,14 @@ You can then repeat a stimulation many times.</p>
 <span class="s2">        this-&gt;recompute_spike_times();</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_specific_template</span><span class="p">[</span><span class="s1">&#39;update_variables&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;num_threads&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_specific_template</span><span class="p">[</span><span class="s1">&#39;update_variables&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        if(_active){</span>
 <span class="s2">            spiked.clear();</span>
 <span class="s2">            for(int i = 0; i &lt; size; i++){</span>
 <span class="s2">                // Emit spike</span>
 <span class="s2">                if( _t == next_spike[i] ){</span>
 <span class="s2">                    last_spike[i] = _t;</span>
-<span class="s2">                    /*</span>
-<span class="s2">                    while(++idx_next_spike[i]&lt; spike_times[i].size()){</span>
-<span class="s2">                        if(spike_times[i][idx_next_spike[i]] &gt; _t)</span>
-<span class="s2">                            break;</span>
-<span class="s2">                    }</span>
-<span class="s2">                    */</span>
 <span class="s2">                    idx_next_spike[i]++ ;</span>
 <span class="s2">                    if(idx_next_spike[i] &lt; spike_times[i].size()){</span>
 <span class="s2">                        next_spike[i] = spike_times[i][idx_next_spike[i]];</span>
@@ -2321,6 +2316,35 @@ You can then repeat a stimulation many times.</p>
 <span class="s2">                }</span>
 <span class="s2">            }</span>
 <span class="s2">            _t++;</span>
+<span class="s2">        }</span>
+<span class="s2">&quot;&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_specific_template</span><span class="p">[</span><span class="s1">&#39;update_variables&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        if(_active){</span>
+<span class="s2">            #pragma omp single</span>
+<span class="s2">            {</span>
+<span class="s2">                spiked.clear();</span>
+<span class="s2">            }</span>
+
+<span class="s2">            #pragma omp for</span>
+<span class="s2">            for(int i = 0; i &lt; size; i++){</span>
+<span class="s2">                // Emit spike</span>
+<span class="s2">                if( _t == next_spike[i] ){</span>
+<span class="s2">                    last_spike[i] = _t;</span>
+<span class="s2">                    idx_next_spike[i]++ ;</span>
+<span class="s2">                    if(idx_next_spike[i] &lt; spike_times[i].size()){</span>
+<span class="s2">                        next_spike[i] = spike_times[i][idx_next_spike[i]];</span>
+<span class="s2">                    }</span>
+
+<span class="s2">                    #pragma omp critical</span>
+<span class="s2">                    spiked.push_back(i);</span>
+<span class="s2">                }</span>
+<span class="s2">            }</span>
+
+<span class="s2">            #pragma omp single</span>
+<span class="s2">            {</span>
+<span class="s2">                _t++;</span>
+<span class="s2">            }</span>
 <span class="s2">        }</span>
 <span class="s2">&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_specific_template</span><span class="p">[</span><span class="s1">&#39;test_spike_cond&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>

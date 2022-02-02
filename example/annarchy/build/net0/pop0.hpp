@@ -1,9 +1,11 @@
 /*
- *  ANNarchy-version: 4.7.0
+ *  ANNarchy-version: 4.7.1b
  */
 #pragma once
+
 #include "ANNarchy.h"
 #include <random>
+
 
 
 extern double dt;
@@ -449,7 +451,7 @@ struct PopStruct0{
     // Method called to initialize the data structures
     void init_population() {
     #ifdef _DEBUG
-        std::cout << "PopStruct0::init_population() - this = " << this << std::endl;
+        std::cout << "PopStruct0::init_population(size="<<this->size<<") - this = " << this << std::endl;
     #endif
         _active = true;
 
@@ -688,6 +690,8 @@ struct PopStruct0{
         size_in_bytes += sizeof(double) * r.capacity();	// r
         size_in_bytes += sizeof(double) * g_exc.capacity();	// g_exc
         size_in_bytes += sizeof(double) * g_inh.capacity();	// g_inh
+        // RNGs
+        size_in_bytes += sizeof(double) * rand_0.capacity();	// rand_0
 
         return size_in_bytes;
     }
@@ -710,6 +714,19 @@ struct PopStruct0{
         g_exc.shrink_to_fit();
         g_inh.clear();
         g_inh.shrink_to_fit();
+
+        // Mean Firing Rate
+        for (auto it = _spike_history.begin(); it != _spike_history.end(); it++) {
+            while(!it->empty())
+                it->pop();
+        }
+        _spike_history.clear();
+        _spike_history.shrink_to_fit();
+
+        // RNGs
+
+        rand_0.clear();
+        rand_0.shrink_to_fit();
 
     }
 };

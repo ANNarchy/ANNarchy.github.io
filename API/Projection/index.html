@@ -1313,20 +1313,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../example/MultipleNetworks/" class="md-nav__link">
-        Multiple networks
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../example/StructuralPlasticity/" class="md-nav__link">
         Structural plasticity
       </a>
@@ -1469,6 +1455,20 @@
     <li class="md-nav__item">
       <a href="../../example/Webcam/" class="md-nav__link">
         Webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example/MultipleNetworks/" class="md-nav__link">
+        Parallel simulations
       </a>
     </li>
   
@@ -1994,9 +1994,6 @@ Projection        </code>
         <span class="c1"># If a single weight value is used</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_single_constant_weight</span> <span class="o">=</span> <span class="kc">False</span>
 
-        <span class="c1"># If a dense matrix should be used instead of LIL</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_dense_matrix</span> <span class="o">=</span> <span class="kc">False</span>
-
         <span class="c1"># Are random distribution used for weights/delays</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connector_weight_dist</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connector_delay_dist</span> <span class="o">=</span> <span class="kc">None</span>
@@ -2068,7 +2065,6 @@ Projection        </code>
 
         <span class="c1"># these flags are modified during connect_XXX called before Network()</span>
         <span class="n">copied_proj</span><span class="o">.</span><span class="n">_single_constant_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_single_constant_weight</span>
-        <span class="n">copied_proj</span><span class="o">.</span><span class="n">_dense_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dense_matrix</span>
         <span class="n">copied_proj</span><span class="o">.</span><span class="n">connector_weight_dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_weight_dist</span>
         <span class="n">copied_proj</span><span class="o">.</span><span class="n">connector_delay_dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_delay_dist</span>
         <span class="n">copied_proj</span><span class="o">.</span><span class="n">connector_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span>
@@ -2081,6 +2077,10 @@ Projection        </code>
         <span class="c1"># for some projection types saving is not allowed (e. g. Convolution, Pooling)</span>
         <span class="n">copied_proj</span><span class="o">.</span><span class="n">_saveable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_saveable</span>
 
+        <span class="c1"># optional flags</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_bsr_size&quot;</span><span class="p">):</span>
+            <span class="n">copied_proj</span><span class="o">.</span><span class="n">_bsr_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bsr_size</span>
+
         <span class="k">return</span> <span class="n">copied_proj</span>
 
     <span class="k">def</span> <span class="nf">_generate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2088,31 +2088,45 @@ Projection        </code>
         <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">_instantiate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
-        <span class="s2">&quot;Instantiates the projection after compilation.&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_connect</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiates the projection after compilation. The function should be</span>
+<span class="sd">        called by Compiler._instantiate().</span>
+
+<span class="sd">        :param:     module  cython module (ANNarchyCore instance)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connect</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_init_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Method used after compilation to initialize the attributes. Called by Generator._instantiate</span>
+<span class="sd">        Method used after compilation to initialize the attributes. The function</span>
+<span class="sd">        should be called by Compiler._instantiate</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># the weights (&#39;w&#39;) are already inited by the _connect() method.</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;w&#39;</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Builds up dendrites either from list or dictionary. Called by instantiate().</span>
+
+<span class="sd">        :param:     module  cython module (ANNarchyCore instance)</span>
+<span class="sd">        :return:    True, if the connector was successfully instantiated. Potential errors are kept by </span>
+<span class="sd">                    Python exceptions. If the Cython - connector call fails (return False) the most likely</span>
+<span class="sd">                    reason is that there was not enough memory available.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Local import to prevent circular import (HD: 28th June 2021)</span>
         <span class="kn">from</span> <span class="nn">ANNarchy.generator.Utils</span> <span class="kn">import</span> <span class="n">cpp_connector_available</span>
 
+        <span class="c1"># Sanity check</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_method</span><span class="p">:</span>
             <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s1">&#39;The projection between &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; and &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; is declared but not connected.&#39;</span><span class="p">)</span>
 
+        <span class="c1"># Debug printout</span>
         <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;verbose&quot;</span><span class="p">]:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Connectivity parameter (&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;):&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span> <span class="p">)</span>
 
+        <span class="c1"># Instantiate the Cython wrapper</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="p">:</span>
             <span class="n">cy_wrapper</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;proj&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_wrapper&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span> <span class="o">=</span> <span class="n">cy_wrapper</span><span class="p">()</span>
@@ -2120,7 +2134,7 @@ Projection        </code>
         <span class="c1"># Check if there is a specialized CPP connector</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cpp_connector_available</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage_format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage_order</span><span class="p">):</span>
             <span class="c1"># No default connector -&gt; initialize from LIL</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">init_from_lil_connectivity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection_method</span><span class="p">(</span><span class="o">*</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span><span class="p">)))</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">init_from_lil_connectivity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection_method</span><span class="p">(</span><span class="o">*</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span><span class="p">)))</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># fixed probability pattern</span>
@@ -2143,7 +2157,7 @@ Projection        </code>
                     <span class="n">d_dist_arg1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
                     <span class="n">d_dist_arg2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">fixed_probability</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">ranks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">ranks</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">w_dist_arg1</span><span class="p">,</span> <span class="n">w_dist_arg2</span><span class="p">,</span> <span class="n">d_dist_arg1</span><span class="p">,</span> <span class="n">d_dist_arg2</span><span class="p">,</span> <span class="n">allow_self_connections</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">fixed_probability</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">ranks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">ranks</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">w_dist_arg1</span><span class="p">,</span> <span class="n">w_dist_arg2</span><span class="p">,</span> <span class="n">d_dist_arg1</span><span class="p">,</span> <span class="n">d_dist_arg2</span><span class="p">,</span> <span class="n">allow_self_connections</span><span class="p">)</span>
 
             <span class="c1"># fixed number pre prattern</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span><span class="o">==</span> <span class="s2">&quot;Random Convergent&quot;</span><span class="p">:</span>
@@ -2164,11 +2178,14 @@ Projection        </code>
                     <span class="n">d_dist_arg1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
                     <span class="n">d_dist_arg2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">fixed_number_pre</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">ranks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">ranks</span><span class="p">,</span> <span class="n">number_nonzero</span><span class="p">,</span> <span class="n">w_dist_arg1</span><span class="p">,</span> <span class="n">w_dist_arg2</span><span class="p">,</span> <span class="n">d_dist_arg1</span><span class="p">,</span> <span class="n">d_dist_arg2</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">fixed_number_pre</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">ranks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">ranks</span><span class="p">,</span> <span class="n">number_nonzero</span><span class="p">,</span> <span class="n">w_dist_arg1</span><span class="p">,</span> <span class="n">w_dist_arg2</span><span class="p">,</span> <span class="n">d_dist_arg1</span><span class="p">,</span> <span class="n">d_dist_arg2</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># This should never happen ...</span>
                 <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s2">&quot;No initialization for CPP-connector defined ...&quot;</span><span class="p">)</span>
+
+        <span class="c1"># should be never reached ...</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">_store_connectivity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">delay</span><span class="p">,</span> <span class="n">storage_format</span><span class="o">=</span><span class="s2">&quot;lil&quot;</span><span class="p">,</span> <span class="n">storage_order</span><span class="o">=</span><span class="s2">&quot;post_to_pre&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -2176,6 +2193,57 @@ Projection        </code>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_method</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s2">&quot;Projection &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot; was already connected ... data will be overwritten.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">storage_format</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_type</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;spike&quot;</span><span class="p">:</span>
+            <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s2">&quot;Automatic format selection is not supported for spiking models yet.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># We check some heuristics to select a specific format (currently only on GPUs)</span>
+        <span class="c1">#</span>
+        <span class="c1">#   - If the filling degree is high enough a full matrix representation might be better</span>
+        <span class="c1">#   - if the number of rows is higher then the number of (filled) columns the ELLPACK-R might be better</span>
+        <span class="c1">#   - if the number of (filled) columns is higher than the number of rows then the CSR might be better</span>
+        <span class="c1">#</span>
+        <span class="c1">#   HD (17th Jan. 2022): Currently structural plasticity is only usable with LIL. But one could also</span>
+        <span class="c1">#                        apply it for dense matrices in the future. For CSR and in particular the ELL-</span>
+        <span class="c1">#                        like formats the potential memory-reallocations make the structural plasticity</span>
+        <span class="c1">#                        a costly operation.</span>
+        <span class="k">if</span> <span class="n">storage_format</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_type</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;rate&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;structural_plasticity&quot;</span><span class="p">]:</span>
+                <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;lil&quot;</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span> <span class="o">==</span> <span class="s2">&quot;All-to-All&quot;</span><span class="p">:</span>
+                <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;dense&quot;</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span> <span class="o">==</span> <span class="s2">&quot;Random&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">&gt;=</span> <span class="mf">0.6</span><span class="p">:</span>
+                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;dense&quot;</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">64</span><span class="p">:</span>
+                        <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;csr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;ellr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;csr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;ellr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span> <span class="o">==</span> <span class="s2">&quot;Random Convergent&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.6</span><span class="p">:</span>
+                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;dense&quot;</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;ellr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;csr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;ellr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">):</span>
+                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;csr&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;lil&quot;</span>
+
+            <span class="n">Global</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="s2">&quot;Automatic format selection for&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">storage_format</span><span class="p">)</span>
 
         <span class="c1"># Store connectivity pattern parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection_method</span> <span class="o">=</span> <span class="n">method</span>
@@ -3452,9 +3520,6 @@ Projection        </code>
     <span class="c1"># If a single weight value is used</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_single_constant_weight</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="c1"># If a dense matrix should be used instead of LIL</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_dense_matrix</span> <span class="o">=</span> <span class="kc">False</span>
-
     <span class="c1"># Are random distribution used for weights/delays</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">connector_weight_dist</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">connector_delay_dist</span> <span class="o">=</span> <span class="kc">None</span>
@@ -3602,13 +3667,6 @@ Projection        </code>
     <span class="c1"># Does the projection define a single non-plastic weight?</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">force_multiple_weights</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_single_constant_weight</span> <span class="o">=</span> <span class="kc">True</span>
-
-    <span class="c1"># Is it a dense connectivity matrix?</span>
-    <span class="k">if</span> <span class="n">allow_self_connections</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="n">PopulationView</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">PopulationView</span><span class="p">):</span>
-        <span class="c1"># TODO: for the moment disabled as it is not implemented</span>
-        <span class="c1"># correctly (HD (15. Feb. 2019))</span>
-        <span class="c1">#self._dense_matrix = True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_dense_matrix</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="c1"># if weights or delays are from random distribution I need to know this in code generator</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">connector_weight_dist</span> <span class="o">=</span> <span class="n">weights</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">RandomDistribution</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
@@ -4555,6 +4613,9 @@ the neuron with the same normalized coordinates using a Gaussian profile.</p>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">force_multiple_weights</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_single_constant_weight</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">storage_format</span> <span class="o">==</span> <span class="s2">&quot;dense&quot;</span><span class="p">:</span>
+        <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s2">&quot;The usage of &#39;dense&#39; storage format on one-to-one pattern is not allowed.&quot;</span><span class="p">)</span>
 
     <span class="c1"># if weights or delays are from random distribution I need to know this in code generator</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">connector_weight_dist</span> <span class="o">=</span> <span class="n">weights</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">RandomDistribution</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
