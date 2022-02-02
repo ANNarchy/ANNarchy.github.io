@@ -285,9 +285,7 @@ simplicity of element access.
 
 This section describes the creation of user-specific connection patterns
 in ANNarchy, if the available patterns are not enough. A connection
-pattern is simply implemented as a method returning a `CSR` (compressed
-sparse-row) object containing all the necessary information to create
-the synapses.
+pattern is simply implemented as a method returning a `LILConnectivity` (list-of-list) object containing all the necessary information to create the synapses.
 
 A connector method must take on the first position the pre-synaptic
 population (or a subset of it) and on the second one the post-synaptic
@@ -309,7 +307,7 @@ from ANNarchy import *
 
 def probabilistic_pattern(pre, post, weight, probability):
 
-    synapses = CSR()
+    synapses = LILConnectivity()
 
     ... pattern code comes here ...
 
@@ -318,7 +316,7 @@ def probabilistic_pattern(pre, post, weight, probability):
 
 ### fixed_probability in Python
 
-The connector method needs to return a `CSR` object storing the
+The connector method needs to return a `LILConnectivity` object storing the
 connectivity. For each post-synaptic neuron receiving synapses, a list
 of pre-synaptic ranks, weight values and delays must be added to the
 structure. If you use 2D or 3D populations you need to transform the
@@ -329,8 +327,8 @@ import random
 from ANNarchy import *
 
 def probabilistic_pattern(pre, post, weight, probability):
-    # Create a compressed sparse row (CSR) structure for the connectivity matrix
-    synapses = CSR()
+    # Create a LIL structure for the connectivity matrix
+    synapses = LILConnectivity()
     # For all neurons in the post-synaptic population
     for post_rank in xrange(post.size):
         # Decide which pre-synaptic neurons should form synapses
@@ -341,7 +339,7 @@ def probabilistic_pattern(pre, post, weight, probability):
         # Create weights and delays arrays of the same size
         values = [weight for i in xrange(len(ranks)) ]
         delays = [0 for i in xrange(len(ranks)) ]
-        # Add this information to the CSR matrix
+        # Add this information to the LIL matrix
         synapses.add(post_rank, ranks, values, delays)
 
     return synapses
@@ -354,7 +352,7 @@ value `probability` provided as argument to the function.
 
 The lists `values` and `delays` are then created with the same size as
 `ranks` (important!), and filled with the desired value. All this
-information is then fed into the CSR matrix using the
+information is then fed into the LIL matrix using the
 `add(post_rank, ranks, values, delays)` method.
 
 !!! note
