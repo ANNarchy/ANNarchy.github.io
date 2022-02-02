@@ -48,31 +48,6 @@ protected:
         std::cout << "PopRecorder0 (" << this << ") instantiated." << std::endl;
     #endif
 
-        this->g_exc = std::vector< std::vector< double > >();
-        this->record_g_exc = false; 
-        this->g_inh = std::vector< std::vector< double > >();
-        this->record_g_inh = false; 
-        this->I = std::vector< std::vector< double > >();
-        this->record_I = false; 
-        this->v = std::vector< std::vector< double > >();
-        this->record_v = false; 
-        this->u = std::vector< std::vector< double > >();
-        this->record_u = false; 
-        this->r = std::vector< std::vector< double > >();
-        this->record_r = false; 
-        this->spike = std::map<int,  std::vector< long int > >();
-        if(!this->partial){
-            for(int i=0; i<pop0.size; i++) {
-                this->spike[i]=std::vector<long int>();
-            }
-        }
-        else{
-            for(int i=0; i<this->ranks.size(); i++) {
-                this->spike[this->ranks[i]]=std::vector<long int>();
-            }
-        }
-        this->record_spike = false; 
-
     }
 
 public:
@@ -95,124 +70,15 @@ public:
         std::cout << "PopRecorder0::record()" << std::endl;
     #endif
 
-        if(this->record_I && ( (t - this->offset_) % this->period_ == this->period_offset_ )){
-            if(!this->partial)
-                this->I.push_back(pop0.I);
-            else{
-                std::vector<double> tmp = std::vector<double>();
-                for (unsigned int i=0; i<this->ranks.size(); i++){
-                    tmp.push_back(pop0.I[this->ranks[i]]);
-                }
-                this->I.push_back(tmp);
-            }
-        }
-        if(this->record_v && ( (t - this->offset_) % this->period_ == this->period_offset_ )){
-            if(!this->partial)
-                this->v.push_back(pop0.v);
-            else{
-                std::vector<double> tmp = std::vector<double>();
-                for (unsigned int i=0; i<this->ranks.size(); i++){
-                    tmp.push_back(pop0.v[this->ranks[i]]);
-                }
-                this->v.push_back(tmp);
-            }
-        }
-        if(this->record_u && ( (t - this->offset_) % this->period_ == this->period_offset_ )){
-            if(!this->partial)
-                this->u.push_back(pop0.u);
-            else{
-                std::vector<double> tmp = std::vector<double>();
-                for (unsigned int i=0; i<this->ranks.size(); i++){
-                    tmp.push_back(pop0.u[this->ranks[i]]);
-                }
-                this->u.push_back(tmp);
-            }
-        }
-        if(this->record_r && ( (t - this->offset_) % this->period_ == this->period_offset_ )){
-            if(!this->partial)
-                this->r.push_back(pop0.r);
-            else{
-                std::vector<double> tmp = std::vector<double>();
-                for (unsigned int i=0; i<this->ranks.size(); i++){
-                    tmp.push_back(pop0.r[this->ranks[i]]);
-                }
-                this->r.push_back(tmp);
-            }
-        }
-        if(this->record_spike){
-            for(int i=0; i<pop0.spiked.size(); i++){
-                if(!this->partial){
-                    this->spike[pop0.spiked[i]].push_back(t);
-                }
-                else{
-                    if( std::find(this->ranks.begin(), this->ranks.end(), pop0.spiked[i])!=this->ranks.end() ){
-                        this->spike[pop0.spiked[i]].push_back(t);
-                    }
-                }
-            }
-        } 
     }
 
     void record_targets() {
 
-        if(this->record_g_exc && ( (t - this->offset_) % this->period_ == this->period_offset_ )){
-            if(!this->partial)
-                this->g_exc.push_back(pop0.g_exc);
-            else{
-                std::vector<double> tmp = std::vector<double>();
-                for (unsigned int i=0; i<this->ranks.size(); i++){
-                    tmp.push_back(pop0.g_exc[this->ranks[i]]);
-                }
-                this->g_exc.push_back(tmp);
-            }
-        }
-        if(this->record_g_inh && ( (t - this->offset_) % this->period_ == this->period_offset_ )){
-            if(!this->partial)
-                this->g_inh.push_back(pop0.g_inh);
-            else{
-                std::vector<double> tmp = std::vector<double>();
-                for (unsigned int i=0; i<this->ranks.size(); i++){
-                    tmp.push_back(pop0.g_inh[this->ranks[i]]);
-                }
-                this->g_inh.push_back(tmp);
-            }
-        }
     }
 
     long int size_in_bytes() {
         long int size_in_bytes = 0;
         
-        // local variable I
-        size_in_bytes += sizeof(std::vector<double>) * I.capacity();
-        for(auto it=I.begin(); it!= I.end(); it++) {
-            size_in_bytes += it->capacity() * sizeof(double);
-        }
-        
-        // local variable v
-        size_in_bytes += sizeof(std::vector<double>) * v.capacity();
-        for(auto it=v.begin(); it!= v.end(); it++) {
-            size_in_bytes += it->capacity() * sizeof(double);
-        }
-        
-        // local variable u
-        size_in_bytes += sizeof(std::vector<double>) * u.capacity();
-        for(auto it=u.begin(); it!= u.end(); it++) {
-            size_in_bytes += it->capacity() * sizeof(double);
-        }
-        
-        // local variable r
-        size_in_bytes += sizeof(std::vector<double>) * r.capacity();
-        for(auto it=r.begin(); it!= r.end(); it++) {
-            size_in_bytes += it->capacity() * sizeof(double);
-        }
-        
-        // record spike events
-        size_in_bytes += sizeof(spike);
-        for ( auto it = spike.begin(); it != spike.end(); it++ ) {
-            size_in_bytes += sizeof(int); // key
-            size_in_bytes += sizeof(long int) * (it->second).capacity(); // value
-        }
-                
         return size_in_bytes;
     }
 
@@ -221,83 +87,244 @@ public:
         std::cout << "Delete instance of PopRecorder0 ( " << this << " ) " << std::endl;
     #endif
 
-        for(auto it = this->I.begin(); it != this->I.end(); it++) {
-            it->clear();
-            it->shrink_to_fit();
-        }
-        this->I.clear();
-    
-        for(auto it = this->v.begin(); it != this->v.end(); it++) {
-            it->clear();
-            it->shrink_to_fit();
-        }
-        this->v.clear();
-    
-        for(auto it = this->u.begin(); it != this->u.end(); it++) {
-            it->clear();
-            it->shrink_to_fit();
-        }
-        this->u.clear();
-    
-        for(auto it = this->r.begin(); it != this->r.end(); it++) {
-            it->clear();
-            it->shrink_to_fit();
-        }
-        this->r.clear();
-    
-            for (auto it = this->spike.begin(); it != this->spike.end(); it++) {
-                it->second.clear();
-                it->second.shrink_to_fit();
-            }
-            this->spike.clear();
-        
 
         removeRecorder(this);
     }
 
 
 
-    // Local variable g_exc
-    std::vector< std::vector< double > > g_exc ;
-    bool record_g_exc ; 
-    // Local variable g_inh
-    std::vector< std::vector< double > > g_inh ;
-    bool record_g_inh ; 
-    // Local variable I
-    std::vector< std::vector< double > > I ;
-    bool record_I ; 
-    // Local variable v
-    std::vector< std::vector< double > > v ;
-    bool record_v ; 
-    // Local variable u
-    std::vector< std::vector< double > > u ;
-    bool record_u ; 
+};
+
+class PopRecorder1 : public Monitor
+{
+protected:
+    PopRecorder1(std::vector<int> ranks, int period, int period_offset, long int offset)
+        : Monitor(ranks, period, period_offset, offset)
+    {
+    #ifdef _DEBUG
+        std::cout << "PopRecorder1 (" << this << ") instantiated." << std::endl;
+    #endif
+
+        this->_sum_exc = std::vector< std::vector< double > >();
+        this->record__sum_exc = false; 
+        this->r = std::vector< std::vector< double > >();
+        this->record_r = false; 
+    }
+
+public:
+
+    static int create_instance(std::vector<int> ranks, int period, int period_offset, long int offset) {
+        auto new_recorder = new PopRecorder1(ranks, period, period_offset, offset);
+        auto id = addRecorder(static_cast<Monitor*>(new_recorder));
+    #ifdef _DEBUG
+        std::cout << "PopRecorder1 (" << new_recorder << ") received list position (ID) = " << id << std::endl;
+    #endif
+        return id;
+    }
+
+    static PopRecorder1* get_instance(int id) {
+        return static_cast<PopRecorder1*>(getRecorder(id));
+    }
+
+    void record() {
+    #ifdef _TRACE_SIMULATION_STEPS
+        std::cout << "PopRecorder1::record()" << std::endl;
+    #endif
+
+        if(this->record_r && ( (t - this->offset_) % this->period_ == this->period_offset_ )){
+            if(!this->partial)
+                this->r.push_back(pop1.r);
+            else{
+                std::vector<double> tmp = std::vector<double>();
+                for (unsigned int i=0; i<this->ranks.size(); i++){
+                    tmp.push_back(pop1.r[this->ranks[i]]);
+                }
+                this->r.push_back(tmp);
+            }
+        }
+    }
+
+    void record_targets() {
+
+        if(this->record__sum_exc && ( (t - this->offset_) % this->period_ == this->period_offset_ )){
+            if(!this->partial)
+                this->_sum_exc.push_back(pop1._sum_exc);
+            else{
+                std::vector<double> tmp = std::vector<double>();
+                for (unsigned int i=0; i<this->ranks.size(); i++){
+                    tmp.push_back(pop1._sum_exc[this->ranks[i]]);
+                }
+                this->_sum_exc.push_back(tmp);
+            }
+        }
+    }
+
+    long int size_in_bytes() {
+        long int size_in_bytes = 0;
+        
+        // local variable r
+        size_in_bytes += sizeof(std::vector<double>) * r.capacity();
+        for(auto it=r.begin(); it!= r.end(); it++) {
+            size_in_bytes += it->capacity() * sizeof(double);
+        }
+        
+        return size_in_bytes;
+    }
+
+    void clear() {
+    #ifdef _DEBUG
+        std::cout << "Delete instance of PopRecorder1 ( " << this << " ) " << std::endl;
+    #endif
+
+        for(auto it = this->r.begin(); it != this->r.end(); it++) {
+            it->clear();
+            it->shrink_to_fit();
+        }
+        this->r.clear();
+    
+
+        removeRecorder(this);
+    }
+
+
+
+    // Local variable _sum_exc
+    std::vector< std::vector< double > > _sum_exc ;
+    bool record__sum_exc ; 
     // Local variable r
     std::vector< std::vector< double > > r ;
     bool record_r ; 
-    // Local variable spike
-    std::map<int, std::vector< long int > > spike ;
-    bool record_spike ;
-    void clear_spike() {
-        for ( auto it = spike.begin(); it != spike.end(); it++ ) {
-            it->second.clear();
-            it->second.shrink_to_fit();
-        }
-    }
-
 };
 
-class ProjRecorder0 : public Monitor
+class PopRecorder2 : public Monitor
 {
 protected:
-    ProjRecorder0(std::vector<int> ranks, int period, int period_offset, long int offset)
+    PopRecorder2(std::vector<int> ranks, int period, int period_offset, long int offset)
         : Monitor(ranks, period, period_offset, offset)
     {
     #ifdef _DEBUG
-        std::cout << "ProjRecorder0 (" << this << ") instantiated." << std::endl;
+        std::cout << "PopRecorder2 (" << this << ") instantiated." << std::endl;
+    #endif
+
+        this->_sum_exc = std::vector< std::vector< double > >();
+        this->record__sum_exc = false; 
+        this->_sum_inh = std::vector< std::vector< double > >();
+        this->record__sum_inh = false; 
+        this->r = std::vector< std::vector< double > >();
+        this->record_r = false; 
+    }
+
+public:
+
+    static int create_instance(std::vector<int> ranks, int period, int period_offset, long int offset) {
+        auto new_recorder = new PopRecorder2(ranks, period, period_offset, offset);
+        auto id = addRecorder(static_cast<Monitor*>(new_recorder));
+    #ifdef _DEBUG
+        std::cout << "PopRecorder2 (" << new_recorder << ") received list position (ID) = " << id << std::endl;
+    #endif
+        return id;
+    }
+
+    static PopRecorder2* get_instance(int id) {
+        return static_cast<PopRecorder2*>(getRecorder(id));
+    }
+
+    void record() {
+    #ifdef _TRACE_SIMULATION_STEPS
+        std::cout << "PopRecorder2::record()" << std::endl;
+    #endif
+
+        if(this->record_r && ( (t - this->offset_) % this->period_ == this->period_offset_ )){
+            if(!this->partial)
+                this->r.push_back(pop2.r);
+            else{
+                std::vector<double> tmp = std::vector<double>();
+                for (unsigned int i=0; i<this->ranks.size(); i++){
+                    tmp.push_back(pop2.r[this->ranks[i]]);
+                }
+                this->r.push_back(tmp);
+            }
+        }
+    }
+
+    void record_targets() {
+
+        if(this->record__sum_exc && ( (t - this->offset_) % this->period_ == this->period_offset_ )){
+            if(!this->partial)
+                this->_sum_exc.push_back(pop2._sum_exc);
+            else{
+                std::vector<double> tmp = std::vector<double>();
+                for (unsigned int i=0; i<this->ranks.size(); i++){
+                    tmp.push_back(pop2._sum_exc[this->ranks[i]]);
+                }
+                this->_sum_exc.push_back(tmp);
+            }
+        }
+        if(this->record__sum_inh && ( (t - this->offset_) % this->period_ == this->period_offset_ )){
+            if(!this->partial)
+                this->_sum_inh.push_back(pop2._sum_inh);
+            else{
+                std::vector<double> tmp = std::vector<double>();
+                for (unsigned int i=0; i<this->ranks.size(); i++){
+                    tmp.push_back(pop2._sum_inh[this->ranks[i]]);
+                }
+                this->_sum_inh.push_back(tmp);
+            }
+        }
+    }
+
+    long int size_in_bytes() {
+        long int size_in_bytes = 0;
+        
+        // local variable r
+        size_in_bytes += sizeof(std::vector<double>) * r.capacity();
+        for(auto it=r.begin(); it!= r.end(); it++) {
+            size_in_bytes += it->capacity() * sizeof(double);
+        }
+        
+        return size_in_bytes;
+    }
+
+    void clear() {
+    #ifdef _DEBUG
+        std::cout << "Delete instance of PopRecorder2 ( " << this << " ) " << std::endl;
+    #endif
+
+        for(auto it = this->r.begin(); it != this->r.end(); it++) {
+            it->clear();
+            it->shrink_to_fit();
+        }
+        this->r.clear();
+    
+
+        removeRecorder(this);
+    }
+
+
+
+    // Local variable _sum_exc
+    std::vector< std::vector< double > > _sum_exc ;
+    bool record__sum_exc ; 
+    // Local variable _sum_inh
+    std::vector< std::vector< double > > _sum_inh ;
+    bool record__sum_inh ; 
+    // Local variable r
+    std::vector< std::vector< double > > r ;
+    bool record_r ; 
+};
+
+
+class ProjRecorder2 : public Monitor
+{
+protected:
+    ProjRecorder2(std::vector<int> ranks, int period, int period_offset, long int offset)
+        : Monitor(ranks, period, period_offset, offset)
+    {
+    #ifdef _DEBUG
+        std::cout << "ProjRecorder2 (" << this << ") instantiated." << std::endl;
     #endif
         std::map< int, int > post_indices = std::map< int, int > ();
-        auto post_rank = proj0.get_post_rank();
+        auto post_rank = proj2.get_post_rank();
 
         for(int i=0; i<post_rank.size(); i++){
             post_indices[post_rank[i]] = i;
@@ -315,16 +342,16 @@ protected:
 public:
 
     static int create_instance(std::vector<int> ranks, int period, int period_offset, long int offset) {
-        auto new_recorder = new ProjRecorder0(ranks, period, period_offset, offset);
+        auto new_recorder = new ProjRecorder2(ranks, period, period_offset, offset);
         auto id = addRecorder(static_cast<Monitor*>(new_recorder));
     #ifdef _DEBUG
-        std::cout << "ProjRecorder0 (" << new_recorder << ") received list position (ID) = " << id << std::endl;
+        std::cout << "ProjRecorder2 (" << new_recorder << ") received list position (ID) = " << id << std::endl;
     #endif
         return id;
     }
 
-    static ProjRecorder0* get_instance(int id) {
-        return static_cast<ProjRecorder0*>(getRecorder(id));
+    static ProjRecorder2* get_instance(int id) {
+        return static_cast<ProjRecorder2*>(getRecorder(id));
     }
 
     void record() {
@@ -338,64 +365,7 @@ public:
     }
 
     void clear() {
-        std::cout << "PopMonitor0::clear(): not implemented for openMP paradigm." << std::endl;
-    }
-
-
-};
-
-class ProjRecorder1 : public Monitor
-{
-protected:
-    ProjRecorder1(std::vector<int> ranks, int period, int period_offset, long int offset)
-        : Monitor(ranks, period, period_offset, offset)
-    {
-    #ifdef _DEBUG
-        std::cout << "ProjRecorder1 (" << this << ") instantiated." << std::endl;
-    #endif
-        std::map< int, int > post_indices = std::map< int, int > ();
-        auto post_rank = proj1.get_post_rank();
-
-        for(int i=0; i<post_rank.size(); i++){
-            post_indices[post_rank[i]] = i;
-        }
-        for(int i=0; i<this->ranks.size(); i++){
-            this->indices.push_back(post_indices[this->ranks[i]]);
-        }
-        post_indices.clear();
-
-
-    };
-
-    std::vector <int> indices;
-
-public:
-
-    static int create_instance(std::vector<int> ranks, int period, int period_offset, long int offset) {
-        auto new_recorder = new ProjRecorder1(ranks, period, period_offset, offset);
-        auto id = addRecorder(static_cast<Monitor*>(new_recorder));
-    #ifdef _DEBUG
-        std::cout << "ProjRecorder1 (" << new_recorder << ") received list position (ID) = " << id << std::endl;
-    #endif
-        return id;
-    }
-
-    static ProjRecorder1* get_instance(int id) {
-        return static_cast<ProjRecorder1*>(getRecorder(id));
-    }
-
-    void record() {
-
-    };
-
-    void record_targets() { /* nothing to do here */ }
-    long int size_in_bytes() {
-        std::cout << "ProjMonitor::size_in_bytes(): not implemented for openMP paradigm." << std::endl;
-        return 0;
-    }
-
-    void clear() {
-        std::cout << "PopMonitor1::clear(): not implemented for openMP paradigm." << std::endl;
+        std::cout << "PopMonitor2::clear(): not implemented for openMP paradigm." << std::endl;
     }
 
 

@@ -1,56 +1,44 @@
 /*
- *  ANNarchy-version: 4.7.1b
+ *  ANNarchy-version: 4.7.1
  */
 #pragma once
 
 #include "ANNarchy.h"
-#include "LILInvMatrix.hpp"
+#include "Specific.hpp"
 
 
 
 
-extern PopStruct0 pop0;
-extern PopStruct0 pop0;
+extern PopStruct1 pop1;
+extern PopStruct2 pop2;
 extern double dt;
 extern long int t;
 
 extern std::vector<std::mt19937> rng;
 
 /////////////////////////////////////////////////////////////////////////////
-// proj1: pop0 -> pop0 with target inh
+// proj1: pop1 -> pop2 with target exc
 /////////////////////////////////////////////////////////////////////////////
-struct ProjStruct1 : LILInvMatrix<int, int> {
-    ProjStruct1() : LILInvMatrix<int, int>( 1000, 1000) {
-    }
-
-
-    bool init_from_lil( std::vector<int> &row_indices,
-                        std::vector< std::vector<int> > &column_indices,
-                        std::vector< std::vector<double> > &values,
-                        std::vector< std::vector<int> > &delays) {
-        bool success = static_cast<LILInvMatrix<int, int>*>(this)->init_matrix_from_lil(row_indices, column_indices);
-        if (!success)
-            return false;
-
-
-        // Local parameter w
-        w = init_matrix_variable<double>(static_cast<double>(0.0));
-        update_matrix_variable_all<double>(w, values);
-
-
-        // init other variables than 'w' or delay
-        if (!init_attributes()){
-            return false;
-        }
-
-    #ifdef _DEBUG_CONN
-        static_cast<LILInvMatrix<int, int>*>(this)->print_data_representation();
-    #endif
-        return true;
+struct ProjStruct1 : SpecificConnectivity {
+    ProjStruct1() : SpecificConnectivity() {
     }
 
 
 
+
+    // Connectivity data
+    std::vector<int> post_rank;
+    std::vector< std::vector<int> > pre_coords;
+
+
+    // Accessor to connectivity data
+    std::vector<int> get_post_rank() { return post_rank; }
+    void set_post_rank(std::vector<int> ranks) { post_rank = ranks; }
+    std::vector<std::vector<int>> get_pre_coords() { return pre_coords; }
+    void set_pre_coords(std::vector<std::vector<int>> coords) { pre_coords = coords; }
+    int nb_synapses() { return 0; } // TODO: filter-dim * number of filters?
+    int dendrite_size(int n) { return 0; } // TODO: filter-dim?
+    int nb_dendrites() { return post_rank.size(); }
 
 
     // Transmission and plasticity flags
@@ -61,10 +49,7 @@ struct ProjStruct1 : LILInvMatrix<int, int> {
 
 
 
-
-    // Local parameter w
-    std::vector< std::vector<double > > w;
-
+    std::vector< std::vector< std::vector< double > > > w;
 
 
 
@@ -110,42 +95,53 @@ struct ProjStruct1 : LILInvMatrix<int, int> {
     #ifdef _TRACE_SIMULATION_STEPS
         std::cout << "    ProjStruct1::compute_psp()" << std::endl;
     #endif
-int nb_post; double sum;
 
-        // Event-based summation
-        if (_transmission && pop0._active){
+        int rk_pre;
+        double sum=0.0;
 
 
-            // Iterate over all incoming spikes (possibly delayed constantly)
-            for(int _idx_j = 0; _idx_j < pop0.spiked.size(); _idx_j++){
-                // Rank of the presynaptic neuron
-                int rk_j = pop0.spiked[_idx_j];
-                // Find the presynaptic neuron in the inverse connectivity matrix
-                auto inv_post_ptr = inv_pre_rank.find(rk_j);
-                if (inv_post_ptr == inv_pre_rank.end())
-                    continue;
-                // List of postsynaptic neurons receiving spikes from that neuron
-                std::vector< std::pair<int, int> >& inv_post = inv_post_ptr->second;
-                // Number of post neurons
-                int nb_post = inv_post.size();
+        if ( _transmission && pop1._active ) {
+            int* coord;
 
-                // Iterate over connected post neurons
-                for(int _idx_i = 0; _idx_i < nb_post; _idx_i++){
-                    // Retrieve the correct indices
-                    int i = inv_post[_idx_i].first;
-                    int j = inv_post[_idx_i].second;
 
-                    // Event-driven integration
+            for(int i = 0; i < 3072; i++){
+                coord = pre_coords[i].data();
 
-                    // Update conductance
+                // perform the convolution
+                sum = 0.0;
 
-                    pop0.g_inh[post_rank[i]] +=  w[i][j];
+                for(int i_w = 0; i_w < 1;i_w++) {
+                    int i_pre = coord[0] + (i_w - 0);
+                    if ((i_pre < 0) || (i_pre > 47)){
+                        sum += 0.0;
+                        continue;
+                    }
 
-                    // Synaptic plasticity: pre-events
+                    for(int j_w = 0; j_w < 1;j_w++) {
+                        int j_pre = coord[1] + (j_w - 0);
+                        if ((j_pre < 0) || (j_pre > 63)){
+                            sum += 0.0;
+                            continue;
+                        }
+                        auto inner_line = w[i_w][j_w].data();
 
+                        for(int k_w = 0; k_w < 3;k_w++) {
+                            int k_pre = coord[2] + (k_w - 1);
+                            if ((k_pre < 0) || (k_pre > 2)){
+                                sum += 0.0;
+                                continue;
+                            }
+
+                            rk_pre = 3*(64*(i_pre) + j_pre) + k_pre;
+                            sum += pop1.r[rk_pre]*inner_line[k_w];
+                        }
+                    }
                 }
-            }
-        } // active
+
+                // store result
+                pop2._sum_exc[i] += sum;
+            } // for
+        } // if
 
     }
 
@@ -171,74 +167,9 @@ int nb_post; double sum;
 
     // Variable/Parameter access methods
 
-    std::vector<std::vector<double>> get_local_attribute_all_double(std::string name) {
-
-        if ( name.compare("w") == 0 ) {
-
-            return get_matrix_variable_all<double>(w);
-        }
-
-
-        // should not happen
-        std::cerr << "ProjStruct1::get_local_attribute_all_double: " << name << " not found" << std::endl;
-        return std::vector<std::vector<double>>();
-    }
-
-    std::vector<double> get_local_attribute_row_double(std::string name, int rk_post) {
-
-        if ( name.compare("w") == 0 ) {
-
-            return get_matrix_variable_row<double>(w, rk_post);
-        }
-
-
-        // should not happen
-        std::cerr << "ProjStruct1::get_local_attribute_row_double: " << name << " not found" << std::endl;
-        return std::vector<double>();
-    }
-
-    double get_local_attribute_double(std::string name, int rk_post, int rk_pre) {
-
-        if ( name.compare("w") == 0 ) {
-
-            return get_matrix_variable<double>(w, rk_post, rk_pre);
-        }
-
-
-        // should not happen
-        std::cerr << "ProjStruct1::get_local_attribute: " << name << " not found" << std::endl;
-        return 0.0;
-    }
-
-    void set_local_attribute_all_double(std::string name, std::vector<std::vector<double>> value) {
-
-        if ( name.compare("w") == 0 ) {
-            update_matrix_variable_all<double>(w, value);
-
-            return;
-        }
-
-    }
-
-    void set_local_attribute_row_double(std::string name, int rk_post, std::vector<double> value) {
-
-        if ( name.compare("w") == 0 ) {
-            update_matrix_variable_row<double>(w, rk_post, value);
-
-            return;
-        }
-
-    }
-
-    void set_local_attribute_double(std::string name, int rk_post, int rk_pre, double value) {
-
-        if ( name.compare("w") == 0 ) {
-            update_matrix_variable<double>(w, rk_post, rk_pre, value);
-
-            return;
-        }
-
-    }
+    // Local parameter w
+    std::vector< std::vector< std::vector< double > > > get_w() { return w; }
+    void set_w(std::vector< std::vector< std::vector< double > > > value) { w = value; }
 
 
     // Access additional
@@ -248,14 +179,19 @@ int nb_post; double sum;
     long int size_in_bytes() {
         long int size_in_bytes = 0;
 
-        // connectivity
-        size_in_bytes += static_cast<LILInvMatrix<int, int>*>(this)->size_in_bytes();
+        // post-ranks
+        size_in_bytes += sizeof(std::vector<int>);
+        size_in_bytes += post_rank.capacity() * sizeof(int);
 
-        // Local parameter w
-        size_in_bytes += sizeof(std::vector<std::vector<double>>);
-        size_in_bytes += sizeof(std::vector<double>) * w.capacity();
-        for(auto it = w.cbegin(); it != w.cend(); it++)
-            size_in_bytes += (it->capacity()) * sizeof(double);
+        // pre-coords
+        size_in_bytes += sizeof(std::vector<std::vector<int>>);
+        size_in_bytes += pre_coords.capacity() * sizeof(std::vector<int>);
+        for (auto it = pre_coords.begin(); it != pre_coords.end(); it++) {
+            size_in_bytes += it->capacity() * sizeof(int);
+        }
+
+        // filter
+        // TODO:
 
         return size_in_bytes;
     }
@@ -269,16 +205,20 @@ int nb_post; double sum;
         std::cout << "ProjStruct1::clear() - this = " << this << std::endl;
     #endif
 
-        // Connectivity
-        static_cast<LILInvMatrix<int, int>*>(this)->clear();
+        // post-ranks
+        post_rank.clear();
+        post_rank.shrink_to_fit();
 
-        // w
-        for (auto it = w.begin(); it != w.end(); it++) {
+        // pre-coords
+        for (auto it = pre_coords.begin(); it != pre_coords.end(); it++) {
             it->clear();
             it->shrink_to_fit();
-        };
-        w.clear();
-        w.shrink_to_fit();
+        }
+        pre_coords.clear();
+        pre_coords.shrink_to_fit();
+
+        // filter
+        // TODO:
 
     }
 };

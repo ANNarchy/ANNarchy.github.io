@@ -1,17 +1,67 @@
 /*
- *  ANNarchy-version: 4.7.1b
+ *  ANNarchy-version: 4.7.1
  */
 #pragma once
 
 #include "ANNarchy.h"
 #include <random>
 
+#include <opencv2/opencv.hpp>
+using namespace cv;
 
 
 extern double dt;
 extern long int t;
 extern std::vector<std::mt19937> rng;
 
+
+// VideoPopulation
+class CameraDeviceCPP : public cv::VideoCapture {
+public:
+    CameraDeviceCPP (int id, int width, int height, int depth) : cv::VideoCapture(id){
+        width_ = width;
+        height_ = height;
+        depth_ = depth;
+        img_ = std::vector<double>(width*height*depth, 0.0);
+    }
+    std::vector<double> GrabImage(){
+        if(isOpened()){
+            // Read a new frame from the video
+            Mat frame;
+            read(frame);
+            // Resize the image
+            Mat resized_frame;
+            resize(frame, resized_frame, Size(width_, height_) );
+            // If depth=1, only luminance
+            if(depth_==1){
+                // Convert to luminance
+                cvtColor(resized_frame, resized_frame, COLOR_BGR2GRAY);
+                for(int i = 0; i < resized_frame.rows; i++){
+                    for(int j = 0; j < resized_frame.cols; j++){
+                        this->img_[j+width_*i] = float(resized_frame.at<uchar>(i, j))/255.0;
+                    }
+                }
+            }
+            else{ //BGR
+                for(int i = 0; i < resized_frame.rows; i++){
+                    for(int j = 0; j < resized_frame.cols; j++){
+                        Vec3b intensity = resized_frame.at<Vec3b>(i, j);
+                        this->img_[(j+width_*i)*3 + 0] = double(intensity.val[2])/255.0;
+                        this->img_[(j+width_*i)*3 + 1] = double(intensity.val[1])/255.0;
+                        this->img_[(j+width_*i)*3 + 2] = double(intensity.val[0])/255.0;
+                    }
+                }
+            }
+        }
+        return this->img_;
+    };
+
+protected:
+    // Width and height of the image, depth_ is 1 (grayscale) or 3 (RGB)
+    int width_, height_, depth_;
+    // Vector of floats for the returned image
+    std::vector<double> img_;
+};
 
 ///////////////////////////////////////////////////////////////
 // Main Structure for the population of id 0 (pop0)
@@ -32,74 +82,31 @@ struct PopStruct0{
 
 
 
-    // Structures for managing spikes
-    std::vector<long int> last_spike;
-    std::vector<int> spiked;
-
-    // Refractory period
-    std::vector<int> refractory;
-    std::vector<int> refractory_remaining;
-    std::vector<short int> in_ref;
-
     // Neuron specific parameters and variables
 
-    // Local parameter noise
-    std::vector< double > noise;
-
-    // Local parameter a
-    std::vector< double > a;
-
-    // Local parameter b
-    std::vector< double > b;
-
-    // Local parameter c
-    std::vector< double > c;
-
-    // Local parameter d
-    std::vector< double > d;
-
-    // Local parameter v_thresh
-    std::vector< double > v_thresh;
-
-    // Local parameter i_offset
-    std::vector< double > i_offset;
-
-    // Local parameter tau_refrac
-    std::vector< double > tau_refrac;
-
-    // Local variable I
-    std::vector< double > I;
-
-    // Local variable v
-    std::vector< double > v;
-
-    // Local variable u
-    std::vector< double > u;
-
-    // Local variable r
+    // Local parameter r
     std::vector< double > r;
 
-    // Local variable g_exc
-    std::vector< double > g_exc;
-
-    // Local variable g_inh
-    std::vector< double > g_inh;
-
     // Random numbers
-    std::vector<double> rand_0;
-    std::normal_distribution< double > dist_rand_0;
 
 
 
-    // Mean Firing rate
-    std::vector< std::queue<long int> > _spike_history;
-    long int _mean_fr_window;
-    double _mean_fr_rate;
-    void compute_firing_rate(double window){
-        if(window>0.0){
-            _mean_fr_window = int(window/dt);
-            _mean_fr_rate = 1000./window;
+
+    // Camera
+    CameraDeviceCPP* camera_;
+    void StartCamera(int id, int width, int height, int depth){
+        camera_ = new CameraDeviceCPP(id, width, height, depth);
+        if(!camera_->isOpened()){
+            std::cout << "Error: could not open the camera." << std::endl;
         }
+    };
+    void GrabImage(){
+        if(camera_->isOpened()){
+            r = camera_->GrabImage();
+        }
+    };
+    void ReleaseCamera(){
+        camera_->release();
     };
 
 
@@ -107,74 +114,9 @@ struct PopStruct0{
 
     std::vector<double> get_local_attribute_all_double(std::string name) {
 
-        // Local parameter noise
-        if ( name.compare("noise") == 0 ) {
-            return noise;
-        }
-
-        // Local parameter a
-        if ( name.compare("a") == 0 ) {
-            return a;
-        }
-
-        // Local parameter b
-        if ( name.compare("b") == 0 ) {
-            return b;
-        }
-
-        // Local parameter c
-        if ( name.compare("c") == 0 ) {
-            return c;
-        }
-
-        // Local parameter d
-        if ( name.compare("d") == 0 ) {
-            return d;
-        }
-
-        // Local parameter v_thresh
-        if ( name.compare("v_thresh") == 0 ) {
-            return v_thresh;
-        }
-
-        // Local parameter i_offset
-        if ( name.compare("i_offset") == 0 ) {
-            return i_offset;
-        }
-
-        // Local parameter tau_refrac
-        if ( name.compare("tau_refrac") == 0 ) {
-            return tau_refrac;
-        }
-
-        // Local variable I
-        if ( name.compare("I") == 0 ) {
-            return I;
-        }
-
-        // Local variable v
-        if ( name.compare("v") == 0 ) {
-            return v;
-        }
-
-        // Local variable u
-        if ( name.compare("u") == 0 ) {
-            return u;
-        }
-
-        // Local variable r
+        // Local parameter r
         if ( name.compare("r") == 0 ) {
             return r;
-        }
-
-        // Local variable g_exc
-        if ( name.compare("g_exc") == 0 ) {
-            return g_exc;
-        }
-
-        // Local variable g_inh
-        if ( name.compare("g_inh") == 0 ) {
-            return g_inh;
         }
 
 
@@ -186,74 +128,9 @@ struct PopStruct0{
     double get_local_attribute_double(std::string name, int rk) {
         assert( (rk < size) );
 
-        // Local parameter noise
-        if ( name.compare("noise") == 0 ) {
-            return noise[rk];
-        }
-
-        // Local parameter a
-        if ( name.compare("a") == 0 ) {
-            return a[rk];
-        }
-
-        // Local parameter b
-        if ( name.compare("b") == 0 ) {
-            return b[rk];
-        }
-
-        // Local parameter c
-        if ( name.compare("c") == 0 ) {
-            return c[rk];
-        }
-
-        // Local parameter d
-        if ( name.compare("d") == 0 ) {
-            return d[rk];
-        }
-
-        // Local parameter v_thresh
-        if ( name.compare("v_thresh") == 0 ) {
-            return v_thresh[rk];
-        }
-
-        // Local parameter i_offset
-        if ( name.compare("i_offset") == 0 ) {
-            return i_offset[rk];
-        }
-
-        // Local parameter tau_refrac
-        if ( name.compare("tau_refrac") == 0 ) {
-            return tau_refrac[rk];
-        }
-
-        // Local variable I
-        if ( name.compare("I") == 0 ) {
-            return I[rk];
-        }
-
-        // Local variable v
-        if ( name.compare("v") == 0 ) {
-            return v[rk];
-        }
-
-        // Local variable u
-        if ( name.compare("u") == 0 ) {
-            return u[rk];
-        }
-
-        // Local variable r
+        // Local parameter r
         if ( name.compare("r") == 0 ) {
             return r[rk];
-        }
-
-        // Local variable g_exc
-        if ( name.compare("g_exc") == 0 ) {
-            return g_exc[rk];
-        }
-
-        // Local variable g_inh
-        if ( name.compare("g_inh") == 0 ) {
-            return g_inh[rk];
         }
 
 
@@ -265,87 +142,9 @@ struct PopStruct0{
     void set_local_attribute_all_double(std::string name, std::vector<double> value) {
         assert( (value.size() == size) );
 
-        // Local parameter noise
-        if ( name.compare("noise") == 0 ) {
-            noise = value;
-            return;
-        }
-
-        // Local parameter a
-        if ( name.compare("a") == 0 ) {
-            a = value;
-            return;
-        }
-
-        // Local parameter b
-        if ( name.compare("b") == 0 ) {
-            b = value;
-            return;
-        }
-
-        // Local parameter c
-        if ( name.compare("c") == 0 ) {
-            c = value;
-            return;
-        }
-
-        // Local parameter d
-        if ( name.compare("d") == 0 ) {
-            d = value;
-            return;
-        }
-
-        // Local parameter v_thresh
-        if ( name.compare("v_thresh") == 0 ) {
-            v_thresh = value;
-            return;
-        }
-
-        // Local parameter i_offset
-        if ( name.compare("i_offset") == 0 ) {
-            i_offset = value;
-            return;
-        }
-
-        // Local parameter tau_refrac
-        if ( name.compare("tau_refrac") == 0 ) {
-            tau_refrac = value;
-            return;
-        }
-
-        // Local variable I
-        if ( name.compare("I") == 0 ) {
-            I = value;
-            return;
-        }
-
-        // Local variable v
-        if ( name.compare("v") == 0 ) {
-            v = value;
-            return;
-        }
-
-        // Local variable u
-        if ( name.compare("u") == 0 ) {
-            u = value;
-            return;
-        }
-
-        // Local variable r
+        // Local parameter r
         if ( name.compare("r") == 0 ) {
             r = value;
-            return;
-        }
-
-        // Local variable g_exc
-        if ( name.compare("g_exc") == 0 ) {
-            g_exc = value;
-            return;
-        }
-
-        // Local variable g_inh
-        if ( name.compare("g_inh") == 0 ) {
-            g_inh = value;
             return;
         }
 
@@ -357,87 +156,9 @@ struct PopStruct0{
     void set_local_attribute_double(std::string name, int rk, double value) {
         assert( (rk < size) );
 
-        // Local parameter noise
-        if ( name.compare("noise") == 0 ) {
-            noise[rk] = value;
-            return;
-        }
-
-        // Local parameter a
-        if ( name.compare("a") == 0 ) {
-            a[rk] = value;
-            return;
-        }
-
-        // Local parameter b
-        if ( name.compare("b") == 0 ) {
-            b[rk] = value;
-            return;
-        }
-
-        // Local parameter c
-        if ( name.compare("c") == 0 ) {
-            c[rk] = value;
-            return;
-        }
-
-        // Local parameter d
-        if ( name.compare("d") == 0 ) {
-            d[rk] = value;
-            return;
-        }
-
-        // Local parameter v_thresh
-        if ( name.compare("v_thresh") == 0 ) {
-            v_thresh[rk] = value;
-            return;
-        }
-
-        // Local parameter i_offset
-        if ( name.compare("i_offset") == 0 ) {
-            i_offset[rk] = value;
-            return;
-        }
-
-        // Local parameter tau_refrac
-        if ( name.compare("tau_refrac") == 0 ) {
-            tau_refrac[rk] = value;
-            return;
-        }
-
-        // Local variable I
-        if ( name.compare("I") == 0 ) {
-            I[rk] = value;
-            return;
-        }
-
-        // Local variable v
-        if ( name.compare("v") == 0 ) {
-            v[rk] = value;
-            return;
-        }
-
-        // Local variable u
-        if ( name.compare("u") == 0 ) {
-            u[rk] = value;
-            return;
-        }
-
-        // Local variable r
+        // Local parameter r
         if ( name.compare("r") == 0 ) {
             r[rk] = value;
-            return;
-        }
-
-        // Local variable g_exc
-        if ( name.compare("g_exc") == 0 ) {
-            g_exc[rk] = value;
-            return;
-        }
-
-        // Local variable g_inh
-        if ( name.compare("g_inh") == 0 ) {
-            g_inh[rk] = value;
             return;
         }
 
@@ -455,80 +176,18 @@ struct PopStruct0{
     #endif
         _active = true;
 
-        // Local parameter noise
-        noise = std::vector<double>(size, 0.0);
-
-        // Local parameter a
-        a = std::vector<double>(size, 0.0);
-
-        // Local parameter b
-        b = std::vector<double>(size, 0.0);
-
-        // Local parameter c
-        c = std::vector<double>(size, 0.0);
-
-        // Local parameter d
-        d = std::vector<double>(size, 0.0);
-
-        // Local parameter v_thresh
-        v_thresh = std::vector<double>(size, 0.0);
-
-        // Local parameter i_offset
-        i_offset = std::vector<double>(size, 0.0);
-
-        // Local parameter tau_refrac
-        tau_refrac = std::vector<double>(size, 0.0);
-
-        // Local variable I
-        I = std::vector<double>(size, 0.0);
-
-        // Local variable v
-        v = std::vector<double>(size, 0.0);
-
-        // Local variable u
-        u = std::vector<double>(size, 0.0);
-
-        // Local variable r
+        // Local parameter r
         r = std::vector<double>(size, 0.0);
 
-        // Local variable g_exc
-        g_exc = std::vector<double>(size, 0.0);
-
-        // Local variable g_inh
-        g_inh = std::vector<double>(size, 0.0);
-
-        rand_0 = std::vector<double>(size, 0.0);
-
-
-        // Spiking variables
-        spiked = std::vector<int>();
-        last_spike = std::vector<long int>(size, -10000L);
-
-        // Refractory period
-        refractory_remaining = std::vector<int>(size, 0);
-        in_ref = std::vector<short int>(size, 0);
 
 
 
-        // Mean Firing Rate
-        _spike_history = std::vector< std::queue<long int> >(size, std::queue<long int>());
-        _mean_fr_window = 0;
-        _mean_fr_rate = 1.0;
 
 
     }
 
     // Method called to reset the population
     void reset() {
-
-        spiked.clear();
-        spiked.shrink_to_fit();
-        last_spike.clear();
-        last_spike = std::vector<long int>(size, -10000L);
-
-        // Refractory period
-        refractory_remaining.clear();
-        refractory_remaining = std::vector<int>(size, 0);
 
 
 
@@ -537,8 +196,6 @@ struct PopStruct0{
     // Init rng dist
     void init_rng_dist() {
 
-        dist_rand_0 = std::normal_distribution< double >(0.0, 1.0);
-
     }
 
     // Method to draw new random numbers
@@ -546,15 +203,6 @@ struct PopStruct0{
 #ifdef _TRACE_SIMULATION_STEPS
     std::cout << "    PopStruct0::update_rng()" << std::endl;
 #endif
-
-        if (_active){
-
-            for(int i = 0; i < size; i++) {
-
-                rand_0[i] = dist_rand_0(rng[0]);
-
-            }
-        }
 
     }
 
@@ -576,96 +224,9 @@ struct PopStruct0{
     // Main method to update neural variables
     void update() {
 
-        if( _active ) {
-
-            // compute which neurons are in refractory
-            for(int i = 0; i < size; i++){
-                in_ref[i] = (refractory_remaining[i] > 0) ? 0 : 1;
-            }
-
-            spiked.clear();
-
-            // Updating local variables
-            #pragma omp simd
-            for(int i = 0; i < size; i++){
-
-                // I = g_exc - g_inh + noise * Normal(0.0, 1.0) + i_offset
-                if (in_ref[i]) { I[i] = g_exc[i] - g_inh[i] + i_offset[i] + noise[i]*rand_0[i]; }
-
-
-                // dv/dt = 0.04 * v^2 + 5.0 * v + 140.0 - u + I
-                double _v = I[i] - u[i] + 0.040000000000000001*pow(v[i], 2) + 5.0*v[i] + 140.0;
-
-                // du/dt = a * (b*v - u)
-                double _u = a[i]*(b[i]*v[i] - u[i]);
-
-                // dv/dt = 0.04 * v^2 + 5.0 * v + 140.0 - u + I
-                v[i] += dt*_v * in_ref[i];
-
-
-                // du/dt = a * (b*v - u)
-                u[i] += dt*_u * in_ref[i];
-
-
-                // g_exc = 0.0
-                if (in_ref[i]) { g_exc[i] = 0.0; }
-
-
-                // g_inh = 0.0
-                if (in_ref[i]) { g_inh[i] = 0.0; }
-
-
-                // Decrement the refractory period
-                refractory_remaining[i] -= (1 - in_ref[i]);
-
-            }
-        } // active
-
     }
 
     void spike_gather() {
-
-        if( _active ) {
-            for (int i = 0; i < size; i++) {
-
-                // check if neuron is in refractory
-                if (in_ref[i]==0)
-                    continue;
-
-
-                // Spike emission
-                if(v[i] > v_thresh[i]){ // Condition is met
-                    // Reset variables
-
-                    v[i] = c[i];
-
-                    u[i] += d[i];
-
-                    // Store the spike
-                    spiked.push_back(i);
-                    last_spike[i] = t;
-
-                    // Refractory period
-                    refractory_remaining[i] = int(tau_refrac[i]/dt);
-
-                    // Update the mean firing rate
-                    if(_mean_fr_window> 0)
-                        _spike_history[i].push(t);
-
-                }
-
-                // Update the mean firing rate
-                if(_mean_fr_window> 0){
-                    while((_spike_history[i].size() != 0)&&(_spike_history[i].front() <= t - _mean_fr_window)){
-                        _spike_history[i].pop(); // Suppress spikes outside the window
-                    }
-                    r[i] = _mean_fr_rate * double(_spike_history[i].size());
-                }
-
-
-
-            }
-        } // active
 
     }
 
@@ -675,23 +236,9 @@ struct PopStruct0{
     long int size_in_bytes() {
         long int size_in_bytes = 0;
         // Parameters
-        size_in_bytes += sizeof(double) * noise.capacity();	// noise
-        size_in_bytes += sizeof(double) * a.capacity();	// a
-        size_in_bytes += sizeof(double) * b.capacity();	// b
-        size_in_bytes += sizeof(double) * c.capacity();	// c
-        size_in_bytes += sizeof(double) * d.capacity();	// d
-        size_in_bytes += sizeof(double) * v_thresh.capacity();	// v_thresh
-        size_in_bytes += sizeof(double) * i_offset.capacity();	// i_offset
-        size_in_bytes += sizeof(double) * tau_refrac.capacity();	// tau_refrac
-        // Variables
-        size_in_bytes += sizeof(double) * I.capacity();	// I
-        size_in_bytes += sizeof(double) * v.capacity();	// v
-        size_in_bytes += sizeof(double) * u.capacity();	// u
         size_in_bytes += sizeof(double) * r.capacity();	// r
-        size_in_bytes += sizeof(double) * g_exc.capacity();	// g_exc
-        size_in_bytes += sizeof(double) * g_inh.capacity();	// g_inh
+        // Variables
         // RNGs
-        size_in_bytes += sizeof(double) * rand_0.capacity();	// rand_0
 
         return size_in_bytes;
     }
@@ -702,31 +249,8 @@ struct PopStruct0{
     std::cout << "PopStruct0::clear() - this = " << this << std::endl;
 #endif
         // Variables
-        I.clear();
-        I.shrink_to_fit();
-        v.clear();
-        v.shrink_to_fit();
-        u.clear();
-        u.shrink_to_fit();
-        r.clear();
-        r.shrink_to_fit();
-        g_exc.clear();
-        g_exc.shrink_to_fit();
-        g_inh.clear();
-        g_inh.shrink_to_fit();
-
-        // Mean Firing Rate
-        for (auto it = _spike_history.begin(); it != _spike_history.end(); it++) {
-            while(!it->empty())
-                it->pop();
-        }
-        _spike_history.clear();
-        _spike_history.shrink_to_fit();
 
         // RNGs
-
-        rand_0.clear();
-        rand_0.shrink_to_fit();
 
     }
 };

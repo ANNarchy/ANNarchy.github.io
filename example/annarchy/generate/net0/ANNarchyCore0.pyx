@@ -44,7 +44,41 @@ cdef extern from "ANNarchy.h":
         # Reset the population
         void reset()
 
-        vector[int] refractory
+
+        # Local attributes
+        vector[double] get_local_attribute_all_double(string)
+        double get_local_attribute_double(string, int)
+        void set_local_attribute_all_double(string, vector[double])
+        void set_local_attribute_double(string, int, double)
+
+
+
+        # Targets
+
+
+        void StartCamera(int id, int width, int height, int depth)
+        void GrabImage()
+        void ReleaseCamera()
+
+
+        # memory management
+        long int size_in_bytes()
+        void clear()
+
+    # Export Population 1 (pop1)
+    cdef struct PopStruct1 :
+        # Number of neurons
+        int get_size()
+        void set_size(int)
+        # Maximum delay in steps
+        int get_max_delay()
+        void set_max_delay(int)
+        void update_max_delay(int)
+        # Activate/deactivate the population
+        bool is_active()
+        void set_active(bool)
+        # Reset the population
+        void reset()
 
 
         # Local attributes
@@ -55,9 +89,43 @@ cdef extern from "ANNarchy.h":
 
 
 
+        # Targets
+        vector[double] _sum_exc
 
-        # Compute firing rate
-        void compute_firing_rate(double window)
+
+
+        # memory management
+        long int size_in_bytes()
+        void clear()
+
+    # Export Population 2 (pop2)
+    cdef struct PopStruct2 :
+        # Number of neurons
+        int get_size()
+        void set_size(int)
+        # Maximum delay in steps
+        int get_max_delay()
+        void set_max_delay(int)
+        void update_max_delay(int)
+        # Activate/deactivate the population
+        bool is_active()
+        void set_active(bool)
+        # Reset the population
+        void reset()
+
+
+        # Local attributes
+        vector[double] get_local_attribute_all_double(string)
+        double get_local_attribute_double(string, int)
+        void set_local_attribute_all_double(string, vector[double])
+        void set_local_attribute_double(string, int, double)
+
+
+
+        # Targets
+        vector[double] _sum_exc
+        vector[double] _sum_inh
+
 
 
         # memory management
@@ -76,27 +144,17 @@ cdef extern from "ANNarchy.h":
 
         # Connectivity
         bool init_from_lil(vector[int], vector[vector[int]], vector[vector[double]], vector[vector[int]])
-        # Access connectivity
         vector[int] get_post_rank()
-        vector[ vector[int] ] get_pre_ranks()
-        vector[int] get_dendrite_pre_rank(int)
+        vector[vector[int]] get_pre_rank()
+        void set_post_rank(vector[int])
+        void set_pre_rank(vector[vector[int]])
         int nb_synapses()
+        int dendrite_size(int n)
         int nb_dendrites()
-        int dendrite_size(int)
-
-        map[int, int] nb_efferent_synapses()
 
 
 
 
-
-        # Local Attributes
-        vector[vector[double]] get_local_attribute_all_double(string)
-        vector[double] get_local_attribute_row_double(string, int)
-        double get_local_attribute_double(string, int, int)
-        void set_local_attribute_all_double(string, vector[vector[double]])
-        void set_local_attribute_row_double(string, int, vector[double])
-        void set_local_attribute_double(string, int, int, double)
 
 
 
@@ -117,6 +175,40 @@ cdef extern from "ANNarchy.h":
 
         # Connectivity
         bool init_from_lil(vector[int], vector[vector[int]], vector[vector[double]], vector[vector[int]])
+        # Connectivity
+        vector[int] get_post_rank()
+        void set_post_rank(vector[int])
+        vector[vector[int]] get_pre_coords()
+        void set_pre_coords(vector[vector[int]])
+        int nb_dendrites()
+
+        # Local variable w
+        vector[vector[vector[double]]] get_w()
+        void set_w(vector[vector[vector[double]]])
+
+
+
+
+
+
+
+
+
+        # memory management
+        long int size_in_bytes()
+        void clear()
+
+    # Export Projection 2
+    cdef struct ProjStruct2 :
+        # Flags
+        bool _transmission
+        bool _plasticity
+        bool _update
+        int _update_period
+        long _update_offset
+
+        # Connectivity
+        bool init_from_lil(vector[int], vector[vector[int]], vector[vector[double]], vector[vector[int]])
         # Access connectivity
         vector[int] get_post_rank()
         vector[ vector[int] ] get_pre_ranks()
@@ -124,8 +216,6 @@ cdef extern from "ANNarchy.h":
         int nb_synapses()
         int nb_dendrites()
         int dendrite_size(int)
-
-        map[int, int] nb_efferent_synapses()
 
 
 
@@ -166,49 +256,60 @@ cdef extern from "ANNarchy.h":
         long int size_in_bytes()
         void clear()
 
-        vector[vector[double]] I
-        bool record_I
-
-        vector[vector[double]] v
-        bool record_v
-
-        vector[vector[double]] u
-        bool record_u
+        # Targets
+    # Population 1 (pop1) : Monitor
+    cdef cppclass PopRecorder1 (Monitor):
+        @staticmethod
+        int create_instance(vector[int], int, int, long)
+        @staticmethod
+        PopRecorder1* get_instance(int)
+        long int size_in_bytes()
+        void clear()
 
         vector[vector[double]] r
         bool record_r
 
-        vector[vector[double]] g_exc
-        bool record_g_exc
+        # Targets
+        vector[vector[double]] _sum_exc
+        bool record__sum_exc
 
-        vector[vector[double]] g_inh
-        bool record_g_inh
-
-        map[int, vector[long]] spike
-        bool record_spike
-        void clear_spike()
-
-    # Projection 0 : Monitor
-    cdef cppclass ProjRecorder0 (Monitor):
+    # Population 2 (pop2) : Monitor
+    cdef cppclass PopRecorder2 (Monitor):
         @staticmethod
         int create_instance(vector[int], int, int, long)
         @staticmethod
-        ProjRecorder0* get_instance(int)
+        PopRecorder2* get_instance(int)
+        long int size_in_bytes()
+        void clear()
 
-    # Projection 1 : Monitor
-    cdef cppclass ProjRecorder1 (Monitor):
+        vector[vector[double]] r
+        bool record_r
+
+        # Targets
+        vector[vector[double]] _sum_exc
+        bool record__sum_exc
+
+        vector[vector[double]] _sum_inh
+        bool record__sum_inh
+
+
+    # Projection 2 : Monitor
+    cdef cppclass ProjRecorder2 (Monitor):
         @staticmethod
         int create_instance(vector[int], int, int, long)
         @staticmethod
-        ProjRecorder1* get_instance(int)
+        ProjRecorder2* get_instance(int)
 
 
     # Instances
 
     PopStruct0 pop0
+    PopStruct1 pop1
+    PopStruct2 pop2
 
     ProjStruct0 proj0
     ProjStruct1 proj1
+    ProjStruct2 proj2
 
     # Methods
     void initialize(double)
@@ -289,18 +390,20 @@ cdef class pop0_wrapper :
 
 
 
+    # Targets
 
 
-    # Refractory period
-    cpdef np.ndarray get_refractory(self):
-        return np.array(pop0.refractory)
-    cpdef set_refractory(self, np.ndarray value):
-        pop0.refractory = value
 
 
-    # Compute firing rate
-    cpdef compute_firing_rate(self, double window):
-        pop0.compute_firing_rate(window)
+    # CameraDevice
+    def start_camera(self, int id, int width, int height, int depth):
+        pop0.StartCamera(id, width, height, depth)
+
+    def grab_image(self):
+        pop0.GrabImage()
+
+    def release_camera(self):
+        pop0.ReleaseCamera()
 
 
     # memory management
@@ -310,6 +413,150 @@ cdef class pop0_wrapper :
     def clear(self):
         return pop0.clear()
 
+# Wrapper for population 1 (pop1)
+@cython.auto_pickle(True)
+cdef class pop1_wrapper :
+
+    def __init__(self, size, max_delay):
+
+        pop1.set_size(size)
+        pop1.set_max_delay(max_delay)
+    # Number of neurons
+    property size:
+        def __get__(self):
+            return pop1.get_size()
+    # Reset the population
+    def reset(self):
+        pop1.reset()
+    # Set the maximum delay of outgoing projections
+    def set_max_delay(self, val):
+        pop1.set_max_delay(val)
+    # Updates the maximum delay of outgoing projections and rebuilds the arrays
+    def update_max_delay(self, val):
+        pop1.update_max_delay(val)
+    # Allows the population to compute
+    def activate(self, bool val):
+        pop1.set_active(val)
+
+
+    # Local Attribute
+    def get_local_attribute_all(self, name, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            return np.array(pop1.get_local_attribute_all_double(cpp_string))
+
+
+    def get_local_attribute(self, name, rk, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            return pop1.get_local_attribute_double(cpp_string, rk)
+
+
+    def set_local_attribute_all(self, name, value, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            pop1.set_local_attribute_all_double(cpp_string, value)
+
+
+    def set_local_attribute(self, name, rk, value, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            pop1.set_local_attribute_double(cpp_string, rk, value)
+
+
+
+    # Targets
+    cpdef np.ndarray get_sum_exc(self):
+        return np.array(pop1.get_local_attribute_all_double("_sum_exc".encode('utf-8')))
+
+
+
+
+
+    # memory management
+    def size_in_bytes(self):
+        return pop1.size_in_bytes()
+
+    def clear(self):
+        return pop1.clear()
+
+# Wrapper for population 2 (pop2)
+@cython.auto_pickle(True)
+cdef class pop2_wrapper :
+
+    def __init__(self, size, max_delay):
+
+        pop2.set_size(size)
+        pop2.set_max_delay(max_delay)
+    # Number of neurons
+    property size:
+        def __get__(self):
+            return pop2.get_size()
+    # Reset the population
+    def reset(self):
+        pop2.reset()
+    # Set the maximum delay of outgoing projections
+    def set_max_delay(self, val):
+        pop2.set_max_delay(val)
+    # Updates the maximum delay of outgoing projections and rebuilds the arrays
+    def update_max_delay(self, val):
+        pop2.update_max_delay(val)
+    # Allows the population to compute
+    def activate(self, bool val):
+        pop2.set_active(val)
+
+
+    # Local Attribute
+    def get_local_attribute_all(self, name, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            return np.array(pop2.get_local_attribute_all_double(cpp_string))
+
+
+    def get_local_attribute(self, name, rk, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            return pop2.get_local_attribute_double(cpp_string, rk)
+
+
+    def set_local_attribute_all(self, name, value, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            pop2.set_local_attribute_all_double(cpp_string, value)
+
+
+    def set_local_attribute(self, name, rk, value, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            pop2.set_local_attribute_double(cpp_string, rk, value)
+
+
+
+    # Targets
+    cpdef np.ndarray get_sum_exc(self):
+        return np.array(pop2.get_local_attribute_all_double("_sum_exc".encode('utf-8')))
+    cpdef np.ndarray get_sum_inh(self):
+        return np.array(pop2.get_local_attribute_all_double("_sum_inh".encode('utf-8')))
+
+
+
+
+
+    # memory management
+    def size_in_bytes(self):
+        return pop2.size_in_bytes()
+
+    def clear(self):
+        return pop2.clear()
+
 
 # Projection wrappers
 
@@ -317,16 +564,12 @@ cdef class pop0_wrapper :
 @cython.auto_pickle(True)
 cdef class proj0_wrapper :
 
-    def __init__(self, ):
-                    pass
+    def __init__(self, weights, coords):
+        
+        proj0.set_post_rank(list(range(9216)))
+        proj0.set_pre_rank(coords)
 
 
-    def init_from_lil_connectivity(self, synapses):
-        " synapses is an instance of LILConnectivity "
-        return proj0.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
-
-    def init_from_lil(self, post_rank, pre_rank, w, delay):
-        return proj0.init_from_lil(post_rank, pre_rank, w, delay)
 
 
     property size:
@@ -365,66 +608,17 @@ cdef class proj0_wrapper :
 
     # Access connectivity
 
+    # Connectivity
     def post_rank(self):
         return proj0.get_post_rank()
-    def pre_rank_all(self):
-        return proj0.get_pre_ranks()
     def pre_rank(self, int n):
-        return proj0.get_dendrite_pre_rank(n)
-    def nb_dendrites(self):
-        return proj0.nb_dendrites()
+        return proj0.get_pre_rank()
     def nb_synapses(self):
         return proj0.nb_synapses()
-    def dendrite_size(self, int n):
-        return proj0.dendrite_size(n)
-
-    def nb_efferent_synapses(self):
-        return proj0.nb_efferent_synapses()
+    def dendrite_size(self, lil_idx):
+        return proj0.dendrite_size(lil_idx)
 
 
-
-
-    # Local Attribute
-    def get_local_attribute_all(self, name, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            return proj0.get_local_attribute_all_double(cpp_string)
-
-
-    def get_local_attribute_row(self, name, rk_post, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            return proj0.get_local_attribute_row_double(cpp_string, rk_post)
-
-
-    def get_local_attribute(self, name, rk_post, rk_pre, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            return proj0.get_local_attribute_double(cpp_string, rk_post, rk_pre)
-
-
-    def set_local_attribute_all(self, name, value, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            proj0.set_local_attribute_all_double(cpp_string, value)
-
-
-    def set_local_attribute_row(self, name, rk_post, value, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            proj0.set_local_attribute_row_double(cpp_string, rk_post, value)
-
-
-    def set_local_attribute(self, name, rk_post, rk_pre, value, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            proj0.set_local_attribute_double(cpp_string, rk_post, rk_pre, value)
 
 
 
@@ -442,16 +636,14 @@ cdef class proj0_wrapper :
 @cython.auto_pickle(True)
 cdef class proj1_wrapper :
 
-    def __init__(self, ):
-                    pass
+    def __init__(self, weights, coords):
+        
+        proj1.set_post_rank(list(range(3072)))
+        proj1.set_pre_coords(coords)
+
+        proj1.set_w(weights)
 
 
-    def init_from_lil_connectivity(self, synapses):
-        " synapses is an instance of LILConnectivity "
-        return proj1.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
-
-    def init_from_lil(self, post_rank, pre_rank, w, delay):
-        return proj1.init_from_lil(post_rank, pre_rank, w, delay)
 
 
     property size:
@@ -490,66 +682,27 @@ cdef class proj1_wrapper :
 
     # Access connectivity
 
+    # Connectivity
     def post_rank(self):
         return proj1.get_post_rank()
-    def pre_rank_all(self):
-        return proj1.get_pre_ranks()
-    def pre_rank(self, int n):
-        return proj1.get_dendrite_pre_rank(n)
-    def nb_dendrites(self):
-        return proj1.nb_dendrites()
-    def nb_synapses(self):
-        return proj1.nb_synapses()
-    def dendrite_size(self, int n):
-        return proj1.dendrite_size(n)
+    def pre_coords(self):
+        return proj1.get_pre_coords()
 
-    def nb_efferent_synapses(self):
-        return proj1.nb_efferent_synapses()
-
-
-
-
-    # Local Attribute
-    def get_local_attribute_all(self, name, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            return proj1.get_local_attribute_all_double(cpp_string)
+    # Local variable w
+    def get_w(self):
+        return proj1.get_w()
+    def set_w(self, value):
+        proj1.set_w( value )
+    def get_dendrite_w(self, int rank):
+        return proj1.get_w()
+    def set_dendrite_w(self, int rank, value):
+        proj1.set_w(value)
+    def get_synapse_w(self, int rank_post, int rank_pre):
+        return 0.0
+    def set_synapse_w(self, int rank_post, int rank_pre, double value):
+        pass
 
 
-    def get_local_attribute_row(self, name, rk_post, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            return proj1.get_local_attribute_row_double(cpp_string, rk_post)
-
-
-    def get_local_attribute(self, name, rk_post, rk_pre, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            return proj1.get_local_attribute_double(cpp_string, rk_post, rk_pre)
-
-
-    def set_local_attribute_all(self, name, value, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            proj1.set_local_attribute_all_double(cpp_string, value)
-
-
-    def set_local_attribute_row(self, name, rk_post, value, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            proj1.set_local_attribute_row_double(cpp_string, rk_post, value)
-
-
-    def set_local_attribute(self, name, rk_post, rk_pre, value, ctype):
-        cpp_string = name.encode('utf-8')
-
-        if ctype == "double":
-            proj1.set_local_attribute_double(cpp_string, rk_post, rk_pre, value)
 
 
 
@@ -562,6 +715,128 @@ cdef class proj1_wrapper :
 
     def clear(self):
         return proj1.clear()
+
+# Wrapper for projection 2
+@cython.auto_pickle(True)
+cdef class proj2_wrapper :
+
+    def __init__(self, ):
+                    pass
+
+
+    def init_from_lil_connectivity(self, synapses):
+        " synapses is an instance of LILConnectivity "
+        return proj2.init_from_lil(synapses.post_rank, synapses.pre_rank, synapses.w, synapses.delay)
+
+    def init_from_lil(self, post_rank, pre_rank, w, delay):
+        return proj2.init_from_lil(post_rank, pre_rank, w, delay)
+
+
+    property size:
+        def __get__(self):
+            return proj2.nb_dendrites()
+
+    # Transmission flag
+    def _get_transmission(self):
+        return proj2._transmission
+    def _set_transmission(self, bool l):
+        proj2._transmission = l
+
+    # Update flag
+    def _get_update(self):
+        return proj2._update
+    def _set_update(self, bool l):
+        proj2._update = l
+
+    # Plasticity flag
+    def _get_plasticity(self):
+        return proj2._plasticity
+    def _set_plasticity(self, bool l):
+        proj2._plasticity = l
+
+    # Update period
+    def _get_update_period(self):
+        return proj2._update_period
+    def _set_update_period(self, int l):
+        proj2._update_period = l
+
+    # Update offset
+    def _get_update_offset(self):
+        return proj2._update_offset
+    def _set_update_offset(self, long l):
+        proj2._update_offset = l
+
+    # Access connectivity
+
+    def post_rank(self):
+        return proj2.get_post_rank()
+    def pre_rank_all(self):
+        return proj2.get_pre_ranks()
+    def pre_rank(self, int n):
+        return proj2.get_dendrite_pre_rank(n)
+    def nb_dendrites(self):
+        return proj2.nb_dendrites()
+    def nb_synapses(self):
+        return proj2.nb_synapses()
+    def dendrite_size(self, int n):
+        return proj2.dendrite_size(n)
+
+
+
+
+    # Local Attribute
+    def get_local_attribute_all(self, name, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            return proj2.get_local_attribute_all_double(cpp_string)
+
+
+    def get_local_attribute_row(self, name, rk_post, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            return proj2.get_local_attribute_row_double(cpp_string, rk_post)
+
+
+    def get_local_attribute(self, name, rk_post, rk_pre, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            return proj2.get_local_attribute_double(cpp_string, rk_post, rk_pre)
+
+
+    def set_local_attribute_all(self, name, value, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            proj2.set_local_attribute_all_double(cpp_string, value)
+
+
+    def set_local_attribute_row(self, name, rk_post, value, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            proj2.set_local_attribute_row_double(cpp_string, rk_post, value)
+
+
+    def set_local_attribute(self, name, rk_post, rk_pre, value, ctype):
+        cpp_string = name.encode('utf-8')
+
+        if ctype == "double":
+            proj2.set_local_attribute_double(cpp_string, rk_post, rk_pre, value)
+
+
+
+
+
+
+    # memory management
+    def size_in_bytes(self):
+        return proj2.size_in_bytes()
+
+    def clear(self):
+        return proj2.clear()
 
 
 # Monitor wrappers
@@ -579,82 +854,87 @@ cdef class PopRecorder0_wrapper:
     def clear(self):
         return (PopRecorder0.get_instance(self.id)).clear()
 
-    property I:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).I
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).I = val
-    property record_I:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).record_I
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).record_I = val
-    def clear_I(self):
-        (PopRecorder0.get_instance(self.id)).I.clear()
+    # Targets
+# Population Monitor wrapper
+@cython.auto_pickle(True)
+cdef class PopRecorder1_wrapper:
+    cdef int id
+    def __init__(self, list ranks, int period, period_offset, long offset):
+        self.id = PopRecorder1.create_instance(ranks, period, period_offset, offset)
 
-    property v:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).v
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).v = val
-    property record_v:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).record_v
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).record_v = val
-    def clear_v(self):
-        (PopRecorder0.get_instance(self.id)).v.clear()
+    def size_in_bytes(self):
+        return (PopRecorder1.get_instance(self.id)).size_in_bytes()
 
-    property u:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).u
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).u = val
-    property record_u:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).record_u
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).record_u = val
-    def clear_u(self):
-        (PopRecorder0.get_instance(self.id)).u.clear()
+    def clear(self):
+        return (PopRecorder1.get_instance(self.id)).clear()
 
     property r:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).r
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).r = val
+        def __get__(self): return (PopRecorder1.get_instance(self.id)).r
+        def __set__(self, val): (PopRecorder1.get_instance(self.id)).r = val
     property record_r:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).record_r
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).record_r = val
+        def __get__(self): return (PopRecorder1.get_instance(self.id)).record_r
+        def __set__(self, val): (PopRecorder1.get_instance(self.id)).record_r = val
     def clear_r(self):
-        (PopRecorder0.get_instance(self.id)).r.clear()
+        (PopRecorder1.get_instance(self.id)).r.clear()
 
-    property g_exc:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).g_exc
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).g_exc = val
-    property record_g_exc:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).record_g_exc
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).record_g_exc = val
-    def clear_g_exc(self):
-        (PopRecorder0.get_instance(self.id)).g_exc.clear()
+    # Targets
+    property _sum_exc:
+        def __get__(self): return (PopRecorder1.get_instance(self.id))._sum_exc
+        def __set__(self, val): (PopRecorder1.get_instance(self.id))._sum_exc = val
+    property record__sum_exc:
+        def __get__(self): return (PopRecorder1.get_instance(self.id)).record__sum_exc
+        def __set__(self, val): (PopRecorder1.get_instance(self.id)).record__sum_exc = val
+    def clear__sum_exc(self):
+        (PopRecorder1.get_instance(self.id))._sum_exc.clear()
 
-    property g_inh:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).g_inh
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).g_inh = val
-    property record_g_inh:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).record_g_inh
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).record_g_inh = val
-    def clear_g_inh(self):
-        (PopRecorder0.get_instance(self.id)).g_inh.clear()
+# Population Monitor wrapper
+@cython.auto_pickle(True)
+cdef class PopRecorder2_wrapper:
+    cdef int id
+    def __init__(self, list ranks, int period, period_offset, long offset):
+        self.id = PopRecorder2.create_instance(ranks, period, period_offset, offset)
 
-    property spike:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).spike
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).spike = val
-    property record_spike:
-        def __get__(self): return (PopRecorder0.get_instance(self.id)).record_spike
-        def __set__(self, val): (PopRecorder0.get_instance(self.id)).record_spike = val
-    def clear_spike(self):
-        (PopRecorder0.get_instance(self.id)).clear_spike()
+    def size_in_bytes(self):
+        return (PopRecorder2.get_instance(self.id)).size_in_bytes()
+
+    def clear(self):
+        return (PopRecorder2.get_instance(self.id)).clear()
+
+    property r:
+        def __get__(self): return (PopRecorder2.get_instance(self.id)).r
+        def __set__(self, val): (PopRecorder2.get_instance(self.id)).r = val
+    property record_r:
+        def __get__(self): return (PopRecorder2.get_instance(self.id)).record_r
+        def __set__(self, val): (PopRecorder2.get_instance(self.id)).record_r = val
+    def clear_r(self):
+        (PopRecorder2.get_instance(self.id)).r.clear()
+
+    # Targets
+    property _sum_exc:
+        def __get__(self): return (PopRecorder2.get_instance(self.id))._sum_exc
+        def __set__(self, val): (PopRecorder2.get_instance(self.id))._sum_exc = val
+    property record__sum_exc:
+        def __get__(self): return (PopRecorder2.get_instance(self.id)).record__sum_exc
+        def __set__(self, val): (PopRecorder2.get_instance(self.id)).record__sum_exc = val
+    def clear__sum_exc(self):
+        (PopRecorder2.get_instance(self.id))._sum_exc.clear()
+
+    property _sum_inh:
+        def __get__(self): return (PopRecorder2.get_instance(self.id))._sum_inh
+        def __set__(self, val): (PopRecorder2.get_instance(self.id))._sum_inh = val
+    property record__sum_inh:
+        def __get__(self): return (PopRecorder2.get_instance(self.id)).record__sum_inh
+        def __set__(self, val): (PopRecorder2.get_instance(self.id)).record__sum_inh = val
+    def clear__sum_inh(self):
+        (PopRecorder2.get_instance(self.id))._sum_inh.clear()
+
 
 # Projection Monitor wrapper
 @cython.auto_pickle(True)
-cdef class ProjRecorder0_wrapper:
+cdef class ProjRecorder2_wrapper:
     cdef int id
     def __init__(self, list ranks, int period, int period_offset, long offset):
-        self.id = ProjRecorder0.create_instance(ranks, period, period_offset, offset)
-
-# Projection Monitor wrapper
-@cython.auto_pickle(True)
-cdef class ProjRecorder1_wrapper:
-    cdef int id
-    def __init__(self, list ranks, int period, int period_offset, long offset):
-        self.id = ProjRecorder1.create_instance(ranks, period, period_offset, offset)
+        self.id = ProjRecorder2.create_instance(ranks, period, period_offset, offset)
 
 
 # User-defined functions

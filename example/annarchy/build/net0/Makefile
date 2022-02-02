@@ -6,7 +6,7 @@ all:
         `/Users/vitay/Applications/miniforge3/bin/python3.9-config --includes` -I/Users/vitay/Applications/miniforge3/lib/python3.9/site-packages/numpy/core/include -I/Users/vitay/Research/ANNarchy/annarchy/ANNarchy/include \
         -I /Users/vitay/Research/ANNarchy/annarchy/ANNarchy/core/cython_ext/ -I /Users/vitay/Research/ANNarchy/annarchy/ \
         -lpython3.9 \
-        -L/Users/vitay/Applications/miniforge3/lib  
+        -L/Users/vitay/Applications/miniforge3/lib  `pkg-config opencv4 --cflags --libs` 
 	mv ANNarchyCore0.so ../..
 
 clean:

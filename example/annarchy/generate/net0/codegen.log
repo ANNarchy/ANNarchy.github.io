@@ -1,4 +1,7 @@
 Filename, Object Description
-pop0, Population( name = pop0 )
-proj0, Projection( pre = pop0, post = pop0, target = exc ) using connector: All-to-All 
-proj1, Projection( pre = pop0, post = pop0, target = inh ) using connector: All-to-All 
+pop0, VideoPopulation( name = pop0 )
+pop1, Population( name = pop1 )
+pop2, Population( name = pop2 )
+proj0, Pooling( pre = pop0, post = pop1, target = exc ) using connector: Pooling 
+proj1, Convolution( pre = pop1, post = pop2, target = exc ) using connector: Convolution 
+proj2, Projection( pre = pop2, post = pop2, target = inh ) using connector: Difference-of-Gaussian 

@@ -16,11 +16,14 @@ std::vector<std::mt19937> rng;
 
 // Populations
 PopStruct0 pop0;
+PopStruct1 pop1;
+PopStruct2 pop2;
 
 
 // Projections
 ProjStruct0 proj0;
 ProjStruct1 proj1;
+ProjStruct2 proj2;
 
 
 // Global operations
@@ -77,11 +80,24 @@ void singleStep()
     ////////////////////////////////
 
 
+    // pop1: pop1
+    if (pop1._active)
+        memset( pop1._sum_exc.data(), 0.0, pop1._sum_exc.size() * sizeof(double));
+
+    // pop2: pop2
+    if (pop2._active)
+        memset( pop2._sum_exc.data(), 0.0, pop2._sum_exc.size() * sizeof(double));
+
+    // pop2: pop2
+    if (pop2._active)
+        memset( pop2._sum_inh.data(), 0.0, pop2._sum_inh.size() * sizeof(double));
+
 #ifdef _TRACE_SIMULATION_STEPS
     std::cout << "Update psp/conductances ..." << std::endl;
 #endif
 	proj0.compute_psp();
 	proj1.compute_psp();
+	proj2.compute_psp();
 
 
 
@@ -102,7 +118,6 @@ void singleStep()
     std::cout << "Draw required random numbers ..." << std::endl;
 #endif
 
-    pop0.update_rng();
 
 
 
@@ -113,7 +128,8 @@ void singleStep()
     std::cout << "Evaluate neural ODEs ..." << std::endl;
 #endif
 
-    pop0.update(); pop0.spike_gather(); 
+    pop1.update(); pop1.spike_gather(); 
+    pop2.update(); pop2.spike_gather(); 
 
 
 
@@ -217,12 +233,15 @@ void initialize(const double _dt) {
     // Populations
     // Initialize populations
     pop0.init_population();
+    pop1.init_population();
+    pop2.init_population();
 
 
     // Projections
     // Initialize projections
     proj0.init_projection();
     proj1.init_projection();
+    proj2.init_projection();
 
 
     // Custom constants
@@ -233,6 +252,8 @@ void initialize(const double _dt) {
 // Initialize the random distribution objects
 void init_rng_dist() {
 pop0.init_rng_dist();
+pop1.init_rng_dist();
+pop2.init_rng_dist();
 
 }
 

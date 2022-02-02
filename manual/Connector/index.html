@@ -1777,9 +1777,7 @@ simplicity of element access.</p>
 <h2 id="user-defined-patterns">User-defined patterns<a class="headerlink" href="#user-defined-patterns" title="Permanent link">#</a></h2>
 <p>This section describes the creation of user-specific connection patterns
 in ANNarchy, if the available patterns are not enough. A connection
-pattern is simply implemented as a method returning a <code>CSR</code> (compressed
-sparse-row) object containing all the necessary information to create
-the synapses.</p>
+pattern is simply implemented as a method returning a <code>LILConnectivity</code> (list-of-list) object containing all the necessary information to create the synapses.</p>
 <p>A connector method must take on the first position the pre-synaptic
 population (or a subset of it) and on the second one the post-synaptic
 population. Other arguments are free, but should be passed when creating
@@ -1795,14 +1793,14 @@ synaptic transmission..</p>
 
 <span class="k">def</span> <span class="nf">probabilistic_pattern</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">probability</span><span class="p">):</span>
 
-    <span class="n">synapses</span> <span class="o">=</span> <span class="n">CSR</span><span class="p">()</span>
+    <span class="n">synapses</span> <span class="o">=</span> <span class="n">LILConnectivity</span><span class="p">()</span>
 
     <span class="o">...</span> <span class="n">pattern</span> <span class="n">code</span> <span class="n">comes</span> <span class="n">here</span> <span class="o">...</span>
 
     <span class="k">return</span> <span class="n">synapses</span>
 </code></pre></div>
 <h3 id="fixed_probability-in-python">fixed_probability in Python<a class="headerlink" href="#fixed_probability-in-python" title="Permanent link">#</a></h3>
-<p>The connector method needs to return a <code>CSR</code> object storing the
+<p>The connector method needs to return a <code>LILConnectivity</code> object storing the
 connectivity. For each post-synaptic neuron receiving synapses, a list
 of pre-synaptic ranks, weight values and delays must be added to the
 structure. If you use 2D or 3D populations you need to transform the
@@ -1811,8 +1809,8 @@ coordinates into ranks with the <code>rank_from_coordinates</code> function.</p>
 <span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="k">def</span> <span class="nf">probabilistic_pattern</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">probability</span><span class="p">):</span>
-    <span class="c1"># Create a compressed sparse row (CSR) structure for the connectivity matrix</span>
-    <span class="n">synapses</span> <span class="o">=</span> <span class="n">CSR</span><span class="p">()</span>
+    <span class="c1"># Create a LIL structure for the connectivity matrix</span>
+    <span class="n">synapses</span> <span class="o">=</span> <span class="n">LILConnectivity</span><span class="p">()</span>
     <span class="c1"># For all neurons in the post-synaptic population</span>
     <span class="k">for</span> <span class="n">post_rank</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
         <span class="c1"># Decide which pre-synaptic neurons should form synapses</span>
@@ -1823,7 +1821,7 @@ coordinates into ranks with the <code>rank_from_coordinates</code> function.</p>
         <span class="c1"># Create weights and delays arrays of the same size</span>
         <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">weight</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ranks</span><span class="p">))</span> <span class="p">]</span>
         <span class="n">delays</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ranks</span><span class="p">))</span> <span class="p">]</span>
-        <span class="c1"># Add this information to the CSR matrix</span>
+        <span class="c1"># Add this information to the LIL matrix</span>
         <span class="n">synapses</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">post_rank</span><span class="p">,</span> <span class="n">ranks</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">delays</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">synapses</span>
@@ -1834,7 +1832,7 @@ a synapse with a pre-synaptic neuron should be created, based on the
 value <code>probability</code> provided as argument to the function.</p>
 <p>The lists <code>values</code> and <code>delays</code> are then created with the same size as
 <code>ranks</code> (important!), and filled with the desired value. All this
-information is then fed into the CSR matrix using the
+information is then fed into the LIL matrix using the
 <code>add(post_rank, ranks, values, delays)</code> method.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
