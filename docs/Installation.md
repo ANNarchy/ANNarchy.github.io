@@ -54,13 +54,15 @@ To use the CUDA backend:
 
 ANNarchy works with full Python distributions such as Anaconda, as well as in virtual environments and Jupyter notebooks.
 
-On a fresh install of Ubuntu 18.10, here are the minimal packages to
-install before ANNarchy (using python 3):
+On a fresh install of Ubuntu 20.04, here are the minimal packages to install before ANNarchy:
 
 ```bash
-sudo apt install build-essential git python3-dev python3-setuptools python3-scipy python3-matplotlib python3-sympy cython3
-sudo apt install python3-pyqtgraph python3-pyqt4.qtopengl python3-lxml
+sudo apt install build-essential gcc git python3-dev python3-setuptools python3-numpy python3-scipy python3-matplotlib cython3
+sudo pip install sympy 
+sudo apt install python3-pyqtgraph python3-pyqt5.qtopengl python3-lxml
 ```
+
+Note that the default version of sympy for this distribution is 1.5.1, which is not supported, so it has to be installed with pip. 
 
 ### Installation
 
