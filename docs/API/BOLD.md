@@ -81,7 +81,7 @@ $$k_2            = \epsilon \, r_0 \, E_0 \, \text{TE}$$
 
 $$k_3            = 1 - \epsilon$$
 
-This makes a total of four different BOLD model (RN, RL, CN, CL) which are provided by the extension. The different parameters can be modified in the constructor. Additionally, we also provide the model that was used in (Maith et al., 2021) and the two-inputs model of (Maith et al, 2021b).
+This makes a total of four different BOLD model (RN, RL, CN, CL) which are provided by the extension. The different parameters can be modified in the constructor. Additionally, we also provide the model that was used in (Maith et al., 2021) and the two-inputs model of (Maith et al, 2022).
 
 
 ::: ANNarchy.extensions.bold.BoldModel
@@ -152,4 +152,4 @@ This makes a total of four different BOLD model (RN, RL, CN, CL) which are provi
 
 > Maith et al. (2021) A computational model-based analysis of basal ganglia pathway changes in Parkinson’s disease inferred from resting-state fMRI. European Journal of Neuroscience. 2021; 53: 2278– 2295. doi:10.1111/ejn.14868 
 
-> Maith et al. (2021b) BOLD monitoring in the neural simulator ANNarchy. submitted.
+> Maith et al. (2022) BOLD monitoring in the neural simulator ANNarchy. Frontiers in Neuroinformatics 16. doi:10.3389/fninf.2022.790966.
