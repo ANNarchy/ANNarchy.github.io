@@ -1986,6 +1986,7 @@ Projection        </code>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection_delay</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connector</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lil_connectivity</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Default configuration for connectivity</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_storage_format</span> <span class="o">=</span> <span class="s2">&quot;lil&quot;</span>
@@ -2134,7 +2135,7 @@ Projection        </code>
         <span class="c1"># Check if there is a specialized CPP connector</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cpp_connector_available</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage_format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage_order</span><span class="p">):</span>
             <span class="c1"># No default connector -&gt; initialize from LIL</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">init_from_lil_connectivity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection_method</span><span class="p">(</span><span class="o">*</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span><span class="p">)))</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">init_from_lil_connectivity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lil_connectivity</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># fixed probability pattern</span>
@@ -2197,60 +2198,24 @@ Projection        </code>
         <span class="k">if</span> <span class="n">storage_format</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_type</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;spike&quot;</span><span class="p">:</span>
             <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s2">&quot;Automatic format selection is not supported for spiking models yet.&quot;</span><span class="p">)</span>
 
-        <span class="c1"># We check some heuristics to select a specific format (currently only on GPUs)</span>
-        <span class="c1">#</span>
-        <span class="c1">#   - If the filling degree is high enough a full matrix representation might be better</span>
-        <span class="c1">#   - if the number of rows is higher then the number of (filled) columns the ELLPACK-R might be better</span>
-        <span class="c1">#   - if the number of (filled) columns is higher than the number of rows then the CSR might be better</span>
-        <span class="c1">#</span>
-        <span class="c1">#   HD (17th Jan. 2022): Currently structural plasticity is only usable with LIL. But one could also</span>
-        <span class="c1">#                        apply it for dense matrices in the future. For CSR and in particular the ELL-</span>
-        <span class="c1">#                        like formats the potential memory-reallocations make the structural plasticity</span>
-        <span class="c1">#                        a costly operation.</span>
-        <span class="k">if</span> <span class="n">storage_format</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_type</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;rate&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;structural_plasticity&quot;</span><span class="p">]:</span>
-                <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;lil&quot;</span>
-
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span> <span class="o">==</span> <span class="s2">&quot;All-to-All&quot;</span><span class="p">:</span>
-                <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;dense&quot;</span>
-
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span> <span class="o">==</span> <span class="s2">&quot;Random&quot;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">&gt;=</span> <span class="mf">0.6</span><span class="p">:</span>
-                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;dense&quot;</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">64</span><span class="p">:</span>
-                        <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;csr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;ellr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;csr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;ellr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
-
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span> <span class="o">==</span> <span class="s2">&quot;Random Convergent&quot;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.6</span><span class="p">:</span>
-                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;dense&quot;</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;ellr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;csr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;ellr&quot;</span> <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;lil&quot;</span>
-
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">):</span>
-                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;csr&quot;</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;lil&quot;</span>
-
-            <span class="n">Global</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="s2">&quot;Automatic format selection for&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">storage_format</span><span class="p">)</span>
-
         <span class="c1"># Store connectivity pattern parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection_method</span> <span class="o">=</span> <span class="n">method</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span> <span class="o">=</span> <span class="n">args</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection_delay</span> <span class="o">=</span> <span class="n">delay</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_storage_format</span> <span class="o">=</span> <span class="n">storage_format</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_storage_order</span> <span class="o">=</span> <span class="n">storage_order</span>
+
+        <span class="c1"># Local import to prevent circular import (HD: 15th March 2022)</span>
+        <span class="kn">from</span> <span class="nn">ANNarchy.generator.Utils</span> <span class="kn">import</span> <span class="n">cpp_connector_available</span>
+
+        <span class="c1"># Check if there is a specialized CPP connector otherwise we build already the LIL format</span>
+        <span class="n">cpp_connector</span> <span class="o">=</span> <span class="n">cpp_connector_available</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage_format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage_order</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cpp_connector</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lil_connectivity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_method</span><span class="p">(</span><span class="o">*</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span><span class="p">))</span>
+
+        <span class="c1"># Automatic format selection using heuristics for rate-coded models</span>
+        <span class="k">if</span> <span class="n">storage_format</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_type</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;rate&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_storage_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_automatic_format_selection</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
         <span class="c1"># Analyse the delay</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">delay</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span> <span class="c1"># Uniform delay</span>
@@ -2284,6 +2249,50 @@ Projection        </code>
             <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">max_delay</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_delay</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">max_delay</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">max_delay</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_delay</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">max_delay</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_automatic_format_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        We check some heuristics to select a specific format (currently only on GPUs) implemented</span>
+<span class="sd">        as decision tree:</span>
+
+<span class="sd">            - If the filling degree is high enough a full matrix representation might be better</span>
+<span class="sd">            - if the average row length is below a threshold the ELLPACK-R might be better</span>
+<span class="sd">            - if the average row length is higher than a threshold the CSR might be better</span>
+
+<span class="sd">        HD (17th Jan. 2022): Currently structural plasticity is only usable with LIL. But one could also</span>
+<span class="sd">                             apply it for dense matrices in the future. For CSR and in particular the ELL-</span>
+<span class="sd">                             like formats the potential memory-reallocations make the structural plasticity</span>
+<span class="sd">                             a costly operation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;structural_plasticity&quot;</span><span class="p">]:</span>
+            <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;lil&quot;</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span> <span class="o">==</span> <span class="s2">&quot;All-to-All&quot;</span><span class="p">:</span>
+            <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;dense&quot;</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">connector_name</span> <span class="o">==</span> <span class="s2">&quot;One-to-One&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">):</span>
+                <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;csr&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;lil&quot;</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">density</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lil_connectivity</span><span class="o">.</span><span class="n">nb_synapses</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">avg_nnz_per_row</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lil_connectivity</span><span class="o">.</span><span class="n">compute_average_row_length</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">density</span> <span class="o">&gt;=</span> <span class="mf">0.6</span><span class="p">:</span>
+                <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;dense&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">avg_nnz_per_row</span> <span class="o">&lt;=</span> <span class="mi">128</span><span class="p">:</span>
+                        <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;ellr&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;csr&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">storage_format</span> <span class="o">=</span> <span class="s2">&quot;lil&quot;</span>
+
+        <span class="n">Global</span><span class="o">.</span><span class="n">_info</span><span class="p">(</span><span class="s2">&quot;Automatic format selection for&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">storage_format</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">storage_format</span>
 
     <span class="k">def</span> <span class="nf">_has_single_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s2">&quot;If a single weight should be generated instead of a LIL&quot;</span>
@@ -3512,6 +3521,7 @@ Projection        </code>
     <span class="bp">self</span><span class="o">.</span><span class="n">_connection_args</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_connection_delay</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_connector</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_lil_connectivity</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># Default configuration for connectivity</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_storage_format</span> <span class="o">=</span> <span class="s2">&quot;lil&quot;</span>

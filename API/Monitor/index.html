@@ -1662,7 +1662,7 @@ Monitor        </code>
 
     <div class="doc doc-contents first">
 
-      <p>Monitoring class allowing to record easily parameters or variables from Population, PopulationView and Dendrite objects.</p>
+      <p>Monitoring class allowing to record easily parameters or variables from Population, PopulationView, Dendrite or Projection objects.</p>
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;g_exc&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;spike&#39;</span><span class="p">],</span> <span class="n">period</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
 </code></pre></div>
@@ -1674,7 +1674,7 @@ Monitor        </code>
           <summary>Source code in <code>ANNarchy/core/Monitor.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Monitor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Monitoring class allowing to record easily parameters or variables from Population, PopulationView and Dendrite objects.</span>
+<span class="sd">    Monitoring class allowing to record easily parameters or variables from Population, PopulationView, Dendrite or Projection objects.</span>
 
 <span class="sd">    Example:</span>
 
@@ -1745,6 +1745,7 @@ Monitor        </code>
         <span class="c1"># Start</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="n">start</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="c1"># Add the monitor to the global variable</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Global</span><span class="o">.</span><span class="n">_network</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;monitors&#39;</span><span class="p">])</span>
@@ -1819,7 +1820,16 @@ Monitor        </code>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)],</span> <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)]}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)],</span> 
+            <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">],</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)],</span> 
+            <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">],</span>
+        <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">_init_monitoring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s2">&quot;To be called after compile() as it accesses cython objects&quot;</span>
@@ -1922,7 +1932,33 @@ Monitor        </code>
                     <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;dendrite between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
                     <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
                         <span class="n">Global</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="s1">&#39;is a parameter, its value is constant&#39;</span><span class="p">)</span>
+
                 <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor: &#39;</span> <span class="o">+</span> <span class="n">var</span> <span class="o">+</span> <span class="s1">&#39; can not be recorded (&#39;</span><span class="o">+</span><span class="n">obj_desc</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Pauses the recordings.&quot;</span>
+        <span class="c1"># Start recording the variables</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">var</span>
+            <span class="c1"># Sums of inputs for rate-coded populations</span>
+            <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;sum(&#39;</span><span class="p">):</span>
+                <span class="n">target</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\(([\w]+)\)&quot;</span><span class="p">,</span> <span class="n">var</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_sum_&#39;</span> <span class="o">+</span> <span class="n">target</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="p">,</span> <span class="s1">&#39;record_&#39;</span><span class="o">+</span><span class="n">name</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="p">(</span><span class="n">Population</span><span class="p">,</span> <span class="n">PopulationView</span><span class="p">)):</span>
+                    <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;population &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">name</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">Projection</span><span class="p">):</span>
+                    <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;projection between &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;dendrite between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor:&#39;</span> <span class="o">+</span> <span class="n">var</span> <span class="o">+</span> <span class="s1">&#39; can not be recorded (&#39;</span><span class="o">+</span><span class="n">obj_desc</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)</span>
+
 
     <span class="k">def</span> <span class="nf">resume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s2">&quot;Resumes the recordings.&quot;</span>
@@ -1944,36 +1980,15 @@ Monitor        </code>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;dendrite between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
                 <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor:&#39;</span> <span class="o">+</span> <span class="n">var</span> <span class="o">+</span> <span class="s1">&#39; can not be recorded (&#39;</span><span class="o">+</span><span class="n">obj_desc</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">&quot;Pauses the recordings.&quot;</span>
-        <span class="c1"># Start recording the variables</span>
-        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">var</span>
-            <span class="c1"># Sums of inputs for rate-coded populations</span>
-            <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;sum(&#39;</span><span class="p">):</span>
-                <span class="n">target</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\(([\w]+)\)&quot;</span><span class="p">,</span> <span class="n">var</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_sum_&#39;</span> <span class="o">+</span> <span class="n">target</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="p">,</span> <span class="s1">&#39;record_&#39;</span><span class="o">+</span><span class="n">name</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="p">(</span><span class="n">Population</span><span class="p">,</span> <span class="n">PopulationView</span><span class="p">)):</span>
-                    <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;population &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">name</span>
-                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">Projection</span><span class="p">):</span>
-                    <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;projection between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;dendrite between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
-                <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor:&#39;</span> <span class="o">+</span> <span class="n">var</span> <span class="o">+</span> <span class="s1">&#39; can not be recorded (&#39;</span><span class="o">+</span><span class="n">obj_desc</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stops the recording.</span>
 
-<span class="sd">        Warning: This will delete the content of the C++ object and</span>
-<span class="sd">        all not previously retrieved data is lost.</span>
+<span class="sd">        Warning: This will delete the content of the C++ object and all data not previously retrieved is lost.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1989,7 +2004,7 @@ Monitor        </code>
                 <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;projection between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;dendrite between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
-            <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor:&#39;</span> <span class="o">+</span> <span class="n">var</span> <span class="o">+</span> <span class="s1">&#39; can not be recorded (&#39;</span><span class="o">+</span><span class="n">obj_desc</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+            <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor:&#39;</span> <span class="o">+</span> <span class="n">obj_desc</span> <span class="o">+</span> <span class="s1">&#39;cannot be stopped&#39;</span><span class="p">)</span>
 
 
     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reshape</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -2043,17 +2058,15 @@ Monitor        </code>
             <span class="c1"># Retrieve the data</span>
             <span class="n">data</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">return_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">keep</span><span class="p">)</span>
 
-            <span class="c1"># Eventually reshape the array</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">keep</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">):</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">):</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor.get(): you try to get recordings which do not exist:&#39;</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+            <span class="c1"># Update stopping time</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">keep</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">force_dict</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
@@ -2083,7 +2096,10 @@ Monitor        </code>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns the start and stop times of the recorded variables.</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the start and stop times (in ms) of the recorded variables. </span>
+
+<span class="sd">        It should only be called after a call to ``get()``, so that it describes when the variables have been recorded.</span>
 
 <span class="sd">        :param variables: (list of) variables. By default, the times for all variables is returned.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -2093,13 +2109,15 @@ Monitor        </code>
                 <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">variables</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span>
+
         <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
             <span class="c1"># check for spelling mistakes</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">:</span>
                 <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s2">&quot;Variable &#39;&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;&#39; is not monitored.&quot;</span><span class="p">)</span>
                 <span class="k">continue</span>
 
-            <span class="n">t</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
+            <span class="n">t</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
+
         <span class="k">return</span> <span class="n">t</span>
 
     <span class="c1">###############################</span>
@@ -2196,8 +2214,8 @@ Monitor        </code>
             <span class="n">bins</span> <span class="o">=</span>  <span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span>
 
         <span class="c1"># Compute the duration of the recordings</span>
-        <span class="n">t_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">t_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="c1"># Number of bins</span>
         <span class="n">nb_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">duration</span><span class="o">*</span><span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">bins</span><span class="p">)</span>
@@ -2251,7 +2269,7 @@ Monitor        </code>
 
 
         <span class="c1"># Compute the duration of the recordings</span>
-        <span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="c1"># Number of neurons</span>
         <span class="n">neurons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">ranks</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">PopulationView</span><span class="p">)</span> <span class="k">else</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
@@ -2299,8 +2317,8 @@ Monitor        </code>
         <span class="k">return</span> <span class="n">Transformations</span><span class="o">.</span><span class="n">smoothed_rate</span><span class="p">(</span>
             <span class="p">{</span>
                 <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
-                <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="p">},</span>
             <span class="n">smooth</span>
         <span class="p">)</span>
@@ -2343,8 +2361,8 @@ Monitor        </code>
         <span class="k">return</span> <span class="n">Transformations</span><span class="o">.</span><span class="n">population_rate</span><span class="p">(</span>
             <span class="p">{</span>
                 <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
-                <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="p">},</span>
             <span class="n">smooth</span>
         <span class="p">)</span>
@@ -2549,6 +2567,7 @@ Monitor        </code>
     <span class="c1"># Start</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="n">start</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="c1"># Add the monitor to the global variable</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Global</span><span class="o">.</span><span class="n">_network</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;monitors&#39;</span><span class="p">])</span>
@@ -2666,17 +2685,15 @@ If a list is provided or the argument left empty, a dictionary with all recorded
         <span class="c1"># Retrieve the data</span>
         <span class="n">data</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">return_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">keep</span><span class="p">)</span>
 
-        <span class="c1"># Eventually reshape the array</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">keep</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor.get(): you try to get recordings which do not exist:&#39;</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+        <span class="c1"># Update stopping time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">keep</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">force_dict</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
@@ -2787,8 +2804,8 @@ If a list is provided or the argument left empty, a dictionary with all recorded
         <span class="n">bins</span> <span class="o">=</span>  <span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span>
 
     <span class="c1"># Compute the duration of the recordings</span>
-    <span class="n">t_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">t_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="c1"># Number of bins</span>
     <span class="n">nb_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">duration</span><span class="o">*</span><span class="n">Global</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">bins</span><span class="p">)</span>
@@ -2895,7 +2912,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
 
 
     <span class="c1"># Compute the duration of the recordings</span>
-    <span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="c1"># Number of neurons</span>
     <span class="n">neurons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">ranks</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">PopulationView</span><span class="p">)</span> <span class="k">else</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
@@ -2944,13 +2961,14 @@ If a list is provided or the argument left empty, a dictionary with all recorded
         <span class="k">except</span><span class="p">:</span>
             <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="p">(</span><span class="n">Population</span><span class="p">,</span> <span class="n">PopulationView</span><span class="p">)):</span>
-                <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;population &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;population &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">name</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">Projection</span><span class="p">):</span>
-                <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;projection between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;projection between &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;dendrite between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
             <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor:&#39;</span> <span class="o">+</span> <span class="n">var</span> <span class="o">+</span> <span class="s1">&#39; can not be recorded (&#39;</span><span class="o">+</span><span class="n">obj_desc</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -3046,8 +3064,8 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <span class="k">return</span> <span class="n">Transformations</span><span class="o">.</span><span class="n">population_rate</span><span class="p">(</span>
         <span class="p">{</span>
             <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
-            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-            <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="p">},</span>
         <span class="n">smooth</span>
     <span class="p">)</span>
@@ -3198,7 +3216,9 @@ If a list is provided or the argument left empty, a dictionary with all recorded
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;dendrite between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
             <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor:&#39;</span> <span class="o">+</span> <span class="n">var</span> <span class="o">+</span> <span class="s1">&#39; can not be recorded (&#39;</span><span class="o">+</span><span class="n">obj_desc</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -3335,8 +3355,8 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <span class="k">return</span> <span class="n">Transformations</span><span class="o">.</span><span class="n">smoothed_rate</span><span class="p">(</span>
         <span class="p">{</span>
             <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
-            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-            <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="s1">&#39;spike&#39;</span><span class="p">][</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="p">},</span>
         <span class="n">smooth</span>
     <span class="p">)</span>
@@ -3431,6 +3451,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
                 <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;dendrite between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
                 <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
                     <span class="n">Global</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="s1">&#39;is a parameter, its value is constant&#39;</span><span class="p">)</span>
+
             <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor: &#39;</span> <span class="o">+</span> <span class="n">var</span> <span class="o">+</span> <span class="s1">&#39; can not be recorded (&#39;</span><span class="o">+</span><span class="n">obj_desc</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
 </code></pre></div>
         </details>
@@ -3453,8 +3474,7 @@ If a list is provided or the argument left empty, a dictionary with all recorded
     <div class="doc doc-contents ">
 
       <p>Stops the recording.</p>
-<p>Warning: This will delete the content of the C++ object and
-all not previously retrieved data is lost.</p>
+<p>Warning: This will delete the content of the C++ object and all data not previously retrieved is lost.</p>
 
         <details class="quote">
           <summary>Source code in <code>ANNarchy/core/Monitor.py</code></summary>
@@ -3462,8 +3482,7 @@ all not previously retrieved data is lost.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Stops the recording.</span>
 
-<span class="sd">    Warning: This will delete the content of the C++ object and</span>
-<span class="sd">    all not previously retrieved data is lost.</span>
+<span class="sd">    Warning: This will delete the content of the C++ object and all data not previously retrieved is lost.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span> <span class="o">=</span> <span class="p">[]</span>
@@ -3479,7 +3498,7 @@ all not previously retrieved data is lost.</p>
             <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;projection between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">obj_desc</span> <span class="o">=</span> <span class="s1">&#39;dendrite between &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor:&#39;</span> <span class="o">+</span> <span class="n">var</span> <span class="o">+</span> <span class="s1">&#39; can not be recorded (&#39;</span><span class="o">+</span><span class="n">obj_desc</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+        <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s1">&#39;Monitor:&#39;</span> <span class="o">+</span> <span class="n">obj_desc</span> <span class="o">+</span> <span class="s1">&#39;cannot be stopped&#39;</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -3500,7 +3519,8 @@ all not previously retrieved data is lost.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the start and stop times of the recorded variables.</p>
+      <p>Returns the start and stop times (in ms) of the recorded variables. </p>
+<p>It should only be called after a call to <code>get()</code>, so that it describes when the variables have been recorded.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3524,7 +3544,10 @@ all not previously retrieved data is lost.</p>
         <details class="quote">
           <summary>Source code in <code>ANNarchy/core/Monitor.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Returns the start and stop times of the recorded variables.</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the start and stop times (in ms) of the recorded variables. </span>
+
+<span class="sd">    It should only be called after a call to ``get()``, so that it describes when the variables have been recorded.</span>
 
 <span class="sd">    :param variables: (list of) variables. By default, the times for all variables is returned.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -3534,13 +3557,15 @@ all not previously retrieved data is lost.</p>
             <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">variables</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span>
+
     <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
         <span class="c1"># check for spelling mistakes</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">:</span>
             <span class="n">Global</span><span class="o">.</span><span class="n">_warning</span><span class="p">(</span><span class="s2">&quot;Variable &#39;&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;&#39; is not monitored.&quot;</span><span class="p">)</span>
             <span class="k">continue</span>
 
-        <span class="n">t</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
+        <span class="n">t</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_last_recorded_variables</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
+
     <span class="k">return</span> <span class="n">t</span>
 </code></pre></div>
         </details>
@@ -3720,7 +3745,7 @@ all not previously retrieved data is lost.</p>
 
     <span class="c1"># Number of bins</span>
     <span class="n">nb_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">duration</span><span class="o">/</span><span class="n">bin_step</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">t_min</span><span class="p">,</span> <span class="n">t_max</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">nb_bins</span><span class="p">)</span>
+    <span class="c1">#print(t_min, t_max, duration, nb_bins)</span>
 
     <span class="c1"># Initialize histogram</span>
     <span class="n">histo</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_bins</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>

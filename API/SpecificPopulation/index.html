@@ -3259,7 +3259,7 @@ HomogeneousCorrelatedSpikeTrains            (<span title="ANNarchy.core.Specific
 
 <span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
 </code></pre></div>
-<p>Alternatively, a schedule can be provided to change automatically the value of <code>rates</code> and <code>corr</code>(but not <code>tau</code>) at the required times (as in TimedArray or TimedPoissonPopulation):</p>
+<p>Alternatively, a schedule can be provided to change automatically the value of <code>rates</code> and <code>corr</code> (but not <code>tau</code>) at the required times (as in TimedArray or TimedPoissonPopulation):</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">setup</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 
@@ -3275,7 +3275,7 @@ HomogeneousCorrelatedSpikeTrains            (<span title="ANNarchy.core.Specific
 
 <span class="n">simulate</span><span class="p">(</span><span class="mf">2000.</span><span class="p">)</span>
 </code></pre></div>
-<p>Even when using a schedule, <code>corr</code> accepts a single constant value. The first value of <code>schedule</code> must be 0. <code>period</code>specifies when the schedule "loops" back to its initial value. </p>
+<p>Even when using a schedule, <code>corr</code> accepts a single constant value. The first value of <code>schedule</code> must be 0. <code>period</code> specifies when the schedule "loops" back to its initial value. </p>
 
         <details class="quote">
           <summary>Source code in <code>ANNarchy/core/SpecificPopulation.py</code></summary>
@@ -3318,7 +3318,7 @@ HomogeneousCorrelatedSpikeTrains            (<span title="ANNarchy.core.Specific
 <span class="sd">    simulate(1000.)</span>
 <span class="sd">    ```</span>
 
-<span class="sd">    Alternatively, a schedule can be provided to change automatically the value of `rates` and ``corr``(but not ``tau``) at the required times (as in TimedArray or TimedPoissonPopulation):</span>
+<span class="sd">    Alternatively, a schedule can be provided to change automatically the value of `rates` and ``corr`` (but not ``tau``) at the required times (as in TimedArray or TimedPoissonPopulation):</span>
 
 <span class="sd">    ```python</span>
 <span class="sd">    from ANNarchy import *</span>
@@ -3337,7 +3337,7 @@ HomogeneousCorrelatedSpikeTrains            (<span title="ANNarchy.core.Specific
 <span class="sd">    simulate(2000.)</span>
 <span class="sd">    ```</span>
 
-<span class="sd">    Even when using a schedule, ``corr`` accepts a single constant value. The first value of ``schedule`` must be 0. ``period``specifies when the schedule &quot;loops&quot; back to its initial value. </span>
+<span class="sd">    Even when using a schedule, ``corr`` accepts a single constant value. The first value of ``schedule`` must be 0. ``period`` specifies when the schedule &quot;loops&quot; back to its initial value. </span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
@@ -3447,8 +3447,13 @@ HomogeneousCorrelatedSpikeTrains            (<span title="ANNarchy.core.Specific
         <span class="c1"># Correction of mu and sigma</span>
         <span class="n">mu_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">sigma_list</span> <span class="o">=</span> <span class="p">[]</span>
+
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rates</span><span class="p">)):</span>
-            <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">_rectify</span><span class="p">(</span><span class="n">rates</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">tau</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">corr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
+            <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">_rectify</span><span class="p">(</span><span class="n">rates</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">c</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
             <span class="n">mu_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
             <span class="n">sigma_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
 
@@ -4009,8 +4014,8 @@ HomogeneousCorrelatedSpikeTrains            (<span title="ANNarchy.core.Specific
                     <span class="k">else</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="k">pass</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
                 <span class="n">Population</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -4035,8 +4040,8 @@ HomogeneousCorrelatedSpikeTrains            (<span title="ANNarchy.core.Specific
                     <span class="k">else</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="k">pass</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
                 <span class="n">Population</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -4418,8 +4423,7 @@ TimedPoissonPopulation            (<span title="ANNarchy.core.SpecificPopulation
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">rates</span><span class="p">,</span> <span class="n">schedule</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">copied</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;    </span>
-<span class="sd">        :param rates: array of firing rates. The first axis corresponds to the times where the firing rate should change. </span>
-<span class="sd">            If a different rate should be used by the different neurons, the other dimensions must match with the geometr of the population.</span>
+<span class="sd">        :param rates: array of firing rates. The first axis corresponds to the times where the firing rate should change. If a different rate should be used by the different neurons, the other dimensions must match the geometry of the population.</span>
 <span class="sd">        :param schedule: list of times (in ms) where the firing rate should change.</span>
 <span class="sd">        :param period: time when the timed array will be reset and start again, allowing cycling over the schedule. Default: no cycling (-1.).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -4918,12 +4922,25 @@ TimedPoissonPopulation            (<span title="ANNarchy.core.SpecificPopulation
                 <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="s1">&#39;schedule&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;rates&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s2">&quot;TimedPoissonPopulation: the first dimension of rates must match the schedule.&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
                     <span class="c1"># we need to flatten the provided data</span>
-                    <span class="n">flat_values</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">set_rates</span><span class="p">(</span> <span class="n">flat_values</span> <span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">set_rates</span><span class="p">(</span> <span class="n">value</span> <span class="p">)</span>
+                    <span class="n">values</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">set_rates</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">value</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">Global</span><span class="o">.</span><span class="n">_error</span><span class="p">(</span><span class="s2">&quot;TimedPoissonPopulation: the second dimension of rates must match the number of neurons.&quot;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">set_rates</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">value</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span> 
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cyInstance</span><span class="o">.</span><span class="n">set_rates</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">[</span><span class="s1">&#39;rates&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;period&quot;</span><span class="p">:</span>
@@ -5007,7 +5024,7 @@ TimedPoissonPopulation            (<span title="ANNarchy.core.SpecificPopulation
       <tr>
         <td><code>rates</code></td>
         <td></td>
-        <td><p>array of firing rates. The first axis corresponds to the times where the firing rate should change.  If a different rate should be used by the different neurons, the other dimensions must match with the geometr of the population.</p></td>
+        <td><p>array of firing rates. The first axis corresponds to the times where the firing rate should change. If a different rate should be used by the different neurons, the other dimensions must match the geometry of the population.</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
@@ -5028,8 +5045,7 @@ TimedPoissonPopulation            (<span title="ANNarchy.core.SpecificPopulation
           <summary>Source code in <code>ANNarchy/core/SpecificPopulation.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">rates</span><span class="p">,</span> <span class="n">schedule</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">copied</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;    </span>
-<span class="sd">    :param rates: array of firing rates. The first axis corresponds to the times where the firing rate should change. </span>
-<span class="sd">        If a different rate should be used by the different neurons, the other dimensions must match with the geometr of the population.</span>
+<span class="sd">    :param rates: array of firing rates. The first axis corresponds to the times where the firing rate should change. If a different rate should be used by the different neurons, the other dimensions must match the geometry of the population.</span>
 <span class="sd">    :param schedule: list of times (in ms) where the firing rate should change.</span>
 <span class="sd">    :param period: time when the timed array will be reset and start again, allowing cycling over the schedule. Default: no cycling (-1.).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
