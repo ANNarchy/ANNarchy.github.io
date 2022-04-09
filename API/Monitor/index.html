@@ -891,6 +891,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.reset" class="md-nav__link">
+    reset()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ANNarchy.core.Monitor.Monitor.resume" class="md-nav__link">
     resume()
   </a>
@@ -1545,6 +1552,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.reset" class="md-nav__link">
+    reset()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ANNarchy.core.Monitor.Monitor.resume" class="md-nav__link">
     resume()
   </a>
@@ -1830,6 +1844,17 @@ Monitor        </code>
             <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">Global</span><span class="o">.</span><span class="n">get_current_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_id</span><span class="p">)],</span> 
             <span class="s1">&#39;stop&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">],</span>
         <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reset the monitor to its initial state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">:</span>
+            <span class="c1"># Flush the data</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="k">del</span> <span class="n">data</span>
+            <span class="c1"># Reinitializes the timings</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_variable</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_init_monitoring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s2">&quot;To be called after compile() as it accesses cython objects&quot;</span>
@@ -3172,6 +3197,40 @@ If a list is provided or the argument left empty, a dictionary with all recorded
             <span class="n">ranks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Global</span><span class="o">.</span><span class="n">dt</span><span class="p">()</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">times</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ranks</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.reset" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#ANNarchy.core.Monitor.Monitor.reset" class="headerlink" title="Permanent link">#</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Reset the monitor to its initial state.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ANNarchy/core/Monitor.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reset the monitor to its initial state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">:</span>
+        <span class="c1"># Flush the data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">data</span>
+        <span class="c1"># Reinitializes the timings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_variable</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>

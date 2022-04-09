@@ -63,8 +63,6 @@ inline double power(double x, unsigned int a){
  *
  */
 #include "pop0.hpp"
-#include "pop1.hpp"
-#include "pop2.hpp"
 
 /*
  * Structures for the projections
@@ -72,7 +70,6 @@ inline double power(double x, unsigned int a){
  */
 #include "proj0.hpp"
 #include "proj1.hpp"
-#include "proj2.hpp"
 
 
 /*
@@ -80,8 +77,6 @@ inline double power(double x, unsigned int a){
  *
  */
 extern PopStruct0 pop0;
-extern PopStruct1 pop1;
-extern PopStruct2 pop2;
 
 
 /*
@@ -90,7 +85,6 @@ extern PopStruct2 pop2;
  */
 extern ProjStruct0 proj0;
 extern ProjStruct1 proj1;
-extern ProjStruct2 proj2;
 
 
 /*

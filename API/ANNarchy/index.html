@@ -2966,6 +2966,7 @@ selectively neural or synaptic variables to their initial values.</p>
     <div class="doc doc-contents first">
 
       <p>Reinitialises the network to its state before the call to compile. The network time will be set to 0ms.</p>
+<p>All monitors are emptied.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3004,10 +3005,15 @@ selectively neural or synaptic variables to their initial values.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reinitialises the network to its state before the call to compile. The network time will be set to 0ms.</span>
 
+<span class="sd">    All monitors are emptied.</span>
+
 <span class="sd">    :param populations: if True (default), the neural parameters and variables will be reset to their initial value.</span>
 <span class="sd">    :param projections: if True, the synaptic parameters and variables (except the connections) will be reset (default=False).</span>
 <span class="sd">    :param synapses: if True, the synaptic weights will be erased and recreated (default=False).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_network</span><span class="p">[</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;instance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">populations</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">pop</span> <span class="ow">in</span> <span class="n">_network</span><span class="p">[</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;populations&#39;</span><span class="p">]:</span>
             <span class="n">pop</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
@@ -3025,7 +3031,8 @@ selectively neural or synaptic variables to their initial values.</p>
         <span class="k">for</span> <span class="n">proj</span> <span class="ow">in</span> <span class="n">_network</span><span class="p">[</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;projections&#39;</span><span class="p">]:</span>
             <span class="n">proj</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">attributes</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="n">synapses</span><span class="p">)</span>
 
-    <span class="n">_network</span><span class="p">[</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;instance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">monitor</span> <span class="ow">in</span> <span class="n">_network</span><span class="p">[</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;monitors&#39;</span><span class="p">]:</span>
+        <span class="n">monitor</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 </code></pre></div>
         </details>
     </div>
