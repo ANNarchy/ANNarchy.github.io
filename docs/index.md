@@ -6,18 +6,17 @@ It is released under the [GNU GPL v2 or later](http://www.gnu.org/licenses/gpl.h
 
 The source code of ANNarchy can be downloaded at:
 
-<http://bitbucket.org/annarchy/annarchy>
+<https://github.com/ANNarchy/ANNarchy>
 
 The documentation can be found online at:
 
-<http://annarchy.readthedocs.io>
+<https://annarchy.github.io/>
 
 A forum for discussion is set at:
 
 <https://groups.google.com/forum/#!forum/annarchy>
 
-Bug reports should be done through the [Issue Tracker](https://bitbucket.org/annarchy/annarchy/issues) of ANNarchy on
-[Bitbucket](http://bitbucket.org). You will need to create a free account.
+Bug reports should be done through the [Issue Tracker](https://github.com/ANNarchy/ANNarchy/issues) of ANNarchy on Github.
 
 **Citation**
 

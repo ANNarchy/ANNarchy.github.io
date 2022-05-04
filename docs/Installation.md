@@ -9,7 +9,7 @@ libraries. Installation on Windows is not possible.
 The source code of ANNarchy can be downloaded on Bitbucket:
 
 ```bash
-git clone http://bitbucket.org/annarchy/annarchy.git
+git clone https://github.com/ANNarchy/ANNarchy.git
 ```
 
 ## Installation on GNU/Linux
@@ -85,7 +85,7 @@ if you do not have administrator permissions. Omit `--user` in a virtual environ
 You may also install directly the latest commit in the `master` (stable) or `develop` branches with:
 
 ```bash
-pip install git+https://bitbucket.org/annarchy/annarchy.git@master
+pip install git+https://github.com/ANNarchy/ANNarchy.git@master
 ```
 
 #### Using the source code
