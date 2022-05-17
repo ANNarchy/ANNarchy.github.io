@@ -342,7 +342,7 @@ LeakyIntegratorNeuron = Neuron(
         tau * dmp/dt + mp = baseline + sum(exc)
         r = sigmoid(mp, slope)
     """,
-    functions == """
+    functions = """
         sigmoid(x, k) = 1.0 / (1.0 + exp(-x*k))
     """
 )
