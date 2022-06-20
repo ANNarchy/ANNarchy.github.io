@@ -1974,7 +1974,7 @@ The objects must be accessed through the <code>get()</code> method, as the origi
                 <span class="k">except</span><span class="p">:</span>
                     <span class="k">pass</span>
             <span class="c1"># Create a copy of the monitor</span>
-            <span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">_period</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">_start</span><span class="p">,</span> <span class="n">net_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_object</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">object</span><span class="p">),</span> <span class="n">variables</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">_period</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">_start</span><span class="p">,</span> <span class="n">net_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
             <span class="c1"># there is a bad mismatch between object ids:</span>
             <span class="c1">#</span>
@@ -2103,7 +2103,7 @@ The objects must be accessed through the <code>get()</code> method, as the origi
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Simulate</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">populations</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">populations</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">monitors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reinitialises the network to its state before the call to compile.</span>
 
@@ -2111,7 +2111,7 @@ The objects must be accessed through the <code>get()</code> method, as the origi
 <span class="sd">        :param projections: if True, the synaptic parameters and variables (except the connections) will be reset (default=False).</span>
 <span class="sd">        :param synapses: if True, the synaptic weights will be erased and recreated (default=False).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">Global</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">populations</span><span class="p">,</span> <span class="n">projections</span><span class="p">,</span> <span class="n">synapses</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">Global</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">populations</span><span class="o">=</span><span class="n">populations</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="n">projections</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="n">synapses</span><span class="p">,</span> <span class="n">monitors</span><span class="o">=</span><span class="n">monitors</span><span class="p">,</span> <span class="n">net_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s2">&quot;Returns the current time in ms.&quot;</span>
@@ -3104,7 +3104,7 @@ the method returns all connections within the network.</p>
 
 
 <h3 id="ANNarchy.core.Network.Network.reset" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">populations</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">populations</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">monitors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
 <a href="#ANNarchy.core.Network.Network.reset" class="headerlink" title="Permanent link">#</a></h3>
@@ -3146,7 +3146,7 @@ the method returns all connections within the network.</p>
 </table>
         <details class="quote">
           <summary>Source code in <code>ANNarchy/core/Network.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">populations</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">populations</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">monitors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reinitialises the network to its state before the call to compile.</span>
 
@@ -3154,7 +3154,7 @@ the method returns all connections within the network.</p>
 <span class="sd">    :param projections: if True, the synaptic parameters and variables (except the connections) will be reset (default=False).</span>
 <span class="sd">    :param synapses: if True, the synaptic weights will be erased and recreated (default=False).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Global</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">populations</span><span class="p">,</span> <span class="n">projections</span><span class="p">,</span> <span class="n">synapses</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">Global</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">populations</span><span class="o">=</span><span class="n">populations</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="n">projections</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="n">synapses</span><span class="p">,</span> <span class="n">monitors</span><span class="o">=</span><span class="n">monitors</span><span class="p">,</span> <span class="n">net_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>

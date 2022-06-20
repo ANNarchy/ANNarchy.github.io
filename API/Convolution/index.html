@@ -2302,7 +2302,7 @@ ANNarchy.extensions.convolution.Convolve.Convolution            (<a title="ANNar
         <span class="k">if</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;openmp&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_generate_omp</span><span class="p">(</span><span class="n">filter_definition</span><span class="p">,</span> <span class="n">filter_pyx_definition</span><span class="p">,</span> <span class="n">convolve_code</span><span class="p">,</span> <span class="n">sum_code</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">Global</span><span class="o">.</span><span class="n">_check_paradigm</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+            <span class="k">raise</span> <span class="n">Global</span><span class="o">.</span><span class="n">ANNarchyException</span><span class="p">(</span><span class="s2">&quot;Convolution is not available on CUDA devices yet.&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 

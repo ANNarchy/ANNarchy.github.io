@@ -2958,7 +2958,7 @@ selectively neural or synaptic variables to their initial values.</p>
 
 
 <h3 id="ANNarchy.core.Global.reset" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">reset</span><span class="p">(</span><span class="n">populations</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">net_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">reset</span><span class="p">(</span><span class="n">populations</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">monitors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">net_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
 
 
 <a href="#ANNarchy.core.Global.reset" class="headerlink" title="Permanent link">#</a></h3>
@@ -2997,11 +2997,17 @@ selectively neural or synaptic variables to their initial values.</p>
         <td><p>if True, the synaptic weights will be erased and recreated (default=False).</p></td>
         <td><code>False</code></td>
       </tr>
+      <tr>
+        <td><code>monitors</code></td>
+        <td></td>
+        <td><p>if True, the monitors will be emptied and reset (default=True).</p></td>
+        <td><code>True</code></td>
+      </tr>
   </tbody>
 </table>
         <details class="quote">
           <summary>Source code in <code>ANNarchy/core/Global.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="n">populations</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">net_id</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="n">populations</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">projections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">monitors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">net_id</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reinitialises the network to its state before the call to compile. The network time will be set to 0ms.</span>
 
@@ -3010,6 +3016,7 @@ selectively neural or synaptic variables to their initial values.</p>
 <span class="sd">    :param populations: if True (default), the neural parameters and variables will be reset to their initial value.</span>
 <span class="sd">    :param projections: if True, the synaptic parameters and variables (except the connections) will be reset (default=False).</span>
 <span class="sd">    :param synapses: if True, the synaptic weights will be erased and recreated (default=False).</span>
+<span class="sd">    :param monitors: if True, the monitors will be emptied and reset (default=True).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_network</span><span class="p">[</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;instance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -3031,8 +3038,9 @@ selectively neural or synaptic variables to their initial values.</p>
         <span class="k">for</span> <span class="n">proj</span> <span class="ow">in</span> <span class="n">_network</span><span class="p">[</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;projections&#39;</span><span class="p">]:</span>
             <span class="n">proj</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">attributes</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">synapses</span><span class="o">=</span><span class="n">synapses</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">monitor</span> <span class="ow">in</span> <span class="n">_network</span><span class="p">[</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;monitors&#39;</span><span class="p">]:</span>
-        <span class="n">monitor</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">monitors</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">monitor</span> <span class="ow">in</span> <span class="n">_network</span><span class="p">[</span><span class="n">net_id</span><span class="p">][</span><span class="s1">&#39;monitors&#39;</span><span class="p">]:</span>
+            <span class="n">monitor</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 </code></pre></div>
         </details>
     </div>
