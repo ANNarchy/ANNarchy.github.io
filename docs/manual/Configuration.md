@@ -74,7 +74,24 @@ or globally by modifying the configuration file located at
 ```
 
 Be careful with the flags: for example, the optimization level `-O3`
-does not obligatorily produce faster code.
+does not obligatorily produce faster code. But in many cases, therefore
+it is the default in ANNarchy 4.7.x releases.
+
+Even more caution is required when using the `-ffast-math` flag. It can
+increase the performance in particular in combination with SIMD. However,
+the application of `-ffast-math` enables a set of optimizations which might
+violate IEEE 754 compliance (which might be okay in many cases, but it's
+important that the user verifies the result). For more details, see the
+g++ documentation: https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
+
+!!! note
+
+In rare cases it may occur that the CPU architecture is not detectable for
+the used g++ compiler (e.g. Intel's Tigerlake and g++ <= 9.4).
+This will result in a compiler error which can be fixed by removing the
+'-march=native' flag. To get access to AVX-512 SIMD instructions then you need
+to add `-mavx512f` instead. And you need to add `-ftree-vectorize` if not `-O3`
+already used.
 
 ## Parallel computing with OpenMP
 
