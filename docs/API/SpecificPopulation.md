@@ -5,7 +5,7 @@ definition of standard networks.
 
 ::: ANNarchy.PoissonPopulation
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -13,7 +13,7 @@ definition of standard networks.
 
 ::: ANNarchy.SpikeSourceArray
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -21,7 +21,7 @@ definition of standard networks.
 
 ::: ANNarchy.TimedArray
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -29,7 +29,7 @@ definition of standard networks.
 
 ::: ANNarchy.HomogeneousCorrelatedSpikeTrains
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -37,7 +37,7 @@ definition of standard networks.
 
 ::: ANNarchy.TimedPoissonPopulation
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -45,7 +45,7 @@ definition of standard networks.
 
 ::: ANNarchy.extensions.image.ImagePopulation.ImagePopulation
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -53,7 +53,7 @@ definition of standard networks.
 
 ::: ANNarchy.extensions.image.ImagePopulation.VideoPopulation
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false

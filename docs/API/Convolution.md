@@ -10,21 +10,21 @@ from ANNarchy.extensions.convolution import *
 
 ::: ANNarchy.extensions.convolution.Convolution
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       heading_level: 2
 
 ::: ANNarchy.extensions.convolution.Pooling
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       heading_level: 2
 
 ::: ANNarchy.extensions.convolution.Copy
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       heading_level: 2

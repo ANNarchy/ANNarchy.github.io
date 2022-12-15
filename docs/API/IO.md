@@ -6,7 +6,7 @@ To save or load the network state you can use the following methods:
 
 ::: ANNarchy.save
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -14,7 +14,7 @@ To save or load the network state you can use the following methods:
 
 ::: ANNarchy.load
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -29,7 +29,7 @@ Please note that these functions are only usable after the call to
 
 ::: ANNarchy.save_parameters
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -37,7 +37,7 @@ Please note that these functions are only usable after the call to
 
 ::: ANNarchy.load_parameters
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false

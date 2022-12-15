@@ -5,7 +5,7 @@ possible through a `Monitor` object.
 
 ::: ANNarchy.Monitor
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -13,7 +13,7 @@ possible through a `Monitor` object.
 
 ::: ANNarchy.raster_plot
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -21,7 +21,7 @@ possible through a `Monitor` object.
 
 ::: ANNarchy.histogram
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -29,7 +29,7 @@ possible through a `Monitor` object.
 
 ::: ANNarchy.mean_fr
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -37,7 +37,7 @@ possible through a `Monitor` object.
 
 ::: ANNarchy.smoothed_rate
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -45,7 +45,7 @@ possible through a `Monitor` object.
 
 ::: ANNarchy.population_rate
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false

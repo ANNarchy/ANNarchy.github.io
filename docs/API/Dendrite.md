@@ -6,7 +6,7 @@ between the pre-synaptic population and a single post-synaptic neuron.
 
 ::: ANNarchy.Dendrite
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false

@@ -78,7 +78,7 @@ documentation:
 
 ::: ANNarchy.Uniform
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -86,7 +86,7 @@ documentation:
 
 ::: ANNarchy.DiscreteUniform
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -94,7 +94,7 @@ documentation:
 
 ::: ANNarchy.Normal
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -102,7 +102,7 @@ documentation:
 
 ::: ANNarchy.LogNormal
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -110,7 +110,7 @@ documentation:
 
 ::: ANNarchy.Gamma
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -119,7 +119,7 @@ documentation:
 
 ::: ANNarchy.Exponential
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false

@@ -21,7 +21,7 @@ functions in the right order.
 
 ::: ANNarchy.setup
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -30,7 +30,7 @@ functions in the right order.
 
 ::: ANNarchy.compile
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -38,7 +38,7 @@ functions in the right order.
 
 ::: ANNarchy.clear
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -50,7 +50,7 @@ Different methods are available to run the simulation:
 
 ::: ANNarchy.simulate
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -58,7 +58,7 @@ Different methods are available to run the simulation:
 
 ::: ANNarchy.simulate_until
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -66,7 +66,7 @@ Different methods are available to run the simulation:
 
 ::: ANNarchy.step
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -74,7 +74,7 @@ Different methods are available to run the simulation:
 
 ::: ANNarchy.every
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -82,7 +82,7 @@ Different methods are available to run the simulation:
 
 ::: ANNarchy.enable_callbacks
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -90,7 +90,7 @@ Different methods are available to run the simulation:
 
 ::: ANNarchy.disable_callbacks
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -98,7 +98,7 @@ Different methods are available to run the simulation:
 
 ::: ANNarchy.clear_all_callbacks
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -112,7 +112,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.reset
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -122,7 +122,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.get_population
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -130,7 +130,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.get_projection
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -140,7 +140,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.add_function
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -148,7 +148,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.functions
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -158,7 +158,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.Constant
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -168,7 +168,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.enable_learning
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -177,7 +177,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.disable_learning
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -188,7 +188,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.get_time
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -196,7 +196,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.set_time
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -205,7 +205,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.get_current_step
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -213,7 +213,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.set_current_step
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -221,7 +221,7 @@ selectively neural or synaptic variables to their initial values.
 
 ::: ANNarchy.dt
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false

@@ -28,6 +28,7 @@ Different numerical methods are available:
 -   Implicit Euler `'implicit'`
 -   Exponential Euler `'exponential'`
 -   Midpoint `'midpoint'`
+-   Fourth-order Runge-Kutta `'rk4'`
 -   Event-driven `'event-driven'`
 
 Each method has advantages/drawbacks in term of numerical error,
@@ -174,6 +175,21 @@ $$k_y = g(x(t), y(t))$$
 $$x(t+h) =  x(t) + h \cdot  f(x(t) + k_x \cdot \frac{h}{2}, y(t) +  k_y \cdot \frac{h}{2})$$
 
 $$y(t+h) = y(t) + h \cdot g(x(t) + k_x \cdot \frac{h}{2}, y(t) +  k_y \cdot \frac{h}{2})$$
+
+### Runge-Kutta 4
+
+The fourth-order Runge-Kutta method estimates the derivative at four different points and combines them:
+
+$$ k_1 =  f(x(t)) $$
+
+$$ k_2 =  f(x(t + \frac{h}{2}) + \frac{h}{2}\cdot k_1) $$
+
+$$ k_3 =  f(x(t + \frac{h}{2}) + \frac{h}{2}\cdot k_2) $$
+
+$$ k_4 =  f(x(t + h) + h \cdot k_3) $$
+
+$$ x(t+h) = x(t) + \frac{h}{6} \cdot (k_1 + 2 \cdot k_2 + 2 \cdot k_3 + k_4 ) $$
+
 
 ### Event-driven
 

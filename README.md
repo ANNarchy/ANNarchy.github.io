@@ -5,7 +5,7 @@ The documentation is done using mkdocs and the material theme.
 Required packages:
 
 ```bash
-pip install mkdocs mkdocs-material mkdocstrings pymdown-extensions mknotebooks
+pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python pymdown-extensions mknotebooks
 ```
 
 In the root directory (where mkdocs.yml lies), preview the doc with:

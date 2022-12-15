@@ -10,7 +10,7 @@ the same.
 
 ::: ANNarchy.Projection
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false

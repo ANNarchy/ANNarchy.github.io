@@ -6,7 +6,7 @@ optionally its spatial structure), a neuron type and optionally a name.
 
 ::: ANNarchy.Population
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false

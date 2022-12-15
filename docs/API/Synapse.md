@@ -5,7 +5,7 @@ The class `Synapse` is used to describe the behavior of a synapse (parameters, e
 
 ::: ANNarchy.Synapse
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false

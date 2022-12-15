@@ -6,7 +6,7 @@ ANNarchy provides standard spiking synapse models, similar to the ones defined i
 
 ::: ANNarchy.models.Hebb
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -14,7 +14,7 @@ ANNarchy provides standard spiking synapse models, similar to the ones defined i
 
 ::: ANNarchy.models.Oja
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -23,7 +23,7 @@ ANNarchy provides standard spiking synapse models, similar to the ones defined i
 
 ::: ANNarchy.models.IBCM
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -31,7 +31,7 @@ ANNarchy provides standard spiking synapse models, similar to the ones defined i
 
 ::: ANNarchy.models.STP
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
@@ -39,7 +39,7 @@ ANNarchy provides standard spiking synapse models, similar to the ones defined i
 
 ::: ANNarchy.models.STDP
     selection:
-      docstring_style: restructured-text
+      docstring_style: sphinx
     rendering:
       show_root_heading: true
       show_root_full_path: false
