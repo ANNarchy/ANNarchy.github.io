@@ -1,5 +1,7 @@
 # Configuration
 
+The `setup()` function can be used at the beginning of a script to configure the numerical behavior of ANNarchy.
+
 ## Setting the discretization step
 
 An important value for the simulation is the discretization step `dt`.
@@ -25,7 +27,7 @@ simulations, you simply need to provide a fixed seed to `setup()`:
     setup(seed=62756)
 
 Note that this also sets the seed of Numpy, so you can also reproduce
-random initialization values prduced by `numpy.random`.
+random initialization values produced by `numpy.random`.
 
 !!! note
 
@@ -59,7 +61,7 @@ ANNarchy requires a C++ compiler. On GNU/Linux, the default choice is
 `g++`, while on MacOS it is `clang++`. You can change the compiler (and
 its flags) to use either during the call to `compile()` in your script:
 
-    compile(compiler="clang++", compiler_flags="-march=native -O2")
+    compile(compiler="clang++", compiler_flags="-march=native -O3")
 
 or globally by modifying the configuration file located at
 `~/.config/ANNarchy/annarchy.json`:
@@ -68,30 +70,25 @@ or globally by modifying the configuration file located at
 {
     "openmp": {
         "compiler": "clang++",
-        "flags": "-march=native -O2"
+        "flags": "-march=native -O3"
     }
 }
 ```
 
 Be careful with the flags: for example, the optimization level `-O3`
-does not obligatorily produce faster code. But in many cases, therefore
-it is the default in ANNarchy 4.7.x releases.
+does not obligatorily produce faster code. But this is the case for most models, therefore
+it is the default in the ANNarchy 4.7.x releases.
 
 Even more caution is required when using the `-ffast-math` flag. It can
-increase the performance in particular in combination with SIMD. However,
+increase the performance, in particular in combination with SIMD. However,
 the application of `-ffast-math` enables a set of optimizations which might
-violate IEEE 754 compliance (which might be okay in many cases, but it's
+violate IEEE 754 compliance (which might be okay in many cases, but it is
 important that the user verifies the result). For more details, see the
 g++ documentation: https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
 
 !!! note
 
-In rare cases it may occur that the CPU architecture is not detectable for
-the used g++ compiler (e.g. Intel's Tigerlake and g++ <= 9.4).
-This will result in a compiler error which can be fixed by removing the
-'-march=native' flag. To get access to AVX-512 SIMD instructions then you need
-to add `-mavx512f` instead. And you need to add `-ftree-vectorize` if not `-O3`
-already used.
+    In rare cases, it may occur that the CPU architecture is not detectable for the used g++ compiler (e.g. Intel's Tigerlake and g++ <= 9.4). This will result in a compiler error which can be fixed by removing the '-march=native' flag. To get access to AVX-512 SIMD instructions, you need to add `-mavx512f` instead, as well as `-ftree-vectorize` if `-O3` is not already used.
 
 ## Parallel computing with OpenMP
 
@@ -162,7 +159,7 @@ The default GPU is defined in the configuration file
     As the current implementation is a development version, some of the
     features provided by ANNarchy are not supported yet with CUDA:
 
-    -   weight sharing,
+    -   weight sharing (convolutions),
     -   non-uniform synaptic delays,
     -   structural plasticity,
     -   spiking neurons: a) with mean firing rate and b) continous
