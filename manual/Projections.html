@@ -1,0 +1,1922 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../_static/logo.svg">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Projections - ANNarchy 4.7.2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../css/pandas-dataframe.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#projections" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="ANNarchy 4.7.2" class="md-header__button md-logo" aria-label="ANNarchy 4.7.2" data-md-component="logo">
+      
+  <img src="../_static/logowhite.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ANNarchy 4.7.2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Projections
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="ANNarchy 4.7.2" class="md-nav__button md-logo" aria-label="ANNarchy 4.7.2" data-md-component="logo">
+      
+  <img src="../_static/logowhite.svg" alt="logo">
+
+    </a>
+    ANNarchy 4.7.2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation.html" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Manual
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Manual" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Manual
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Structure.html" class="md-nav__link">
+        General structure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Parser.html" class="md-nav__link">
+        Parser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RateNeuron.html" class="md-nav__link">
+        Rate-coded neurons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SpikeNeuron.html" class="md-nav__link">
+        Spiking neurons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RateSynapse.html" class="md-nav__link">
+        Rate-coded synapses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SpikeSynapse.html" class="md-nav__link">
+        Spiking synapses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Populations.html" class="md-nav__link">
+        Populations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Projections
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Projections.html" class="md-nav__link md-nav__link--active">
+        Projections
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-the-projections" class="md-nav__link">
+    Declaring the projections
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-the-projections" class="md-nav__link">
+    Building the projections
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projection-attributes" class="md-nav__link">
+    Projection attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Projection attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-attributes" class="md-nav__link">
+    Global attributes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-attributes" class="md-nav__link">
+    Local attributes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting-population-views" class="md-nav__link">
+    Connecting population views
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specifying-delays-in-synaptic-transmission" class="md-nav__link">
+    Specifying delays in synaptic transmission
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#controlling-projections" class="md-nav__link">
+    Controlling projections
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-targets" class="md-nav__link">
+    Multiple targets
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Connector.html" class="md-nav__link">
+        Connectivity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Inputs.html" class="md-nav__link">
+        Setting inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Simulation.html" class="md-nav__link">
+        Simulation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Configuration.html" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="NumericalMethods.html" class="md-nav__link">
+        Equations and numerical methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Recording.html" class="md-nav__link">
+        Recording with Monitors
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Saving.html" class="md-nav__link">
+        Saving and loading a network
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Network.html" class="md-nav__link">
+        Parallel simulations and networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Hybrid.html" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="StructuralPlasticity.html" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ConvolutionalNetworks.html" class="md-nav__link">
+        Convolution and pooling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Notebooks.html" class="md-nav__link">
+        Notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Reporting.html" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Logging.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          core
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="core" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          core
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/ANNarchy.html" class="md-nav__link">
+        Top-level methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Neuron.html" class="md-nav__link">
+        Neuron class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificNeuron.html" class="md-nav__link">
+        Built-in neuron types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Synapse.html" class="md-nav__link">
+        Synapse class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificSynapse.html" class="md-nav__link">
+        Built-in synapse types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Population.html" class="md-nav__link">
+        Population class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificPopulation.html" class="md-nav__link">
+        Specific Populations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Projection.html" class="md-nav__link">
+        Projection class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificProjection.html" class="md-nav__link">
+        Specific Projections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Dendrite.html" class="md-nav__link">
+        Dendrite class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Monitor.html" class="md-nav__link">
+        Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/RandomDistribution.html" class="md-nav__link">
+        Random Distributions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Network.html" class="md-nav__link">
+        Network class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/IO.html" class="md-nav__link">
+        Saving / Loading
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Utilities.html" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Hybrid.html" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          extensions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="extensions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          extensions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Convolution.html" class="md-nav__link">
+        Convolution and Pooling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Logging.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/BOLD.html" class="md-nav__link">
+        BOLD monitoring
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/List.html" class="md-nav__link">
+        List of notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/NeuralField.html" class="md-nav__link">
+        Neural Field
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BarLearning.html" class="md-nav__link">
+        Bar Learning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/StructuralPlasticity.html" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Izhikevich.html" class="md-nav__link">
+        Izhikevich
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/GapJunctions.html" class="md-nav__link">
+        Gap junctions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/HodgkinHuxley.html" class="md-nav__link">
+        Hodgkin-Huxley
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/COBA.html" class="md-nav__link">
+        COBA
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/STP.html" class="md-nav__link">
+        STP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/SimpleSTDP.html" class="md-nav__link">
+        STDP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Ramp.html" class="md-nav__link">
+        Ramp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Hybrid.html" class="md-nav__link">
+        Hybrid
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Image.html" class="md-nav__link">
+        Image
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Webcam.html" class="md-nav__link">
+        Webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/MultipleNetworks.html" class="md-nav__link">
+        Parallel simulations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BayesianOptimization.html" class="md-nav__link">
+        Bayesian optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BasalGanglia.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BoldMonitoring.html" class="md-nav__link">
+        BOLD monitoring
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../License.html" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-the-projections" class="md-nav__link">
+    Declaring the projections
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-the-projections" class="md-nav__link">
+    Building the projections
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projection-attributes" class="md-nav__link">
+    Projection attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Projection attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-attributes" class="md-nav__link">
+    Global attributes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-attributes" class="md-nav__link">
+    Local attributes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting-population-views" class="md-nav__link">
+    Connecting population views
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specifying-delays-in-synaptic-transmission" class="md-nav__link">
+    Specifying delays in synaptic transmission
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#controlling-projections" class="md-nav__link">
+    Controlling projections
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-targets" class="md-nav__link">
+    Multiple targets
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/ANNarchy/ANNarchy/edit/master/docs/manual/Projections.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="projections">Projections<a class="headerlink" href="#projections" title="Permanent link">#</a></h1>
+<h2 id="declaring-the-projections">Declaring the projections<a class="headerlink" href="#declaring-the-projections" title="Permanent link">#</a></h2>
+<p>Once the populations are created, one can connect them by creating
+<code>Projection</code> instances:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span>
+    <span class="n">pre</span> <span class="o">=</span> <span class="n">pop1</span><span class="p">,</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="n">pop2</span><span class="p">,</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s2">&quot;exc&quot;</span><span class="p">,</span>
+    <span class="n">synapse</span> <span class="o">=</span> <span class="n">BCM</span>
+<span class="p">)</span>
+</code></pre></div>
+<ul>
+<li><code>pre</code> is either the name of the pre-synaptic population or the
+    corresponding <em>Population</em> object.</li>
+<li><code>post</code> is either the name of the post-synaptic population or the
+    corresponding <em>Population</em> object.</li>
+<li><code>target</code> is the type of the connection.</li>
+<li><code>synapse</code> is an optional argument requiring a <em>Synapse</em> instance.</li>
+</ul>
+<p>The post-synaptic neuron type must use <code>sum(exc)</code> in the rate-coded case
+respectively <code>g_exc</code> in the spiking case, otherwise the projection will
+be useless.</p>
+<p>If the <code>synapse</code> argument is omitted, the default synapse will be used:</p>
+<ul>
+<li>the default rate-coded synapse defines <code>psp = w * pre.r</code>,</li>
+<li>the default spiking synapse defines <code>g_target += w</code>.</li>
+</ul>
+<h2 id="building-the-projections">Building the projections<a class="headerlink" href="#building-the-projections" title="Permanent link">#</a></h2>
+<p>Creating the <strong>Projection</strong> objects only defines the information that
+two populations are connected. The synapses must be explicitely created
+by applying a connector method on the <strong>Projection</strong> object.</p>
+<p>To this end, ANNarchy already provides a set of predefined connector
+methods, but the user has also the possibility to define his own (see
+<a href="Connector.html">Connector</a>).</p>
+<p>The pattern can be applied either directly at the creation of the
+Projection:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span>
+    <span class="n">pre</span> <span class="o">=</span> <span class="n">pop1</span><span class="p">,</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="n">pop2</span><span class="p">,</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s2">&quot;exc&quot;</span><span class="p">,</span>
+    <span class="n">synapse</span> <span class="o">=</span> <span class="n">BCM</span>
+<span class="p">)</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span> <span class="n">weights</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="p">)</span>
+</code></pre></div>
+<p>or afterwards:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span>
+    <span class="n">pre</span> <span class="o">=</span> <span class="n">pop1</span><span class="p">,</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="n">pop2</span><span class="p">,</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s2">&quot;exc&quot;</span><span class="p">,</span>
+    <span class="n">synapse</span> <span class="o">=</span> <span class="n">BCM</span>
+<span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span> <span class="n">weights</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="p">)</span>
+</code></pre></div>
+<p>The connector method must be called before the network is compiled.</p>
+<h2 id="projection-attributes">Projection attributes<a class="headerlink" href="#projection-attributes" title="Permanent link">#</a></h2>
+<p>Let's suppose the <code>BCM</code> synapse is used to create the Projection <code>proj</code>
+(spiking synapses are accessed similarly):</p>
+<div class="highlight"><pre><span></span><code><span class="n">BCM</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        eta = 0.01 : projection</span>
+<span class="s2">        tau = 100. : projection</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau * dtheta/dt + theta = post.r^2 : postsynaptic</span>
+<span class="s2">        dw/dt = eta * post.r * (post.r - theta) * pre.r : min=0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="global-attributes">Global attributes<a class="headerlink" href="#global-attributes" title="Permanent link">#</a></h3>
+<p>The global parameters and variables of a projection (i.e. defined with
+the <code>postsynaptic</code> or <code>projection</code> flags) can be accessed directly
+through attributes. Attributes defined with <code>projection</code> have a single
+value for the whole population:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">proj</span><span class="o">.</span><span class="n">tau</span>
+<span class="mi">100</span>
+</code></pre></div>
+<p>Attributes defined with <code>postsynaptic</code> have one value per post-synaptic
+neuron, so the result is a vector:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">proj</span><span class="o">.</span><span class="n">theta</span>
+<span class="p">[</span><span class="mf">3.575</span><span class="p">,</span> <span class="mf">15.987</span><span class="p">,</span> <span class="o">...</span> <span class="p">,</span> <span class="mf">4.620</span><span class="p">]</span>
+</code></pre></div>
+<p>Post-synaptic variables can be modified by passing:</p>
+<ul>
+<li>a single value, which will be the same for all post-synaptic
+    neurons.</li>
+<li>a list of values, with the same size as the number of neurons
+    receiving synapses (for some sparse connectivity patterns, it may
+    not be the same as the size of the population, so no
+    multidimensional array is accepted).</li>
+</ul>
+<p>After compilation (and therefore creation of the synapses), you can
+access how many post-synaptic neurons receive actual synapses with:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">proj</span><span class="o">.</span><span class="n">size</span>
+<span class="mi">4</span>
+</code></pre></div>
+<p>The list of ranks of the post-synaptic neurons receiving synapses is
+obtained with:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">proj</span><span class="o">.</span><span class="n">post_ranks</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="local-attributes">Local attributes<a class="headerlink" href="#local-attributes" title="Permanent link">#</a></h3>
+<p><strong>At the projection level</strong></p>
+<p>Local attributes can also be accessed globally through attributes. It
+will return a list of lists containing the synapse-specific values.</p>
+<p>The first index represents the post-synaptic neurons. It has the same
+length as <code>proj.post_ranks</code>. Beware that if some
+post-synaptic neurons do not receive any connection, this index will not
+correspond to the ranksof the post-synaptic population.</p>
+<p>The second index addresses the pre-synaptic neurons. If the connection
+is sparse, it also is unrelated to the ranks of the pre-synaptic neurons
+in their populations.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Modifying these lists of lists is error-prone, so this method should be
+avoided if possible.</p>
+</div>
+<p><strong>At the post-synaptic level</strong></p>
+<p>The local parameters and variables of a projection (synapse-specific)
+should better be accessed through the <strong>Dendrite</strong> object, which gathers
+for a single post-synaptic neuron all synapses belonging to the
+projection.</p>
+<p><strong>Beware:</strong> As projections are only instantiated after the call to
+<code>compile()</code>, local attributes of a Projection are only available then.
+Trying to access them before compilation will lead to an error!</p>
+<p>Each dendrite stores the parameters and variables of the corresponding
+synapses as attributes, as populations do for neurons. You can loop over
+all post-synaptic neurons receiving synapses with the <code>dendrites</code>
+iterator:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">dendrite</span> <span class="ow">in</span> <span class="n">proj</span><span class="o">.</span><span class="n">dendrites</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">pre_ranks</span>
+    <span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">size</span>
+    <span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">tau</span>
+    <span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">alpha</span>
+    <span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">w</span>
+</code></pre></div>
+<p><code>dendrite.pre_ranks</code> returns a list of pre-synaptic neuron ranks.
+<code>dendrite.size</code> returns the number of synapses for the considered
+post-synaptic neuron. Global parameters/variables return a single value
+(<code>dendrite.tau</code>) and local ones return a list (<code>dendrite.w</code>).</p>
+<p>You can even omit the <code>.dendrites</code> part of the iterator:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">dendrite</span> <span class="ow">in</span> <span class="n">proj</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">pre_ranks</span>
+    <span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">size</span>
+    <span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">tau</span>
+    <span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">alpha</span>
+    <span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">w</span>
+</code></pre></div>
+<p>You can also access the dendrites individually, either by specifying the
+rank of the post-synaptic neuron:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dendrite</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">dendrite</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">w</span>
+</code></pre></div>
+<p>or its coordinates:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dendrite</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">dendrite</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">w</span>
+</code></pre></div>
+<p>When using ranks, you can also directly address the projection as an
+array:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dendrite</span> <span class="o">=</span> <span class="n">proj</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span>
+<span class="nb">print</span> <span class="n">dendrite</span><span class="o">.</span><span class="n">w</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You should make sure that the dendrite actually exists before accessing
+it through its rank, because it is otherwise a <code>None</code> object.</p>
+</div>
+<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">#</a></h3>
+<p>If you have defined a function inside a <code>Synapse</code> definition:</p>
+<div class="highlight"><pre><span></span><code><span class="n">BCM</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        eta = 0.01 : projection</span>
+<span class="s2">        tau = 100. : projection</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau * dtheta/dt + theta = post.r^2 : postsynaptic</span>
+<span class="s2">        dw/dt = eta * BCMRule(pre.r, post.r, theta) : min=0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">functions</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        BCMRule(pre, post, theta) = post * (post - theta) * pre</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>you can use this function in Python as if it were a method of the
+corresponding object:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">,</span> <span class="n">BCM</span><span class="p">)</span><span class="o">.</span><span class="n">connect_xxx</span><span class="p">()</span>
+
+<span class="n">pre</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">post</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">weight_change</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">BCMRule</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+</code></pre></div>
+<p>You can pass either a list or a 1D Numpy array to each argument (<strong>not a
+single value, nor a multidimensional array!</strong>).</p>
+<p>The size of the arrays passed for each argument is arbitrary (it must
+not match the projection's size) but you have to make sure that they
+all have the same size. Errors are not catched, so be careful.</p>
+<h2 id="connecting-population-views">Connecting population views<a class="headerlink" href="#connecting-population-views" title="Permanent link">#</a></h2>
+<p><code>Projections</code> are usually understood as a connectivity pattern between
+two populations. Complex connectivity patterns have to specifically
+designed (see <a href="Connector.html">Connector</a>).</p>
+<p>In some cases, it can be much simpler to connect subsets of neurons
+directly, using built-in connector methods. To this end, the
+<code>Projection</code> object also accepts <code>PopulationView</code> objects for the <code>pre</code> and <code>post</code>
+arguments.</p>
+<p>Let's suppose we want to connect the (8,8) populations <code>pop1</code> and
+<code>pop2</code> in a all-to-all manner, but only for the (4,4) neurons in the
+center of these populations. The first step is to create the
+<code>PopulationView</code> objects using the slice operator:</p>
+<div class="highlight"><pre><span></span><code><span class="n">pop1_center</span> <span class="o">=</span> <span class="n">pop1</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span>
+<span class="n">pop2_center</span> <span class="o">=</span> <span class="n">pop2</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span>
+</code></pre></div>
+<p>They can then be simply used to create a projection:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span>
+    <span class="n">pre</span> <span class="o">=</span> <span class="n">pop1_center</span><span class="p">,</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="n">pop2_center</span><span class="p">,</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s2">&quot;exc&quot;</span><span class="p">,</span>
+    <span class="n">synapse</span> <span class="o">=</span> <span class="n">BCM</span>
+<span class="p">)</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span> <span class="n">weights</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="p">)</span>
+</code></pre></div>
+<p>Each neuron of <code>pop2_center</code> will receive synapses from all neurons of
+<code>pop1_center</code>, and only them. Neurons of <code>pop2</code> which are not in
+<code>pop2_center</code> will not receive any synapse.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you define your own connector method and want to use PopulationViews, you will need to iterate
+over the <code>ranks</code> attribute of the <code>PopulationView</code> object.</p>
+</div>
+<h2 id="specifying-delays-in-synaptic-transmission">Specifying delays in synaptic transmission<a class="headerlink" href="#specifying-delays-in-synaptic-transmission" title="Permanent link">#</a></h2>
+<p>By default, synaptic transmission is considered to be instantaneous (or
+more precisely, it takes one simulation step (<code>dt</code>) for a newly computed
+firing rate to be taken into account by post-synaptic neurons).</p>
+<p>In order to take longer propagation times into account in the
+transmission of information between two populations, one has the
+possibility to define synaptic delays for a projection. All the built-in
+connector methods take an argument <code>delays</code> (default=<code>dt</code>), which can be
+a float (in milliseconds) or a random number generator.</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span> <span class="n">weights</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">delays</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span> <span class="n">weights</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">delays</span> <span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">))</span>
+</code></pre></div>
+<p>If the delay is not a multiple of the simulation time step (<code>dt = 1.0</code>
+by default), it will be rounded to the closest multiple. The same is
+true for the values returned by a random number generator.</p>
+<p><strong>Note:</strong> Per design, the minimal possible delay is equal to <code>dt</code>:
+values smaller than <code>dt</code> will be replaced by <code>dt</code>. Negative values do
+not make any sense and are ignored.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Non-uniform delays are not available on CUDA.</p>
+</div>
+<h2 id="controlling-projections">Controlling projections<a class="headerlink" href="#controlling-projections" title="Permanent link">#</a></h2>
+<p><strong>Synaptic transmission, update and plasticity</strong></p>
+<p>It is possible to selectively control synaptic transmission and
+plasticity at the projection level. The boolean flags <code>transmission</code>,
+<code>update</code> and <code>plasticity</code> can be set for that purpose:</p>
+<div class="highlight"><pre><span></span><code>proj.transmission = False
+proj.update = False
+proj.plasticity = False
+</code></pre></div>
+<ul>
+<li>If <code>transmission</code> is <code>False</code>, the projection is totally shut down:
+    it does not transmit any information to the post-synaptic population
+    (the corresponding weighted sums or conductances are constantly 0)
+    and all synaptic variables are frozen to their current value
+    (including the synaptic weights <code>w</code>).</li>
+<li>If <code>update</code> is <code>False</code>, synaptic transmission occurs normally, but
+    the synaptic variables are not updated. For spiking synapses, this
+    includes traces when they are computed at each step, but not when
+    they are integrated in an event-driven manner (flag <code>event-driven</code>).
+    Beware: continous synaptic transmission as in <a href="SpikeSynapse.html#continuous-synaptic-transmission">NMDA
+    synapses</a> will
+    not work in this mode, as internal variables are not updated.</li>
+<li>If only <code>plasticity</code> is <code>False</code>, synaptic transmission and synaptic
+    variable updates occur normally, but changes to the synaptic weight
+    <code>w</code> are ignored.</li>
+</ul>
+<p><strong>Disabling learning</strong></p>
+<p>Alternatively, one can use the <code>enable_learning()</code> and
+<code>disable_learning()</code> methods of <code>Projection</code>. The effect of
+<code>disable_learning()</code> depends on the type of the projection:</p>
+<ul>
+<li>for rate-coded projections, <code>disable_learning()</code> is equivalent to
+    <code>update=False</code>: no synaptic variables is updated.</li>
+<li>for spiking projections, it is equivalent to <code>plasticity=False</code>:
+    only the weights are blocked.</li>
+</ul>
+<p>The reason of this difference is to allow continuous synaptic
+transmission and computation of traces. Calling <code>enable_learning()</code>
+without arguments resumes the default learning behaviour.</p>
+<p><strong>Periodic learning</strong></p>
+<p><code>enable_learning()</code> also accepts two arguments <code>period</code> and <code>offset</code>.
+<code>period</code> defines the interval in ms between two evaluations of the
+synaptic variables. This can be useful when learning should only occur
+once at the end of a trial. It is recommended not to use ODEs in the
+equations in this case, as they are numerized according to a fixed time
+step. <code>offset</code> defines the time inside the period at which the
+evaluation should occur. By default, it is 0, so the variable updates
+will occur at the next step, then after <code>period</code> ms, and so on. Setting
+it to -1 will shift the update at the end of the period.</p>
+<p>Note that spiking synapses using online evaluation will not be affected
+by these parameters, as they are event-driven.</p>
+<h2 id="multiple-targets">Multiple targets<a class="headerlink" href="#multiple-targets" title="Permanent link">#</a></h2>
+<p>For spiking neurons, it may be desirable that a single synapses
+activates different currents (or conductances) in the post-synaptic
+neuron. One example are AMPA/NMDA synapses, where a single spike
+generates a \"classical\" AMPA current, plus a voltage-gated slower NMDA
+current. The following conductance-based Izhikevich is an example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">RSNeuron</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        a = 0.02</span>
+<span class="s2">        b = 0.2</span>
+<span class="s2">        c = -65.</span>
+<span class="s2">        d = 8.</span>
+<span class="s2">        tau_ampa = 5.</span>
+<span class="s2">        tau_nmda = 150.</span>
+<span class="s2">        vrev = 0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span> <span class="p">,</span>
+    <span class="n">equations</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        I = g_ampa * (vrev - v) + g_nmda * nmda(v, -80.0, 60.0) * (vrev -v)</span>
+<span class="s2">        dv/dt = 0.04 * v^2 + 5.0 * v + 140.0 - u + I : init=-65., midpoint</span>
+<span class="s2">        du/dt = a * (b*v - u) : init=-13.</span>
+<span class="s2">        tau_ampa * dg_ampa/dt = -g_ampa</span>
+<span class="s2">        tau_nmda * dg_nmda/dt = -g_nmda</span>
+<span class="s2">    &quot;&quot;&quot;</span> <span class="p">,</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        v &gt;= 30.</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        v = c</span>
+<span class="s2">        u += d</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">functions</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        nmda(v, t, s) = ((v-t)/(s))^2 / (1.0 + ((v-t)/(s))^2)</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>However, <code>g_ampa</code> and <code>g_nmda</code> collect by default spikes from different
+projections, so the weights will not be shared between the \"ampa\"
+projection and the \"nmda\" one. It is therefore possible to specify a
+list of targets when building a projection, meaning that a single
+pre-synaptic spike will increase both <code>g_ampa</code> and <code>g_nmda</code> from the
+same weight:</p>
+<div class="highlight"><pre><span></span><code>proj = Projection(pop1, pop2, [&#39;ampa&#39;, &#39;nmda&#39;], STDP)
+</code></pre></div>
+<p>An example is provided in <code>examples/homeostatic_stdp/Ramp.py</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Multiple targets are not available on CUDA yet.</p>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="Populations.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Populations" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Populations
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="Connector.html" class="md-footer__link md-footer__link--next" aria-label="Next: Connectivity" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Connectivity
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; Julien Vitay, Helge Ülo Dinkelbach, Fred H. Hamker
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+    
+  </body>
+</html>

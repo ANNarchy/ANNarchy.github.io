@@ -1,0 +1,1804 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../_static/logo.svg">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Spiking synapses - ANNarchy 4.7.2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../css/pandas-dataframe.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spiking-synapses" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="ANNarchy 4.7.2" class="md-header__button md-logo" aria-label="ANNarchy 4.7.2" data-md-component="logo">
+      
+  <img src="../_static/logowhite.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ANNarchy 4.7.2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Spiking synapses
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="ANNarchy 4.7.2" class="md-nav__button md-logo" aria-label="ANNarchy 4.7.2" data-md-component="logo">
+      
+  <img src="../_static/logowhite.svg" alt="logo">
+
+    </a>
+    ANNarchy 4.7.2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation.html" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Manual
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Manual" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Manual
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Structure.html" class="md-nav__link">
+        General structure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Parser.html" class="md-nav__link">
+        Parser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RateNeuron.html" class="md-nav__link">
+        Rate-coded neurons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SpikeNeuron.html" class="md-nav__link">
+        Spiking neurons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RateSynapse.html" class="md-nav__link">
+        Rate-coded synapses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Spiking synapses
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="SpikeSynapse.html" class="md-nav__link md-nav__link--active">
+        Spiking synapses
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#increase-of-conductance-after-a-pre-synaptic-spike" class="md-nav__link">
+    Increase of conductance after a pre-synaptic spike
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synaptic-plasticity" class="md-nav__link">
+    Synaptic plasticity
+  </a>
+  
+    <nav class="md-nav" aria-label="Synaptic plasticity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-spike-time-differences" class="md-nav__link">
+    Using spike-time differences
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#online-version" class="md-nav__link">
+    Online version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-evaluation" class="md-nav__link">
+    Order of evaluation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuous-synaptic-transmission" class="md-nav__link">
+    Continuous synaptic transmission
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Populations.html" class="md-nav__link">
+        Populations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Projections.html" class="md-nav__link">
+        Projections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Connector.html" class="md-nav__link">
+        Connectivity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Inputs.html" class="md-nav__link">
+        Setting inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Simulation.html" class="md-nav__link">
+        Simulation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Configuration.html" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="NumericalMethods.html" class="md-nav__link">
+        Equations and numerical methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Recording.html" class="md-nav__link">
+        Recording with Monitors
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Saving.html" class="md-nav__link">
+        Saving and loading a network
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Network.html" class="md-nav__link">
+        Parallel simulations and networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Hybrid.html" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="StructuralPlasticity.html" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ConvolutionalNetworks.html" class="md-nav__link">
+        Convolution and pooling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Notebooks.html" class="md-nav__link">
+        Notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Reporting.html" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Logging.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          core
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="core" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          core
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/ANNarchy.html" class="md-nav__link">
+        Top-level methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Neuron.html" class="md-nav__link">
+        Neuron class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificNeuron.html" class="md-nav__link">
+        Built-in neuron types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Synapse.html" class="md-nav__link">
+        Synapse class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificSynapse.html" class="md-nav__link">
+        Built-in synapse types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Population.html" class="md-nav__link">
+        Population class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificPopulation.html" class="md-nav__link">
+        Specific Populations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Projection.html" class="md-nav__link">
+        Projection class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificProjection.html" class="md-nav__link">
+        Specific Projections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Dendrite.html" class="md-nav__link">
+        Dendrite class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Monitor.html" class="md-nav__link">
+        Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/RandomDistribution.html" class="md-nav__link">
+        Random Distributions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Network.html" class="md-nav__link">
+        Network class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/IO.html" class="md-nav__link">
+        Saving / Loading
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Utilities.html" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Hybrid.html" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          extensions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="extensions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          extensions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Convolution.html" class="md-nav__link">
+        Convolution and Pooling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Logging.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/BOLD.html" class="md-nav__link">
+        BOLD monitoring
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/List.html" class="md-nav__link">
+        List of notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/NeuralField.html" class="md-nav__link">
+        Neural Field
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BarLearning.html" class="md-nav__link">
+        Bar Learning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/StructuralPlasticity.html" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Izhikevich.html" class="md-nav__link">
+        Izhikevich
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/GapJunctions.html" class="md-nav__link">
+        Gap junctions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/HodgkinHuxley.html" class="md-nav__link">
+        Hodgkin-Huxley
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/COBA.html" class="md-nav__link">
+        COBA
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/STP.html" class="md-nav__link">
+        STP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/SimpleSTDP.html" class="md-nav__link">
+        STDP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Ramp.html" class="md-nav__link">
+        Ramp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Hybrid.html" class="md-nav__link">
+        Hybrid
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Image.html" class="md-nav__link">
+        Image
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Webcam.html" class="md-nav__link">
+        Webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/MultipleNetworks.html" class="md-nav__link">
+        Parallel simulations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BayesianOptimization.html" class="md-nav__link">
+        Bayesian optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BasalGanglia.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BoldMonitoring.html" class="md-nav__link">
+        BOLD monitoring
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../License.html" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#increase-of-conductance-after-a-pre-synaptic-spike" class="md-nav__link">
+    Increase of conductance after a pre-synaptic spike
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synaptic-plasticity" class="md-nav__link">
+    Synaptic plasticity
+  </a>
+  
+    <nav class="md-nav" aria-label="Synaptic plasticity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-spike-time-differences" class="md-nav__link">
+    Using spike-time differences
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#online-version" class="md-nav__link">
+    Online version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-evaluation" class="md-nav__link">
+    Order of evaluation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuous-synaptic-transmission" class="md-nav__link">
+    Continuous synaptic transmission
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/ANNarchy/ANNarchy/edit/master/docs/manual/SpikeSynapse.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="spiking-synapses">Spiking synapses<a class="headerlink" href="#spiking-synapses" title="Permanent link">#</a></h1>
+<p>Synapses in spiking networks differ from rate-coded synapses in that
+they are event-driven, i.e. the most important changes occur whenever a
+pre- or post-synaptic spike is emitted. For this reason, additional
+arguments have to be passed to the <code>Synapse</code> object.</p>
+<h2 id="increase-of-conductance-after-a-pre-synaptic-spike">Increase of conductance after a pre-synaptic spike<a class="headerlink" href="#increase-of-conductance-after-a-pre-synaptic-spike" title="Permanent link">#</a></h2>
+<p>In the simplest case, a pre-synaptic spike increases a <code>target</code>
+conductance value in the post-synaptic neuron. The rule defining how
+this conductance is modified has to be placed in the <code>pre_spike</code>
+argument of a <code>Synapse</code> object.</p>
+<p>The default spiking synapse in ANNarchy is equivalent to:</p>
+<div class="highlight"><pre><span></span><code><span class="n">DefaultSynapse</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;w=0.0&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">pre_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        g_target += w</span>
+<span class="s2">    &quot;&quot;&quot;</span>     
+<span class="p">)</span> 
+</code></pre></div>
+<p>The only thing it does is to increase the conductance <code>g_target</code> of the
+post-synaptic neuron (for example <code>g_exc</code> if the target is <code>exc</code>) every
+time a pre-synaptic spike arrives at the synapse, proportionally to the
+synaptic efficiency <code>w</code> of the synapse. Note that <code>w</code> is implicitely
+defined in all synapses, you will never need to define it explicitely.</p>
+<p>You can override this default behavior by providing a new <code>Synapse</code>
+object when building a <code>Projection</code>. For example, you may want to
+implement a \"fatigue\" mechanism for the synapse, transciently reducing
+the synaptic efficiency when the pre-synaptic neuron fires too strongly.
+One solution would be to decrease a synaptic variable everytime a
+pre-synaptic spike is received and increase the post-synaptic
+conductance proportionally to this value. When no spike is received,
+this <code>trace</code> variable should slowly return to its maximal value.</p>
+<div class="highlight"><pre><span></span><code><span class="n">FatigueSynapse</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau = 1000 : postsynaptic # Time constant of the trace is 1 second</span>
+<span class="s2">        dec = 0.05 : postsynaptic # Decrement of the trace</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau * dtrace/dt + trace = 1.0 : min = 0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">pre_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        g_target += w * trace</span>
+<span class="s2">        trace -= dec</span>
+<span class="s2">    &quot;&quot;&quot;</span>     
+<span class="p">)</span> 
+</code></pre></div>
+<p>Each time a pre-synaptic spike occurs, the post-synaptic conductance is
+increased from <code>w*trace</code>. As the baseline of <code>trace</code> is 1.0 (as defined
+in <code>equations</code>), this means that a \"fresh\" synapse will use the full
+synaptic efficiency. However, after each pre-synaptic spike, trace is
+decreased from <code>dec = 0.05</code>, meaning that the \"real\" synaptic
+efficiency can go down to 0.0 (the minimal value of trace) if the
+pre-synaptic neuron fires too often.</p>
+<p>It is important here to restrict <code>trace</code> to positive values with the
+flags <code>min=0.0</code>, as it could otherwise transform an excitatory synapse
+into an inhibitory one.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It is obligatory to use the keyword <code>g_target</code> for the post-synaptic
+conductance. This value relates to the corresponding value in
+post-synaptic neuron: The <code>target</code> will be replaced with the
+projection's target (for example <code>exc</code> or <code>inh</code>). So if you use this
+synapse in a projection with target = \'exc\', the value of g_exc in
+post-synaptic neuron will be automatically replaced.</p>
+</div>
+<h2 id="synaptic-plasticity">Synaptic plasticity<a class="headerlink" href="#synaptic-plasticity" title="Permanent link">#</a></h2>
+<p>In spiking networks, there are usually two methods to implement
+event-driven synaptic plasticity (see the entry on STDP at
+<a href="http://www.scholarpedia.org/article/Spike-timing_dependent_plasticity">Scholarpedia</a>):</p>
+<ul>
+<li>by using the difference in spike times between the pre- and
+    post-synaptic neurons;</li>
+<li>by using online implementations.</li>
+</ul>
+<h3 id="using-spike-time-differences">Using spike-time differences<a class="headerlink" href="#using-spike-time-differences" title="Permanent link">#</a></h3>
+<p>A <code>Synapse</code> has access to two specific variables:</p>
+<ul>
+<li><code>t_pre</code> corresponding to the time of the <em>last</em> pre-synaptic spike
+    in milliseconds.</li>
+<li><code>t_post</code> corresponding to the time of the <em>last</em> post-synaptic spike
+    in milliseconds.</li>
+</ul>
+<p>These times are relative to the creation of the network, so they only
+make sense when compared to each other or to <code>t</code>.</p>
+<p>Spike-timing dependent plasticity can for example be implemented the
+following way:</p>
+<div class="highlight"><pre><span></span><code><span class="n">STDP</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau_pre = 10.0 : projection</span>
+<span class="s2">        tau_post = 10.0 : projection</span>
+<span class="s2">        cApre = 0.01 : projection</span>
+<span class="s2">        cApost = 0.0105 : projection</span>
+<span class="s2">        wmax = 0.01 : projection</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">pre_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        g_target += w</span>
+<span class="s2">        w = clip(w - cApost * exp((t_post - t)/tau_post) , 0.0 , wmax) </span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>                  
+    <span class="n">post_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        w = clip(w + cApre * exp((t_pre - t)/tau_pre) , 0.0 , wmax)</span>
+<span class="s2">    &quot;&quot;&quot;</span>      
+<span class="p">)</span> 
+</code></pre></div>
+<ul>
+<li>Every time a pre-synaptic spike arrives at the synapse
+    (<code>pre_spike</code>), the post-synaptic conductance is increased from the
+    current value of the synaptic efficiency.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">g_target</span> <span class="o">+=</span> <span class="n">w</span>
+</code></pre></div>
+<p>When a synapse object is defined, this behavior should be explicitely
+declared.</p>
+<p>The value <code>w</code> is then decreased using a decreasing exponential function
+of the time elapsed since the last post-synaptic spike:</p>
+<div class="highlight"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">cApost</span> <span class="o">*</span> <span class="n">exp</span><span class="p">((</span><span class="n">t_post</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span><span class="o">/</span><span class="n">tau_post</span><span class="p">)</span> <span class="p">,</span> <span class="mf">0.0</span> <span class="p">,</span> <span class="n">wmax</span><span class="p">)</span> 
+</code></pre></div>
+<p>The <code>clip()</code> global function is there to ensure that <code>w</code> is bounded
+between 0.0 and <code>wmax</code>. As <code>t &gt;= t_post</code>, the exponential part is
+smaller than 1.0. The <code>pre_spike</code> argument therefore ensures that the
+synapse is depressed is a pre-synaptic spike occurs shortly after a
+post-synaptic one. \"Shortly\" is quantified by the time constant
+<code>tau_post</code>, usually in the range of 10 ms.</p>
+<ul>
+<li>Every time a post-synaptic spike is emitted (<code>post_spike</code>), the
+    value <code>w</code> is increased proportionally to the time elapsed since the
+    last pre-synaptic spike:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="n">w</span> <span class="o">+</span> <span class="n">cApre</span> <span class="o">*</span> <span class="n">exp</span><span class="p">((</span><span class="n">t_pre</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span><span class="o">/</span><span class="n">tau_pre</span><span class="p">)</span> <span class="p">,</span> <span class="mf">0.0</span> <span class="p">,</span> <span class="n">wmax</span><span class="p">)</span>
+</code></pre></div>
+<p>This term defines the potentiation of a synapse when a pre-synaptic
+spike is followed immediately by a post-synaptic one: the inferred
+causality between the two events should be reinforced.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only the last pre- and post-synaptic spikes are accessible, not the
+whole history. Only <strong>nearest-neighbor spike-interactions</strong> are possible
+using ANNarchy, not temporal all-to-all interactions where the whole
+spike history is used for learning (see the entry on STDP at
+<a href="http://www.scholarpedia.org/article/Spike-timing_dependent_plasticity">Scholarpedia</a>).</p>
+<p>Some networks may not work properly when using this simulation mode. For
+example, whenever the pre-synaptic neurons fires twice in a very short
+interval and causes a post-synaptic spike, the corresponding weight
+should be reinforced twice. With the proposed STDP rule, it would be
+reinforced only once.</p>
+<p>It is therefore generally advised to use online versions of STDP.</p>
+</div>
+<h3 id="online-version">Online version<a class="headerlink" href="#online-version" title="Permanent link">#</a></h3>
+<p>The online version of STDP requires two synaptic traces, which are
+increased whenever a pre- resp. post-synaptic spike is perceived, and
+decay with their own dynamics in between. Using the same vocabulary as
+Brian, such an implementation would be:</p>
+<div class="highlight"><pre><span></span><code><span class="n">STDP_online</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau_pre = 10.0 : projection</span>
+<span class="s2">        tau_post = 10.0 : projection</span>
+<span class="s2">        cApre = 0.01 : projection</span>
+<span class="s2">        cApost = 0.0105 : projection</span>
+<span class="s2">        wmax = 0.01 : projection</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau_pre * dApre/dt = - Apre : event-driven</span>
+<span class="s2">        tau_post * dApost/dt = - Apost : event-driven</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">pre_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        g_target += w</span>
+<span class="s2">        Apre += cApre * wmax</span>
+<span class="s2">        w = clip(w - Apost, 0.0 , wmax)</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>                  
+    <span class="n">post_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Apost += cApost * wmax</span>
+<span class="s2">        w = clip(w + Apre, 0.0 , wmax)</span>
+<span class="s2">    &quot;&quot;&quot;</span>      
+<span class="p">)</span> 
+</code></pre></div>
+<p>The variables <code>Apre</code> and <code>Apost</code> are exponentially decreasing traces of
+pre- and post-synaptic spikes, as shown by the leaky integration in
+<code>equations</code>. When a pre-synaptic spike is emitted, <code>Apre</code> is
+incremented, the conductance level of the post-synaptic neuron
+<code>g_target</code> too, and the synaptic efficiency is decreased proportionally
+to <code>Apost</code> (this means that if a post-synaptic spike was emitted shortly
+before, LTD will strongly be applied, while if it was longer ago, no
+major change will be observed). When a post-synaptic spike is observed,
+<code>Apost</code> increases and the synaptic efficiency is increased
+proportionally to <code>Apre</code>.</p>
+<p>The effect of this online version is globally the same as the spike
+timing dependent version, except that the history of pre- and
+post-synaptic spikes is fully contained in the variables <code>Apre</code> and
+<code>Apost</code>.</p>
+<p>The <code>event-driven</code> keyword allows event-driven integration of the
+variables <code>Apre</code> and <code>Apost</code>. This means the equations are not updated
+at each time step, but only when a pre- or post-synaptic spike occurs at
+the synapse. This is only possible because the two variables follow
+linear first-order ODEs. The event-driven integration method allows to
+spare a lot of computations if the number of spikes is not too high in
+the network.</p>
+<h3 id="order-of-evaluation">Order of evaluation<a class="headerlink" href="#order-of-evaluation" title="Permanent link">#</a></h3>
+<p>Three types of updates are potentially executed at every time step:</p>
+<ol>
+<li>Pre-synaptic events, defined by <code>pre_spike</code> and triggered after each
+    pre-synaptic spike, after a delay of at least <code>dt</code>.</li>
+<li>Synaptic variables defined by <code>equations</code>.</li>
+<li>Post-synaptic events, defined by <code>post_spike</code> and triggered after
+    each post-synaptic spike, without delay.</li>
+</ol>
+<p>These updates are conducted in that order at each time step. First, all
+spikes emitted in the previous step (or earlier if there are delays) are
+propagated to the corresponding synapses and influence variables there
+(especially conductance increases), then all synaptic variables are
+updated according to their ODE (after the neurons\' equations are
+updated), then all neurons which have emitted a spike in the current
+step modify their synapses.</p>
+<p>A potential problem arises when a pre-synaptic and a post-synaptic spike
+are emitted at the same time. STDP-like plasticity rules are usually not
+defined when the spike time difference is 0, as the two spikes can not
+be correlated in that case (the pre-spike can not possibly be the cause
+of the post-spike).</p>
+<p>By default, both event-driven updates (<code>pre_spike</code> leading to LTD,
+<code>post_spike</code> leading to LTP) will be conducted when the spikes are
+emitted at the same time. This can be problematic for some plastic
+models, for example the <code>simple_stdp</code> example provided in the source
+code.</p>
+<p>To avoid this problem, the flag <code>unless_post</code> can be specified in
+<code>pre_spike</code> to indicate that the corresponding variable should be
+updated after each pre-synaptic spike, <strong>unless</strong> the post-synaptic
+neuron also fired at the previous time step. Without even-driven
+integration, the online STDP learning rule would become:</p>
+<div class="highlight"><pre><span></span><code><span class="n">STDP_online</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau_pre = 10.0 : projection</span>
+<span class="s2">        tau_post = 10.0 : projection</span>
+<span class="s2">        cApre = 0.01 : projection</span>
+<span class="s2">        cApost = 0.0105 : projection</span>
+<span class="s2">        wmax = 0.01 : projection</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau_pre * dApre/dt = - Apre </span>
+<span class="s2">        tau_post * dApost/dt = - Apost </span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">pre_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        g_target += w</span>
+<span class="s2">        Apre += cApre : unless_post</span>
+<span class="s2">        w = clip(w - Apost, 0.0 , wmax) : unless_post</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>                  
+    <span class="n">post_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Apost += cApost</span>
+<span class="s2">        w = clip(w + Apre, 0.0 , wmax)</span>
+<span class="s2">    &quot;&quot;&quot;</span>      
+<span class="p">)</span> 
+</code></pre></div>
+<h2 id="continuous-synaptic-transmission">Continuous synaptic transmission<a class="headerlink" href="#continuous-synaptic-transmission" title="Permanent link">#</a></h2>
+<p>In some cases, synaptic transmission cannot be described in an
+event-driven framework. Synapses using the NMDA neurotransmitter are for
+example often modeled as non-linear synapses. Non-linear synapses can
+require the post-synaptic conductance to be a sum of synapse-specific
+variables, as for rate-coded neurons, and not simply incremented when a
+pre-synaptic spike occurs. NMDA synapses can be represented by two
+variables <span class="arithmatex">\(x(t)\)</span> and <span class="arithmatex">\(g(t)\)</span> following first-order ODEs:</p>
+<div class="arithmatex">\[\begin{aligned}
+\begin{aligned}
+\tau \cdot \frac{dx(t)}{dt} &amp;= - x(t) \\
+\tau \cdot \frac{dg(t)}{dt} &amp;= - g(t) +  x(t) \cdot (1 - g(t))
+\end{aligned}
+\end{aligned}\]</div>
+<p>When a pre-synaptic spike occurs, <span class="arithmatex">\(x(t)\)</span> is incremented by the weight
+<span class="arithmatex">\(w(t)\)</span>. However, it does not influence directly the post-synaptic
+neuron, as the output of a synapse is the signal <span class="arithmatex">\(g(t)\)</span>. The
+post-synaptic conductance is defined at each time <span class="arithmatex">\(t\)</span> as the sum over
+all synapses of the same type of their variable <span class="arithmatex">\(g(t)\)</span>:</p>
+<div class="arithmatex">\[g_\text{exc}(t) = \sum_{i=1}^{N_\text{exc}} g_i (t)\]</div>
+<p>Such a synapse could be implemented the following way:</p>
+<div class="highlight"><pre><span></span><code>NMDA = Synapse(
+    parameters = &quot;&quot;&quot;
+    tau = 10.0 : projection
+    &quot;&quot;&quot;,
+    equations = &quot;&quot;&quot;
+    tau * dx/dt = -x
+    tau * dg/dt = -g +  x * (1 -g)
+    &quot;&quot;&quot;, 
+    pre_spike = &quot;x += w&quot;,
+    psp = &quot;g&quot;
+)
+</code></pre></div>
+<p>The synapse defines a <code>psp</code> argument which means that the output of this
+synapse is non-linear and the post-synaptic conductance should be summed
+over this value (<code>g</code> in this case). It is not possible to use the
+event-driven integration scheme for such non-linear synapses.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="RateSynapse.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Rate-coded synapses" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Rate-coded synapses
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="Populations.html" class="md-footer__link md-footer__link--next" aria-label="Next: Populations" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Populations
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; Julien Vitay, Helge Ülo Dinkelbach, Fred H. Hamker
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+    
+  </body>
+</html>

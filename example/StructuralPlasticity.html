@@ -1,0 +1,1645 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../_static/logo.svg">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Structural plasticity - ANNarchy 4.7.2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../css/pandas-dataframe.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#structural-plasticity" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="ANNarchy 4.7.2" class="md-header__button md-logo" aria-label="ANNarchy 4.7.2" data-md-component="logo">
+      
+  <img src="../_static/logowhite.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ANNarchy 4.7.2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Structural plasticity
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="ANNarchy 4.7.2" class="md-nav__button md-logo" aria-label="ANNarchy 4.7.2" data-md-component="logo">
+      
+  <img src="../_static/logowhite.svg" alt="logo">
+
+    </a>
+    ANNarchy 4.7.2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation.html" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Manual
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Manual" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Manual
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Structure.html" class="md-nav__link">
+        General structure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Parser.html" class="md-nav__link">
+        Parser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/RateNeuron.html" class="md-nav__link">
+        Rate-coded neurons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/SpikeNeuron.html" class="md-nav__link">
+        Spiking neurons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/RateSynapse.html" class="md-nav__link">
+        Rate-coded synapses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/SpikeSynapse.html" class="md-nav__link">
+        Spiking synapses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Populations.html" class="md-nav__link">
+        Populations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Projections.html" class="md-nav__link">
+        Projections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Connector.html" class="md-nav__link">
+        Connectivity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Inputs.html" class="md-nav__link">
+        Setting inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Simulation.html" class="md-nav__link">
+        Simulation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Configuration.html" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/NumericalMethods.html" class="md-nav__link">
+        Equations and numerical methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Recording.html" class="md-nav__link">
+        Recording with Monitors
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Saving.html" class="md-nav__link">
+        Saving and loading a network
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Network.html" class="md-nav__link">
+        Parallel simulations and networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Hybrid.html" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/StructuralPlasticity.html" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/ConvolutionalNetworks.html" class="md-nav__link">
+        Convolution and pooling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Notebooks.html" class="md-nav__link">
+        Notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Reporting.html" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Logging.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          core
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="core" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          core
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/ANNarchy.html" class="md-nav__link">
+        Top-level methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Neuron.html" class="md-nav__link">
+        Neuron class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificNeuron.html" class="md-nav__link">
+        Built-in neuron types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Synapse.html" class="md-nav__link">
+        Synapse class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificSynapse.html" class="md-nav__link">
+        Built-in synapse types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Population.html" class="md-nav__link">
+        Population class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificPopulation.html" class="md-nav__link">
+        Specific Populations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Projection.html" class="md-nav__link">
+        Projection class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificProjection.html" class="md-nav__link">
+        Specific Projections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Dendrite.html" class="md-nav__link">
+        Dendrite class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Monitor.html" class="md-nav__link">
+        Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/RandomDistribution.html" class="md-nav__link">
+        Random Distributions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Network.html" class="md-nav__link">
+        Network class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/IO.html" class="md-nav__link">
+        Saving / Loading
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Utilities.html" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Hybrid.html" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          extensions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="extensions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          extensions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Convolution.html" class="md-nav__link">
+        Convolution and Pooling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Logging.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/BOLD.html" class="md-nav__link">
+        BOLD monitoring
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="List.html" class="md-nav__link">
+        List of notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="NeuralField.html" class="md-nav__link">
+        Neural Field
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="BarLearning.html" class="md-nav__link">
+        Bar Learning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="StructuralPlasticity.html" class="md-nav__link md-nav__link--active">
+        Structural plasticity
+      </a>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Izhikevich.html" class="md-nav__link">
+        Izhikevich
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="GapJunctions.html" class="md-nav__link">
+        Gap junctions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="HodgkinHuxley.html" class="md-nav__link">
+        Hodgkin-Huxley
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="COBA.html" class="md-nav__link">
+        COBA
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="STP.html" class="md-nav__link">
+        STP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SimpleSTDP.html" class="md-nav__link">
+        STDP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Ramp.html" class="md-nav__link">
+        Ramp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Hybrid.html" class="md-nav__link">
+        Hybrid
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Image.html" class="md-nav__link">
+        Image
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Webcam.html" class="md-nav__link">
+        Webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="MultipleNetworks.html" class="md-nav__link">
+        Parallel simulations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="BayesianOptimization.html" class="md-nav__link">
+        Bayesian optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="BasalGanglia.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="BoldMonitoring.html" class="md-nav__link">
+        BOLD monitoring
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../License.html" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/ANNarchy/ANNarchy/edit/master/docs/example/StructuralPlasticity.ipynb" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+(function() {
+  function addWidgetsRenderer() {
+    var requireJsScript = document.createElement('script');
+    requireJsScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js';
+
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var jupyterWidgetsScript = document.createElement('script');
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        widgetRendererSrc = 'jupyter-js-widgets@*/dist/embed.js';
+      }
+    } catch(e) {}
+
+    jupyterWidgetsScript.src = widgetRendererSrc;
+
+    document.body.appendChild(requireJsScript);
+    document.body.appendChild(jupyterWidgetsScript);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+</script>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="structural-plasticity">Structural plasticity<a class="headerlink" href="#structural-plasticity" title="Permanent link">#</a></h1>
+<p>Download the Jupyter notebook : <a href="https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/docs/example/StructuralPlasticity.ipynb">StructuralPlasticity.ipynb</a></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As simple example showing how to use structural plasticity (creation/pruning of synapses) in a rate-coded network (spiking networks work similarly).</p>
+<p>First, the structural plasticity mechanisms must be allowed in <code>setup()</code>:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">clear</span><span class="p">()</span>
+
+<span class="c1"># Compulsory to allow structural plasticity</span>
+<span class="n">setup</span><span class="p">(</span><span class="n">structural_plasticity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+<code>ANNarchy 4.7 (4.7.2) on darwin (posix).
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We define a leaky integrator rate-coded neuron and a small population: </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="n">LeakyIntegratorNeuron</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau = 10.0 : population</span>
+<span class="s2">        baseline = 0.0 </span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        tau * dr/dt + r = baseline + sum(exc) : min=0.0</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">LeakyIntegratorNeuron</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Structural plasticity has two components: creation of synapses and pruning (removal) under certain conditions. These conditions are defined in the synapse type itself in the <code>pruning</code> and <code>creating</code> arguments: </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="n">StructuralPlasticSynapse</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot; T = 10000 : int, projection &quot;</span><span class="p">,</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        age = if pre.r * post.r &gt; 1.0 :</span>
+<span class="s2">                0</span>
+<span class="s2">              else :</span>
+<span class="s2">                age + 1 : init = 0, int&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">pruning</span> <span class="o">=</span> <span class="s2">&quot;age &gt; T : proba = 0.2&quot;</span><span class="p">,</span>
+    <span class="n">creating</span> <span class="o">=</span> <span class="s2">&quot;pre.r * post.r &gt; 1.0 : proba = 0.1, w = 0.01&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">,</span> <span class="n">StructuralPlasticSynapse</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_fixed_probability</span><span class="p">(</span><span class="n">weights</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_text output_subarea output_execute_result">
+<pre>
+<code>&lt;ANNarchy.core.Projection.Projection at 0x1069b8f70&gt;</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These conditions must be boolean values, which when <code>True</code> may trigger the creation/pruning of a synapse. The flag <code>proba</code> gives the probability by which the synapse will actually be created/pruned.</p>
+<ul>
+<li>When <code>creating</code> is <code>True</code>, a synapse that did not exist will be created with the provided probability. Its weight will take the value provided by the flag <code>w</code> (0.01), the other variables take their default value.</li>
+<li>When <code>pruning</code> is <code>True</code>, a synapse that exists will be deleted with the given probability.</li>
+</ul>
+<p>The <code>pruning</code> condition can depend on any pre-synaptic, post-synaptic or synaptic variable. The <code>creating</code> condition can only depend on pre- or post-synaptic conditions, as the synapse does not exist yet.</p>
+<p>Apart from these two fields, the synapse is a regular synapse, one could also define synaptic plasticity mechanisms and so on.</p>
+<p>We finally create a sparse projection within the population, with 10% connectivity.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="nb">compile</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+<code>Compiling ...  OK 
+</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The creation and pruning have to be explicitly started before a simulation, as they are very expensive computationally. The <code>period</code> argument states how often the conditions will be checked (avoid using <code>dt</code>):</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">start_creating</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="mf">100.0</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">start_pruning</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="mf">100.0</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To see the effect of structural plasticity, one alternatively activates one half of the population by setting a high baseline (mimicking corrrelated inputs). As neurons in one half will be activated at the same time, they will create synapses between each other. Between the two halves, the neurons are never co-activated, so the existing synapses will slowly die out.  </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Save the initial connectivity matrix</span>
+<span class="n">initial_weights</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">connectivity_matrix</span><span class="p">()</span>
+
+<span class="c1"># Let structural plasticity over several trials</span>
+<span class="n">num_trials</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_trials</span><span class="p">):</span>
+    <span class="c1"># Activate the first subpopulation</span>
+    <span class="n">pop</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span><span class="o">.</span><span class="n">baseline</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="c1"># Simulate for 1s</span>
+    <span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
+    <span class="c1"># Reset the population</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">baseline</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
+    <span class="c1"># Activate the second subpopulation</span>
+    <span class="n">pop</span><span class="p">[</span><span class="mi">50</span><span class="p">:]</span><span class="o">.</span><span class="n">baseline</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="c1"># Simulate for 1s</span>
+    <span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
+    <span class="c1"># Reset the population</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">baseline</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
+
+<span class="c1"># Inspect the final connectivity matrix</span>
+<span class="n">final_weights</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">connectivity_matrix</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can check the effect of structural plasticity by looking at the connectivity matrix before and after the stimulation:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">initial_weights</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Connectivity matrix before&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">final_weights</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Connectivity matrix after&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABj0AAAMACAYAAAB/26VEAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjYuMSwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy/av/WaAAAACXBIWXMAAA9hAAAPYQGoP6dpAABfvElEQVR4nO3de5RddX03/s9JJpkkMDMEkCTDJSSWiNw6EWpaQZNKYRSwqT7iXYPaFgELaKuI1BL0MRFqWbSAYKxFWotSH8GgjzJESlJZYE3FUREl7cNF7BiDms6Jcstkvr8/+GXMMDknMydzbt/zeq01a8nZZ+/9+V72mf31fXamkFJKAQAAAAAA0OSm1LsAAAAAAACAySD0AAAAAAAAsiD0AAAAAAAAsiD0AAAAAAAAsiD0AAAAAAAAsiD0AAAAAAAAsiD0AAAAAAAAsiD0AAAAAAAAsiD0AAAAAAAAsiD0AKrqe9/7Xrz97W+PBQsWxIwZM2LfffeNF73oRXHFFVfEL3/5y3qXN+keeOCBWLlyZTzyyCNjtp111llx+OGHV3TcQqEQK1euHNd5msETTzwRK1eujPXr109ov5UrV0ahUJi0OpYtWxbHHHPMpB0vIuKZZ56Jd73rXTFv3ryYOnVq9PT0TOrxAQBoLdZUv2FN9RuNsqaaiJtvvjmOPvromDlzZhQKhejv749PfOIT8ZnPfKYu9QD5EnoAVfOpT30qjj/++Ni4cWO8733vi9tvvz1uvfXWOPPMM+P666+Pd77znfUucdI98MADcdlll+32xvlDH/pQ3HrrrRUd9957740//uM/Htd5msETTzwRl1122YRv0P/4j/847r333uoUNUmuu+66+OQnPxmXXHJJ3H333fFP//RP9S4JAIAmZU01mjXVbzTbmurxxx+Pt771rfH85z8/br/99rj33ntj0aJFQg+gKtrqXQCQp3vvvTfOOeecOOWUU+JLX/pStLe3j2w75ZRT4s///M/j9ttvr2OFtff85z+/4n1/93d/dxIraT5PPPFEzJo1Kw455JA45JBD6l1OWffff3/MnDkz3v3ud0/aMZ988smYOXPmpB0PAIDGZ001ljVV5eq9ptq0aVNs37493vKWt8TSpUureq6UUjz11FPWUNDCPOkBVMWqVauiUCjEmjVrRt2c7zR9+vT4wz/8w5H/Hh4ejiuuuCKOPPLIaG9vj4MOOije9ra3xU9+8pNR++3854g2btwYL33pS2PWrFmxcOHC+NjHPhbDw8Mj71u/fn0UCoX43Oc+F5dcckl0d3dHZ2dn/MEf/EE8+OCDY+r5+te/HieffHJ0dnbGrFmz4sQTT4w777xzzPt+9KMfxRvf+MaYM2dOtLe3x2GHHRZve9vb4umnn47PfOYzceaZZ0ZExO///u9HoVCIQqEw8q2V5z6KvXjx4njpS1865hw7duyIgw8+OF7zmteMvLbro9jlzvORj3wk2tra4rHHHhtz3He84x1xwAEHxFNPPTVm205nnXVW7LvvvvGjH/0oent7Y5999ol58+bFxz72sYiI+OY3vxknnXRS7LPPPrFo0aK48cYbR+3/+OOPx7nnnhtHHXVU7LvvvnHQQQfFy1/+8vjGN74x8p5HHnkknve850VExGWXXTZS/1lnnRURv3nc+r777ovXvva1MXv27JHFzXMfxb777rtj2rRp8Rd/8Rej6vjMZz4ThUIhPv3pT5ds666+8Y1vxO/+7u/GzJkz4+CDD44PfehDsWPHjlHveeaZZ+J//+//PTJHn/e858Xb3/72ePzxx0feUygU4u///u/jySefHDP+Tz31VFx88cWxYMGCmD59ehx88MFx3nnnxf/8z/+MOs/hhx8eZ5xxRtxyyy2xePHimDFjRlx22WUREbF58+Y4++yz45BDDonp06fHggUL4rLLLouhoaFxtRMAgOZhTWVN1QxrqnXr1sXy5cvjkEMOiRkzZsRv/dZvxdlnnx0///nPR/XJSSedFBERr3/966NQKMSyZcvi8MMPjx/84AexYcOGkTbsOr7FYjH+4i/+YtQa6sILL4xf//rXo2ooFArx7ne/O66//vp44QtfGO3t7WP6FWgxCWCSDQ0NpVmzZqUlS5aMe58//dM/TRGR3v3ud6fbb789XX/99el5z3teOvTQQ9Pjjz8+8r6lS5emAw44IB1xxBHp+uuvT+vWrUvnnntuioh04403jrzvrrvuShGRDj/88PTmN785/d//+3/T5z73uXTYYYelI444Ig0NDY2895/+6Z9SoVBIf/RHf5RuueWW9OUvfzmdccYZaerUqenrX//6yPv6+/vTvvvumw4//PB0/fXXpzvvvDN99rOfTa973etSsVhMW7ZsSatWrUoRka699tp07733pnvvvTdt2bIlpZTSihUr0vz580eO97d/+7cpItKmTZtG9cVXv/rVFBHptttuG3ktItKll16aUkplz/Ozn/0stbe3p0suuWTUMX/xi1+kmTNnpve9731lx2HFihVp+vTp6YUvfGH627/927Ru3br09re/PUVEuvjii9OiRYvSpz/96dTX15fOOOOMFBHpP/7jP0b2/9GPfpTOOeec9PnPfz6tX78+feUrX0nvfOc705QpU9Jdd92VUkrpqaeeSrfffnuKiPTOd75zpP7/+q//SimldOmll6aISPPnz08XXXRRWrduXfrSl740atuuPvaxj6WISGvXrk0ppXT//fenWbNmpbe85S1l25rSb+ZTd3d3+ru/+7vU19eXzj///BQR6bzzzht5344dO9IrXvGKtM8++6TLLrssrVu3Lv393/99Ovjgg9NRRx2VnnjiiZRSSvfee2867bTT0syZM0eNy/DwcOrt7U1tbW3pQx/6ULrjjjvSxz/+8bTPPvukxYsXp6eeemrkXPPnz0/z5s1LCxcuTP/wD/+Q7rrrrvStb30r/fSnP02HHnpomj9/fvrkJz+Zvv71r6ePfOQjqb29PZ111ll7bCsAAM3DmsqaqlnWVNddd11avXp1uu2229KGDRvSjTfemH77t387veAFL0jPPPNMSiml//qv/0rXXnttioi0atWqdO+996Yf/OAH6b777ksLFy5MixcvHmnDfffdl1JK6de//nXq6elJBx54YLryyivT17/+9fS3f/u3qaurK7385S9Pw8PDo8b24IMPTscdd1y66aab0r/+67+m+++/f4+1A/kSegCTbvPmzSki0hve8IZxvf+HP/xhioh07rnnjnr93//931NEpA9+8IMjry1dujRFRPr3f//3Ue896qijUm9v78h/77xBP+2000a971/+5V9SRKR77703pfTsjdT++++fXvWqV416344dO9Jv//Zvpxe/+MUjr7385S9P++2338gN9+584QtfSBExcjO6q+feoP/85z9P06dPH9W+lFJ63etel+bMmZO2b98+8tquN+jjOc9BBx2Unn766ZHXLr/88jRlypT08MMPl6x9574Rkb74xS+OvLZ9+/b0vOc9L0XEyA1oSs/e9E+dOjW9973vLXm8oaGhtH379nTyySenV7/61SOvP/7442PatNPOm/C/+qu/KrltV8PDw+m0005L++23X7r//vvTUUcdlY488sj0q1/9qmxbU/rNfNp5c7/Tn/zJn6QpU6akRx99NKWU0uc+97kx/ZJSShs3bkwRkT7xiU+MvLZixYq0zz77jHrfzgXJFVdcMer1m2++OUVEWrNmzchr8+fPT1OnTk0PPvjgqPeeffbZad999x2paaePf/zjKSLSD37wgz22FwCA5mBNZU21U6OvqZ57nO3bt6dHH310zDpr53z6whe+MGqfo48+Oi1dunTMsVavXp2mTJmSNm7cOOr1//N//k+KiPTVr3515LWISF1dXemXv/zlhOoF8uWftwLq7q677oqIGHkUd6cXv/jF8cIXvnDMI9Fz586NF7/4xaNeO+644+LRRx8dc+xdH/fe+b6IGHnvPffcE7/85S9jxYoVMTQ0NPIzPDwcr3jFK2Ljxo3x61//Op544onYsGFDvO51rxt5jHhvHXDAAfGqV70qbrzxxpHHyLdu3Rpr166Nt73tbdHWVtmfXbrgggtiy5Yt8YUvfCEinn3M/brrrovTTz991KPCpRQKhTjttNNG/rutrS1+67d+K+bNmxeLFy8eeX3//fePgw46aEy/X3/99fGiF70oZsyYEW1tbTFt2rS4884744c//OGE2vG//tf/Gtf7CoVC/OM//mN0dHTECSecEA8//HD8y7/8S+yzzz7j2r+jo2PMPHnTm94Uw8PD8W//9m8REfGVr3wl9ttvv3jVq141ap709PTE3Llz9/jHA//1X/81IsbO8TPPPDP22WefMXP8uOOOi0WLFo167Stf+Ur8/u//fnR3d4+q4ZWvfGVERGzYsGFc7QUAID/WVNZUu1OLNdWWLVviXe96Vxx66KEjtc6fPz8iYsL17uorX/lKHHPMMdHT0zNqXvX29kahUBizBnv5y18es2fPrvh8QF6EHsCkO/DAA2PWrFnx8MMPj+v9v/jFLyIiYt68eWO2dXd3j2zf6YADDhjzvvb29njyySfHvP7c9+78t3B3vvdnP/tZRES89rWvjWnTpo36ufzyyyOlFL/85S9j69atsWPHjkn/g2/veMc74r//+79j3bp1ERHxuc99Lp5++ukxi5WJ2Pnv2l577bUR8ezN4iOPPDLuP6w9a9asmDFjxqjXpk+fHvvvv/+Y906fPn3Uv2d75ZVXxjnnnBNLliyJL37xi/HNb34zNm7cGK94xSt2Oz7l7G4+lHLAAQfEH/7hH8ZTTz0Vr3jFK+LYY48d975z5swZ89rcuXMj4jdz82c/+1n8z//8T0yfPn3MPNm8efOof692d37xi19EW1vbmMVdoVCIuXPnjpnju2v7z372s/jyl7885vxHH310RMQeawAAoHlYU42fNVVp1V5TDQ8Px6mnnhq33HJLvP/9748777wzvvWtb8U3v/nNiIgJ17urn/3sZ/G9731vzJzq6OiIlNKY9c9E2grkr7LIG6CMqVOnxsknnxxf+9rX4ic/+ckeb2p33kT/9Kc/HfPegYGBOPDAA6tW685jX3311fG7v/u7u33PnDlzYseOHTF16tQxfwRwb/X29kZ3d3fccMMN0dvbGzfccEMsWbIkjjrqqL067vnnnx9nnnlm3HfffXHNNdfEokWL4pRTTpmkqkv77Gc/G8uWLYvrrrtu1Ovbtm2b8LF2/eN6e7Ju3bq47rrr4sUvfnHceuut8cUvfnHc32rauUjb1ebNmyPiN3PzwAMPjAMOOCBuv/323R6jo6Oj7DkOOOCAGBoaiscff3xU8JFSis2bN8fv/M7vjHr/7tp+4IEHxnHHHRcf/ehHd3uO7u7usjUAANA8rKnGz5qqtGqvqe6///747ne/G5/5zGdixYoVI6//13/914Rrfa4DDzwwZs6cGf/wD/9QcvuuJtJWIH+e9ACq4uKLL46UUvzJn/xJPPPMM2O2b9++Pb785S9HxLOPoUY8e3O3q40bN8YPf/jDOPnkk6tW54knnhj77bdfPPDAA3HCCSfs9mf69Okxc+bMWLp0aXzhC18o+436537raU+mTp0ab33rW+NLX/pSfOMb34j/+I//iHe84x173G9P53n1q18dhx12WPz5n/95fP3rX49zzz23JjeBhUJhpLadvve978W999476rWJ9lM5P/3pT+Mtb3lLLF26NO655574wz/8w3jnO9857m/Fbdu2LW677bZRr910000xZcqUeNnLXhYREWeccUb84he/iB07dux2jrzgBS8oe46dc/i5c/yLX/xi/PrXvx7XHD/jjDPi/vvvj+c///m7rUHoAQCQF2sqa6qdGnVNtbM/nlvvJz/5yXGfu9QTRmeccUb8v//3/+KAAw7Y7Zwazz8zBrQuT3oAVfF7v/d7cd1118W5554bxx9/fJxzzjlx9NFHx/bt2+M73/lOrFmzJo455ph41ateFS94wQviT//0T+Pqq6+OKVOmxCtf+cp45JFH4kMf+lAceuih8Z73vKdqde67775x9dVXx4oVK+KXv/xlvPa1r42DDjooHn/88fjud78bjz/++Mg3bK688so46aSTYsmSJfGBD3wgfuu3fit+9rOfxW233Raf/OQno6OjI4455piIiFizZk10dHTEjBkzYsGCBbt9fHynd7zjHXH55ZfHm970ppg5c2a8/vWv32PdezrP1KlT47zzzouLLroo9tlnn716tHsizjjjjPjIRz4Sl156aSxdujQefPDB+PCHPxwLFiyIoaGhkfd1dHTE/PnzY+3atXHyySfH/vvvHwceeOCEb1x37NgRb3zjG6NQKMRNN90UU6dOjc985jPR09MTr3/96+Puu++O6dOnlz3GAQccEOecc078+Mc/jkWLFsVXv/rV+NSnPhXnnHNOHHbYYRER8YY3vCH++Z//OU477bS44IIL4sUvfnFMmzYtfvKTn8Rdd90Vy5cvj1e/+tUlz3HKKadEb29vXHTRRVEsFuPEE0+M733ve3HppZfG4sWL461vfese2/rhD3841q1bFy95yUvi/PPPjxe84AXx1FNPxSOPPBJf/epX4/rrr5/0fyoAAID6saaypmr0NdWRRx4Zz3/+8+MDH/hApJRi//33jy9/+csj/9TYeBx77LHx+c9/Pm6++eZYuHBhzJgxI4499ti48MIL44tf/GK87GUvi/e85z1x3HHHxfDwcPz4xz+OO+64I/78z/88lixZMqG2Ai2kjn9EHWgB/f39acWKFemwww5L06dPT/vss09avHhx+qu/+qu0ZcuWkfft2LEjXX755WnRokVp2rRp6cADD0xvectb0mOPPTbqeEuXLk1HH330mPOsWLEizZ8/f+S/77rrrhQR6Qtf+MKo9z388MMpItINN9ww6vUNGzak008/Pe2///5p2rRp6eCDD06nn376mP0feOCBdOaZZ6YDDjggTZ8+PR122GHprLPOSk899dTIe6666qq0YMGCNHXq1FHnem6Nu3rJS16SIiK9+c1v3u32iEiXXnrpqNdKnWenRx55JEVEete73rXbY+7OihUr0j777DPm9VL9Pn/+/HT66aeP/PfTTz+d/uIv/iIdfPDBacaMGelFL3pR+tKXvrTbtn/9619PixcvTu3t7Ski0ooVK1JKKV166aUpItLjjz8+5nw7t+10ySWXpClTpqQ777xz1Pvuueee1NbWli644IKy7d3ZrvXr16cTTjghtbe3p3nz5qUPfvCDafv27aPeu3379vTxj388/fZv/3aaMWNG2nfffdORRx6Zzj777PSf//mfI+8r1YdPPvlkuuiii9L8+fPTtGnT0rx589I555yTtm7dOup9z+3TXT3++OPp/PPPTwsWLEjTpk1L+++/fzr++OPTJZdckn71q1+VbSsAAM3JmsqaqpHXVA888EA65ZRTUkdHR5o9e3Y688wz049//OMx/V1qPj3yyCPp1FNPTR0dHSkiRrXxV7/6VfrLv/zL9IIXvCBNnz49dXV1pWOPPTa95z3vSZs3bx55X0Sk8847r2ydQGsppJRS7SIWAGrl6quvjvPPPz/uv//+kT92DQAAwPhYUwE0J6EHQGa+853vxMMPPxxnn312nHjiifGlL32p3iUBAAA0DWsqgOYm9ADIzOGHHx6bN2+Ol770pfFP//RPMXfu3HqXBAAA0DSsqQCam9ADAAAAAADIwpR6FwAAAAAAADAZhB4AAAAAAEAWhB4AAAAAAEAW2qp14E984hPx13/91/HTn/40jj766LjqqqvipS996R73Gx4ejoGBgejo6IhCoVCt8gAAoGGklGLbtm3R3d0dU6b4XlKrqHTNFGHdBABAa5nImqkqocfNN98cF154YXziE5+IE088MT75yU/GK1/5ynjggQfisMMOK7vvwMBAHHroodUoCwAAGtpjjz0WhxxySL3LoAb2Zs0UYd0EAEBrGs+aqZBSSpN94iVLlsSLXvSiuO6660Zee+ELXxh/9Ed/FKtXry677+DgYOy3335xUpwWbTFtzPZbN32/5L6vXnRs5UXTEMqNbzmVjr35lLdKx9e8qIx+a017+tw29kymanzONMpn11Bsj7vjq/E///M/0dXVVbPzUj97s2aK+M266dH7Do/OfT0dBFBL7nEBam8ia6ZJf9LjmWeeiW9/+9vxgQ98YNTrp556atxzzz1j3v/000/H008/PfLf27Zt+/8LmxZthbGhR2dH6Rv63b2f5lJufMupdOzNp7xVOr7mRWX0W2va0+e2sWcyVeNzpmE+u/7/ryH5Z4paw0TXTBGl102d+06p+B4agMq4xwWogwmsmSb97vjnP/957NixI+bMmTPq9Tlz5sTmzZvHvH/1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Le68886L008/Pf7gD/5g1OvmDM912223xQknnBBnnnlmHHTQQbF48eL41Kc+NbLdnOG5TjrppLjzzjtj06ZNERHx3e9+N+6+++447bTTIsKcASafdRMTYc3EeFkzMV7WTEyUNRO10lbvAnbn5z//eezYsSPmzJkz6vU5c+bE5s2b61QVjSqlFO9973vjpJNOimOOOSYiYmSe7G4OPfroozWvkcbw+c9/Pu67777YuHHjmG3mDM/10EMPxXXXXRfvfe9744Mf/GB861vfivPPPz/a29vjbW97mznDGBdddFEMDg7GkUceGVOnTo0dO3bERz/60XjjG98YET5ngMln3cR4WTMxXtZMTIQ1ExNlzUStNGTosVOhUBj13ymlMa/Bu9/97vje974Xd99995ht5hA7PfbYY3HBBRfEHXfcETNmzCj5PnOGnYaHh+OEE06IVatWRUTE4sWL4wc/+EFcd9118ba3vW3kfeYMO918883x2c9+Nm666aY4+uijo7+/Py688MLo7u6OFStWjLzPnAEmm88V9sSaifGwZmKirJmYKGsmaqUh/3mrAw88MKZOnTrm20lbtmwZk/TR2v7sz/4sbrvttrjrrrvikEMOGXl97ty5ERHmECO+/e1vx5YtW+L444+Ptra2aGtriw0bNsTf/d3fRVtb28i8MGfYad68eXHUUUeNeu2FL3zhyB+G9TnDc73vfe+LD3zgA/GGN7whjj322HjrW98a73nPe2L16tURYc4Ak8+6ifGwZmK8rJmYKGsmJsqaiVppyNBj+vTpcfzxx8e6detGvb5u3bp4yUteUqeqaCQppXj3u98dt9xyS/zrv/5rLFiwYNT2BQsWxNy5c0fNoWeeeSY2bNhgDrWok08+Ob7//e9Hf3//yM8JJ5wQb37zm6O/vz8WLlxozjDKiSeeGA8++OCo1zZt2hTz58+PCJ8zjPXEE0/ElCmjb62mTp0aw8PDEWHOAJPPuolyrJmYKGsmJsqaiYmyZqJm6vHX08fj85//fJo2bVr69Kc/nR544IF04YUXpn322Sc98sgj9S6NBnDOOeekrq6utH79+vTTn/505OeJJ54Yec/HPvax1NXVlW655Zb0/e9/P73xjW9M8+bNS8VisY6V00iWLl2aLrjggpH/NmfY1be+9a3U1taWPvrRj6b//M//TP/8z/+cZs2alT772c+OvMecYVcrVqxIBx98cPrKV76SHn744XTLLbekAw88ML3//e8feY85A0w26yZKsWZiMlgzUY41ExNlzUStNGzokVJK1157bZo/f36aPn16etGLXpQ2bNhQ75JoEBGx258bbrhh5D3Dw8Pp0ksvTXPnzk3t7e3pZS97Wfr+979fv6JpOM+9gTdneK4vf/nL6Zhjjknt7e3pyCOPTGvWrBm13ZxhV8ViMV1wwQXpsMMOSzNmzEgLFy5Ml1xySXr66adH3mPOANVg3cTuWDMxGayZ2BNrJibCmolaKaSUUn2eMQEAAAAAAJg8Dfk3PQAAAAAAACZK6AEAAAAAAGRB6AEAAAAAAGRB6AEAAAAAAGRB6AEAAAAAAGRB6AEAAAAAAGRB6AEAAAAAAGRB6AEAAAAAAGRB6AEAAAAAAGRB6AEAAAAAAGRB6AEAAAAAAGTh/wPSqtrzUEvrCgAAAABJRU5ErkJggg==
+"
+>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="BarLearning.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Bar Learning" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Bar Learning
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="Izhikevich.html" class="md-footer__link md-footer__link--next" aria-label="Next: Izhikevich" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Izhikevich
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; Julien Vitay, Helge Ülo Dinkelbach, Fred H. Hamker
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+    
+  </body>
+</html>

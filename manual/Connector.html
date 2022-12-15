@@ -1,0 +1,2040 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../_static/logo.svg">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Connectivity - ANNarchy 4.7.2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../css/pandas-dataframe.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#connectivity" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="ANNarchy 4.7.2" class="md-header__button md-logo" aria-label="ANNarchy 4.7.2" data-md-component="logo">
+      
+  <img src="../_static/logowhite.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ANNarchy 4.7.2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Connectivity
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="ANNarchy 4.7.2" class="md-nav__button md-logo" aria-label="ANNarchy 4.7.2" data-md-component="logo">
+      
+  <img src="../_static/logowhite.svg" alt="logo">
+
+    </a>
+    ANNarchy 4.7.2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation.html" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Manual
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Manual" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Manual
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Structure.html" class="md-nav__link">
+        General structure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Parser.html" class="md-nav__link">
+        Parser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RateNeuron.html" class="md-nav__link">
+        Rate-coded neurons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SpikeNeuron.html" class="md-nav__link">
+        Spiking neurons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RateSynapse.html" class="md-nav__link">
+        Rate-coded synapses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SpikeSynapse.html" class="md-nav__link">
+        Spiking synapses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Populations.html" class="md-nav__link">
+        Populations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Projections.html" class="md-nav__link">
+        Projections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Connectivity
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Connector.html" class="md-nav__link md-nav__link--active">
+        Connectivity
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#available-connector-methods" class="md-nav__link">
+    Available connector methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Available connector methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect_all_to_all" class="md-nav__link">
+    connect_all_to_all
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_one_to_one" class="md-nav__link">
+    connect_one_to_one
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_gaussian" class="md-nav__link">
+    connect_gaussian
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_dog" class="md-nav__link">
+    connect_dog
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_fixed_number_pre" class="md-nav__link">
+    connect_fixed_number_pre
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_fixed_number_post" class="md-nav__link">
+    connect_fixed_number_post
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_fixed_probability" class="md-nav__link">
+    connect_fixed_probability
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saved-connectivity" class="md-nav__link">
+    Saved connectivity
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-connectivity-matrices" class="md-nav__link">
+    From connectivity matrices
+  </a>
+  
+    <nav class="md-nav" aria-label="From connectivity matrices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect_from_matrix" class="md-nav__link">
+    connect_from_matrix
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_from_sparse" class="md-nav__link">
+    connect_from_sparse
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-defined-patterns" class="md-nav__link">
+    User-defined patterns
+  </a>
+  
+    <nav class="md-nav" aria-label="User-defined patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_probability-in-python" class="md-nav__link">
+    fixed_probability in Python
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_probability-in-cython" class="md-nav__link">
+    fixed_probability in Cython
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Inputs.html" class="md-nav__link">
+        Setting inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Simulation.html" class="md-nav__link">
+        Simulation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Configuration.html" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="NumericalMethods.html" class="md-nav__link">
+        Equations and numerical methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Recording.html" class="md-nav__link">
+        Recording with Monitors
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Saving.html" class="md-nav__link">
+        Saving and loading a network
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Network.html" class="md-nav__link">
+        Parallel simulations and networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Hybrid.html" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="StructuralPlasticity.html" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ConvolutionalNetworks.html" class="md-nav__link">
+        Convolution and pooling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Notebooks.html" class="md-nav__link">
+        Notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Reporting.html" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Logging.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          core
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="core" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          core
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/ANNarchy.html" class="md-nav__link">
+        Top-level methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Neuron.html" class="md-nav__link">
+        Neuron class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificNeuron.html" class="md-nav__link">
+        Built-in neuron types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Synapse.html" class="md-nav__link">
+        Synapse class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificSynapse.html" class="md-nav__link">
+        Built-in synapse types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Population.html" class="md-nav__link">
+        Population class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificPopulation.html" class="md-nav__link">
+        Specific Populations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Projection.html" class="md-nav__link">
+        Projection class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/SpecificProjection.html" class="md-nav__link">
+        Specific Projections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Dendrite.html" class="md-nav__link">
+        Dendrite class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Monitor.html" class="md-nav__link">
+        Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/RandomDistribution.html" class="md-nav__link">
+        Random Distributions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Network.html" class="md-nav__link">
+        Network class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/IO.html" class="md-nav__link">
+        Saving / Loading
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Utilities.html" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Hybrid.html" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          extensions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="extensions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          extensions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Convolution.html" class="md-nav__link">
+        Convolution and Pooling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/Logging.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/BOLD.html" class="md-nav__link">
+        BOLD monitoring
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/List.html" class="md-nav__link">
+        List of notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/NeuralField.html" class="md-nav__link">
+        Neural Field
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BarLearning.html" class="md-nav__link">
+        Bar Learning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/StructuralPlasticity.html" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Izhikevich.html" class="md-nav__link">
+        Izhikevich
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/GapJunctions.html" class="md-nav__link">
+        Gap junctions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/HodgkinHuxley.html" class="md-nav__link">
+        Hodgkin-Huxley
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/COBA.html" class="md-nav__link">
+        COBA
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/STP.html" class="md-nav__link">
+        STP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/SimpleSTDP.html" class="md-nav__link">
+        STDP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Ramp.html" class="md-nav__link">
+        Ramp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Hybrid.html" class="md-nav__link">
+        Hybrid
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Image.html" class="md-nav__link">
+        Image
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Webcam.html" class="md-nav__link">
+        Webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/MultipleNetworks.html" class="md-nav__link">
+        Parallel simulations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BayesianOptimization.html" class="md-nav__link">
+        Bayesian optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BasalGanglia.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BoldMonitoring.html" class="md-nav__link">
+        BOLD monitoring
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../License.html" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#available-connector-methods" class="md-nav__link">
+    Available connector methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Available connector methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect_all_to_all" class="md-nav__link">
+    connect_all_to_all
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_one_to_one" class="md-nav__link">
+    connect_one_to_one
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_gaussian" class="md-nav__link">
+    connect_gaussian
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_dog" class="md-nav__link">
+    connect_dog
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_fixed_number_pre" class="md-nav__link">
+    connect_fixed_number_pre
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_fixed_number_post" class="md-nav__link">
+    connect_fixed_number_post
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_fixed_probability" class="md-nav__link">
+    connect_fixed_probability
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saved-connectivity" class="md-nav__link">
+    Saved connectivity
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-connectivity-matrices" class="md-nav__link">
+    From connectivity matrices
+  </a>
+  
+    <nav class="md-nav" aria-label="From connectivity matrices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect_from_matrix" class="md-nav__link">
+    connect_from_matrix
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connect_from_sparse" class="md-nav__link">
+    connect_from_sparse
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-defined-patterns" class="md-nav__link">
+    User-defined patterns
+  </a>
+  
+    <nav class="md-nav" aria-label="User-defined patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_probability-in-python" class="md-nav__link">
+    fixed_probability in Python
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_probability-in-cython" class="md-nav__link">
+    fixed_probability in Cython
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/ANNarchy/ANNarchy/edit/master/docs/manual/Connector.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="connectivity">Connectivity<a class="headerlink" href="#connectivity" title="Permanent link">#</a></h1>
+<p>There are basically four methods to instantiate projections:</p>
+<ol>
+<li>By using a <a href="Connector.html#available-connector-methods">built-in connector method.</a></li>
+<li>By using a <a href="Connector.html#saved-connectivity">saved projection.</a></li>
+<li>By loading <a href="Connector.html#from-connectivity-matrices">dense or sparse matrices.</a></li>
+<li>By defining a <a href="Connector.html#user-defined-patterns">custom connector method.</a></li>
+</ol>
+<h2 id="available-connector-methods">Available connector methods<a class="headerlink" href="#available-connector-methods" title="Permanent link">#</a></h2>
+<p>For further detailed information about these connectors, please refer to
+the library reference <a href="../API/Projection.html">Projections</a>.</p>
+<h3 id="connect_all_to_all">connect_all_to_all<a class="headerlink" href="#connect_all_to_all" title="Permanent link">#</a></h3>
+<p><em>All</em> neurons of the post-synaptic population form connections with
+<em>all</em> neurons of the pre-synaptic population (dense connectivity).
+Self-connections are avoided by default, but the parameter
+<code>allow_self_connections</code> can be set to <code>True</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">delays</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">allow_self_connections</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+</code></pre></div>
+<p>The <code>weights</code> and <code>delays</code> arguments accept both single float values
+(all synapses will take this initial value), as well as random objects
+allowing to randomly select the initial values for different synapses:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">Uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span> 
+</code></pre></div>
+<h3 id="connect_one_to_one">connect_one_to_one<a class="headerlink" href="#connect_one_to_one" title="Permanent link">#</a></h3>
+<p>A neuron of the post-synaptic population forms a connection with only
+<em>one</em> neuron of the pre-synaptic population. The order depends on the
+ranks: neuron 0 is connected with neuron 0 and so on. It is advised that
+the pre- and post-populations have the same size/geometry, especially
+when using population views.</p>
+<div class="highlight"><pre><span></span><code><span class="n">pop1</span> <span class="o">=</span> <span class="n">Population</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">Neuron</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;r=0.0&quot;</span><span class="p">))</span>
+<span class="n">pop2</span> <span class="o">=</span> <span class="n">Population</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r=sum(exc)&quot;</span><span class="p">))</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop1</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span><span class="mi">15</span><span class="p">],</span> <span class="n">pop2</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_one_to_one</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> 
+</code></pre></div>
+<p>Weights and delays also accept random distributions.</p>
+<p>Below is a graphical representation of the difference between
+<strong>all_to_all</strong> and <strong>one_to_one</strong>:</p>
+<p><img alt="image" src="../_static/one2all.svg" /></p>
+<h3 id="connect_gaussian">connect_gaussian<a class="headerlink" href="#connect_gaussian" title="Permanent link">#</a></h3>
+<p>A neuron of the post-synaptic population forms a connection with a
+limited region of the pre-synaptic population, centered around the
+neuron with the same normalized position. Weight values are initialized
+using a Gaussian function, with a maximal value <code>amp</code> for the neuron of
+same position and decreasing with distance (standard deviation <code>sigma</code>):</p>
+<div class="arithmatex">\[w(x, y) = A \cdot \exp(-\frac{1}{2}\frac{(x-x_c)^2+(y-y_c)^2}{\sigma^2})\]</div>
+<p>where <span class="arithmatex">\((x, y)\)</span> is the position of the pre-synaptic neuron (normalized to
+<span class="arithmatex">\([0, 1]^d\)</span>) and <span class="arithmatex">\((x_c, y_c)\)</span> is the position of the post-synaptic neuron
+(normalized to <span class="arithmatex">\([0, 1]^d\)</span>). A = amp, sigma = <span class="arithmatex">\(\sigma\)</span>.</p>
+<p>In order to void creating useless synapses, the parameter <code>limit</code> can be
+set to restrict the creation of synapses to the cases where the value of
+the weight would be superior to <code>limit*abs(amp)</code>. Default is 0.01 (1%).</p>
+<p>Self-connections are avoided by default (parameter
+<code>allow_self_connections</code>).</p>
+<p>The two populations must have the same number of dimensions, but the
+number of neurons can vary as the positions of each neuron are
+normalized in <span class="arithmatex">\([0, 1]^d\)</span>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">connect_gaussian</span><span class="p">(</span> <span class="n">amp</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span> 
+</code></pre></div>
+<h3 id="connect_dog">connect_dog<a class="headerlink" href="#connect_dog" title="Permanent link">#</a></h3>
+<p>The same as <strong>connect_gaussian</strong>, except weight values are computed
+using a Difference-of-Gaussians (DoG), usually positive in the center,
+negative a bit further away and small at long distances.</p>
+<div class="arithmatex">\[\begin{aligned}
+w(x, y) &amp;= A^+ \cdot \exp(-\frac{1}{2}\frac{(x-x_c)^2+(y-y_c)^2}{\sigma_+^2}) \\
+    &amp;-  A^- \cdot \exp(-\frac{1}{2}\frac{(x-x_c)^2+(y-y_c)^2}{\sigma_-^2}) \\
+\end{aligned}\]</div>
+<p>Weights smaller than <code>limit * abs(amp_pos - amp_neg)</code> are not created
+and self-connections are avoided by default (parameter
+<code>allow_self_connections</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">connect_dog</span><span class="p">(</span><span class="n">amp_pos</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma_pos</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> 
+    <span class="n">amp_neg</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">sigma_neg</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span> 
+</code></pre></div>
+<p>The following figure shows the example of a neuron of coordinates (10,
+10) in the post-synaptic population, which is connected through the
+<strong>gaussian</strong> (left) and <strong>dog</strong> (right) projections to a population of
+geometry 30*30. The X and Y axis denote the coordinates of the
+pre-synaptic neurons, while the Z axis is the weight value.</p>
+<p><img alt="image" src="../_static/gaussiandog.png" /></p>
+<h3 id="connect_fixed_number_pre">connect_fixed_number_pre<a class="headerlink" href="#connect_fixed_number_pre" title="Permanent link">#</a></h3>
+<p>Each neuron in the post-synaptic population receives connections from a
+fixed number of neurons of the pre-synaptic population chosen randomly.
+It may happen that two post-synaptic neurons are connected to the same
+pre-synaptic neuron and that some pre-synaptic neurons are connected to
+nothing:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">connect_fixed_number_pre</span><span class="p">(</span><span class="n">number</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> 
+</code></pre></div>
+<p><code>weights</code> and <code>delays</code> can also take a random object.</p>
+<h3 id="connect_fixed_number_post">connect_fixed_number_post<a class="headerlink" href="#connect_fixed_number_post" title="Permanent link">#</a></h3>
+<p>Each neuron in the pre-synaptic population sends a connection to a fixed
+number of neurons of the post-synaptic population chosen randomly. It
+may happen that two pre-synaptic neurons are connected to the same
+post-synaptic neuron and that some post-synaptic neurons receive no
+connection at all:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">connect_fixed_number_post</span><span class="p">(</span><span class="n">number</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> 
+</code></pre></div>
+<p>The following figure shows the <strong>fixed_number_pre</strong> (left) and
+<strong>fixed_number_post</strong> projections between two populations of 4 neurons,
+with <code>number=2</code>. In <strong>fixed_number_pre</strong>, each post-synaptic neuron
+receives exactly 2 connections, while in <strong>fixed_number_post</strong>, each
+pre-synaptic neuron send exactly two connections:</p>
+<p><img alt="image" src="../_static/fixed_number.svg" /></p>
+<h3 id="connect_fixed_probability">connect_fixed_probability<a class="headerlink" href="#connect_fixed_probability" title="Permanent link">#</a></h3>
+<p>For each post-synaptic neuron, there is a fixed probability that it
+forms a connection with a neuron of the pre-synaptic population. It is
+basically a <strong>all_to_all</strong> projection, except some synapses are not
+created, making the projection sparser:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">connect_fixed_probability</span><span class="p">(</span><span class="n">probability</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> 
+</code></pre></div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>If a single value is used for the <code>weights</code> argument of
+<code>connect_all_to_all</code>, <code>connect_one_to_one</code>, <code>connect_fixed_probability</code>,
+<code>connect_fixed_number_pre</code> and <code>connect_fixed_number_post</code>, and the
+default synapse is used (no synaptic plasticity), ANNarchy will generate
+a single weight value for all the synapses of the projection, not one
+per synapse.</p>
+<p>This allows to save a lot of memory and improve performance. However, if
+you wish to manually change the weights of some of the synapses after
+the creation, you need to force the creation of one value per synapse by
+setting <code>force_multiple_weights=True</code> in the call to the connector.</p>
+</div>
+<h2 id="saved-connectivity">Saved connectivity<a class="headerlink" href="#saved-connectivity" title="Permanent link">#</a></h2>
+<p>It is also possible to build a connection pattern using data saved
+during a precedent simulation. This is useful when:</p>
+<ul>
+<li>pre-learning is done in another context;</li>
+<li>a connector method for static synapses is particularly slow (e.g.
+    DoG), but loading the result from a file is faster.</li>
+</ul>
+<p>The connectivity of a projection can be saved (after <code>compile()</code>) using:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">save_connectivity</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;proj.npz&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>The filename can used relative or absolute paths. The data is saved in a
+binary format:</p>
+<ul>
+<li>Compressed Numpy format when the filename ends with <code>.npz</code>.</li>
+<li>Compressed binary file format when the filename ends with <code>.gz</code>.</li>
+<li>Binary file format otherwise.</li>
+</ul>
+<p>It can then be used to instantiate another projection:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span><span class="o">.</span><span class="n">connect_from_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;proj.npz&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Only the connectivity (which neurons are connected), the weights and
+delays are loaded. Other synaptic variables are left untouched. The pre-
+and post-synaptic population must have the same size during saving and
+loading.</p>
+<h2 id="from-connectivity-matrices">From connectivity matrices<a class="headerlink" href="#from-connectivity-matrices" title="Permanent link">#</a></h2>
+<p>One can also create connections using Numpy dense matrices or Scipy
+sparse matrices.</p>
+<h3 id="connect_from_matrix">connect_from_matrix<a class="headerlink" href="#connect_from_matrix" title="Permanent link">#</a></h3>
+<p>This method accepts a Numpy array to define the weights of the
+projection (and optionally the delays). By default, the matrix should
+have the size <code>(post.size, pre.size)</code>, so that the first index
+represents a post-synaptic neuron and the second the pre-synaptic
+neurons. If your matrix is defined in the reversed order, you can either
+transpose it or set the <code>pre_post</code> argument to <code>True</code>.</p>
+<p>This method is useful for dense connectivity matrices (all-to-all). If
+you do not want to create some synapses, the weight value should be set
+to <code>None</code>.</p>
+<p>The following code creates a synfire chain inside a population of 100
+neurons:</p>
+<div class="highlight"><pre><span></span><code><span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
+
+<span class="c1"># Initialize an empty connectivity matrix</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">None</span><span class="p">]</span><span class="o">*</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="n">N</span><span class="p">)</span>
+
+<span class="c1"># Connect each post-synaptic neuron to its predecessor</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="c1"># Create the connections</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_from_matrix</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</code></pre></div>
+<p>Connectivity matrices can not work with multi-dimensional coordinates,
+only ranks are used. Population views can be used in the projection, but
+the connection matrix must have the corresponding size:</p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">20</span><span class="p">],</span> <span class="n">pop</span><span class="p">[</span><span class="mi">50</span><span class="p">:</span><span class="mi">60</span><span class="p">],</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create the connectivity matrix</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Create the connections</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_from_matrix</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="connect_from_sparse">connect_from_sparse<a class="headerlink" href="#connect_from_sparse" title="Permanent link">#</a></h3>
+<p>For sparse connection matrices, the Numpy array format may have a huge
+memory overhead if most of its values are None. It is possible to use
+Scipy sparse matrices in that case. The previous synfire chain example
+becomes:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">lil_matrix</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">lil_matrix</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_from_sparse</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Contrary to <code>connect_from_matrix()</code>, the first index of the sparse
+matrix represents the <strong>pre-synaptic</strong> neurons, not the post-synaptic
+ones. This is for compatibility with other neural simulators.</p>
+</div>
+<p><code>connect_from_sparse()</code> accepts <code>lil_matrix</code>, <code>csr_matrix</code> and
+<code>csc_matrix</code> objects, although <code>lil_matrix</code> should be preferred for its
+simplicity of element access.</p>
+<h2 id="user-defined-patterns">User-defined patterns<a class="headerlink" href="#user-defined-patterns" title="Permanent link">#</a></h2>
+<p>This section describes the creation of user-specific connection patterns
+in ANNarchy, if the available patterns are not enough. A connection
+pattern is simply implemented as a method returning a <code>LILConnectivity</code> (list-of-list) object containing all the necessary information to create the synapses.</p>
+<p>A connector method must take on the first position the pre-synaptic
+population (or a subset of it) and on the second one the post-synaptic
+population. Other arguments are free, but should be passed when creating
+the projection.</p>
+<div class="highlight"><pre><span></span><code><span class="n">probabilistic_pattern</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">other</span> <span class="n">arguments</span><span class="o">&gt;</span><span class="p">)</span>
+</code></pre></div>
+<p>As an example, we will recreate the fixed_probability connector method,
+building synapses with a given probability. For this new pattern we need
+a weight value (common for all synapses) and a probability value as
+additional arguments. We consider that no delay is introduced in the
+synaptic transmission..</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">probabilistic_pattern</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">probability</span><span class="p">):</span>
+
+    <span class="n">synapses</span> <span class="o">=</span> <span class="n">LILConnectivity</span><span class="p">()</span>
+
+    <span class="o">...</span> <span class="n">pattern</span> <span class="n">code</span> <span class="n">comes</span> <span class="n">here</span> <span class="o">...</span>
+
+    <span class="k">return</span> <span class="n">synapses</span>
+</code></pre></div>
+<h3 id="fixed_probability-in-python">fixed_probability in Python<a class="headerlink" href="#fixed_probability-in-python" title="Permanent link">#</a></h3>
+<p>The connector method needs to return a <code>LILConnectivity</code> object storing the
+connectivity. For each post-synaptic neuron receiving synapses, a list
+of pre-synaptic ranks, weight values and delays must be added to the
+structure. If you use 2D or 3D populations you need to transform the
+coordinates into ranks with the <code>rank_from_coordinates</code> function.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">probabilistic_pattern</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">probability</span><span class="p">):</span>
+    <span class="c1"># Create a LIL structure for the connectivity matrix</span>
+    <span class="n">synapses</span> <span class="o">=</span> <span class="n">LILConnectivity</span><span class="p">()</span>
+    <span class="c1"># For all neurons in the post-synaptic population</span>
+    <span class="k">for</span> <span class="n">post_rank</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Decide which pre-synaptic neurons should form synapses</span>
+        <span class="n">ranks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pre_rank</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">probability</span><span class="p">:</span>
+                <span class="n">ranks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pre_rank</span><span class="p">)</span>
+        <span class="c1"># Create weights and delays arrays of the same size</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">weight</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ranks</span><span class="p">))</span> <span class="p">]</span>
+        <span class="n">delays</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ranks</span><span class="p">))</span> <span class="p">]</span>
+        <span class="c1"># Add this information to the LIL matrix</span>
+        <span class="n">synapses</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">post_rank</span><span class="p">,</span> <span class="n">ranks</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">delays</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">synapses</span>
+</code></pre></div>
+<p>The first <em>for</em> - loop iterates over all post-synaptic neurons in the
+projection. The inner <em>for</em> - loop decides for each of these neurons if
+a synapse with a pre-synaptic neuron should be created, based on the
+value <code>probability</code> provided as argument to the function.</p>
+<p>The lists <code>values</code> and <code>delays</code> are then created with the same size as
+<code>ranks</code> (important!), and filled with the desired value. All this
+information is then fed into the LIL matrix using the
+<code>add(post_rank, ranks, values, delays)</code> method.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Building such connectivity matrices in Python can be extremely slow, as
+Python is not made for tight nested loops. If the construction of your
+network lasts too long, you should definitely write this function in
+<strong>Cython</strong>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <code>add()</code> should be only called once per post-synaptic neuron! If not,
+ANNarchy will have to reorder its internal representations and this will
+be really slow.</p>
+</div>
+<p><strong>Usage of the pattern</strong></p>
+<p>To use the pattern within a projection you provide the pattern method to
+the <code>connect_with_func</code> method of <code>Projection</code></p>
+<div class="highlight"><pre><span></span><code><span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span>
+    <span class="n">pre</span> <span class="o">=</span> <span class="n">pop1</span><span class="p">,</span> 
+    <span class="n">post</span> <span class="o">=</span> <span class="n">pop2</span><span class="p">,</span> 
+    <span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;inh&#39;</span> 
+<span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_with_func</span><span class="p">(</span>
+    <span class="n">method</span><span class="o">=</span><span class="n">probabilistic_pattern</span><span class="p">,</span> 
+    <span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> 
+    <span class="n">probability</span><span class="o">=</span><span class="mf">0.3</span>
+<span class="p">)</span>   
+</code></pre></div>
+<p><code>method</code> is the method you just wrote. Extra arguments (other than <code>pre</code>
+and <code>post</code>) should be passed with the same name.</p>
+<h3 id="fixed_probability-in-cython">fixed_probability in Cython<a class="headerlink" href="#fixed_probability-in-cython" title="Permanent link">#</a></h3>
+<p>For this example, we will create a Cython file <code>CustomPatterns.pyx</code> in
+the same directory as the script. Its content should be relatively
+similar to the Python version, except some type definitions:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># distutils: language = c++</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">ANNarchy</span>
+<span class="n">cimport</span> <span class="n">ANNarchy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">cython_ext</span><span class="o">.</span><span class="n">Connector</span> <span class="k">as</span> <span class="n">Connector</span>
+
+<span class="k">def</span> <span class="nf">probabilistic_pattern</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">probability</span><span class="p">):</span>
+    <span class="c1"># Typedefs</span>
+    <span class="n">cdef</span> <span class="n">Connector</span><span class="o">.</span><span class="n">LILConnectivity</span> <span class="n">synapses</span>
+    <span class="n">cdef</span> <span class="nb">int</span> <span class="n">post_rank</span><span class="p">,</span> <span class="n">pre_rank</span>
+    <span class="n">cdef</span> <span class="nb">list</span> <span class="n">ranks</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">delays</span>
+
+    <span class="c1"># Create a LILConnectivity structure for the connectivity matrix</span>
+    <span class="n">synapses</span> <span class="o">=</span> <span class="n">Connector</span><span class="o">.</span><span class="n">LILConnectivity</span><span class="p">()</span>
+    <span class="c1"># For all neurons in the post-synaptic population</span>
+    <span class="k">for</span> <span class="n">post_rank</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Decide which pre-synaptic neurons should form synapses</span>
+        <span class="n">ranks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pre_rank</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">pre</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">probability</span><span class="p">:</span>
+                <span class="n">ranks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pre_rank</span><span class="p">)</span>
+        <span class="c1"># Create weights and delays arrays of the same size</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">weight</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ranks</span><span class="p">))</span> <span class="p">]</span>
+        <span class="n">delays</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ranks</span><span class="p">))</span> <span class="p">]</span>
+        <span class="c1"># Add this information to the LILConnectivity matrix</span>
+        <span class="n">synapses</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">post_rank</span><span class="p">,</span> <span class="n">ranks</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">delays</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">synapses</span>
+</code></pre></div>
+<p>The only differences with the Python code are:</p>
+<ul>
+<li>The module <code>Connector</code> where the <code>LILConnectivity</code> connection matrix
+    class is defined should be cimported with:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">cimport</span> <span class="n">ANNarchy</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">cython_ext</span><span class="o">.</span><span class="n">Connector</span> <span class="k">as</span> <span class="n">Connector</span>
+</code></pre></div>
+<ul>
+<li>Data structures should be declared with <code>cdef</code> at the beginning of
+    the method:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Typedefs</span>
+<span class="n">cdef</span> <span class="n">Connector</span><span class="o">.</span><span class="n">LILConnectivity</span> <span class="n">synapses</span>
+<span class="n">cdef</span> <span class="nb">int</span> <span class="n">post_rank</span><span class="p">,</span> <span class="n">pre_rank</span>
+<span class="n">cdef</span> <span class="nb">list</span> <span class="n">ranks</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">delays</span> 
+</code></pre></div>
+<p>To allow Cython to compile this file, we also need to provide with a
+kind of \"Makefile\" specifying that the code should be generated in
+C++, not C. This file should have the same name as the Cython file but
+end with <code>.pyxbld</code>, here : <code>CustomPatterns.pyxbld</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">distutils.extension</span> <span class="kn">import</span> <span class="n">Extension</span>
+<span class="kn">import</span> <span class="nn">ANNarchy</span>
+
+<span class="k">def</span> <span class="nf">make_ext</span><span class="p">(</span><span class="n">modname</span><span class="p">,</span> <span class="n">pyxfilename</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Extension</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">modname</span><span class="p">,</span>
+                     <span class="n">sources</span><span class="o">=</span><span class="p">[</span><span class="n">pyxfilename</span><span class="p">],</span>
+                     <span class="n">include_dirs</span> <span class="o">=</span> <span class="n">ANNarchy</span><span class="o">.</span><span class="n">include_path</span><span class="p">(),</span>
+                     <span class="n">extra_compile_args</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;-std=c++11&#39;</span><span class="p">],</span>
+                     <span class="n">language</span><span class="o">=</span><span class="s2">&quot;c++&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This <code>.pyxbld</code> is generic, you don't need to modify anything, except
+its name.</p>
+</div>
+<p>Now you can import the method <code>probabilistic_pattern()</code> into your Python
+code using the <code>pyximport</code> module of Cython and build the Projection
+normally:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyximport</span><span class="p">;</span> <span class="n">pyximport</span><span class="o">.</span><span class="n">install</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">CustomPatterns</span> <span class="kn">import</span> <span class="n">probabilistic_pattern</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">connect_with_func</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">probabilistic_pattern</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+</code></pre></div>
+<p>Writing the connector in Cython can bring speedups up to 100x compared
+to Python if the projection has a lot of synapses.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="Projections.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Projections" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Projections
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="Inputs.html" class="md-footer__link md-footer__link--next" aria-label="Next: Setting inputs" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Setting inputs
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; Julien Vitay, Helge Ülo Dinkelbach, Fred H. Hamker
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+    
+  </body>
+</html>

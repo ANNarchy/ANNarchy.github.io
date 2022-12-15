@@ -1,0 +1,3603 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../_static/logo.svg">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Monitoring - ANNarchy 4.7.2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../css/pandas-dataframe.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#monitoring" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="ANNarchy 4.7.2" class="md-header__button md-logo" aria-label="ANNarchy 4.7.2" data-md-component="logo">
+      
+  <img src="../_static/logowhite.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ANNarchy 4.7.2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Monitoring
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="ANNarchy 4.7.2" class="md-nav__button md-logo" aria-label="ANNarchy 4.7.2" data-md-component="logo">
+      
+  <img src="../_static/logowhite.svg" alt="logo">
+
+    </a>
+    ANNarchy 4.7.2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation.html" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Manual
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Manual" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Manual
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Structure.html" class="md-nav__link">
+        General structure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Parser.html" class="md-nav__link">
+        Parser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/RateNeuron.html" class="md-nav__link">
+        Rate-coded neurons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/SpikeNeuron.html" class="md-nav__link">
+        Spiking neurons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/RateSynapse.html" class="md-nav__link">
+        Rate-coded synapses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/SpikeSynapse.html" class="md-nav__link">
+        Spiking synapses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Populations.html" class="md-nav__link">
+        Populations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Projections.html" class="md-nav__link">
+        Projections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Connector.html" class="md-nav__link">
+        Connectivity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Inputs.html" class="md-nav__link">
+        Setting inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Simulation.html" class="md-nav__link">
+        Simulation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Configuration.html" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/NumericalMethods.html" class="md-nav__link">
+        Equations and numerical methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Recording.html" class="md-nav__link">
+        Recording with Monitors
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Saving.html" class="md-nav__link">
+        Saving and loading a network
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Network.html" class="md-nav__link">
+        Parallel simulations and networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Hybrid.html" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/StructuralPlasticity.html" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/ConvolutionalNetworks.html" class="md-nav__link">
+        Convolution and pooling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Notebooks.html" class="md-nav__link">
+        Notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Reporting.html" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/Logging.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          core
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="core" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          core
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ANNarchy.html" class="md-nav__link">
+        Top-level methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Neuron.html" class="md-nav__link">
+        Neuron class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SpecificNeuron.html" class="md-nav__link">
+        Built-in neuron types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Synapse.html" class="md-nav__link">
+        Synapse class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SpecificSynapse.html" class="md-nav__link">
+        Built-in synapse types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Population.html" class="md-nav__link">
+        Population class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SpecificPopulation.html" class="md-nav__link">
+        Specific Populations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Projection.html" class="md-nav__link">
+        Projection class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SpecificProjection.html" class="md-nav__link">
+        Specific Projections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Dendrite.html" class="md-nav__link">
+        Dendrite class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Monitoring
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Monitor.html" class="md-nav__link md-nav__link--active">
+        Monitoring
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.Monitor" class="md-nav__link">
+    Monitor
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__doc__" class="md-nav__link">
+    __doc__
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__module__" class="md-nav__link">
+    __module__
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__weakref__" class="md-nav__link">
+    __weakref__
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.period" class="md-nav__link">
+    period
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.period_offset" class="md-nav__link">
+    period_offset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.variables" class="md-nav__link">
+    variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__delattr__" class="md-nav__link">
+    __delattr__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__dir__" class="md-nav__link">
+    __dir__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__eq__" class="md-nav__link">
+    __eq__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__format__" class="md-nav__link">
+    __format__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__ge__" class="md-nav__link">
+    __ge__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__getattribute__" class="md-nav__link">
+    __getattribute__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__gt__" class="md-nav__link">
+    __gt__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__hash__" class="md-nav__link">
+    __hash__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__init_subclass__" class="md-nav__link">
+    __init_subclass__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__le__" class="md-nav__link">
+    __le__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__lt__" class="md-nav__link">
+    __lt__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__ne__" class="md-nav__link">
+    __ne__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__new__" class="md-nav__link">
+    __new__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__reduce__" class="md-nav__link">
+    __reduce__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__reduce_ex__" class="md-nav__link">
+    __reduce_ex__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__repr__" class="md-nav__link">
+    __repr__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__setattr__" class="md-nav__link">
+    __setattr__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__sizeof__" class="md-nav__link">
+    __sizeof__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__str__" class="md-nav__link">
+    __str__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__subclasshook__" class="md-nav__link">
+    __subclasshook__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.get" class="md-nav__link">
+    get()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.histogram" class="md-nav__link">
+    histogram()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.mean_fr" class="md-nav__link">
+    mean_fr()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.pause" class="md-nav__link">
+    pause()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.population_rate" class="md-nav__link">
+    population_rate()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.raster_plot" class="md-nav__link">
+    raster_plot()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.reset" class="md-nav__link">
+    reset()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.resume" class="md-nav__link">
+    resume()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.size_in_bytes" class="md-nav__link">
+    size_in_bytes()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.smoothed_rate" class="md-nav__link">
+    smoothed_rate()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.start" class="md-nav__link">
+    start()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.stop" class="md-nav__link">
+    stop()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.times" class="md-nav__link">
+    times()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.raster_plot" class="md-nav__link">
+    raster_plot()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.histogram" class="md-nav__link">
+    histogram()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.mean_fr" class="md-nav__link">
+    mean_fr()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.smoothed_rate" class="md-nav__link">
+    smoothed_rate()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.population_rate" class="md-nav__link">
+    population_rate()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RandomDistribution.html" class="md-nav__link">
+        Random Distributions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Network.html" class="md-nav__link">
+        Network class
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="IO.html" class="md-nav__link">
+        Saving / Loading
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Utilities.html" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Hybrid.html" class="md-nav__link">
+        Hybrid networks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          extensions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="extensions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          extensions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Convolution.html" class="md-nav__link">
+        Convolution and Pooling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Logging.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="BOLD.html" class="md-nav__link">
+        BOLD monitoring
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/List.html" class="md-nav__link">
+        List of notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/NeuralField.html" class="md-nav__link">
+        Neural Field
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BarLearning.html" class="md-nav__link">
+        Bar Learning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/StructuralPlasticity.html" class="md-nav__link">
+        Structural plasticity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Izhikevich.html" class="md-nav__link">
+        Izhikevich
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/GapJunctions.html" class="md-nav__link">
+        Gap junctions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/HodgkinHuxley.html" class="md-nav__link">
+        Hodgkin-Huxley
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/COBA.html" class="md-nav__link">
+        COBA
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/STP.html" class="md-nav__link">
+        STP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/SimpleSTDP.html" class="md-nav__link">
+        STDP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Ramp.html" class="md-nav__link">
+        Ramp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Hybrid.html" class="md-nav__link">
+        Hybrid
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Image.html" class="md-nav__link">
+        Image
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/Webcam.html" class="md-nav__link">
+        Webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/MultipleNetworks.html" class="md-nav__link">
+        Parallel simulations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BayesianOptimization.html" class="md-nav__link">
+        Bayesian optimization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BasalGanglia.html" class="md-nav__link">
+        Logging with tensorboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/BoldMonitoring.html" class="md-nav__link">
+        BOLD monitoring
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../License.html" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.Monitor" class="md-nav__link">
+    Monitor
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__doc__" class="md-nav__link">
+    __doc__
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__module__" class="md-nav__link">
+    __module__
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__weakref__" class="md-nav__link">
+    __weakref__
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.period" class="md-nav__link">
+    period
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.period_offset" class="md-nav__link">
+    period_offset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.variables" class="md-nav__link">
+    variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__delattr__" class="md-nav__link">
+    __delattr__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__dir__" class="md-nav__link">
+    __dir__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__eq__" class="md-nav__link">
+    __eq__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__format__" class="md-nav__link">
+    __format__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__ge__" class="md-nav__link">
+    __ge__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__getattribute__" class="md-nav__link">
+    __getattribute__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__gt__" class="md-nav__link">
+    __gt__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__hash__" class="md-nav__link">
+    __hash__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__init_subclass__" class="md-nav__link">
+    __init_subclass__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__le__" class="md-nav__link">
+    __le__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__lt__" class="md-nav__link">
+    __lt__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__ne__" class="md-nav__link">
+    __ne__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__new__" class="md-nav__link">
+    __new__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__reduce__" class="md-nav__link">
+    __reduce__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__reduce_ex__" class="md-nav__link">
+    __reduce_ex__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__repr__" class="md-nav__link">
+    __repr__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__setattr__" class="md-nav__link">
+    __setattr__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__sizeof__" class="md-nav__link">
+    __sizeof__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__str__" class="md-nav__link">
+    __str__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.__subclasshook__" class="md-nav__link">
+    __subclasshook__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.get" class="md-nav__link">
+    get()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.histogram" class="md-nav__link">
+    histogram()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.mean_fr" class="md-nav__link">
+    mean_fr()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.pause" class="md-nav__link">
+    pause()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.population_rate" class="md-nav__link">
+    population_rate()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.raster_plot" class="md-nav__link">
+    raster_plot()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.reset" class="md-nav__link">
+    reset()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.resume" class="md-nav__link">
+    resume()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.size_in_bytes" class="md-nav__link">
+    size_in_bytes()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.smoothed_rate" class="md-nav__link">
+    smoothed_rate()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.start" class="md-nav__link">
+    start()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.stop" class="md-nav__link">
+    stop()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ANNarchy.core.Monitor.Monitor.times" class="md-nav__link">
+    times()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.raster_plot" class="md-nav__link">
+    raster_plot()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.histogram" class="md-nav__link">
+    histogram()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.mean_fr" class="md-nav__link">
+    mean_fr()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.smoothed_rate" class="md-nav__link">
+    smoothed_rate()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ANNarchy.population_rate" class="md-nav__link">
+    population_rate()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/ANNarchy/ANNarchy/edit/master/docs/API/Monitor.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="monitoring">Monitoring<a class="headerlink" href="#monitoring" title="Permanent link">#</a></h1>
+<p>Recording of neural or synaptic variables during the simulation is
+possible through a <code>Monitor</code> object.</p>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ANNarchy.Monitor" class="doc doc-heading">
+        <code>Monitor</code>
+
+
+<a href="#ANNarchy.Monitor" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents first">
+
+  
+      <p>Monitoring class allowing to record easily parameters or variables from Population, PopulationView, Dendrite or Projection objects.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;g_exc&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;spike&#39;</span><span class="p">],</span> <span class="n">period</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+</code></pre></div>
+<p>It is also possible to record the sum of inputs to each neuron in a rate-coded population:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;sum(exc)&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__doc__" class="doc doc-heading">
+<code class="highlight language-python"><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">    Monitoring class allowing to record easily parameters or variables from Population, PopulationView, Dendrite or Projection objects.</span><span class="se">\n</span><span class="s2">    </span><span class="se">\n</span><span class="s2">    Example:</span><span class="se">\n\n</span><span class="s2">    ```python</span><span class="se">\n</span><span class="s2">    m = Monitor(pop, [&#39;g_exc&#39;, &#39;v&#39;, &#39;spike&#39;], period=10.0)</span><span class="se">\n</span><span class="s2">    ```</span><span class="se">\n\n</span><span class="s2">    It is also possible to record the sum of inputs to each neuron in a rate-coded population:</span><span class="se">\n\n</span><span class="s2">    ```python</span><span class="se">\n</span><span class="s2">    m = Monitor(pop, [&#39;sum(exc)&#39;, &#39;r&#39;])</span><span class="se">\n</span><span class="s2">    ```</span><span class="se">\n\n</span><span class="s2">    &quot;</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__doc__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__module__" class="doc doc-heading">
+<code class="highlight language-python"><span class="vm">__module__</span> <span class="o">=</span> <span class="s1">&#39;ANNarchy.core.Monitor&#39;</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__module__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__weakref__" class="doc doc-heading">
+<code class="highlight language-python"><span class="vm">__weakref__</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">attribute</span> <span class="s1">&#39;__weakref__&#39;</span> <span class="n">of</span> <span class="s1">&#39;Monitor&#39;</span> <span class="n">objects</span><span class="o">&gt;</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__weakref__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>list of weak references to the object (if defined)</p>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.period" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">period</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.period" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Period of recording in ms</p>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.period_offset" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">period_offset</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.period_offset" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Shift of moment of time of recording in ms within a period</p>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.variables" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">variables</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.variables" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns a copy of the current variable list.</p>
+  </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__delattr__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__delattr__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__delattr__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Implement delattr(self, name).</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__dir__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__dir__</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__dir__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Default dir() implementation.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__eq__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__eq__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__eq__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return self==value.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__format__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__format__</span><span class="p">(</span><span class="n">format_spec</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__format__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Default object formatter.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__ge__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__ge__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__ge__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return self&gt;=value.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__getattribute__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__getattribute__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return getattr(self, name).</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__gt__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__gt__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__gt__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return self&gt;value.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__hash__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__hash__</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__hash__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return hash(self).</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="p">[],</span> <span class="n">period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">period_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">net_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__init__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>obj</code></td>
+          <td>
+          </td>
+          <td><p>object to monitor. Must be a Population, PopulationView, Dendrite or Projection object.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>variables</code></td>
+          <td>
+          </td>
+          <td><p>single variable name or list of variable names to record (default: []).</p></td>
+          <td>
+                <code>[]</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>period</code></td>
+          <td>
+          </td>
+          <td><p>delay in ms between two recording (default: dt). Not valid for the <code>spike</code> variable of a Population(View).</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>period_offset</code></td>
+          <td>
+          </td>
+          <td><p>determine the moment in ms of recording within the period (default 0). Must be smaller than <strong>period</strong>.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>start</code></td>
+          <td>
+          </td>
+          <td><p>defines if the recording should start immediately (default: True). If not, you should later start the recordings with the <code>start()</code> method.</p></td>
+          <td>
+                <code>True</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__init_subclass__" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">__init_subclass__</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-builtin"><code>builtin</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__init_subclass__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>This method is called when a class is subclassed.</p>
+<p>The default implementation does nothing. It may be
+overridden to extend subclasses.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__le__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__le__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__le__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return self&lt;=value.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__lt__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__lt__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__lt__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return self&lt;value.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__ne__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__ne__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__ne__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return self!=value.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__new__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-builtin"><code>builtin</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__new__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create and return a new object.  See help(type) for accurate signature.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__reduce__" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">__reduce__</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__reduce__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Helper for pickle.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__reduce_ex__" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">__reduce_ex__</span><span class="p">(</span><span class="n">protocol</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__reduce_ex__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Helper for pickle.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__repr__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__repr__</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__repr__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return repr(self).</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__setattr__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__setattr__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Implement setattr(self, name, value).</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__sizeof__" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">__sizeof__</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__sizeof__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Size of object in memory, in bytes.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__str__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__str__</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__str__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return str(self).</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.__subclasshook__" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">__subclasshook__</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-builtin"><code>builtin</code></small>
+  </span>
+
+<a href="#ANNarchy.core.Monitor.Monitor.__subclasshook__" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Abstract classes can override this to customize issubclass().</p>
+<p>This is invoked early on by abc.ABCMeta.<strong>subclasscheck</strong>().
+It should return True, False or NotImplemented.  If it returns
+NotImplemented, the normal algorithm is used.  Otherwise, it
+overrides the normal algorithm (and the outcome is cached).</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.get" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reshape</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.get" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns the recorded variables as a Numpy array (first dimension is time, second is neuron index).</p>
+<p>If a single variable name is provided, the recorded values for this variable are directly returned.
+If a list is provided or the argument left empty, a dictionary with all recorded variables is returned.</p>
+<p>The <code>spike</code> variable of a population will be returned as a dictionary of lists, where the spike times (in steps) for each recorded neurons are returned.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>variables</code></td>
+          <td>
+          </td>
+          <td><p>(list of) variables. By default, a dictionary with all variables is returned.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>keep</code></td>
+          <td>
+          </td>
+          <td><p>defines if the content in memory for each variable should be kept (default: False).</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>reshape</code></td>
+          <td>
+          </td>
+          <td><p>transforms the second axis of the array to match the population's geometry (default: False).</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.histogram" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">histogram</span><span class="p">(</span><span class="n">spikes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.histogram" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns a histogram for the recorded spikes in the population.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">histo</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">histogram</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">histo</span><span class="p">)</span>
+</code></pre></div>
+<p>or:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">histo</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">histo</span><span class="p">)</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>spikes</code></td>
+          <td>
+          </td>
+          <td><p>the dictionary of spikes returned by <code>get('spike')</code>. If left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>bins</code></td>
+          <td>
+          </td>
+          <td><p>the bin size in ms (default: dt).</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.mean_fr" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">mean_fr</span><span class="p">(</span><span class="n">spikes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.mean_fr" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Computes the mean firing rate in the population during the recordings.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">mean_fr</span><span class="p">()</span>
+</code></pre></div>
+<p>or:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">mean_fr</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>spikes</code></td>
+          <td>
+          </td>
+          <td><p>the dictionary of spikes returned by <code>get('spike')</code>. If left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.pause" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">pause</span><span class="p">()</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.pause" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Pauses the recordings.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.population_rate" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">population_rate</span><span class="p">(</span><span class="n">spikes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.population_rate" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Takes the recorded spikes of a population and returns a smoothed firing rate for the population of recorded neurons.</p>
+<p>This method is faster than calling <code>smoothed_rate</code> and then averaging.</p>
+<p>The first axis is the neuron index, the second is time.</p>
+<p>If <code>spikes</code> is left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">population_rate</span><span class="p">(</span><span class="n">smooth</span><span class="o">=</span><span class="mf">100.</span><span class="p">)</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>spikes</code></td>
+          <td>
+          </td>
+          <td><p>the dictionary of spikes returned by <code>get('spike')</code>.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>smooth</code></td>
+          <td>
+          </td>
+          <td><p>smoothing time constant. Default: 0.0 (no smoothing).</p></td>
+          <td>
+                <code>0.0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.raster_plot" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">raster_plot</span><span class="p">(</span><span class="n">spikes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.raster_plot" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns two vectors representing for each recorded spike 1) the spike times and 2) the ranks of the neurons.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>or:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>spikes</code></td>
+          <td>
+          </td>
+          <td><p>the dictionary of spikes returned by <code>get('spike')</code>. If left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.reset" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">reset</span><span class="p">()</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.reset" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Reset the monitor to its initial state.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.resume" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">resume</span><span class="p">()</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.resume" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Resumes the recordings.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.size_in_bytes" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">size_in_bytes</span><span class="p">()</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.size_in_bytes" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the size of allocated memory on C++ side. Please note, this is only valid if compile() was invoked.</p>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+          </td>
+          <td><p>size in bytes of all allocated C++ data.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.smoothed_rate" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">smoothed_rate</span><span class="p">(</span><span class="n">spikes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.smoothed_rate" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Computes the smoothed firing rate of the recorded spiking neurons.</p>
+<p>The first axis is the neuron index, the second is time.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">smoothed_rate</span><span class="p">(</span><span class="n">smooth</span><span class="o">=</span><span class="mf">100.</span><span class="p">)</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>spikes</code></td>
+          <td>
+          </td>
+          <td><p>the dictionary of spikes returned by <code>get('spike')</code>. If left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>smooth</code></td>
+          <td>
+          </td>
+          <td><p>smoothing time constant. Default: 0.0 (no smoothing).</p></td>
+          <td>
+                <code>0.0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.start" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">start</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.start" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Starts recording the variables. </p>
+<p>It is called automatically after <code>compile()</code> if the flag <code>start</code> was not passed to the constructor.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>variables</code></td>
+          <td>
+          </td>
+          <td><p>single variable name or list of variable names to start recording (default: the <code>variables</code> argument passed to the constructor).</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>period</code></td>
+          <td>
+          </td>
+          <td><p>delay in ms between two recording (default: dt). Not valid for the <code>spike</code> variable of a Population(View).</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.stop" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">stop</span><span class="p">()</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.stop" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Stops the recording.</p>
+<p>Warning: This will delete the content of the C++ object and all data not previously retrieved is lost.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ANNarchy.core.Monitor.Monitor.times" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">times</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.core.Monitor.Monitor.times" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns the start and stop times (in ms) of the recorded variables. </p>
+<p>It should only be called after a call to <code>get()</code>, so that it describes when the variables have been recorded.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>variables</code></td>
+          <td>
+          </td>
+          <td><p>(list of) variables. By default, the times for all variables is returned.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="ANNarchy.raster_plot" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">raster_plot</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.raster_plot" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Returns two vectors representing for each recorded spike 1) the spike times and 2) the ranks of the neurons.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span> <span class="o">=</span> <span class="n">raster_plot</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spike_times</span><span class="p">,</span> <span class="n">spike_ranks</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>spikes</code></td>
+          <td>
+          </td>
+          <td><p>the dictionary of spikes returned by <code>get('spike')</code>.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="ANNarchy.histogram" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">histogram</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.histogram" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Returns a histogram for the recorded spikes in the population.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">histo</span> <span class="o">=</span> <span class="n">histogram</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">histo</span><span class="p">)</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>spikes</code></td>
+          <td>
+          </td>
+          <td><p>the dictionary of spikes returned by <code>get('spike')</code>.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>bins</code></td>
+          <td>
+          </td>
+          <td><p>the bin size in ms (default: dt).</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="ANNarchy.mean_fr" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">mean_fr</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.mean_fr" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Computes the mean firing rate in the population during the recordings.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="n">mean_fr</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>spikes</code></td>
+          <td>
+          </td>
+          <td><p>the dictionary of spikes returned by <code>get('spike')</code>.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>duration</code></td>
+          <td>
+          </td>
+          <td><p>duration of the recordings. By default, the mean firing rate is computed between the first and last spikes of the recordings.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="ANNarchy.smoothed_rate" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">smoothed_rate</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.smoothed_rate" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Computes the smoothed firing rate of the recorded spiking neurons.</p>
+<p>The first axis is the neuron index, the second is time.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">smoothed_rate</span><span class="p">(</span><span class="n">smooth</span><span class="o">=</span><span class="mf">100.</span><span class="p">)</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>spikes</code></td>
+          <td>
+          </td>
+          <td><p>the dictionary of spikes returned by <code>get('spike')</code>. If left empty, <code>get('spike')</code> will be called. Beware: this erases the data from memory.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>smooth</code></td>
+          <td>
+          </td>
+          <td><p>smoothing time constant. Default: 0.0 (no smoothing).</p></td>
+          <td>
+                <code>0.0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="ANNarchy.population_rate" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">population_rate</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></code>
+
+<a href="#ANNarchy.population_rate" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Takes the recorded spikes of a population and returns a smoothed firing rate for the population of recorded neurons.</p>
+<p>This method is faster than calling <code>smoothed_rate</code> and then averaging.</p>
+<p>The first axis is the neuron index, the second is time.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">population_rate</span><span class="p">(</span><span class="n">smooth</span><span class="o">=</span><span class="mf">100.</span><span class="p">)</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>spikes</code></td>
+          <td>
+          </td>
+          <td><p>the dictionary of spikes returned by <code>get('spike')</code>.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>smooth</code></td>
+          <td>
+          </td>
+          <td><p>smoothing time constant. Default: 0.0 (no smoothing).</p></td>
+          <td>
+                <code>0.0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="Dendrite.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Dendrite class" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Dendrite class
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="RandomDistribution.html" class="md-footer__link md-footer__link--next" aria-label="Next: Random Distributions" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Random Distributions
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; Julien Vitay, Helge Ülo Dinkelbach, Fred H. Hamker
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+    
+  </body>
+</html>
