@@ -22,7 +22,7 @@ install these dependencies is through your package manager, or using
 full Python distributions such as Anaconda. Older versions of these
 packages may work but have not been tested.
 
--   g++ \>= 4.8
+-   g++ \>= 6.1 ( >= 7.4 recommended )
 -   make \>= 3.0
 -   python \>= 3.6 (with the development files, e.g. `python-dev` or
     `python-devel`)
