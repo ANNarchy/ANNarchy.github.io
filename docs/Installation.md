@@ -6,7 +6,7 @@ libraries. Installation on Windows is not possible.
 
 ## Download
 
-The source code of ANNarchy can be downloaded on Bitbucket:
+The source code of ANNarchy can be downloaded on github:
 
 ```bash
 git clone https://github.com/ANNarchy/ANNarchy.git
