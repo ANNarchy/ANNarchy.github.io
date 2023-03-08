@@ -1517,25 +1517,18 @@
 
 
 <h1 id="installation-of-annarchy">Installation of ANNarchy<a class="headerlink" href="#installation-of-annarchy" title="Permanent link">#</a></h1>
-<p>ANNarchy is designed to run on GNU/Linux and OSX. It relies mostly on a
-C++ compiler (g++ or clang++), Cython (C for Python extension) and Python (Numpy, Sympy)
-libraries. Installation on Windows is not possible.</p>
+<p>ANNarchy is designed to run on GNU/Linux and OSX. It relies mostly on a C++ compiler (g++ or clang++), Cython (C for Python extension) and Python (Numpy, Sympy) libraries. Installation on Windows is not possible.</p>
 <h2 id="download">Download<a class="headerlink" href="#download" title="Permanent link">#</a></h2>
-<p>The source code of ANNarchy can be downloaded on Bitbucket:</p>
+<p>The source code of ANNarchy can be downloaded on Github:</p>
 <div class="highlight"><pre><span></span><code>git clone https://github.com/ANNarchy/ANNarchy.git
 </code></pre></div>
 <h2 id="installation-on-gnulinux">Installation on GNU/Linux<a class="headerlink" href="#installation-on-gnulinux" title="Permanent link">#</a></h2>
 <h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">#</a></h3>
-<p>ANNarchy depends on a number of packages which should be easily
-accessible on recent GNU/Linux distributions. The classical way to
-install these dependencies is through your package manager, or using
-full Python distributions such as Anaconda. Older versions of these
-packages may work but have not been tested.</p>
+<p>ANNarchy depends on a number of packages which should be easily accessible on recent GNU/Linux distributions. The classical way to install these dependencies is through your package manager, or using full Python distributions such as Anaconda. Older versions of these packages may work but have not been tested.</p>
 <ul>
-<li>g++ >= 4.8</li>
+<li>g++ >= 6.1 ( &gt;= 7.4 recommended )</li>
 <li>make >= 3.0</li>
-<li>python >= 3.6 (with the development files, e.g. <code>python-dev</code> or
-    <code>python-devel</code>)</li>
+<li>python >= 3.6 (with the development files, e.g. <code>python-dev</code> or <code>python-devel</code>)</li>
 <li>cython >= 0.20</li>
 <li>setuptools >= 40.0</li>
 <li>numpy >= 1.13</li>
@@ -1543,24 +1536,16 @@ packages may work but have not been tested.</p>
 <li>scipy >= 0.19</li>
 <li>matplotlib >= 2.0</li>
 </ul>
-<p>Additionally, the following packages are optional but strongly
-recommended:</p>
+<p>Additionally, the following packages are optional but strongly recommended:</p>
 <ul>
-<li>pyqtgraph >= 0.9.8 (to visualize some of the provided examples. The
-    OpenGL backend can also be needed).</li>
+<li>pyqtgraph >= 0.9.8 (to visualize some of the provided examples. The OpenGL backend can also be needed).</li>
 <li>lxml >= 3.0 (to save the networks in .xml format).</li>
 <li>pandoc >= 2.0 (for reporting).</li>
 <li>tensorboardX (for the logging extension).</li>
 </ul>
 <p>To use the CUDA backend:</p>
 <ul>
-<li>the CUDA-SDK is available on the official
-    <a href="https://developer.nvidia.com/cuda-downloads">website</a> (we recommend
-    to use at least a SDK version > 6.x). For further details on
-    installation etc., please consider the corresponding Quickstart
-    guides (
-    <a href="https://developer.nvidia.com/compute/cuda/8.0/prod/docs/sidebar/CUDA_Quick_Start_Guide-pdf">Quickstart_8.0</a>
-    for the SDK 8.x).</li>
+<li>the CUDA-SDK is available on the official <a href="https://developer.nvidia.com/cuda-downloads">website</a> (we recommend to use at least a SDK version > 6.x). For further details on installation etc., please consider the corresponding Quickstart guides (<a href="https://developer.nvidia.com/compute/cuda/8.0/prod/docs/sidebar/CUDA_Quick_Start_Guide-pdf">Quickstart_8.0</a> for the SDK 8.x).</li>
 </ul>
 <p>ANNarchy works with full Python distributions such as Anaconda, as well as in virtual environments and Jupyter notebooks.</p>
 <p>On a fresh install of Ubuntu 20.04, here are the packages to install before ANNarchy:</p>
@@ -1607,22 +1592,12 @@ sudo apt install python3-pyqtgraph python3-pyqt5.qtopengl python3-lxml pandoc
 <p>The (path to the) compiler can be changed in the <code>openmp</code> section (ignore the <code>cuda</code> section if you do not have a GPU).</p>
 <p>You can also change the compiler flags if you know what you are doing. <code>-O3</code> does not always lead to faster simulation times, but it is worth a shot.</p>
 <h4 id="cuda">CUDA<a class="headerlink" href="#cuda" title="Permanent link">#</a></h4>
-<p>If ANNarchy detects the CUDA SDK during installation, it will prepare
-the required modules. You need to make sure that the CUDA compiler
-<code>nvcc</code> is accessible in your path.</p>
-<p>The main problem with CUDA is that the binaries, headers and libraries
-are installed at different locations depending on the version:
-<code>/usr/local/cuda</code>, <code>/usr/local/cuda-7.0</code> or <code>/usr/local/cuda-8.0</code>. There
-is unfortunately no way for ANNarchy to guess the installation path.</p>
-<p>A first thing to help ANNarchy find the CUDA libraries is to define the
-LD_LIBRARY_PATH environment variable and have point at the <code>lib64/</code>
-subfolder:</p>
+<p>If ANNarchy detects the CUDA SDK during installation, it will prepare the required modules. You need to make sure that the CUDA compiler <code>nvcc</code> is accessible in your path.</p>
+<p>The main problem with CUDA is that the binaries, headers and libraries are installed at different locations depending on the version: <code>/usr/local/cuda</code>, <code>/usr/local/cuda-7.0</code> or <code>/usr/local/cuda-8.0</code>. There is unfortunately no way for ANNarchy to guess the installation path.</p>
+<p>A first thing to help ANNarchy find the CUDA libraries is to define the <code>LD_LIBRARY_PATH</code> environment variable and have point at the <code>lib64/</code> subfolder:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/cuda-8.0/lib64/:<span class="nv">$LD_LIBRARY_PATH</span>
 </code></pre></div>
-<p>This should in most cases work if you have only one CUDA installation.
-Otherwise, it is needed that you indicate where the CUDA libraries are,
-by modifying the ANNarchy configuration file located at
-<code>$HOME/.config/ANNarchy/annarchy.json</code>:</p>
+<p>This should in most cases work if you have only one CUDA installation. Otherwise, it is needed that you indicate where the CUDA libraries are, by modifying the ANNarchy configuration file located at <code>$HOME/.config/ANNarchy/annarchy.json</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="nt">&quot;openmp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;g++&quot;</span><span class="p">,</span><span class="w"></span>
@@ -1636,20 +1611,15 @@ by modifying the ANNarchy configuration file located at
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
-<p>Simply point the <code>['cuda']['path']</code> field to the right location (without
-<code>lib64/</code>). If the nvcc compiler binary is at a different location, the
-absolute path to the nvcc can be provided by <code>['cuda']['compiler']</code>
-field.</p>
-<p>It can happen that the detection of CUDA fails during installation, as
-some environment variables are not set. In this case try:</p>
+<p>Simply point the <code>['cuda']['path']</code> field to the right location (without <code>lib64/</code>). If the nvcc compiler binary is at a different location, the absolute path to the nvcc can be provided by <code>['cuda']['compiler']</code> field.</p>
+<p>It can happen that the detection of CUDA fails during installation, as some environment variables are not set. In this case try:</p>
 <div class="highlight"><pre><span></span><code>env <span class="s2">&quot;PATH=</span><span class="nv">$PATH</span><span class="s2">&quot;</span> <span class="s2">&quot;LIBRARY_PATH=</span><span class="nv">$LIBRARY_PATH</span><span class="s2">&quot;</span> pip install .
 </code></pre></div>
 <h2 id="installation-on-macos-x">Installation on MacOS X<a class="headerlink" href="#installation-on-macos-x" title="Permanent link">#</a></h2>
 <p>Installation on MacOS X is in principle similar to GNU/Linux:</p>
 <div class="highlight"><pre><span></span><code>pip install ANNarchy
 </code></pre></div>
-<p>We advise using a full Python distribution such as <a href="https://github.com/conda-forge/miniforge">Miniforge</a>, which allows to install
-all dependencies of ANNarchy, rather than using the default python provided by Apple.</p>
+<p>We advise using a full Python distribution such as <a href="https://github.com/conda-forge/miniforge">Miniforge</a>, which allows to install all dependencies of ANNarchy, rather than using the default python provided by Apple.</p>
 <p>The main issue if the choice of the C++ compiler:</p>
 <h3 id="using-apples-llvmclang">Using Apple's LLVM/clang<a class="headerlink" href="#using-apples-llvmclang" title="Permanent link">#</a></h3>
 <p>If not done already, you should first install the <a href="https://developer.apple.com/">Xcode Command Line Tools</a>, either through Apple's website or through <a href="https://brew.sh/">Homebrew</a> (see <a href="https://mac.install.guide/commandlinetools/">https://mac.install.guide/commandlinetools/</a> for a guide) to get the LLVM clang++ compiler.</p>
