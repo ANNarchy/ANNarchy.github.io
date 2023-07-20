@@ -13,9 +13,11 @@ The implementation of the present module is inspired by the SNNToolbox (Rueckaue
 
 ### Processing Queue
 
-The model stored in the h5py file is transformed layer by layer into a feed-forward ANNarchy network. While the neurons are conceptually spiking neurons, there is one specialty: next to the spike event (stored automatically in ANNarchy), each event will be stored in an additional *mask* array. This *mask* value decays in absence of further spike events exponentially. The decay can be controlled by the *mask_tau* parameter of the population. The projections (either dense or convolution) will use this mask as pre-synaptic input, not the generated list of spike events. 
+The pre-trained ANN model to be converted should be saved as an h5py file. The saved model is transformed layer by layer into a feed-forward ANNarchy network. The structure of the network remains the same as in the original ANN, while the weights are normalised. Please note that the current implementation focuses primarily on the correctness of the conversion. Computational performance, especially of the converted CNNs, will be improved in future releases.
 
-Please note, that the current implementation focuses primarily on the correctness of the conversion. The computational performance, the converted CNNs in particular, will be improved in subsequent releases.
+!!! note
+
+    While the neurons are conceptually spiking neurons, there is one specialty: next to the spike event (stored automatically in ANNarchy), each event will be stored in an additional *mask* array. This *mask* value decays in absence of further spike events exponentially. The decay can be controlled by the *mask_tau* parameter of the population. The projections (either dense or convolution) will use this mask as pre-synaptic input, not the generated list of spike events.
 
 ### Input Encoding
 
@@ -35,26 +37,26 @@ $$
 
 The parameters for $a$ - $d$ are selected accordingly to Izhikevich (2003). The provided input images will be set as $I$.
 
-*Chattering ("CH")*
+*Poisson ("CPN")*
 
-As for the intrinsically bursting model the equations and parameters are derived from the Izhikevich (2003) publication.
-
-*Poisson ("CPN")*  
-
-This encoding uses a Poisson distribution as input encoding. The image values will be used as threshold for each individual neuron.
+This encoding uses a Poisson distribution where the pixel values of the image will be used as probability for each individual neuron.
 
 *Phase Shift Oscillation ("PSO")*
 
 Based on the description by Park et al. (2019), the spiking threshold $v_{th}$ is modulated by a oscillation function $\Pi$, whereas the membrane
 potential follows simply the input current. 
 
-$$ \Pi(t) = 2^{-(1+mod(t,k))} $$ 
-$$ v{th}(t) = \Pi(t) v{th}(t) $$ 
-$$ v = I $$ 
+$$
+  \Pi(t) = 2^{-(1+mod(t,k))}
+$$
+
+$$
+  v{th}(t) = \Pi(t) v{th}(t)
+$$
 
 #### Own Input Encodings
 
-In addition to the pre-defined models, one can opt for individual models using the *Neuron* class of ANNarchy. Please note, that an *mask* variable need to be defined, which is fed into the subsequent projections.
+In addition to the pre-defined models, one can opt for individual models using the *Neuron* class of ANNarchy. Please note that an *mask* variable need to be defined, which is fed into the subsequent projections.
 
 ### Read-out Methods
 
