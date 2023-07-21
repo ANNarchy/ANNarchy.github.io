@@ -218,6 +218,33 @@ with Matplotlib.
 An example of the use of `raster_plot()` can be seen in the
 [Izhikevich pulse network](../example/Izhikevich.ipynb) section.
 
+**Inter-spike interval (ISI) and coefficient of variation (ISI CV)**
+
+In addition to a *raster plot*, the distribution of inter-spike intervals
+could be considered for evaluation. The inter-spike interval (short ISI) is defined as
+the time in milliseconds between two consecutive spike events. The method
+`inter_spike_interval()` transforms the recorded spike events into a list
+of ISI across all neurons (default) or for indivdual neurons (add 
+*per_neuron = True* to argument list) which could be fed into a histogram
+method provided by pylab:
+
+```python
+pop_isi = m.inter_spike_interval(data)
+plt.hist(pop_isi)
+```
+
+The coefficient of variation is a measure often reported together with
+the inter-spike interval. These values can be easily obtained using another
+function of the Monitor object:
+
+```python
+pop_isi_cv = m.coefficient_of_variation(data)
+plt.hist(pop_isi_cv)
+```
+
+An example of the use of `inter_spike_interval()` and `coefficient_of_variation()`
+can be seen in the [COBA network](../example/COBA.ipynb) section.
+
 **Mean firing rate**
 
 The mean firing rate in the population can be easily calculated using
