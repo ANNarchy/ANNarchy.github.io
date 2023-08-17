@@ -4,7 +4,8 @@ ANNarchy is designed to run on GNU/Linux and OSX. It relies mostly on a C++ comp
 
 ## Download
 
-The source code of ANNarchy can be downloaded on Github:
+
+The source code of ANNarchy can be downloaded on github:
 
 ```bash
 git clone https://github.com/ANNarchy/ANNarchy.git
