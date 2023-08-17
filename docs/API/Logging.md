@@ -1,7 +1,6 @@
 # Logging with tensorboard
 
-Logging utilities based on tensorboard are provided in the module
-`ANNarchy.extensions.tensorboard`, which must be explicitely imported:
+Logging utilities based on `tensorboard`` are provided in the module `ANNarchy.extensions.tensorboard`, which must be explicitly imported:
 
 ```python
 from ANNarchy import *
