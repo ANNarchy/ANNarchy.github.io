@@ -8,10 +8,31 @@ specific connection type. The pre- and post-synaptic populations may be
 the same.
 
 
-::: ANNarchy.Projection
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+::: ANNarchy.core.Projection.Projection
+    options:
       heading_level: 2
+      members:
+        -  dendrites
+        - nb_synapses
+        - size
+        - __init__
+        - connectivity_matrix
+        - dendrite
+        - disable_learning
+        - enable_learning
+        - get
+        - load
+        - nb_efferent_synapses
+        - nb_synapses_per_dendrite
+        - receptive_fields
+        - reset
+        - save
+        - save_connectivity
+        - set
+        - size_in_bytes
+        - start_creating
+        - start_pruning
+        - stop_creating
+        - stop_pruning
+        - synapse
+

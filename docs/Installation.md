@@ -1,12 +1,10 @@
 # Installation of ANNarchy
 
-ANNarchy is designed to run on GNU/Linux and OSX. It relies mostly on a
-C++ compiler (g++ or clang++), Cython (C for Python extension) and Python (Numpy, Sympy)
-libraries. Installation on Windows is not possible.
+ANNarchy is designed to run on GNU/Linux and OSX. It relies mostly on a C++ compiler (g++ or clang++), Cython (C for Python extension) and Python (Numpy, Sympy) libraries. Installation on Windows is not possible.
 
 ## Download
 
-The source code of ANNarchy can be downloaded on Bitbucket:
+The source code of ANNarchy can be downloaded on Github:
 
 ```bash
 git clone https://github.com/ANNarchy/ANNarchy.git
@@ -16,16 +14,11 @@ git clone https://github.com/ANNarchy/ANNarchy.git
 
 ### Dependencies
 
-ANNarchy depends on a number of packages which should be easily
-accessible on recent GNU/Linux distributions. The classical way to
-install these dependencies is through your package manager, or using
-full Python distributions such as Anaconda. Older versions of these
-packages may work but have not been tested.
+ANNarchy depends on a number of packages that should be easily accessible on recent GNU/Linux distributions. The classical way to install these dependencies is through your package manager, or using full Python distributions such as Anaconda. Older versions of these packages may work but have not been tested.
 
 -   g++ \>= 6.1 ( >= 7.4 recommended )
 -   make \>= 3.0
--   python \>= 3.6 (with the development files, e.g. `python-dev` or
-    `python-devel`)
+-   python \>= 3.7 (with the development files, e.g. `python-dev` or `python-devel`)
 -   cython \>= 0.20
 -   setuptools \>= 40.0
 -   numpy \>= 1.13
@@ -33,36 +26,32 @@ packages may work but have not been tested.
 -   scipy \>= 0.19
 -   matplotlib \>= 2.0
 
-Additionally, the following packages are optional but strongly
-recommended:
+Additionally, the following packages are optional but strongly recommended:
 
--   pyqtgraph \>= 0.9.8 (to visualize some of the provided examples. The
-    OpenGL backend can also be needed).
+-   pyqtgraph \>= 0.9.8 (to visualize some of the provided examples. The OpenGL backend can also be needed).
 -   lxml \>= 3.0 (to save the networks in .xml format).
 -   pandoc \>= 2.0 (for reporting).
 -   tensorboardX (for the logging extension).
 
 To use the CUDA backend:
 
--   the CUDA-SDK is available on the official
-    [website](https://developer.nvidia.com/cuda-downloads) (we recommend
-    to use at least a SDK version \> 6.x). For further details on
-    installation etc., please consider the corresponding Quickstart
-    guides (
-    [Quickstart_8.0](https://developer.nvidia.com/compute/cuda/8.0/prod/docs/sidebar/CUDA_Quick_Start_Guide-pdf)
-    for the SDK 8.x).
+-   the CUDA-SDK is available on the official [website](https://developer.nvidia.com/cuda-downloads) (we recommend to use at least a SDK version \> 6.x). For further details on installation etc., please consider the corresponding Quickstart guides ([Quickstart_8.0](https://developer.nvidia.com/compute/cuda/8.0/prod/docs/sidebar/CUDA_Quick_Start_Guide-pdf) for the SDK 8.x).
 
 ANNarchy works with full Python distributions such as Anaconda, as well as in virtual environments and Jupyter notebooks.
 
-On a fresh install of Ubuntu 20.04, here are the packages to install before ANNarchy:
+!!! note
 
-```bash
-sudo apt install build-essential gcc git python3-dev python3-setuptools python3-pip python3-numpy python3-scipy python3-matplotlib cython3
-sudo pip install sympy tensorboardx
-sudo apt install python3-pyqtgraph python3-pyqt5.qtopengl python3-lxml pandoc 
-```
+    On a fresh install of Ubuntu 22.04, here are the minimal system packages to install before ANNarchy:
 
-Note that the default version of sympy for this distribution is 1.5.1, which is not supported, so it has to be installed with pip. 
+    ```bash
+    sudo apt install build-essential git python3-dev python3-setuptools python3-pip 
+    ```
+
+    The minimal Python packages can be installed with:
+
+    ```
+    pip install numpy scipy matplotlib cython sympy
+    ```
 
 ### Installation
 
@@ -129,27 +118,17 @@ You can also change the compiler flags if you know what you are doing. `-O3` doe
 
 #### CUDA
 
-If ANNarchy detects the CUDA SDK during installation, it will prepare
-the required modules. You need to make sure that the CUDA compiler
-`nvcc` is accessible in your path.
+If ANNarchy detects the CUDA SDK during installation, it will prepare the required modules. You need to make sure that the CUDA compiler `nvcc` is accessible in your path.
 
-The main problem with CUDA is that the binaries, headers and libraries
-are installed at different locations depending on the version:
-`/usr/local/cuda`, `/usr/local/cuda-7.0` or `/usr/local/cuda-8.0`. There
-is unfortunately no way for ANNarchy to guess the installation path.
+The main problem with CUDA is that the binaries, headers and libraries are installed at different locations depending on the version: `/usr/local/cuda`, `/usr/local/cuda-7.0` or `/usr/local/cuda-8.0`. There is unfortunately no way for ANNarchy to guess the installation path.
 
-A first thing to help ANNarchy find the CUDA libraries is to define the
-LD_LIBRARY_PATH environment variable and have point at the `lib64/`
-subfolder:
+A first thing to help ANNarchy find the CUDA libraries is to define the `LD_LIBRARY_PATH` environment variable and have point at the `lib64/` subfolder:
 
 ```bash
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64/:$LD_LIBRARY_PATH
 ```
 
-This should in most cases work if you have only one CUDA installation.
-Otherwise, it is needed that you indicate where the CUDA libraries are,
-by modifying the ANNarchy configuration file located at
-`$HOME/.config/ANNarchy/annarchy.json`:
+This should in most cases work if you have only one CUDA installation. Otherwise, it is needed that you indicate where the CUDA libraries are, by modifying the ANNarchy configuration file located at `$HOME/.config/ANNarchy/annarchy.json`:
 
 ``` {.json}
 {
@@ -166,13 +145,9 @@ by modifying the ANNarchy configuration file located at
 }
 ```
 
-Simply point the `['cuda']['path']` field to the right location (without
-`lib64/`). If the nvcc compiler binary is at a different location, the
-absolute path to the nvcc can be provided by `['cuda']['compiler']`
-field.
+Simply point the `['cuda']['path']` field to the right location (without `lib64/`). If the nvcc compiler binary is at a different location, the absolute path to the nvcc can be provided by `['cuda']['compiler']` field.
 
-It can happen that the detection of CUDA fails during installation, as
-some environment variables are not set. In this case try:
+It can happen that the detection of CUDA fails during installation, as some environment variables are not set. In this case try:
 
 ```bash
 env "PATH=$PATH" "LIBRARY_PATH=$LIBRARY_PATH" pip install .
@@ -186,8 +161,7 @@ Installation on MacOS X is in principle similar to GNU/Linux:
 pip install ANNarchy
 ```
 
-We advise using a full Python distribution such as [Miniforge](https://github.com/conda-forge/miniforge), which allows to install
-all dependencies of ANNarchy, rather than using the default python provided by Apple.
+We advise using a full Python distribution such as [Miniforge](https://github.com/conda-forge/miniforge), which allows to install all dependencies of ANNarchy, rather than using the default python provided by Apple.
 
 The main issue if the choice of the C++ compiler:
 

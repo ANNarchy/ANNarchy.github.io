@@ -1,6 +1,6 @@
 # BOLD monitoring
 
-BOLD monitoring utilities are provided in the module `ANNarchy.extensions.bold`, which must be explicitely imported:
+BOLD monitoring utilities are provided in the module `ANNarchy.extensions.bold`, which must be explicitly imported:
 
 ```python
 from ANNarchy import *
@@ -8,11 +8,7 @@ from ANNarchy.extensions.bold import BoldMonitor
 ```
 
 ::: ANNarchy.extensions.bold.BoldMonitor
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+    options:
       heading_level: 2
 
 ## BOLD models
@@ -85,59 +81,31 @@ This makes a total of four different BOLD model (RN, RL, CN, CL) which are provi
 
 
 ::: ANNarchy.extensions.bold.BoldModel
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+    options:
       heading_level: 3
 
 ::: ANNarchy.extensions.bold.balloon_RN
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+    options:
       heading_level: 3
 
 ::: ANNarchy.extensions.bold.balloon_RL
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+    options:
       heading_level: 3
 
 ::: ANNarchy.extensions.bold.balloon_CL
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+    options:
       heading_level: 3
 
 ::: ANNarchy.extensions.bold.balloon_CN
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+    options:
       heading_level: 3
 
 ::: ANNarchy.extensions.bold.balloon_maith2021
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+    options:
       heading_level: 3
 
 ::: ANNarchy.extensions.bold.balloon_two_inputs
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+    options:
       heading_level: 3
 
 ## References

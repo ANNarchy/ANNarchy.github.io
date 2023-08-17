@@ -26,12 +26,23 @@ use_directory_urls: false
 
 plugins:
   - search
-  - mkdocstrings:
-      default_handler: python
   - mknotebooks:
       execute: false
       write_markdown: false
       binder: false
+  - mkdocstrings:
+      handlers:
+          python:
+            options:
+              show_source: true
+              docstring_style: sphinx
+              docstring_section_style: list
+              show_if_no_docstring: false
+              show_docstring_attributes: true
+              heading_level: 2
+              show_root_heading: true
+              show_root_members_full_path: false
+
 
 
 markdown_extensions:
@@ -91,7 +102,6 @@ nav:
       - 'API/Network.md'
       - 'API/IO.md'
       - 'API/Utilities.md'
-      - 'API/Hybrid.md'
     - 'extensions':
       - 'API/Convolution.md'
       - 'API/Logging.md'
