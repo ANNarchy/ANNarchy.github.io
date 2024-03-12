@@ -4,43 +4,22 @@
 ANNarchy provides standard spiking synapse models, similar to the ones defined in PyNN (<http://neuralensemble.org/docs/PyNN/reference/plasticitymodels.html>).
 
 
-::: ANNarchy.models.Hebb
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+::: ANNarchy.models.Synapses.Hebb
+    options:
       heading_level: 2
 
-::: ANNarchy.models.Oja
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+::: ANNarchy.models.Synapses.Oja
+    options:
       heading_level: 2
 
-
-::: ANNarchy.models.IBCM
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+::: ANNarchy.models.Synapses.IBCM
+    options:
       heading_level: 2
 
-::: ANNarchy.models.STP
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+::: ANNarchy.models.Synapses.STP
+    options:
       heading_level: 2
 
-::: ANNarchy.models.STDP
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+::: ANNarchy.models.Synapses.STDP
+    options:
       heading_level: 2

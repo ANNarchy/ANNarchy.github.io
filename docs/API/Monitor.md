@@ -4,50 +4,44 @@ Recording of neural or synaptic variables during the simulation is
 possible through a `Monitor` object.
 
 ::: ANNarchy.Monitor
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+    options:
       heading_level: 2
+      members:
+        - __init__
+        - start
+        - stop
+        - pause
+        - resume
+        - get
+        - reset
+        - histogram
+        - mean_fr
+        - population_rate
+        - raster_plot
+        - smoothed_rate
+        - times
+
+
+
+## Plotting methods
 
 ::: ANNarchy.raster_plot
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
-      heading_level: 2
+    options:
+      heading_level: 3
 
 ::: ANNarchy.histogram
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
-      heading_level: 2
+    options:
+      heading_level: 3
 
 ::: ANNarchy.mean_fr
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
-      heading_level: 2
+    options:
+      heading_level: 3
 
 ::: ANNarchy.smoothed_rate
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
-      heading_level: 2
+    options:
+      heading_level: 3
 
 ::: ANNarchy.population_rate
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
-      heading_level: 2
+    options:
+      heading_level: 3
 

@@ -1,12 +1,8 @@
-# Synapse class
+# Synapse
 
-The class `Synapse` is used to describe the behavior of a synapse (parameters, equations...).
-
-
-::: ANNarchy.Synapse
-    selection:
-      docstring_style: sphinx
-    rendering:
-      show_root_heading: true
-      show_root_full_path: false
+::: ANNarchy.core.Synapse.Synapse
+    options:
+      show_source: true
       heading_level: 2
+      members:
+        - __init__
