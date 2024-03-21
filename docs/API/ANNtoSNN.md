@@ -59,19 +59,19 @@ In addition to the pre-defined models, one can opt for individual models using t
 
 ### Read-out Methods
 
-In a classification task, the neuron with the highest activity corresponds corresponds to the decision to which class the presented input belongs. However, the highest activity can be determined in different ways. We support currently three methods:
+In a classification task, the neuron with the highest activity corresponds corresponds to the decision to which class the presented input belongs. However, the highest activity can be determined in different ways. We support currently three methods, defined by the `read_out` parameter of the constructor:
 
 #### Maximum Spike Count
 
-For each neuron the number of emitted spikes is determined. For this mode, the string "spike_count" need to be provided as the `read_out` parameter of the constructor.
+`read_out = 'spike_count'` : the number of spikes emitted by each neuron is recorded and the index of the neuron(s) with the maximum number is returned.
 
 #### Time to Number of Spikes
 
-Either when the first or first $k$ events were emitted by a single neuron, the simulation is stopped and the neuron rank(s) is returned. For this mode, the string `'time_to_first_spike'` or `'time_to_k_spikes'` need to be provided for the `read_out` parameter. For the latter, an additional $k$ argument need to be provided.
+`read_out = 'time_to_first_spike'` or `read_out = 'time_to_k_spikes'`: when the first or first $k$ spikes are emitted by a single neuron, the simulation is stopped and the neuron rank(s) is returned. For the second mode, an additional $k$ argument need to be also provided.
 
 #### Membrane potential
 
-In this mode, all pre-synaptic events are accumulated in the membrane potential.
+`read_out = 'membrane_potential'`:  pre-synaptic events are accumulated in the membrane potential of each output neuron. The index of the neuron(s) with the highest membrane potential is returned.
 
 ## Interface
 

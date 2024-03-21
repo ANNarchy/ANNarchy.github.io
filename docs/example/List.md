@@ -44,4 +44,4 @@ The Jupyter notebooks can be downloaded from:
 -   [Bayesian optimization](BayesianOptimization.ipynb): a demo showing how to use `hyperopt` to search for hyperparameters of a  model.
 -   [Logging with tensorboard](BasalGanglia.ipynb): a simple basal ganglia model to show how to use the `tensorboard` extension.
 -   [BOLD monitoring](BoldMonitoring.ipynb): a showcase of the `bold` extension allowing to record BOLD signals fron a network.
--   [MNIST_MLP](MNIST_MLP.ipynb) and [MNIST_CNN](MNIST_CNN.ipynb): demonstrates the ANN-to-SNN conversion using the MNIST dataset.
+-   [ANN2SNN](ANN2SNN.ipynb): demonstrates the ANN-to-SNN conversion tool using the MNIST dataset.
