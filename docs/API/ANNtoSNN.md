@@ -1,6 +1,6 @@
 # ANN-to-SNN conversion
 
-The ANN-to-SNN conversion is part of the extensions and must be explicitely imported:
+The ANN-to-SNN conversion module is part of the extensions and must be explicitely imported:
 
 ```python
 from ANNarchy import *
@@ -13,7 +13,7 @@ The implementation of the present module is inspired by the SNNToolbox (Rueckaue
 
 ### Processing Queue
 
-The pre-trained ANN model to be converted should be saved as an h5py file. The saved model is transformed layer by layer into a feed-forward ANNarchy network. The structure of the network remains the same as in the original ANN, while the weights are normalised. Please note that the current implementation focuses primarily on the correctness of the conversion. Computational performance, especially of the converted CNNs, will be improved in future releases.
+The pre-trained ANN model to be converted should be saved in keras as an h5py file (extension `.h5`). The saved model is transformed layer by layer into a feed-forward ANNarchy spiking network. The structure of the network remains the same as in the original ANN, while the weights are normalised. Please note that the current implementation focuses primarily on the correctness of the conversion. Computational performance, especially of the converted CNNs, will be improved in future releases.
 
 !!! note
 
@@ -23,56 +23,55 @@ The pre-trained ANN model to be converted should be saved as an h5py file. The s
 
 In the following we provide brief descriptions of the available input encodings. The abbreviations in brackets denote the name provided to the conversion tool constructor.
 
-*Intrinsically Bursting ("IB")*
+#### Intrinsically Bursting ("IB")
 
 This encoding bases on the Izhikevich (2003) model that comprises two ODEs:
 
 $$
-  \frac{dv}{dt} = 0.04 \cdot v^2 + 5.0 \cdot v + 140.0 - u + I
-$$
-
-$$
-  \frac{du}{dt} = a \cdot (b \cdot v - u)
+\begin{cases}
+  \frac{dv}{dt} = 0.04 \cdot v^2 + 5.0 \cdot v + 140.0 - u + I \\
+  \\
+  \frac{du}{dt} = a \cdot (b \cdot v - u) \\
+\end{cases}
 $$
 
 The parameters for $a$ - $d$ are selected accordingly to Izhikevich (2003). The provided input images will be set as $I$.
 
-*Poisson ("CPN")*
+#### Poisson ("CPN")
 
 This encoding uses a Poisson distribution where the pixel values of the image will be used as probability for each individual neuron.
 
-*Phase Shift Oscillation ("PSO")*
+#### Phase Shift Oscillation ("PSO")
 
-Based on the description by Park et al. (2019), the spiking threshold $v_{th}$ is modulated by a oscillation function $\Pi$, whereas the membrane
-potential follows simply the input current. 
-
-$$
-  \Pi(t) = 2^{-(1+mod(t,k))}
-$$
+Based on the description by Park et al. (2019), the spiking threshold $v_\text{th}$ is modulated by a oscillation function $\Pi$, whereas the membrane potential follows simply the input current. 
 
 $$
-  v{th}(t) = \Pi(t) v{th}(t)
+\begin{cases}
+  \Pi(t) = 2^{-(1+ \text{mod}(t,k))}\\
+  \\
+  v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
+\end{cases}
 $$
 
-#### Own Input Encodings
+#### User-defined input encodings
 
-In addition to the pre-defined models, one can opt for individual models using the *Neuron* class of ANNarchy. Please note that an *mask* variable need to be defined, which is fed into the subsequent projections.
+In addition to the pre-defined models, one can opt for individual models using the `Neuron` class of ANNarchy. Please note that a `mask` variable need to be defined, which is fed into the subsequent projections.
 
 ### Read-out Methods
 
-In a classification task, the neuron with the highest activity corresponds corresponds to the decision to which class the presented input belongs. However, the highest activity can be determined in different ways. We support currently three methods which we describe in the following.
+In a classification task, the neuron with the highest activity corresponds corresponds to the decision to which class the presented input belongs. However, the highest activity can be determined in different ways. We support currently three methods:
 
 #### Maximum Spike Count
 
-For each neuron the number of emitted spikes is determined. For this mode, the string "spike_count" need to be provided as *read_out*.
+For each neuron the number of emitted spikes is determined. For this mode, the string "spike_count" need to be provided as the `read_out` parameter of the constructor.
 
 #### Time to Number of Spikes
 
-Either when the first or first $k$ events were emitted by a single neuron the simulation is stopped and the neuron rank(s) is returned. For this mode, the string "time_to_first_spike" / "time_to_k_spikes" need to be provided as *read_out*. For the latter, an additional $k$ argument need to be provided.
+Either when the first or first $k$ events were emitted by a single neuron, the simulation is stopped and the neuron rank(s) is returned. For this mode, the string `'time_to_first_spike'` or `'time_to_k_spikes'` need to be provided for the `read_out` parameter. For the latter, an additional $k$ argument need to be provided.
 
 #### Membrane potential
 
-In this mode, all the pre-synaptic event are accumulated in the membrane potential.
+In this mode, all pre-synaptic events are accumulated in the membrane potential.
 
 ## Interface
 
@@ -84,9 +83,9 @@ In this mode, all the pre-synaptic event are accumulated in the membrane potenti
       show_root_full_path: false
       heading_level: 2
 
-## References:
+## References
 
-Izhikevich (2003) Simple Model of Spiking Neurons.
+Izhikevich (2003) Simple Model of Spiking Neurons. IEEE transactions on neural networks 14(6). doi: 10.1109/TNN.2003.820440
 
 Diehl PU, Neil D, Binas J,et al. (2015) Fast-classifying, high-accuracy spiking deep networks through weight and threshold balancing, 2015 International Joint Conference on Neural Networks (IJCNN), 1-8, doi: 10.1109/IJCNN.2015.7280696.
 
