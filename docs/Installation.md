@@ -17,21 +17,20 @@ git clone https://github.com/ANNarchy/ANNarchy.git
 
 ANNarchy depends on a number of packages that should be easily accessible on recent GNU/Linux distributions. The classical way to install these dependencies is through your package manager, or using full Python distributions such as Anaconda. Older versions of these packages may work but have not been tested.
 
--   g++ \>= 6.1 ( >= 7.4 recommended )
+-   python \>= 3.8 (with the development files, e.g. `python-dev` or `python-devel`)
+-   g++ \>= 7.4 or clang++ \>= 3.4
 -   make \>= 3.0
--   python \>= 3.7 (with the development files, e.g. `python-dev` or `python-devel`)
--   cython \>= 0.20
--   setuptools \>= 40.0
+-   cython \>= 3.0
 -   numpy \>= 1.13
--   sympy \>= 1.6
--   scipy \>= 0.19
--   matplotlib \>= 2.0
+-   sympy \>= 1.11
+-   scipy \>= 1.9
+-   matplotlib \>= 3.0
 
 Additionally, the following packages are optional but strongly recommended:
 
--   pyqtgraph \>= 0.9.8 (to visualize some of the provided examples. The OpenGL backend can also be needed).
--   lxml \>= 3.0 (to save the networks in .xml format).
--   pandoc \>= 2.0 (for reporting).
+-   pyqtgraphc(to visualize some of the provided examples. The OpenGL backend can also be needed).
+-   lxml (to save the networks in .xml format).
+-   pandoc (for reporting).
 -   tensorboardX (for the logging extension).
 
 To use the CUDA backend:
@@ -162,7 +161,7 @@ Installation on MacOS X is in principle similar to GNU/Linux:
 pip install ANNarchy
 ```
 
-We advise using a full Python distribution such as [Miniforge](https://github.com/conda-forge/miniforge), which allows to install all dependencies of ANNarchy, rather than using the default python provided by Apple.
+We strongly advise using a full Python distribution like [Miniforge](https://github.com/conda-forge/miniforge), or a package manager like [Homebrew](https://brew.sh/) rather than the default python provided by Apple.
 
 The main issue if the choice of the C++ compiler:
 
