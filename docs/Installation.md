@@ -17,21 +17,21 @@ git clone https://github.com/ANNarchy/ANNarchy.git
 
 ANNarchy depends on a number of packages that should be easily accessible on recent GNU/Linux distributions. The classical way to install these dependencies is through your package manager, or using full Python distributions such as Anaconda. Older versions of these packages may work but have not been tested.
 
--   python \>= 3.8 (with the development files, e.g. `python-dev` or `python-devel`)
--   g++ \>= 7.4 or clang++ \>= 3.4
--   make \>= 3.0
--   cython \>= 3.0
--   numpy \>= 1.13
--   sympy \>= 1.11
--   scipy \>= 1.9
--   matplotlib \>= 3.0
+-   `python` \>= 3.8 (with the development files, e.g. `python-dev` or `python-devel`)
+-   `g++` \>= 7.4 or `clang++` \>= 3.4
+-   `make` \>= 3.0
+-   `cython` \>= 3.0
+-   `numpy` \>= 1.13
+-   `sympy` \>= 1.11
+-   `scipy` \>= 1.9
+-   `matplotlib` \>= 3.0
 
 Additionally, the following packages are optional but strongly recommended:
 
--   pyqtgraphc(to visualize some of the provided examples. The OpenGL backend can also be needed).
--   lxml (to save the networks in .xml format).
--   pandoc (for reporting).
--   tensorboardX (for the logging extension).
+-   `pyqtgraph` (to visualize some of the provided examples. The OpenGL backend can also be needed).
+-   `lxml` (to save the networks in .xml format).
+-   `pandoc` (for reporting).
+-   `tensorboardX` (for the logging extension).
 
 To use the CUDA backend:
 
@@ -49,7 +49,7 @@ ANNarchy works with full Python distributions such as Anaconda, as well as in vi
 
     The minimal Python packages can be installed with:
 
-    ```
+    ```bash
     pip install numpy scipy matplotlib cython sympy
     ```
 
@@ -101,7 +101,7 @@ By default, ANNarchy will use the GNU C++ compiler `g++`, which should be in you
 {
     "openmp": {
         "compiler": "g++",
-        "flags": "-march=native -O2"
+        "flags": "-march=native -O3"
     },
     "cuda": {
         "compiler": "nvcc",
@@ -114,7 +114,7 @@ By default, ANNarchy will use the GNU C++ compiler `g++`, which should be in you
 
 The (path to the) compiler can be changed in the `openmp` section (ignore the `cuda` section if you do not have a GPU).
 
-You can also change the compiler flags if you know what you are doing. `-O3` does not always lead to faster simulation times, but it is worth a shot.
+You can also change the compiler flags if you know what you are doing. `-O3` does not always lead to faster simulation times. 
 
 #### CUDA
 
@@ -134,7 +134,7 @@ This should in most cases work if you have only one CUDA installation. Otherwise
 {
     "openmp": {
         "compiler": "g++",
-        "flags": "-march=native -O2"
+        "flags": "-march=native -O3"
     },
     "cuda": {
         "compiler": "nvcc",
@@ -177,7 +177,7 @@ If you have a M1 arm64 processor, it might be beneficial to tell clang++ to use 
 {
     "openmp": {
         "compiler": "clang++",
-        "flags": "-mcpu=apple-m1 -O2"
+        "flags": "-mcpu=apple-m1 -O3"
     },
     "cuda": {
         "compiler": "nvcc",
@@ -209,7 +209,7 @@ You now have to tell ANNarchy which compiler to use, even if it is in your PATH.
 {
     "openmp": {
         "compiler": "g++-11",
-        "flags": "-march=native -O2"
+        "flags": "-march=native -O3"
     },
     "cuda": {
         "compiler": "nvcc",
