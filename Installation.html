@@ -2082,21 +2082,21 @@
 <h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">#</a></h3>
 <p>ANNarchy depends on a number of packages that should be easily accessible on recent GNU/Linux distributions. The classical way to install these dependencies is through your package manager, or using full Python distributions such as Anaconda. Older versions of these packages may work but have not been tested.</p>
 <ul>
-<li>python &gt;= 3.8 (with the development files, e.g. <code>python-dev</code> or <code>python-devel</code>)</li>
-<li>g++ &gt;= 7.4 or clang++ &gt;= 3.4</li>
-<li>make &gt;= 3.0</li>
-<li>cython &gt;= 3.0</li>
-<li>numpy &gt;= 1.13</li>
-<li>sympy &gt;= 1.11</li>
-<li>scipy &gt;= 1.9</li>
-<li>matplotlib &gt;= 3.0</li>
+<li><code>python</code> &gt;= 3.8 (with the development files, e.g. <code>python-dev</code> or <code>python-devel</code>)</li>
+<li><code>g++</code> &gt;= 7.4 or <code>clang++</code> &gt;= 3.4</li>
+<li><code>make</code> &gt;= 3.0</li>
+<li><code>cython</code> &gt;= 3.0</li>
+<li><code>numpy</code> &gt;= 1.13</li>
+<li><code>sympy</code> &gt;= 1.11</li>
+<li><code>scipy</code> &gt;= 1.9</li>
+<li><code>matplotlib</code> &gt;= 3.0</li>
 </ul>
 <p>Additionally, the following packages are optional but strongly recommended:</p>
 <ul>
-<li>pyqtgraphc(to visualize some of the provided examples. The OpenGL backend can also be needed).</li>
-<li>lxml (to save the networks in .xml format).</li>
-<li>pandoc (for reporting).</li>
-<li>tensorboardX (for the logging extension).</li>
+<li><code>pyqtgraph</code> (to visualize some of the provided examples. The OpenGL backend can also be needed).</li>
+<li><code>lxml</code> (to save the networks in .xml format).</li>
+<li><code>pandoc</code> (for reporting).</li>
+<li><code>tensorboardX</code> (for the logging extension).</li>
 </ul>
 <p>To use the CUDA backend:</p>
 <ul>
@@ -2109,7 +2109,7 @@
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>build-essential<span class="w"> </span>git<span class="w"> </span>python3-dev<span class="w"> </span>python3-setuptools<span class="w"> </span>python3-pip<span class="w"> </span>
 </code></pre></div>
 <p>The minimal Python packages can be installed with:</p>
-<div class="highlight"><pre><span></span><code>pip install numpy scipy matplotlib cython sympy
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>matplotlib<span class="w"> </span>cython<span class="w"> </span>sympy
 </code></pre></div>
 </div>
 <h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">#</a></h3>
@@ -2137,7 +2137,7 @@
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;openmp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;g++&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-march=native -O2&quot;</span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-march=native -O3&quot;</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">&quot;cuda&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nvcc&quot;</span><span class="p">,</span>
@@ -2148,7 +2148,7 @@
 <span class="p">}</span>
 </code></pre></div>
 <p>The (path to the) compiler can be changed in the <code>openmp</code> section (ignore the <code>cuda</code> section if you do not have a GPU).</p>
-<p>You can also change the compiler flags if you know what you are doing. <code>-O3</code> does not always lead to faster simulation times, but it is worth a shot.</p>
+<p>You can also change the compiler flags if you know what you are doing. <code>-O3</code> does not always lead to faster simulation times. </p>
 <h4 id="cuda">CUDA<a class="headerlink" href="#cuda" title="Permanent link">#</a></h4>
 <p>If ANNarchy detects the CUDA SDK during installation, it will prepare the required modules. You need to make sure that the CUDA compiler <code>nvcc</code> is accessible in your path.</p>
 <p>The main problem with CUDA is that the binaries, headers and libraries are installed at different locations depending on the version: <code>/usr/local/cuda</code>, <code>/usr/local/cuda-7.0</code> or <code>/usr/local/cuda-8.0</code>. There is unfortunately no way for ANNarchy to guess the installation path.</p>
@@ -2159,7 +2159,7 @@
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;openmp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;g++&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-march=native -O2&quot;</span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-march=native -O3&quot;</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">&quot;cuda&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nvcc&quot;</span><span class="p">,</span>
@@ -2186,7 +2186,7 @@
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;openmp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;clang++&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-mcpu=apple-m1 -O2&quot;</span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-mcpu=apple-m1 -O3&quot;</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">&quot;cuda&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nvcc&quot;</span><span class="p">,</span>
@@ -2208,7 +2208,7 @@ The <code>g++</code> executable is a symlink to Apple's clang++, do not use it..
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;openmp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;g++-11&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-march=native -O2&quot;</span>
+<span class="w">        </span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-march=native -O3&quot;</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">&quot;cuda&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;compiler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nvcc&quot;</span><span class="p">,</span>
