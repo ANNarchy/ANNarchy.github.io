@@ -116,6 +116,7 @@ The (path to the) compiler can be changed in the `openmp` section (ignore the `c
 
 You can also change the compiler flags if you know what you are doing. `-O3` does not always lead to faster simulation times. 
 
+
 #### CUDA
 
 If ANNarchy detects the CUDA SDK during installation, it will prepare the required modules. You need to make sure that the CUDA compiler `nvcc` is accessible in your path.
