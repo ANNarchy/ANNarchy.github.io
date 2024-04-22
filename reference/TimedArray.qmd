@@ -1,0 +1,104 @@
+# TimedArray { #ANNarchy.inputs.TimedArray.TimedArray }
+
+`inputs.TimedArray.TimedArray(self, rates=None, geometry=None, schedule=0.0, period=-1.0, name=None, copied=False)`
+
+Data structure holding sequential inputs for a rate-coded network.
+
+The input values are stored in the (recordable) attribute `r`, without any further processing.
+You will need to connect this population to another one using the ``connect_one_to_one()`` method.
+
+By default, the firing rate of this population will iterate over the different values step by step:
+
+```python
+inputs = np.array(
+    [
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+    ]
+)
+
+inp = ann.TimedArray(rates=inputs)
+
+pop = ann.Population(10, ...)
+
+proj = ann.Projection(inp, pop, 'exc')
+proj.connect_one_to_one(1.0)
+
+ann.compile()
+
+ann.simulate(10.)
+```
+
+This creates a population of 10 neurons whose activity will change during the first 10*dt milliseconds of the simulation. After that delay, the last input will be kept (i.e. 1 for the last neuron).
+
+If you want the TimedArray to "loop" over the different input vectors, you can specify a period for the inputs:
+
+```python
+inp = ann.TimedArray(rates=inputs, period=10.)
+```
+
+If the period is smaller than the length of the rates, the last inputs will not be set.
+
+If you do not want the inputs to be set at every step, but every 10 ms for example, youcan use the ``schedule`` argument:
+
+```python
+inp = ann.TimedArray(rates=inputs, schedule=10.)
+```
+
+The input [1, 0, 0,...] will stay for 10 ms, then[0, 1, 0, ...] for the next 10 ms, etc...
+
+If you need a less regular schedule, you can specify it as a list of times:
+
+```python
+inp = ann.TimedArray(rates=inputs, schedule=[10., 20., 50., 60., 100., 110.])
+```
+
+The first input is set at t = 10 ms (r = 0.0 in the first 10 ms), the second at t = 20 ms, the third at t = 50 ms, etc.
+
+If you specify less times than in the array of rates, the last ones will be ignored.
+
+Scheduling can be combined with periodic cycling. Note that you can use the ``reset()`` method to manually reinitialize the TimedArray, times becoming relative to that call:
+
+```python
+ann.simulate(100.) # ten inputs are shown with a schedule of 10 ms
+inp.reset()
+ann.simulate(100.) # the same ten inputs are presented again.
+```
+
+## Parameters
+
+| Name       | Type                | Description                                                                                                           | Default   |
+|------------|---------------------|-----------------------------------------------------------------------------------------------------------------------|-----------|
+| `rates`    | numpy.numpy.ndarray | array of firing rates. The first axis corresponds to time, the others to the desired dimensions of the population.    | `None`    |
+| `geometry` | int \| tuple        | desired dimensions of the population. This argument will be considered if *rates* is None.                            | `None`    |
+| `schedule` | float               | either a single value or a list of time points where inputs should be set. Default: every timestep.                   | `0.0`     |
+| `period`   | float               | time when the timed array will be reset and start again, allowing cycling over the inputs. Default: no cycling (-1.). | `-1.0`    |
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [update](#ANNarchy.inputs.TimedArray.TimedArray.update) | Set a new list of inputs. The first axis corresponds to time, the others to the desired dimensions of the population. Note, the |
+
+### update { #ANNarchy.inputs.TimedArray.TimedArray.update }
+
+`inputs.TimedArray.TimedArray.update(rates, schedule=0.0, period=-1)`
+
+Set a new list of inputs. The first axis corresponds to time, the others to the desired dimensions of the population. Note, the
+geometry is set during construction phase of the object.
+
+#### Parameters
+
+| Name       | Type   | Description                                                                                                           | Default    |
+|------------|--------|-----------------------------------------------------------------------------------------------------------------------|------------|
+| `rates`    |        | array of firing rates. The first axis corresponds to time, the others to the desired dimensions of the population.    | _required_ |
+| `schedule` |        | either a single value or a list of time points where inputs should be set. Default: every timestep.                   | `0.0`      |
+| `period`   |        | time when the timed array will be reset and start again, allowing cycling over the inputs. Default: no cycling (-1.). | `-1`       |

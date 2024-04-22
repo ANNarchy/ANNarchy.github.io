@@ -1,0 +1,599 @@
+# Projection { #ANNarchy.core.Projection.Projection }
+
+`core.Projection.Projection(self, pre, post, target, synapse=None, name=None, disable_omp=True, copied=False)`
+
+Structure holding all synapses of the same type between two populations.
+
+By default, the synapse only ensures linear synaptic transmission:
+
+* For rate-coded populations: ``psp = w * pre.r``
+* For spiking populations: ``g_target += w``
+
+To modify this behavior, a `Synapse` object can be provided.
+
+## Parameters
+
+| Name          | Type                                       | Description                                                                                                                                                                                            | Default    |
+|---------------|--------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `pre`         | str \| ANNarchy.core.Population.Population | Pre-synaptic population (either its name or a ``Population`` object).                                                                                                                                  | _required_ |
+| `post`        | str \| ANNarchy.core.Population.Population | Post-synaptic population (either its name or a ``Population`` object).                                                                                                                                 | _required_ |
+| `target`      | str                                        | Type of the connection.                                                                                                                                                                                | _required_ |
+| `synapse`     | ANNarchy.core.Synapse.Synapse              | A `Synapse` instance.                                                                                                                                                                                  | `None`     |
+| `name`        | str                                        | Unique name of the projection (optional, it defaults to ``proj0``, ``proj1``, etc).                                                                                                                    | `None`     |
+| `disable_omp` | bool                                       | Especially for small- and mid-scale sparse spiking networks, the parallelization of spike propagation is not scalable and disabled by default. It can be enabled by setting this parameter to `False`. | `True`     |
+
+## Attributes
+
+| Name | Description |
+| --- | --- |
+| [dendrites](#ANNarchy.core.Projection.Projection.dendrites) | Iteratively returns the dendrites corresponding to this projection. |
+| [nb_synapses](#ANNarchy.core.Projection.Projection.nb_synapses) | Total number of synapses in the projection. |
+| [size](#ANNarchy.core.Projection.Projection.size) | Number of post-synaptic neurons receiving synapses. |
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [connect_all_to_all](#ANNarchy.core.Projection.Projection.connect_all_to_all) | all-to-all (fully-connected) connection pattern. |
+| [connect_dog](#ANNarchy.core.Projection.Projection.connect_dog) | Difference-Of-Gaussians connection pattern. |
+| [connect_fixed_number_post](#ANNarchy.core.Projection.Projection.connect_fixed_number_post) | Each pre-synaptic neuron randomly sends a fixed number of connections to the post-synaptic neurons. |
+| [connect_fixed_number_pre](#ANNarchy.core.Projection.Projection.connect_fixed_number_pre) | Connection pattern where each post-synaptic neuron receives a fixed number of pre-synaptic neurons. |
+| [connect_fixed_probability](#ANNarchy.core.Projection.Projection.connect_fixed_probability) | Probabilistic sparse connection pattern. |
+| [connect_from_file](#ANNarchy.core.Projection.Projection.connect_from_file) | Builds the connectivity matrix using data saved using `Projection.save_connectivity()` (not `save()`!). |
+| [connect_from_matrix](#ANNarchy.core.Projection.Projection.connect_from_matrix) | Builds a connection pattern according to a dense connectivity matrix. |
+| [connect_from_matrix_market](#ANNarchy.core.Projection.Projection.connect_from_matrix_market) | Loads a weight matrix encoded in the Matrix Market format. This connector is intended for benchmarking purposes. |
+| [connect_from_sparse](#ANNarchy.core.Projection.Projection.connect_from_sparse) | Builds a connectivity pattern using a Scipy sparse matrix for the weights and (optionally) delays. |
+| [connect_gaussian](#ANNarchy.core.Projection.Projection.connect_gaussian) | Gaussian connection pattern. |
+| [connect_one_to_one](#ANNarchy.core.Projection.Projection.connect_one_to_one) | one-to-one connection pattern. |
+| [connect_with_func](#ANNarchy.core.Projection.Projection.connect_with_func) | Connection pattern based on a user-defined function. |
+| [connectivity_matrix](#ANNarchy.core.Projection.Projection.connectivity_matrix) | Returns a dense connectivity matrix (2D Numpy array) representing the connections between the pre- and post-populations. |
+| [dendrite](#ANNarchy.core.Projection.Projection.dendrite) | Returns the dendrite of a postsynaptic neuron according to its rank. |
+| [disable_learning](#ANNarchy.core.Projection.Projection.disable_learning) | Disables learning for all synapses of this projection. |
+| [enable_learning](#ANNarchy.core.Projection.Projection.enable_learning) | Enables learning for all the synapses of this projection. |
+| [get](#ANNarchy.core.Projection.Projection.get) | Returns a list of parameters/variables values for each dendrite in the projection. |
+| [load](#ANNarchy.core.Projection.Projection.load) | Loads the saved state of the projection by `Projection.save()`. |
+| [nb_efferent_synapses](#ANNarchy.core.Projection.Projection.nb_efferent_synapses) | Number of efferent connections. Intended only for spiking models. |
+| [nb_synapses_per_dendrite](#ANNarchy.core.Projection.Projection.nb_synapses_per_dendrite) | Total number of synapses for each dendrite as a list. |
+| [receptive_fields](#ANNarchy.core.Projection.Projection.receptive_fields) | Gathers all receptive fields within this projection. |
+| [reset](#ANNarchy.core.Projection.Projection.reset) | Resets all parameters and variables of the projection to their initial value (before the call to compile()). |
+| [save](#ANNarchy.core.Projection.Projection.save) | Saves all information about the projection (connectivity, current value of parameters and variables) into a file. |
+| [save_connectivity](#ANNarchy.core.Projection.Projection.save_connectivity) | Saves the connectivity of the projection into a file. |
+| [set](#ANNarchy.core.Projection.Projection.set) | Sets the parameters/variables values for each dendrite in the projection. |
+| [size_in_bytes](#ANNarchy.core.Projection.Projection.size_in_bytes) | Returns the size in bytes of the allocated memory on C++ side. Note that this does not reflect monitored data and that it only works after compile() was invoked. |
+| [start_creating](#ANNarchy.core.Projection.Projection.start_creating) | Starts creating the synapses in the projection if the synapse defines a 'creating' argument. |
+| [start_pruning](#ANNarchy.core.Projection.Projection.start_pruning) | Starts pruning the synapses in the projection if the synapse defines a 'pruning' argument. |
+| [stop_creating](#ANNarchy.core.Projection.Projection.stop_creating) | Stops creating the synapses in the projection if the synapse defines a 'creating' argument. |
+| [stop_pruning](#ANNarchy.core.Projection.Projection.stop_pruning) | Stops pruning the synapses in the projection if the synapse defines a 'pruning' argument. |
+| [synapse](#ANNarchy.core.Projection.Projection.synapse) | Returns the synapse between a pre- and a post-synaptic neuron if it exists, None otherwise. |
+| [update_launch_config](#ANNarchy.core.Projection.Projection.update_launch_config) | Allows the adjustment of the CUDA launch config (since 4.7.2). |
+
+### connect_all_to_all { #ANNarchy.core.Projection.Projection.connect_all_to_all }
+
+`core.Projection.Projection.connect_all_to_all(self, weights, delays=0.0, allow_self_connections=False, force_multiple_weights=False, storage_format=None, storage_order=None)`
+
+all-to-all (fully-connected) connection pattern.
+
+#### Parameters
+
+| Name                     | Type                                             | Description                                                                                                                                                                                                                                               | Default    |
+|--------------------------|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `weights`                | float \| ANNarchy.core.Random.RandomDistribution | Synaptic values, either a single value or a random distribution object.                                                                                                                                                                                   | _required_ |
+| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Synaptic delays, either a single value or a random distribution object (default=dt).                                                                                                                                                                      | `0.0`      |
+| `allow_self_connections` | bool                                             | If True, self-connections between a neuron and itself are allowed (default = False if the pre- and post-populations are identical, True otherwise).                                                                                                       | `False`    |
+| `force_multiple_weights` | bool                                             | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
+
+### connect_dog { #ANNarchy.core.Projection.Projection.connect_dog }
+
+`core.Projection.Projection.connect_dog(self, amp_pos, sigma_pos, amp_neg, sigma_neg, delays=0.0, limit=0.01, allow_self_connections=False, storage_format=None)`
+
+Difference-Of-Gaussians connection pattern.
+
+Each neuron in the postsynaptic population is connected to a region of the presynaptic population centered around the neuron with the same normalized coordinates using a Difference-Of-Gaussians profile.
+
+#### Parameters
+
+| Name                     | Type                                             | Description                                                                         | Default    |
+|--------------------------|--------------------------------------------------|-------------------------------------------------------------------------------------|------------|
+| `amp_pos`                | float                                            | Amplitude of the positive Gaussian function                                         | _required_ |
+| `sigma_pos`              | float                                            | Width of the positive Gaussian function                                             | _required_ |
+| `amp_neg`                | float                                            | Amplitude of the negative Gaussian function                                         | _required_ |
+| `sigma_neg`              | float                                            | Width of the negative Gaussian function                                             | _required_ |
+| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Synaptic delay, either a single value or a random distribution object (default=dt). | `0.0`      |
+| `limit`                  | float                                            | Proportion of *amp* below which synapses are not created (default: 0.01)            | `0.01`     |
+| `allow_self_connections` | bool                                             | Allows connections between a neuron and itself.                                     | `False`    |
+
+### connect_fixed_number_post { #ANNarchy.core.Projection.Projection.connect_fixed_number_post }
+
+`core.Projection.Projection.connect_fixed_number_post(self, number, weights=1.0, delays=0.0, allow_self_connections=False, force_multiple_weights=False, storage_format=None, storage_order=None)`
+
+Each pre-synaptic neuron randomly sends a fixed number of connections to the post-synaptic neurons.
+
+#### Parameters
+
+| Name                     | Type                                             | Description                                                                                                                                                                                                                                               | Default    |
+|--------------------------|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `number`                 | int                                              | Number of synapses per pre-synaptic neuron.                                                                                                                                                                                                               | _required_ |
+| `weights`                | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object.                                                                                                                                                                                    | `1.0`      |
+| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object (default = dt)                                                                                                                                                                      | `0.0`      |
+| `allow_self_connections` | bool                                             | Defines if self-connections are allowed (default=False)                                                                                                                                                                                                   | `False`    |
+| `force_multiple_weights` | bool                                             | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
+
+### connect_fixed_number_pre { #ANNarchy.core.Projection.Projection.connect_fixed_number_pre }
+
+`core.Projection.Projection.connect_fixed_number_pre(self, number, weights, delays=0.0, allow_self_connections=False, force_multiple_weights=False, storage_format=None, storage_order=None)`
+
+Connection pattern where each post-synaptic neuron receives a fixed number of pre-synaptic neurons.
+
+#### Parameters
+
+| Name                     | Type                                             | Description                                                                                                                                                                                                                                               | Default    |
+|--------------------------|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `number`                 | int                                              | Number of synapses per postsynaptic neuron.                                                                                                                                                                                                               | _required_ |
+| `weights`                | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object.                                                                                                                                                                                    | _required_ |
+| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object (default = dt)                                                                                                                                                                      | `0.0`      |
+| `allow_self_connections` | bool                                             | Defines if self-connections are allowed (default=False).                                                                                                                                                                                                  | `False`    |
+| `force_multiple_weights` | bool                                             | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
+
+### connect_fixed_probability { #ANNarchy.core.Projection.Projection.connect_fixed_probability }
+
+`core.Projection.Projection.connect_fixed_probability(self, probability, weights, delays=0.0, allow_self_connections=False, force_multiple_weights=False, storage_format=None, storage_order=None)`
+
+Probabilistic sparse connection pattern.
+
+Each neuron in the postsynaptic population is connected to neurons of the presynaptic population with the given probability. Self-connections are avoided by default.
+
+#### Parameters
+
+| Name                     | Type                                             | Description                                                                                                                                                                                                                                           | Default    |
+|--------------------------|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `probability`            | float                                            | Probability that a synapse is created.                                                                                                                                                                                                                | _required_ |
+| `weights`                | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object.                                                                                                                                                                                | _required_ |
+| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object (default = dt)                                                                                                                                                                  | `0.0`      |
+| `allow_self_connections` | bool                                             | Defines if self-connections are allowed (default=False).                                                                                                                                                                                              | `False`    |
+| `force_multiple_weights` | bool                                             | If a single value is provided for `weights` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting `force_multiple_weights` to True ensures that a value per synapse will be used. | `False`    |
+
+### connect_from_file { #ANNarchy.core.Projection.Projection.connect_from_file }
+
+`core.Projection.Projection.connect_from_file(self, filename, pickle_encoding=None, storage_format=None, storage_order=None)`
+
+Builds the connectivity matrix using data saved using `Projection.save_connectivity()` (not `save()`!).
+
+Admissible file formats are compressed Numpy files (.npz), gunzipped binary text files (.gz) or binary text files.
+
+Note: Only the ranks, weights and delays are loaded, not the other variables.
+
+#### Parameters
+
+| Name       | Type   | Description                            | Default    |
+|------------|--------|----------------------------------------|------------|
+| `filename` | str    | file where the connections were saved. | _required_ |
+
+### connect_from_matrix { #ANNarchy.core.Projection.Projection.connect_from_matrix }
+
+`core.Projection.Projection.connect_from_matrix(self, weights, delays=0.0, pre_post=False, storage_format=None, storage_order=None)`
+
+Builds a connection pattern according to a dense connectivity matrix.
+
+The matrix must be N*M, where N is the number of neurons in the post-synaptic population and M in the pre-synaptic one. Lists of lists must have the same size.
+
+If a synapse should not be created, the weight value should be None.
+
+#### Parameters
+
+| Name       | Type              | Description                                                                                                                                                                           | Default    |
+|------------|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `weights`  | numpy.numpy.array | Numpy array (or list of lists of equal size) representing the weights. If a value is None, the corresponding synapse will not be created.                                             | _required_ |
+| `delays`   |                   | Numpy array representing the delays. Must represent the same synapses as the `weights` argument. If omitted, the delays are considered 0.                                             | `0.0`      |
+| `pre_post` |                   | States which index is first. By default, the first dimension is related to the post-synaptic population. If ``pre_post`` is True, the first dimension is the pre-synaptic population. | `False`    |
+
+### connect_from_matrix_market { #ANNarchy.core.Projection.Projection.connect_from_matrix_market }
+
+`core.Projection.Projection.connect_from_matrix_market(self, filename, storage_format=None, storage_order=None)`
+
+Loads a weight matrix encoded in the Matrix Market format. This connector is intended for benchmarking purposes.
+
+#### Parameters
+
+| Name       | Type   | Description                                | Default    |
+|------------|--------|--------------------------------------------|------------|
+| `filename` | str    | Filename of the Matrix Market (.mtx) file. | _required_ |
+
+### connect_from_sparse { #ANNarchy.core.Projection.Projection.connect_from_sparse }
+
+`core.Projection.Projection.connect_from_sparse(self, weights, delays=0.0, storage_format=None, storage_order=None)`
+
+Builds a connectivity pattern using a Scipy sparse matrix for the weights and (optionally) delays.
+
+Warning: a sparse matrix has pre-synaptic ranks as first dimension.
+
+#### Parameters
+
+| Name      | Type                                       | Description                                                                     | Default    |
+|-----------|--------------------------------------------|---------------------------------------------------------------------------------|------------|
+| `weights` | scipy.scipy.sparse.scipy.sparse.lil_matrix | a sparse lil_matrix object created from scipy.                                  | _required_ |
+| `delays`  | int \| float                               | the value of the constant delay (default: dt). Variable delays are not allowed. | `0.0`      |
+
+### connect_gaussian { #ANNarchy.core.Projection.Projection.connect_gaussian }
+
+`core.Projection.Projection.connect_gaussian(self, amp, sigma, delays=0.0, limit=0.01, allow_self_connections=False, storage_format=None)`
+
+Gaussian connection pattern.
+
+Each neuron in the postsynaptic population is connected to a region of the presynaptic population centered around the neuron with the same normalized coordinates using a Gaussian profile.
+
+#### Parameters
+
+| Name                     | Type                                             | Description                                                                         | Default    |
+|--------------------------|--------------------------------------------------|-------------------------------------------------------------------------------------|------------|
+| `amp`                    | float                                            | Amplitude of the Gaussian function                                                  | _required_ |
+| `sigma`                  | float                                            | Width of the Gaussian function                                                      | _required_ |
+| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Synaptic delay, either a single value or a random distribution object (default=dt). | `0.0`      |
+| `limit`                  | float                                            | Proportion of `amp` below which synapses are not created                            | `0.01`     |
+| `allow_self_connections` | bool                                             | Allows connections between a neuron and itself.                                     | `False`    |
+
+### connect_one_to_one { #ANNarchy.core.Projection.Projection.connect_one_to_one }
+
+`core.Projection.Projection.connect_one_to_one(self, weights=1.0, delays=0.0, force_multiple_weights=False, storage_format=None, storage_order=None)`
+
+one-to-one connection pattern.
+
+#### Parameters
+
+| Name                     | Type                                             | Description                                                                                                                                                                                                                                               | Default   |
+|--------------------------|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `weights`                | float \| ANNarchy.core.Random.RandomDistribution | Initial synaptic values, either a single value (float) or a random distribution object.                                                                                                                                                                   | `1.0`     |
+| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Synaptic delays, either a single value or a random distribution object (default=dt).                                                                                                                                                                      | `0.0`     |
+| `force_multiple_weights` | bool                                             | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`   |
+
+### connect_with_func { #ANNarchy.core.Projection.Projection.connect_with_func }
+
+`core.Projection.Projection.connect_with_func(self, method, storage_format=None, storage_order=None, **args)`
+
+Connection pattern based on a user-defined function.
+
+The two first arguments of the function must be the pre and post populations. Additional arguments can be passed at creation time.
+
+The function must return a `ann.LILConnectivity` object.
+
+Example:
+
+```python
+def probabilistic_pattern(pre, post, weight, probability):
+    # Create a LIL structure for the connectivity matrix
+    synapses = ann.LILConnectivity()
+    # For all neurons in the post-synaptic population
+    for post_rank in xrange(post.size):
+        # Decide which pre-synaptic neurons should form synapses
+        ranks = []
+        for pre_rank in xrange(pre.size):
+            if random.random() < probability:
+                ranks.append(pre_rank)
+        # Create weights and delays arrays of the same size
+        values = [weight for i in xrange(len(ranks)) ]
+        delays = [0 for i in xrange(len(ranks)) ]
+        # Add this information to the LIL matrix
+        synapses.add(post_rank, ranks, values, delays)
+
+    return synapses
+
+proj = ann.Projection(pop1, pop2, target = 'inh')
+proj.connect_with_func(
+    method=probabilistic_pattern, 
+    weight=1.0, 
+    probability=0.3
+) 
+
+```
+
+#### Parameters
+
+| Name     | Type   | Description                                                          | Default    |
+|----------|--------|----------------------------------------------------------------------|------------|
+| `method` |        | Method to call. The method **must** return a LILConnectivity object. | _required_ |
+| `args`   |        | List of additional arguments needed by the function.                 | `{}`       |
+
+### connectivity_matrix { #ANNarchy.core.Projection.Projection.connectivity_matrix }
+
+`core.Projection.Projection.connectivity_matrix(fill=0.0)`
+
+Returns a dense connectivity matrix (2D Numpy array) representing the connections between the pre- and post-populations.
+
+The first index of the matrix represents post-synaptic neurons, the second the pre-synaptic ones.
+
+If PopulationViews were used for creating the projection, the matrix is expanded to the whole populations by default.
+
+#### Parameters
+
+| Name   | Type   | Description                                                            | Default   |
+|--------|--------|------------------------------------------------------------------------|-----------|
+| `fill` | float  | value to put in the matrix when there is no connection (default: 0.0). | `0.0`     |
+
+### dendrite { #ANNarchy.core.Projection.Projection.dendrite }
+
+`core.Projection.Projection.dendrite(post)`
+
+Returns the dendrite of a postsynaptic neuron according to its rank.
+
+#### Parameters
+
+| Name   | Type   | Description                                                            | Default    |
+|--------|--------|------------------------------------------------------------------------|------------|
+| `post` |        | can be either the rank or the coordinates of the post-synaptic neuron. | _required_ |
+
+### disable_learning { #ANNarchy.core.Projection.Projection.disable_learning }
+
+`core.Projection.Projection.disable_learning(update=None)`
+
+Disables learning for all synapses of this projection.
+
+The effect depends on the rate-coded or spiking nature of the projection:
+
+* **Rate-coded**: the updating of all synaptic variables is disabled (including the weights ``w``). This is equivalent to ``proj.update = False``.
+
+* **Spiking**: the updating of the weights ``w`` is disabled, but all other variables are updated. This is equivalent to ``proj.plasticity = False``.
+
+This method is useful when performing some tests on a trained network without messing with the learned weights.
+
+### enable_learning { #ANNarchy.core.Projection.Projection.enable_learning }
+
+`core.Projection.Projection.enable_learning(period=None, offset=None)`
+
+Enables learning for all the synapses of this projection.
+
+For example, providing the following parameters at time 10 ms:
+
+```python
+enable_learning(period=10., offset=5.)
+```
+
+would call the updating methods at times 15, 25, 35, etc...
+
+The default behaviour is that the synaptic variables are updated at each time step. The parameters must be multiple of ``dt``.
+
+#### Parameters
+
+| Name     | Type   | Description                                                                                         | Default   |
+|----------|--------|-----------------------------------------------------------------------------------------------------|-----------|
+| `period` |        | determines how often the synaptic variables will be updated.                                        | `None`    |
+| `offset` |        | determines the offset at which the synaptic variables will be updated relative to the current time. | `None`    |
+
+### get { #ANNarchy.core.Projection.Projection.get }
+
+`core.Projection.Projection.get(name)`
+
+Returns a list of parameters/variables values for each dendrite in the projection.
+
+The list will have the same length as the number of actual dendrites (self.size), so it can be smaller than the size of the postsynaptic population. Use self.post_ranks to indice it.
+
+#### Parameters
+
+| Name   | Type   | Description                           | Default    |
+|--------|--------|---------------------------------------|------------|
+| `name` |        | the name of the parameter or variable | _required_ |
+
+### load { #ANNarchy.core.Projection.Projection.load }
+
+`core.Projection.Projection.load(filename, pickle_encoding=None)`
+
+Loads the saved state of the projection by `Projection.save()`.
+
+Warning: Matlab data can not be loaded.
+
+Example:
+
+```python
+proj.load('proj1.npz')
+proj.load('proj1.txt')
+proj.load('proj1.txt.gz')
+```
+
+#### Parameters
+
+| Name              | Type   | Description                                                                                                                                                                                                                                                                             | Default    |
+|-------------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `filename`        | str    | the file name with relative or absolute path.                                                                                                                                                                                                                                           | _required_ |
+| `pickle_encoding` | str    | What encoding to use when reading Python 2 strings. Only useful when loading Python 2 generated pickled files in Python 3, which includes npy/npz files containing object arrays. Values other than `latin1`, `ASCII`, and `bytes` are not allowed, as they can corrupt numerical data. | `None`     |
+
+### nb_efferent_synapses { #ANNarchy.core.Projection.Projection.nb_efferent_synapses }
+
+`core.Projection.Projection.nb_efferent_synapses()`
+
+Number of efferent connections. Intended only for spiking models.
+
+### nb_synapses_per_dendrite { #ANNarchy.core.Projection.Projection.nb_synapses_per_dendrite }
+
+`core.Projection.Projection.nb_synapses_per_dendrite()`
+
+Total number of synapses for each dendrite as a list.
+
+### receptive_fields { #ANNarchy.core.Projection.Projection.receptive_fields }
+
+`core.Projection.Projection.receptive_fields(variable='w', in_post_geometry=True)`
+
+Gathers all receptive fields within this projection.
+
+#### Parameters
+
+| Name               | Type   | Description                                        | Default   |
+|--------------------|--------|----------------------------------------------------|-----------|
+| `variable`         | str    | Name of the variable.                              | `'w'`     |
+| `in_post_geometry` | bool   | If False, the data will be plotted as square grid. | `True`    |
+
+### reset { #ANNarchy.core.Projection.Projection.reset }
+
+`core.Projection.Projection.reset(attributes=-1, synapses=False)`
+
+Resets all parameters and variables of the projection to their initial value (before the call to compile()).
+
+#### Parameters
+
+| Name         | Type   | Description                                                                                             | Default   |
+|--------------|--------|---------------------------------------------------------------------------------------------------------|-----------|
+| `attributes` |        | list of attributes (parameter or variable) which should be reinitialized. Default: all attributes (-1). | `-1`      |
+| `synapses`   |        | defines if the weights and delays should also be recreated. Default: False                              | `False`   |
+
+### save { #ANNarchy.core.Projection.Projection.save }
+
+`core.Projection.Projection.save(filename)`
+
+Saves all information about the projection (connectivity, current value of parameters and variables) into a file.
+
+* If the file name is '.npz', the data will be saved and compressed using `np.savez_compressed` (recommended).
+
+* If the file name ends with '.gz', the data will be pickled into a binary file and compressed using gzip.
+
+* If the file name is '.mat', the data will be saved as a Matlab 7.2 file. Scipy must be installed.
+
+* Otherwise, the data will be pickled into a simple binary text file using pickle.
+
+**Warning:** the '.mat' data will not be loadable by ANNarchy, it is only for external analysis purpose.
+
+Example:
+
+```python
+proj.save('proj1.npz')
+proj.save('proj1.txt')
+proj.save('proj1.txt.gz')
+proj.save('proj1.mat')
+```
+
+#### Parameters
+
+| Name       | Type   | Description                                       | Default    |
+|------------|--------|---------------------------------------------------|------------|
+| `filename` | str    | file name, may contain relative or absolute path. | _required_ |
+
+### save_connectivity { #ANNarchy.core.Projection.Projection.save_connectivity }
+
+`core.Projection.Projection.save_connectivity(filename)`
+
+Saves the connectivity of the projection into a file.
+
+Only the connectivity matrix, the weights and delays are saved, not the other synaptic variables.
+
+The generated data can be used to create a projection in another network:
+
+```python
+proj.connect_from_file(filename)
+```
+
+* If the file name is '.npz', the data will be saved and compressed using `np.savez_compressed` (recommended).
+
+* If the file name ends with '.gz', the data will be pickled into a binary file and compressed using gzip.
+
+* If the file name is '.mat', the data will be saved as a Matlab 7.2 file. Scipy must be installed.
+
+* Otherwise, the data will be pickled into a simple binary text file using pickle.
+
+#### Parameters
+
+| Name       | Type   | Description                                       | Default    |
+|------------|--------|---------------------------------------------------|------------|
+| `filename` |        | file name, may contain relative or absolute path. | _required_ |
+
+### set { #ANNarchy.core.Projection.Projection.set }
+
+`core.Projection.Projection.set(value)`
+
+Sets the parameters/variables values for each dendrite in the projection.
+
+For parameters, you can provide:
+
+* a single value, which will be the same for all dendrites.
+
+* a list or 1D numpy array of the same length as the number of actual dendrites (self.size).
+
+For variables, you can provide:
+
+* a single value, which will be the same for all synapses of all dendrites.
+
+* a list or 1D numpy array of the same length as the number of actual dendrites (self.size). The synapses of each postsynaptic neuron will take the same value.
+
+**Warning:** it is not possible to set different values to each synapse using this method. One should iterate over the dendrites:
+
+```python
+for dendrite in proj.dendrites:
+    dendrite.w = np.ones(dendrite.size)
+```
+
+#### Parameters
+
+| Name    | Type   | Description                                                  | Default    |
+|---------|--------|--------------------------------------------------------------|------------|
+| `value` |        | a dictionary with the name of the parameter/variable as key. | _required_ |
+
+### size_in_bytes { #ANNarchy.core.Projection.Projection.size_in_bytes }
+
+`core.Projection.Projection.size_in_bytes()`
+
+Returns the size in bytes of the allocated memory on C++ side. Note that this does not reflect monitored data and that it only works after compile() was invoked.
+
+### start_creating { #ANNarchy.core.Projection.Projection.start_creating }
+
+`core.Projection.Projection.start_creating(period=None)`
+
+Starts creating the synapses in the projection if the synapse defines a 'creating' argument.
+
+'structural_plasticity' must be set to True in setup().
+
+#### Parameters
+
+| Name     | Type   | Description                                                          | Default   |
+|----------|--------|----------------------------------------------------------------------|-----------|
+| `period` | float  | how often creating should be evaluated (default: dt, i.e. each step) | `None`    |
+
+### start_pruning { #ANNarchy.core.Projection.Projection.start_pruning }
+
+`core.Projection.Projection.start_pruning(period=None)`
+
+Starts pruning the synapses in the projection if the synapse defines a 'pruning' argument.
+
+'structural_plasticity' must be set to True in setup().
+
+#### Parameters
+
+| Name     | Type   | Description                                                         | Default   |
+|----------|--------|---------------------------------------------------------------------|-----------|
+| `period` | float  | how often pruning should be evaluated (default: dt, i.e. each step) | `None`    |
+
+### stop_creating { #ANNarchy.core.Projection.Projection.stop_creating }
+
+`core.Projection.Projection.stop_creating()`
+
+Stops creating the synapses in the projection if the synapse defines a 'creating' argument.
+
+'structural_plasticity' must be set to True in setup().
+
+### stop_pruning { #ANNarchy.core.Projection.Projection.stop_pruning }
+
+`core.Projection.Projection.stop_pruning()`
+
+Stops pruning the synapses in the projection if the synapse defines a 'pruning' argument.
+
+'structural_plasticity' must be set to True in `setup()`.
+
+### synapse { #ANNarchy.core.Projection.Projection.synapse }
+
+`core.Projection.Projection.synapse(pre, post)`
+
+Returns the synapse between a pre- and a post-synaptic neuron if it exists, None otherwise.
+
+#### Parameters
+
+| Name   | Type   | Description                       | Default    |
+|--------|--------|-----------------------------------|------------|
+| `pre`  |        | rank of the pre-synaptic neuron.  | _required_ |
+| `post` |        | rank of the post-synaptic neuron. | _required_ |
+
+### update_launch_config { #ANNarchy.core.Projection.Projection.update_launch_config }
+
+`core.Projection.Projection.update_launch_config(nb_blocks=-1, threads_per_block=32)`
+
+Allows the adjustment of the CUDA launch config (since 4.7.2).
+
+#### Parameters
+
+| Name                | Type   | Description                                                                                                               | Default   |
+|---------------------|--------|---------------------------------------------------------------------------------------------------------------------------|-----------|
+| `nb_blocks`         | int    | number of CUDA blocks which can be 65535 at maximum. If set to -1, the number of launched blocks is computed by ANNarchy. | `-1`      |
+| `threads_per_block` | int    | number of CUDA threads for one block which can be maximally 1024.                                                         | `32`      |

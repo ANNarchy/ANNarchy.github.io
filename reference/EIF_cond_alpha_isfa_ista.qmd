@@ -1,0 +1,112 @@
+# EIF_cond_alpha_isfa_ista { #ANNarchy.models.Neurons.EIF_cond_alpha_isfa_ista }
+
+`models.Neurons.EIF_cond_alpha_isfa_ista(self, v_rest=-70.6, cm=0.281, tau_m=9.3667, tau_refrac=0.1, tau_syn_E=5.0, tau_syn_I=5.0, e_rev_E=0.0, e_rev_I=-80.0, tau_w=144.0, a=4.0, b=0.0805, i_offset=0.0, delta_T=2.0, v_thresh=-50.4, v_reset=-70.6, v_spike=-40.0)`
+
+Exponential integrate-and-fire neuron with spike triggered and sub-threshold adaptation conductances (isfa, ista reps.).
+ 
+Definition according to:
+
+> Brette R and Gerstner W (2005) Adaptive Exponential Integrate-and-Fire Model as an Effective Description of Neuronal Activity. J Neurophysiol 94:3637-3642
+
+Parameters:
+
+* v_rest = -70.6 :  Resting membrane potential (mV)
+* cm = 0.281 : Capacity of the membrane (nF)
+* tau_m = 9.3667 : Membrane time constant (ms)
+* tau_refrac = 0.1 : Duration of refractory period (ms)
+* tau_syn_E = 5.0 : Decay time of excitatory synaptic current (ms)
+* tau_syn_I = 5.0 : Decay time of inhibitory synaptic current (ms)
+* e_rev_E = 0.0 : Reversal potential for excitatory input (mV)
+* e_rev_I = -80.0 : Reversal potential for inhibitory input (mv)
+* tau_w = 144.0 : Time constant of the adaptation variable (ms)
+* a = 4.0 : Scaling of the adaptation variable
+* b = 0.0805 : Increment on the adaptation variable after a spike
+* i_offset = 0.0 : Offset current (nA)
+* delta_T = 2.0 : Speed of the exponential (mV)
+* v_thresh = -50.4 : Spike threshold for the exponential (mV)
+* v_reset = -70.6 : Reset potential after a spike (mV)
+* v_spike = -40.0 : Spike threshold (mV)
+
+Variables:
+
+* I : input current (nA):
+
+    I = g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset
+
+* v : membrane potential in mV (init=-70.6):
+
+    tau_m * dv/dt = (v_rest - v +  delta_T * exp((v-v_thresh)/delta_T)) + tau_m/cm*(I - w)
+
+* w : adaptation variable (init=0.0):
+
+    tau_w * dw/dt = a * (v - v_rest) / 1000.0 - w
+
+* g_exc : excitatory current (init = 0.0):
+
+    tau_syn_E * dg_exc/dt = - g_exc
+
+* g_inh : inhibitory current (init = 0.0):
+
+    tau_syn_I * dg_inh/dt = - g_inh
+
+* alpha_exc : alpha function of excitatory current (init = 0.0):
+
+    tau_syn_E * dalpha_exc/dt = exp((tau_syn_E - dt/2.0)/tau_syn_E) * g_exc - alpha_exc  
+
+* alpha_inh: alpha function of inhibitory current (init = 0.0):
+
+    tau_syn_I * dalpha_inh/dt = exp((tau_syn_I - dt/2.0)/tau_syn_I) * g_inh - alpha_inh  
+
+
+Spike emission:
+
+    v > v_spike
+
+Reset:
+
+    v = v_reset
+    u += b
+
+The ODEs are solved using the explicit Euler method.
+
+Equivalent code:
+
+```python
+
+EIF_cond_alpha_isfa_ista = Neuron(
+    parameters = """
+        v_rest = -70.6
+        cm = 0.281 
+        tau_m = 9.3667 
+        tau_syn_E = 5.0 
+        tau_syn_I = 5.0 
+        e_rev_E = 0.0 
+        e_rev_I = -80.0
+        tau_w = 144.0 
+        a = 4.0
+        b = 0.0805
+        i_offset = 0.0
+        delta_T = 2.0 
+        v_thresh = -50.4
+        v_reset = -70.6
+        v_spike = -40.0 
+    """, 
+    equations = """
+        gmax_exc = exp((tau_syn_E - dt/2.0)/tau_syn_E)
+        gmax_inh = exp((tau_syn_I - dt/2.0)/tau_syn_I)                
+        I = alpha_exc * (e_rev_E - v) + alpha_inh * (e_rev_I - v) + i_offset
+        tau_m * dv/dt = (v_rest - v +  delta_T * exp((v-v_thresh)/delta_T)) + tau_m/cm*(I - w) : init=-70.6
+        tau_w * dw/dt = a * (v - v_rest) / 1000.0 - w 
+        tau_syn_E * dg_exc/dt = - g_exc : exponential
+        tau_syn_I * dg_inh/dt = - g_inh : exponential
+        tau_syn_E * dalpha_exc/dt = gmax_exc * g_exc - alpha_exc  : exponential
+        tau_syn_I * dalpha_inh/dt = gmax_inh * g_inh - alpha_inh  : exponential
+    """,
+    spike = "v > v_spike",
+    reset = """
+        v = v_reset
+        w += b
+    """,
+    refractory = 0.1
+)
+```

@@ -1,0 +1,29 @@
+# InputArray { #ANNarchy.inputs.InputArray.InputArray }
+
+`inputs.InputArray.InputArray(self, geometry=None, name=None, copied=False)`
+
+Population holding static inputs for a rate-coded network.
+
+The input values are stored in the recordable attribute `r`, without any further processing.
+
+```python
+inp = ann.FixedArray(geometry=10)
+inp.r = np.linspace(1, 10, 10)
+
+pop = ann.Population(100, ...)
+
+proj = ann.Projection(inp, pop, 'exc')
+proj.connect_all_to_all(1.0)
+```
+
+Note that this population is functionally equivalent to:
+
+```python
+inp = ann.Population(geometry, ann.Neuron(parameters="r=0.0"))
+```
+
+## Parameters
+
+| Name       | Type         | Description                                            | Default   |
+|------------|--------------|--------------------------------------------------------|-----------|
+| `geometry` | int \| tuple | shape of the population, either an integer or a tuple. | `None`    |

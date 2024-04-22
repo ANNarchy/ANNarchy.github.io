@@ -1,0 +1,32 @@
+# load_parameters { #ANNarchy.core.IO.load_parameters }
+
+`core.IO.load_parameters(filename, global_only=True, verbose=False, net_id=0)`
+
+Loads the global parameters of a network (flag ``population`` for neurons, ``projection`` for synapses) from a JSON file.
+
+It is advised to generate the JSON file first with ``save_parameters()`` and later edit it manually.
+
+A strong restriction is that population/projection names cannot change between saving and loading.
+By default, they take names such as ``pop0`` or ``proj2``, we advise setting explicitly a name in their constructor for readability.
+
+If you add a parameter name to the JSON file but it does not exist in te neuron/synapse, it will be silently skipped.
+Enable ``verbose=True`` to see which parameters are effectively changed.
+
+If you set ``global_only`` to True, you will be able to set values for non-global parameters (e.g. synapse-specific), but a single value will be loaded for all.
+The JSON file cannot contain arrays.
+
+If you want to save/load the value of variables after a simulation, please refer to ``save()`` or ``load()``.
+
+## Parameters
+
+| Name          | Type   | Description                                                                                                                              | Default    |
+|---------------|--------|------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `filename`    | str    | path to the JSON file.                                                                                                                   | _required_ |
+| `global_only` | bool   | True if only global parameters (flags ``population`` and ``projection``) should be loaded, the other values are ignored. (default: True) | `True`     |
+| `verbose`     | bool   | True if the old and new values of the parameters should be printed (default: False).                                                     | `False`    |
+
+## Returns
+
+| Type   | Description                                                                                                             |
+|--------|-------------------------------------------------------------------------------------------------------------------------|
+|        | a dictionary of additional parameters not related to populations or projections (keyword ``network`` in the JSON file). |

@@ -1,0 +1,31 @@
+# CurrentInjection { #ANNarchy.inputs.CurrentInjection.CurrentInjection }
+
+`inputs.CurrentInjection.CurrentInjection(self, pre, post, target, name=None, copied=False)`
+
+Inject current from a rate-coded population into a spiking population.
+
+The pre-synaptic population must be be rate-coded, the post-synaptic one must be spiking, both must have the same size and no plasticity is allowed.
+
+For each post-synaptic neuron, the current ``g_target`` will be set at each time step to the firing rate ``r`` of the pre-synaptic neuron with the same rank.
+
+The projection must be connected with ``connect_current()``, which takes no parameter and does not accept delays. It is equivalent to ``connect_one_to_one(weights=1)``.
+
+Example:
+
+```python
+inp = ann.Population(100, ann.Neuron(equations="r = sin(t)"))
+
+pop = ann.Population(100, Izhikevich)
+
+proj = ann.CurrentInjection(inp, pop, 'exc')
+proj.connect_current()
+```
+
+## Parameters
+
+| Name     | Type                                | Description               | Default    |
+|----------|-------------------------------------|---------------------------|------------|
+| `pre`    | ANNarchy.core.Population.Population | pre-synaptic population.  | _required_ |
+| `post`   | ANNarchy.core.Population.Population | post-synaptic population. | _required_ |
+| `target` | str                                 | type of the connection.   | _required_ |
+| `name`   | str                                 | optional name.            | `None`     |

@@ -1,0 +1,53 @@
+# Constant { #ANNarchy.core.Constant.Constant }
+
+`core.Constant.Constant(self, name, value, net_id=0)`
+
+Constant parameter that can be used by all neurons and synapses.
+
+The class ``Constant`` derives from ``float``, so any legal operation on floats (addition, multiplication) can be used.
+
+If a Neuron/Synapse defines a parameter with the same name, the constant parameters will not be visible.
+
+Example:
+
+```python
+
+tau = ann.Constant('tau', 20)
+factor = ann.Constant('factor', 0.1)
+real_tau = ann.Constant('real_tau', tau*factor)
+
+neuron = ann.Neuron(
+    equations='''
+        real_tau*dr/dt + r =1.0
+    '''
+)
+```
+
+The value of the constant can be changed anytime with the ``set()`` method. Assignments will have no effect (e.g. ``tau = 10.0`` only creates a new float).
+
+The value of constants defined as combination of other constants (``real_tau``) is not updated if the value of these constants changes (changing ``tau`` with ``tau.set(10.0)`` will not modify the value of ``real_tau``).
+
+## Parameters
+
+| Name    | Type   | Description                                                                      | Default    |
+|---------|--------|----------------------------------------------------------------------------------|------------|
+| `name`  |        | name of the constant (unique), which can be used in equations.                   | _required_ |
+| `value` |        | the value of the constant, which must be a float, or a combination of Constants. | _required_ |
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [set](#ANNarchy.core.Constant.Constant.set) | Changes the value of the constant. |
+
+### set { #ANNarchy.core.Constant.Constant.set }
+
+`core.Constant.Constant.set(value)`
+
+Changes the value of the constant.
+
+#### Parameters
+
+| Name    | Type   | Description   | Default    |
+|---------|--------|---------------|------------|
+| `value` | float  | Value.        | _required_ |

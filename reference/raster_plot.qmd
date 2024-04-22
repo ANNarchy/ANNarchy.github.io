@@ -1,0 +1,22 @@
+# raster_plot { #ANNarchy.core.Monitor.raster_plot }
+
+`core.Monitor.raster_plot(spikes)`
+
+Returns two vectors representing for each recorded spike 1) the spike times and 2) the ranks of the neurons.
+
+Example:
+
+```python
+m = ann.Monitor(P[:1000], 'spike')
+ann.simulate(1000.0)
+spikes = m.get('spike')
+t, n = raster_plot(spikes)
+
+plt.plot(t, n, '.')
+```
+
+## Parameters
+
+| Name     | Type   | Description                                            | Default    |
+|----------|--------|--------------------------------------------------------|------------|
+| `spikes` | dict   | the dictionary of spikes returned by ``get('spike')``. | _required_ |

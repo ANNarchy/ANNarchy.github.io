@@ -1,0 +1,60 @@
+# TimedPoissonPopulation { #ANNarchy.inputs.TimedArray.TimedPoissonPopulation }
+
+`inputs.TimedArray.TimedPoissonPopulation(self, geometry, rates, schedule, period=-1.0, name=None, copied=False)`
+
+Poisson population whose rate vary with the provided schedule.
+
+Example:
+
+```python
+inp = TimedPoissonPopulation(
+    geometry = 100,
+    rates = [10., 20., 100., 20., 5.],
+    schedule = [0., 100., 200., 500., 600.],
+)
+```
+
+
+This creates a population of 100 Poisson neurons whose rate will be:
+
+* 10 Hz during the first 100 ms.
+* 20 HZ during the next 100 ms.
+* 100 Hz during the next 300 ms.
+* 20 Hz during the next 100 ms.
+* 5 Hz until the end of the simulation.
+
+
+If you want the TimedPoissonPopulation to "loop" over the schedule, you can specify a period:
+
+```python
+inp = TimedPoissonPopulation(
+    geometry = 100,
+    rates = [10., 20., 100., 20., 5.],
+    schedule = [0., 100., 200., 500., 600.],
+    period = 1000.,
+)
+```
+
+Here the rate will become 10Hz again every 1 second of simulation. If the period is smaller than the schedule, the remaining rates will not be set.
+
+Note that you can use the ``reset()`` method to manually reinitialize the schedule, times becoming relative to that call:
+
+```python
+simulate(1200.) # Should switch to 100 Hz due to the period of 1000.
+inp.reset()
+simulate(1000.) # Starts at 10 Hz again.
+```
+
+The rates were here global to the population. If you want each neuron to have a different rate, ``rates`` must have additional dimensions corresponding to the geometry of the population.
+
+```python
+inp = TimedPoissonPopulation(
+    geometry = 100,
+    rates = [ 
+        [10. + 0.05*i for i in range(100)], 
+        [20. + 0.05*i for i in range(100)],
+    ],
+    schedule = [0., 100.],
+    period = 1000.,
+)
+```

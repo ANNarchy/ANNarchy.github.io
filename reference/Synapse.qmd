@@ -1,0 +1,20 @@
+# Synapse { #ANNarchy.core.Synapse.Synapse }
+
+`core.Synapse.Synapse(self, parameters='', equations='', psp=None, operation='sum', pre_spike=None, post_spike=None, pre_axon_spike=None, functions=None, pruning=None, creating=None, name=None, description=None, extra_values={})`
+
+Base class to define a synapse.
+
+## Parameters
+
+| Name             | Type   | Description                                                                                                                                                                    | Default   |
+|------------------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `parameters`     | str    | parameters of the neuron and their initial value.                                                                                                                              | `''`      |
+| `equations`      | str    | equations defining the temporal evolution of variables.                                                                                                                        | `''`      |
+| `psp`            | str    | continuous influence of a single synapse on the post-synaptic neuron (default for rate-coded: ``w*pre.r``). Synaptic transmission in spiking synapses occurs in ``pre_spike``. | `None`    |
+| `operation`      | str    | operation (sum, max, min, mean) performed by the post-synaptic neuron on the individual psp (rate-coded only, default=sum).                                                    | `'sum'`   |
+| `pre_spike`      | str    | updating of variables when a pre-synaptic spike is received (spiking only).                                                                                                    | `None`    |
+| `post_spike`     | str    | updating of variables when a post-synaptic spike is emitted (spiking only).                                                                                                    | `None`    |
+| `pre_axon_spike` | str    | updating of variables when an axonal spike was emitted (spiking only, default None). The usage of this arguments prevents the application of learning rules.                   | `None`    |
+| `functions`      | str    | additional functions used in the equations.                                                                                                                                    | `None`    |
+| `name`           | str    | name of the synapse type (used for reporting only).                                                                                                                            | `None`    |
+| `description`    | str    | short description of the synapse type (used for reporting).                                                                                                                    | `None`    |

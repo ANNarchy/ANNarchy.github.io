@@ -1,0 +1,25 @@
+# report { #ANNarchy.parser.report.Report.report }
+
+`parser.report.Report.report(filename='./report.tex', standalone=True, gather_subprojections=False, title=None, author=None, date=None, net_id=0)`
+
+Generates a report describing the network.
+
+If the filename ends with ``.tex``, the TeX file is generated according to:
+
+> Nordlie E, Gewaltig M-O, Plesser HE (2009). Towards Reproducible Descriptions of Neuronal Network Models. PLoS Comput Biol 5(8): e1000456.
+
+If the filename ends with ``.md``, a (more complete) Markdown file is generated, which can be converted to pdf or html by ``pandoc``::
+
+    pandoc report.md -o report.pdf
+    pandoc report.md -o report.html
+
+## Parameters
+
+| Name                    | Type   | Description                                                                                                                                                       | Default          |
+|-------------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------|
+| `filename`              | str    | name of the file where the report will be written.                                                                                                                | `'./report.tex'` |
+| `standalone`            | bool   | tells if the generated TeX file should be directly compilable or only includable (default: True). Ignored for Markdown.                                           | `True`           |
+| `gather_subprojections` | bool   | if a projection between two populations has been implemented as a multiple of projections between sub-populations, this flag allows to group them in the summary. | `False`          |
+| `title`                 | str    | title of the document (Markdown only).                                                                                                                            | `None`           |
+| `author`                | str    | author of the document (Markdown only).                                                                                                                           | `None`           |
+| `date`                  | str    | date of the document (Markdown only).                                                                                                                             | `None`           |

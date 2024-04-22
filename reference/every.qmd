@@ -1,0 +1,23 @@
+# every { #ANNarchy.core.Simulate.every }
+
+`core.Simulate.every(self, period, offset=0.0, wait=0.0, net_id=0)`
+
+Decorator to declare a callback method that will be called periodically during the simulation.
+
+Example of setting increasing inputs to a population every 100 ms, with an offset of 90 ms (or -10 ms relative to the period):
+
+```python
+@every(period=100., offset=-10.)
+def step_input(n):
+    pop.I = float(n) / 100.
+
+simulate(10000.)
+```
+
+``step_input()`` will be called at times 90, 190, ..., 9990 ms during the call to ``simulate()``.
+
+The method must accept only ``n`` as parameter (an integer being 0 the first time the method is called, and incremented afterwards) and can not return anything.
+
+The times at which the method is called are relative to the time when ``simulate()`` is called (if ``t`` is already 150 before calling ``simulate()``, the first call will then be made at ``t=240`` with the previous example).
+
+If multiple callbacks are defined, they will be called in the order of their declaration if they occur at the same time.

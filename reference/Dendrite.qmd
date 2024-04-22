@@ -1,0 +1,166 @@
+# Dendrite { #ANNarchy.core.Dendrite.Dendrite }
+
+`core.Dendrite.Dendrite(self, proj, post_rank, idx)`
+
+A ``Dendrite`` is a sub-group of a ``Projection``, gathering the synapses between the pre-synaptic population and a single post-synaptic neuron.
+
+It can not be created directly, only through a call to ``Projection.dendrite(rank)``:
+
+```python
+dendrite = proj.dendrite(6)
+```
+
+## Attributes
+
+| Name | Description |
+| --- | --- |
+| [pre_ranks](#ANNarchy.core.Dendrite.Dendrite.pre_ranks) | List of ranks of pre-synaptic neurons. |
+| [size](#ANNarchy.core.Dendrite.Dendrite.size) | Number of synapses. |
+| [synapses](#ANNarchy.core.Dendrite.Dendrite.synapses) | Iteratively returns the synapses corresponding to this dendrite. |
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [create_synapse](#ANNarchy.core.Dendrite.Dendrite.create_synapse) | Creates a synapse for this dendrite with the given pre-synaptic neuron. |
+| [create_synapses](#ANNarchy.core.Dendrite.Dendrite.create_synapses) | Creates a synapse for this dendrite with the given pre-synaptic neurons. |
+| [get](#ANNarchy.core.Dendrite.Dendrite.get) | Returns the value of a variable/parameter. |
+| [prune_synapse](#ANNarchy.core.Dendrite.Dendrite.prune_synapse) | Removes the synapse with the given pre-synaptic neuron from the dendrite. |
+| [prune_synapses](#ANNarchy.core.Dendrite.Dendrite.prune_synapses) | Removes the synapses which belong to the provided pre-synaptic neurons from the dendrite. |
+| [receptive_field](#ANNarchy.core.Dendrite.Dendrite.receptive_field) | Returns the given variable as a receptive field. |
+| [set](#ANNarchy.core.Dendrite.Dendrite.set) | Sets the value of a parameter/variable of all synapses. |
+| [synapse](#ANNarchy.core.Dendrite.Dendrite.synapse) | Returns the synapse coming from the corresponding presynaptic neuron. |
+
+### create_synapse { #ANNarchy.core.Dendrite.Dendrite.create_synapse }
+
+`core.Dendrite.Dendrite.create_synapse(rank, w=0.0, delay=0)`
+
+Creates a synapse for this dendrite with the given pre-synaptic neuron.
+
+#### Parameters
+
+| Name    | Type   | Description                     | Default    |
+|---------|--------|---------------------------------|------------|
+| `rank`  | int    | rank of the pre-synaptic neuron | _required_ |
+| `w`     | float  | synaptic weight (defalt: 0.0).  | `0.0`      |
+| `delay` | float  | synaptic delay (default = dt)   | `0`        |
+
+### create_synapses { #ANNarchy.core.Dendrite.Dendrite.create_synapses }
+
+`core.Dendrite.Dendrite.create_synapses(ranks, weights=None, delays=None)`
+
+Creates a synapse for this dendrite with the given pre-synaptic neurons.
+
+#### Parameters
+
+| Name      | Type          | Description                                | Default    |
+|-----------|---------------|--------------------------------------------|------------|
+| `ranks`   | list\[int\]   | list of ranks of the pre-synaptic neurons. | _required_ |
+| `weights` | list\[float\] | list of synaptic weights (default: 0.0).   | `None`     |
+| `delays`  | list\[float\] | list of synaptic delays (default = dt).    | `None`     |
+
+### get { #ANNarchy.core.Dendrite.Dendrite.get }
+
+`core.Dendrite.Dendrite.get(name)`
+
+Returns the value of a variable/parameter.
+
+Example:
+
+```python
+dendrite.get('w')
+```
+
+#### Parameters
+
+| Name   | Type   | Description                     | Default    |
+|--------|--------|---------------------------------|------------|
+| `name` | str    | name of the parameter/variable. | _required_ |
+
+#### Returns
+
+| Type   | Description   |
+|--------|---------------|
+| float  | value.        |
+
+### prune_synapse { #ANNarchy.core.Dendrite.Dendrite.prune_synapse }
+
+`core.Dendrite.Dendrite.prune_synapse(rank)`
+
+Removes the synapse with the given pre-synaptic neuron from the dendrite.
+
+#### Parameters
+
+| Name   | Type   | Description                     | Default    |
+|--------|--------|---------------------------------|------------|
+| `rank` | int    | rank of the pre-synaptic neuron | _required_ |
+
+### prune_synapses { #ANNarchy.core.Dendrite.Dendrite.prune_synapses }
+
+`core.Dendrite.Dendrite.prune_synapses(ranks)`
+
+Removes the synapses which belong to the provided pre-synaptic neurons from the dendrite.
+
+#### Parameters
+
+| Name    | Type        | Description                                | Default    |
+|---------|-------------|--------------------------------------------|------------|
+| `ranks` | list\[int\] | list of ranks of the pre-synaptic neurons. | _required_ |
+
+### receptive_field { #ANNarchy.core.Dendrite.Dendrite.receptive_field }
+
+`core.Dendrite.Dendrite.receptive_field(variable='w', fill=0.0)`
+
+Returns the given variable as a receptive field.
+
+A Numpy array of the same geometry as the pre-synaptic population is returned. 
+Non-existing synapses are replaced by zeros (or the value ``fill``).
+
+#### Parameters
+
+| Name       | Type   | Description                                                | Default   |
+|------------|--------|------------------------------------------------------------|-----------|
+| `variable` | str    | name of the variable (default = 'w')                       | `'w'`     |
+| `fill`     | float  | value to use when a synapse does not exist (default: 0.0). | `0.0`     |
+
+#### Returns
+
+| Type              | Description   |
+|-------------------|---------------|
+| numpy.numpy.array | array.        |
+
+### set { #ANNarchy.core.Dendrite.Dendrite.set }
+
+`core.Dendrite.Dendrite.set(value)`
+
+Sets the value of a parameter/variable of all synapses.
+
+Example:
+
+```python
+dendrite.set( { 'tau' : 20, 'w'= Uniform(0.0, 1.0) } )
+```
+
+#### Parameters
+
+| Name    | Type   | Description                                                   | Default    |
+|---------|--------|---------------------------------------------------------------|------------|
+| `value` | dict   | a dictionary containing the parameter/variable names as keys. | _required_ |
+
+### synapse { #ANNarchy.core.Dendrite.Dendrite.synapse }
+
+`core.Dendrite.Dendrite.synapse(pos)`
+
+Returns the synapse coming from the corresponding presynaptic neuron.
+
+#### Parameters
+
+| Name   | Type                | Description                                                         | Default    |
+|--------|---------------------|---------------------------------------------------------------------|------------|
+| `pos`  | int \| tuple\[int\] | can be either the rank or the coordinates of the presynaptic neuron | _required_ |
+
+#### Returns
+
+| Type                                     | Description                           |
+|------------------------------------------|---------------------------------------|
+| ANNarchy.core.Dendrite.IndividualSynapse | `IndividualSynapse` wrapper instance. |

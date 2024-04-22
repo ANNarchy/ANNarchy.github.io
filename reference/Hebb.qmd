@@ -1,0 +1,30 @@
+# Hebb { #ANNarchy.models.Synapses.Hebb }
+
+`models.Synapses.Hebb(self, eta=0.01)`
+
+Rate-coded synapse with Hebbian plasticity.
+
+**Parameters (global)**:
+
+* eta = 0.01 : learning rate.
+
+**Learning rule**:
+
+* w : weight.
+
+```
+dw/dt = eta * pre.r * post.r
+```
+
+Equivalent code:
+
+```python
+Hebb = ann.Synapse(
+    parameters = """
+        eta = 0.01 : projection
+    """,
+    equations = """
+        dw/dt = eta * pre.r * post.r : min=0.0
+    """
+)
+```

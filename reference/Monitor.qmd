@@ -1,0 +1,330 @@
+# Monitor { #ANNarchy.core.Monitor.Monitor }
+
+`core.Monitor.Monitor(self, obj, variables=[], period=None, period_offset=None, start=True, net_id=0)`
+
+Monitoring class allowing to record easily parameters or variables from Population, PopulationView, Dendrite or Projection objects.
+
+Example:
+
+```python
+m = Monitor(pop, ['g_exc', 'v', 'spike'], period=10.0)
+```
+
+It is also possible to record the sum of inputs to each neuron in a rate-coded population:
+
+```python
+m = Monitor(pop, ['sum(exc)', 'r'])
+```
+
+## Parameters
+
+| Name            | Type       | Description                                                                                                                                   | Default    |
+|-----------------|------------|-----------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `obj`           | typing.Any | object to monitor. Must be a `Population`, `PopulationView`, `Dendrite` or `Projection` object.                                               | _required_ |
+| `variables`     | list       | single variable name or list of variable names to record (default: []).                                                                       | `[]`       |
+| `period`        | float      | delay in ms between two recording (default: dt). Not valid for the ``spike`` variable of a Population(View).                                  | `None`     |
+| `period_offset` | float      | determine the moment in ms of recording within the period (default 0). Must be smaller than **period**.                                       | `None`     |
+| `start`         | bool       | defines if the recording should start immediately (default: True). If not, you should later start the recordings with the ``start()`` method. | `True`     |
+
+## Attributes
+
+| Name | Description |
+| --- | --- |
+| [period](#ANNarchy.core.Monitor.Monitor.period) | Period of recording in ms |
+| [period_offset](#ANNarchy.core.Monitor.Monitor.period_offset) | Shift of moment of time of recording in ms within a period |
+| [variables](#ANNarchy.core.Monitor.Monitor.variables) | Returns a copy of the current variable list. |
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [coefficient_of_variation](#ANNarchy.core.Monitor.Monitor.coefficient_of_variation) | Computes the coefficient of variation for the recorded spikes in the population. |
+| [get](#ANNarchy.core.Monitor.Monitor.get) | Returns the recorded variables as a Numpy array (first dimension is time, second is neuron index). |
+| [histogram](#ANNarchy.core.Monitor.Monitor.histogram) | Returns a histogram for the recorded spikes in the population. |
+| [inter_spike_interval](#ANNarchy.core.Monitor.Monitor.inter_spike_interval) | Computes the inter-spike interval for the recorded spikes in the population. |
+| [mean_fr](#ANNarchy.core.Monitor.Monitor.mean_fr) | Computes the mean firing rate in the population during the recordings. |
+| [pause](#ANNarchy.core.Monitor.Monitor.pause) | Pauses the recordings. |
+| [population_rate](#ANNarchy.core.Monitor.Monitor.population_rate) | Takes the recorded spikes of a population and returns a smoothed firing rate for the population of recorded neurons. |
+| [raster_plot](#ANNarchy.core.Monitor.Monitor.raster_plot) | Returns two numpy arrays representing for each recorded spike 1) the spike times and 2) the ranks of the neurons. |
+| [reset](#ANNarchy.core.Monitor.Monitor.reset) | Reset the monitor to its initial state. |
+| [resume](#ANNarchy.core.Monitor.Monitor.resume) | Resumes the recordings. |
+| [size_in_bytes](#ANNarchy.core.Monitor.Monitor.size_in_bytes) | Get the size of allocated memory on C++ side. Please note, this is only valid if compile() was invoked. |
+| [smoothed_rate](#ANNarchy.core.Monitor.Monitor.smoothed_rate) | Computes the smoothed firing rate of the recorded spiking neurons. |
+| [start](#ANNarchy.core.Monitor.Monitor.start) | Starts recording the variables. |
+| [stop](#ANNarchy.core.Monitor.Monitor.stop) | Stops the recording. |
+| [times](#ANNarchy.core.Monitor.Monitor.times) | Returns the start and stop times (in ms) of the recorded variables. |
+
+### coefficient_of_variation { #ANNarchy.core.Monitor.Monitor.coefficient_of_variation }
+
+`core.Monitor.Monitor.coefficient_of_variation(spikes=None, ranks=None)`
+
+Computes the coefficient of variation for the recorded spikes in the population.
+
+:ranks:        a list of neurons that should be evaluated. By default (None), all neurons are evaluated.
+
+#### Parameters
+
+| Name     | Type   | Description                                                                                                                                      | Default   |
+|----------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `spikes` |        | the dictionary of spikes returned by ``get('spike')``. If left empty, ``get('spike')`` will be called. Beware: this erases the data from memory. | `None`    |
+
+### get { #ANNarchy.core.Monitor.Monitor.get }
+
+`core.Monitor.Monitor.get(variables=None, keep=False, reshape=False, force_dict=False)`
+
+Returns the recorded variables as a Numpy array (first dimension is time, second is neuron index).
+
+If a single variable name is provided, the recorded values for this variable are directly returned.
+If a list is provided or the argument left empty, a dictionary with all recorded variables is returned.
+
+The `spike` variable of a population will be returned as a dictionary of lists, where the spike times (in steps) for each recorded neurons are returned.
+
+#### Parameters
+
+| Name        | Type               | Description                                                                                  | Default   |
+|-------------|--------------------|----------------------------------------------------------------------------------------------|-----------|
+| `variables` | str \| list\[str\] | (list of) variables. By default, a dictionary with all variables is returned.                | `None`    |
+| `keep`      | bool               | defines if the content in memory for each variable should be kept (default: False).          | `False`   |
+| `reshape`   | bool               | transforms the second axis of the array to match the population's geometry (default: False). | `False`   |
+
+#### Returns
+
+| Type   | Description        |
+|--------|--------------------|
+| dict   | Recorded variables |
+
+### histogram { #ANNarchy.core.Monitor.Monitor.histogram }
+
+`core.Monitor.Monitor.histogram(spikes=None, bins=None, per_neuron=False, recording_window=None)`
+
+Returns a histogram for the recorded spikes in the population.
+
+Example:
+
+```python
+m = ann.Monitor(P[:1000], 'spike')
+ann.simulate(1000.0)
+histo = m.histogram()
+plt.plot(histo)
+```
+
+or:
+
+```python
+m = ann.Monitor(P[:1000], 'spike')
+ann.simulate(1000.0)
+spikes = m.get('spike')
+histo = m.histogram(spikes)
+plt.plot(histo)
+```
+
+#### Parameters
+
+| Name     | Type   | Description                                                                                                                                      | Default   |
+|----------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `spikes` |        | the dictionary of spikes returned by ``get('spike')``. If left empty, ``get('spike')`` will be called. Beware: this erases the data from memory. | `None`    |
+| `bins`   |        | the bin size in ms (default: dt).                                                                                                                | `None`    |
+
+### inter_spike_interval { #ANNarchy.core.Monitor.Monitor.inter_spike_interval }
+
+`core.Monitor.Monitor.inter_spike_interval(spikes=None, ranks=None, per_neuron=False)`
+
+Computes the inter-spike interval for the recorded spikes in the population.
+
+:ranks:        a list of neurons that should be evaluated. By default (None), all neurons are evaluated.
+:per_neuron:   if set to True, the computed inter-spike intervals are stored per neuron (analog to spikes), otherwise all values are stored in one huge vector (default: False).
+
+#### Parameters
+
+| Name     | Type   | Description                                                                                                                                      | Default   |
+|----------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `spikes` |        | the dictionary of spikes returned by ``get('spike')``. If left empty, ``get('spike')`` will be called. Beware: this erases the data from memory. | `None`    |
+
+### mean_fr { #ANNarchy.core.Monitor.Monitor.mean_fr }
+
+`core.Monitor.Monitor.mean_fr(spikes=None)`
+
+Computes the mean firing rate in the population during the recordings.
+
+Example:
+
+```python
+m = ann.Monitor(P[:1000], 'spike')
+ann.simulate(1000.0)
+fr = m.mean_fr()
+```
+
+or:
+
+```python
+m = ann.Monitor(P[:1000], 'spike')
+ann.simulate(1000.0)
+spikes = m.get('spike')
+fr = m.mean_fr(spikes)
+```
+
+#### Parameters
+
+| Name     | Type   | Description                                                                                                                                      | Default   |
+|----------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `spikes` |        | the dictionary of spikes returned by ``get('spike')``. If left empty, ``get('spike')`` will be called. Beware: this erases the data from memory. | `None`    |
+
+### pause { #ANNarchy.core.Monitor.Monitor.pause }
+
+`core.Monitor.Monitor.pause()`
+
+Pauses the recordings.
+
+### population_rate { #ANNarchy.core.Monitor.Monitor.population_rate }
+
+`core.Monitor.Monitor.population_rate(spikes=None, smooth=0.0)`
+
+Takes the recorded spikes of a population and returns a smoothed firing rate for the population of recorded neurons.
+
+This method is faster than calling ``smoothed_rate`` and then averaging.
+
+The first axis is the neuron index, the second is time.
+
+If ``spikes`` is left empty, ``get('spike')`` will be called. Beware: this erases the data from memory.
+
+Example:
+
+```python
+m = ann.Monitor(P[:1000], 'spike')
+ann.simulate(1000.0)
+r = m.population_rate(smooth=100.)
+```
+
+#### Parameters
+
+| Name     | Type   | Description                                            | Default   |
+|----------|--------|--------------------------------------------------------|-----------|
+| `spikes` |        | the dictionary of spikes returned by ``get('spike')``. | `None`    |
+| `smooth` |        | smoothing time constant. Default: 0.0 (no smoothing).  | `0.0`     |
+
+### raster_plot { #ANNarchy.core.Monitor.Monitor.raster_plot }
+
+`core.Monitor.Monitor.raster_plot(spikes=None)`
+
+Returns two numpy arrays representing for each recorded spike 1) the spike times and 2) the ranks of the neurons.
+
+Example:
+
+```python
+m = Monitor(P[:1000], 'spike')
+simulate(1000.0)
+t, n = m.raster_plot()
+plt.plot(t, n, '.')
+```
+
+or:
+
+```python
+m = ann.Monitor(P[:1000], 'spike')
+ann.simulate(1000.0)
+spikes = m.get('spike')
+t, n = m.raster_plot(spikes)
+plt.plot(t, n, '.')
+```
+
+#### Parameters
+
+| Name     | Type   | Description                                                                                                                                      | Default   |
+|----------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `spikes` | dict   | the dictionary of spikes returned by ``get('spike')``. If left empty, ``get('spike')`` will be called. Beware: this erases the data from memory. | `None`    |
+
+#### Returns
+
+| Type   | Description                                      |
+|--------|--------------------------------------------------|
+| tuple  | spike times and neuron indices as numpy arrays.. |
+
+### reset { #ANNarchy.core.Monitor.Monitor.reset }
+
+`core.Monitor.Monitor.reset()`
+
+Reset the monitor to its initial state.
+
+### resume { #ANNarchy.core.Monitor.Monitor.resume }
+
+`core.Monitor.Monitor.resume()`
+
+Resumes the recordings.
+
+### size_in_bytes { #ANNarchy.core.Monitor.Monitor.size_in_bytes }
+
+`core.Monitor.Monitor.size_in_bytes()`
+
+Get the size of allocated memory on C++ side. Please note, this is only valid if compile() was invoked.
+
+#### Returns
+
+| Type   | Description                              |
+|--------|------------------------------------------|
+| int    | size in bytes of all allocated C++ data. |
+
+### smoothed_rate { #ANNarchy.core.Monitor.Monitor.smoothed_rate }
+
+`core.Monitor.Monitor.smoothed_rate(spikes=None, smooth=0.0)`
+
+Computes the smoothed firing rate of the recorded spiking neurons.
+
+The first axis is the neuron index, the second is time.
+
+Example:
+
+```python
+m = ann.Monitor(P[:1000], 'spike')
+ann.simulate(1000.0)
+r = m.smoothed_rate(smooth=100.)
+```
+
+#### Parameters
+
+| Name     | Type   | Description                                                                                                                                      | Default   |
+|----------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `spikes` |        | the dictionary of spikes returned by ``get('spike')``. If left empty, ``get('spike')`` will be called. Beware: this erases the data from memory. | `None`    |
+| `smooth` |        | smoothing time constant. Default: 0.0 (no smoothing).                                                                                            | `0.0`     |
+
+### start { #ANNarchy.core.Monitor.Monitor.start }
+
+`core.Monitor.Monitor.start(variables=None, period=None)`
+
+Starts recording the variables.
+
+It is called automatically after ``compile()`` if the flag ``start`` was not passed to the constructor.
+
+#### Parameters
+
+| Name        | Type   | Description                                                                                                                        | Default   |
+|-------------|--------|------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `variables` | list   | single variable name or list of variable names to start recording (default: the ``variables`` argument passed to the constructor). | `None`    |
+| `period`    | float  | delay in ms between two recording (default: dt). Not valid for the ``spike`` variable of a Population(View).                       | `None`    |
+
+### stop { #ANNarchy.core.Monitor.Monitor.stop }
+
+`core.Monitor.Monitor.stop()`
+
+Stops the recording.
+
+Warning: This will delete the content of the C++ object and all data not previously retrieved is lost.
+
+### times { #ANNarchy.core.Monitor.Monitor.times }
+
+`core.Monitor.Monitor.times(variables=None)`
+
+Returns the start and stop times (in ms) of the recorded variables.
+
+It should only be called after a call to ``get()``, so that it describes when the variables have been recorded.
+
+#### Parameters
+
+| Name        | Type        | Description                                                               | Default   |
+|-------------|-------------|---------------------------------------------------------------------------|-----------|
+| `variables` | list\[str\] | (list of) variables. By default, the times for all variables is returned. | `None`    |
+
+#### Returns
+
+| Type   | Description                         |
+|--------|-------------------------------------|
+| dict   | dictionary of start and stop times. |

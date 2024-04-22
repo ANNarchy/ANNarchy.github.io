@@ -1,0 +1,449 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "ANNarchy 4.7.3"
+  page-navigation: true
+  bread-crumbs: false
+    
+
+  navbar:
+    background: black
+    foreground: white
+    pinned: false
+    logo: "manual/img/logowhite.png"
+
+    # Sections have their own sidebar. Only list the first file.
+    right:
+      - text: "ANNarchy"
+        file: index.qmd
+      - text: "Installation"
+        file: Installation.qmd
+      - text: "Tutorial"
+        file: tutorial/index.qmd
+      - text: "Manual"
+        file: manual/Structure.qmd
+      - text: "Notebooks"
+        file: notebooks/index.qmd
+      - text: "Reference"
+        file: reference/index.qmd
+      - icon: github
+        href: https://github.com/ANNarchy/ANNarchy
+        aria-label: GitHub
+
+  sidebar:
+
+    - title: "ANNarchy"
+      style: "docked"
+      contents:
+        - text: "ANNarchy"
+          file: index.qmd
+        - text: "Installation"
+          file: Installation.qmd
+        - text: "Publications"
+          file: Publications.qmd
+        - text: "License"
+          file: License.qmd
+
+    - title: "Tutorial"
+      style: "docked"
+      contents:
+        - text: "Tutorial"
+          file: tutorial/index.qmd
+        - text: "Slides"
+          file: tutorial/presentation.qmd
+
+    - title: "Manual"
+      style: "docked"
+      contents:
+        - section: "**Model structure**"
+          contents:
+            - manual/Structure.qmd
+            - manual/Parser.qmd
+            - manual/RateNeuron.qmd
+            - manual/SpikeNeuron.qmd
+            - manual/Populations.qmd
+            - manual/RateSynapse.qmd
+            - manual/SpikeSynapse.qmd
+            - manual/Projections.qmd
+            - manual/Connector.qmd
+        - section: "**Simulation**"
+          contents:
+            - manual/Inputs.qmd
+            - manual/Simulation.qmd
+            - manual/Configuration.qmd
+            - manual/NumericalMethods.qmd
+            - manual/Recording.qmd
+            - manual/Saving.qmd
+            - manual/Network.qmd
+        - section: "**Extensions**"
+          contents:
+            - manual/Hybrid.qmd
+            - manual/StructuralPlasticity.qmd
+            - manual/ConvolutionalNetworks.qmd
+            - manual/Notebooks.ipynb
+            - manual/Reporting.qmd
+            - manual/Logging.qmd
+
+    - title: "Notebooks"
+      style: "docked"
+      contents:
+        - text: List of notebooks
+          file: notebooks/index.qmd
+
+        - section: "**Rate-coded networks**"
+          contents:
+            - text: Echo-state networks
+              file: notebooks/RC.ipynb
+            - text: Neural field
+              file: notebooks/NeuralField.ipynb
+            - text: Bar Learning
+              file: notebooks/BarLearning.ipynb
+            - text: Miconi network
+              file: notebooks/Miconi.ipynb
+            - text: Structural plasticity
+              file: notebooks/StructuralPlasticity.ipynb
+
+        - section: "**Spiking networks**"
+          contents:
+            - text: AdEx
+              file: notebooks/AdEx.ipynb
+            - text: PyNN/Brian
+              file: notebooks/PyNN.ipynb
+            - text: Izhikevich
+              file: notebooks/Izhikevich.ipynb
+            - text: Synaptic transmission
+              file: notebooks/SynapticTransmission.ipynb
+            - text: Gap junctions
+              file: notebooks/GapJunctions.ipynb
+            - text: Hodgkin-Huxley
+              file: notebooks/HodgkinHuxley.ipynb
+            - text: COBA/CUBA
+              file: notebooks/COBA.ipynb
+            - text: STP
+              file: notebooks/STP.ipynb
+            - text: STDP I
+              file: notebooks/STDP1.ipynb
+            - text: STDP II
+              file: notebooks/STDP2.ipynb
+            - text: Homeostatic STDP - Ramp
+              file: notebooks/Ramp.ipynb
+            - text: Homeostatic STDP - SORF
+              file: notebooks/SORF.ipynb
+
+        - section: "**Advanced features**"
+          contents:
+            - text: Hybrid networks
+              file: notebooks/Hybrid.ipynb
+            - text: Parallel run
+              file: notebooks/MultipleNetworks.ipynb
+            - text: Bayesian optimization
+              file: notebooks/BayesianOptimization.ipynb
+
+        - section: "**Extensions**"
+          contents:
+            - text: Image
+              file: notebooks/Image.ipynb
+            - text: Tensorboard
+              file: notebooks/BasalGanglia.ipynb
+            - text: BOLD monitor I
+              file: notebooks/BoldMonitoring1.ipynb
+            - text: BOLD monitor II
+              file: notebooks/BoldMonitoring2.ipynb
+            - text: ANN to SNN
+              file: notebooks/ANN2SNN.ipynb
+
+    - title: "Reference"
+      style: "docked"
+      id: dummy-sidebar
+
+  page-footer:
+    center: |
+      Copyright Julien Vitay, Helge Ülo Dinkelbach, Fred Hamker
+
+format:
+  html:
+    theme: [sandstone, assets/custom.scss]
+    page-layout: full
+    number-depth: 3
+    number-sections: false
+    toc: true
+    smooth-scroll: true
+    html-math-method: katex
+
+
+highlight-style: github
+code-line-numbers: false
+bibliography: assets/references.bib
+csl: assets/frontiers.csl
+
+# Tell quarto to read the generated sidebar
+metadata-files:
+  - _sidebar.yml
+
+# Quartodoc inspects the docstrings for the API
+quartodoc:
+  # Package to document
+  package: ANNarchy
+
+  title: "**Reference**"
+  style: pkgdown
+  parser: sphinx
+  
+  # write sidebar data to this file
+  sidebar: _sidebar.yml
+
+  sections:
+    - title: "**Core components**"
+      desc: Basic objects that should be used to create a network.
+      contents:
+        - name: Population
+          package: ANNarchy.core.Population
+        - name: Projection
+          package: ANNarchy.core.Projection
+          dynamic: true # needed to inspect the connectors
+        - name: Neuron
+          package: ANNarchy.core.Neuron
+        - name: Synapse
+          package: ANNarchy.core.Synapse
+        - name: Monitor
+          package: ANNarchy.core.Monitor
+        - name: Dendrite
+          package: ANNarchy.core.Dendrite
+        - name: Network
+          package: ANNarchy.core.Network
+
+    - title: "**Configuration**"
+      desc: Configuration and compilation of the network. 
+      package: ANNarchy.core.Global
+      contents:
+        - name: setup
+          package: ANNarchy.intern.ConfigManagement
+        - name: compile
+          package: ANNarchy.generator
+        - clear
+        - reset
+        - set_seed
+        - get_population
+        - get_projection
+        - populations
+        - projections
+
+    - title: "**Simulation**"
+      desc: Methods to control the simulation. 
+      package: ANNarchy.core.Simulate
+      contents:
+        - name: simulate
+        - name: simulate_until
+        - name: step
+        - name: parallel_run
+          package: ANNarchy.core.Network
+        - name: enable_learning
+          package: ANNarchy.core.Global
+        - name: disable_learning
+          package: ANNarchy.core.Global
+        - name: get_time
+          package: ANNarchy.core.Global
+        - name: set_time
+          package: ANNarchy.core.Global
+        - name: get_current_step
+          package: ANNarchy.core.Global
+        - name: set_current_step
+          package: ANNarchy.core.Global
+        - name: dt
+          package: ANNarchy.core.Global
+        
+    - title: "**Neuron models**"
+      desc: Default neuron models that can be used directly. The naming follows the PyNN convention.
+      package: ANNarchy.models.Neurons
+      contents:
+        - LeakyIntegrator
+        - Izhikevich
+        - IF_curr_exp
+        - IF_cond_exp
+        - IF_curr_alpha
+        - IF_cond_alpha
+        - HH_cond_exp
+        - EIF_cond_alpha_isfa_ista
+        - EIF_cond_exp_isfa_ista
+
+        
+    - title: "**Synapse models**"
+      desc: Default synapse models that can be used directly. 
+      package: ANNarchy.models.Synapses
+      contents:
+        - STP
+        - STDP
+        - Hebb
+        - Oja
+        - IBCM
+        
+    - title: "**Inputs**"
+      desc: Input populations that can be used to stimulate the networks.
+      package: ANNarchy.inputs
+      contents:
+        - name: InputArray
+          package: ANNarchy.inputs.InputArray
+        - name: TimedArray
+          package: ANNarchy.inputs.TimedArray
+        - name: PoissonPopulation
+          package: ANNarchy.inputs.PoissonPopulation
+        - name: TimedPoissonPopulation
+          package: ANNarchy.inputs.TimedArray
+        - name: SpikeSourceArray
+          package: ANNarchy.inputs.SpikeSourceArray
+        - name: HomogeneousCorrelatedSpikeTrains
+          package: ANNarchy.inputs.SpikeTrains
+        - name: CurrentInjection
+          package: ANNarchy.inputs.CurrentInjection
+        - name: DecodingProjection
+          package: ANNarchy.inputs.DecodingProjection
+        - name: ImagePopulation
+          package: ANNarchy.extensions.image.ImagePopulation
+        - name: VideoPopulation
+          package: ANNarchy.extensions.image.ImagePopulation
+
+
+    - title: "**IO**"
+      desc: Saving and loading methods for the network.
+      package: ANNarchy.core.IO
+      contents:
+        - save
+        - load
+        - save_parameters
+        - load_parameters
+
+    - title: "**Utilities**"
+      desc: Various additional utilities.
+      contents:
+        - name: report
+          package: ANNarchy.parser.report.Report
+        
+    - title: "**Random Distributions**"
+      desc: Random distributions that can be used to generate numpy arrays.
+      package: ANNarchy.core.Random
+      contents:
+        - name: Uniform
+        - name: DiscreteUniform
+        - name: Normal
+        - name: LogNormal
+        - name: Exponential
+        - name: Gamma
+        - name: Binomial
+  
+    - title: "**Functions and Constants**"
+      desc: Functions and constants declared at the global level. 
+      package: ANNarchy.core.Global
+      contents:
+        - add_function
+        - functions
+        - name: Constant
+          package: ANNarchy.core.Constant
+        - list_constants
+        - get_constant 
+
+    - title: "**Plotting**"
+      desc: Plotting methods from `Monitor`that can be used without the `Monitor` object, i.e. offline. 
+      package: ANNarchy.core.Monitor
+      contents:
+        - raster_plot
+        - histogram
+        - inter_spike_interval
+        - coefficient_of_variation
+        - population_rate
+        - smoothed_rate
+
+    - title: "**Callbacks**"
+      desc: |
+        Decorator used to interrupt the simulation at the desired time. 
+
+        ```python
+        @every(period=100., offset=-10.)
+        def step_input(n):
+            pop.I = float(n) / 100.
+
+        simulate(10000.)
+        ```
+      package: ANNarchy.core.Simulate
+      contents:
+          - every
+          - callbacks_enabled
+          - disable_callbacks
+          - enable_callbacks
+          - clear_all_callbacks
+
+
+    - title: "**Convolution**"
+      desc: |
+        Extension for convolution and pooling projections. The extension has to be explicitly imported:
+
+        ```python
+        import ANNarchy as ann
+        from ANNarchy.extensions.convolution import *
+        ```
+
+      contents:
+          - name: Convolution
+            package: ANNarchy.extensions.convolution.Convolve
+          - name: Pooling
+            package: ANNarchy.extensions.convolution.Pooling
+          - name: Transpose
+            package: ANNarchy.extensions.convolution.Transpose
+          - name: Copy
+            package: ANNarchy.extensions.convolution.Copy
+
+    - title: "**BOLD monitoring**"
+      desc: |
+        Extension for monitoring BOLD signals in a population.
+
+        ```python
+        import ANNarchy as ann
+        from ANNarchy.extensions.bold import *
+        ```
+      package: ANNarchy.extensions.bold.PredefinedModels
+        
+      contents:
+          - name: BoldMonitor
+            package: ANNarchy.extensions.bold.BoldMonitor
+          - name: BoldModel
+            package: ANNarchy.extensions.bold.BoldModel
+          - name: balloon_RN
+          - name: balloon_RL
+          - name: balloon_CN
+          - name: balloon_CL
+          - name: balloon_maith2021
+          - name: balloon_two_inputs
+
+
+
+    - title: "**Tensorboard logging**"
+      desc: |
+        Logging utilities based on `tensorboard` are provided in the module `ANNarchy.extensions.tensorboard`, which must be explicitly imported:
+
+        ```python
+        import ANNarchy as ann
+        from ANNarchy.extensions.tensorboard import Logger
+        ```
+
+        The main object is the `Logger` class.
+      
+      package: ANNarchy.extensions.tensorboard.Logger
+        
+      contents:
+          - name: Logger
+
+    - title: "**ANN-to-SNN conversion**"
+      desc: |
+        Module allowing to convert an ANN trained with keras into a spiking neural network:
+
+        ```python
+        import ANNarchy as ann
+        from ANNarchy.extensions.ann_to_snn_conversion import ANNtoSNNConverter
+        ```
+      
+      package: ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter
+        
+      contents:
+          - name: ANNtoSNNConverter
+

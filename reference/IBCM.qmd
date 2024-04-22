@@ -1,0 +1,40 @@
+# IBCM { #ANNarchy.models.Synapses.IBCM }
+
+`models.Synapses.IBCM(self, eta=0.01, tau=2000.0)`
+
+Rate-coded synapse with Intrator & Cooper (1992) plasticity.
+
+**Parameters (global)**:
+
+* eta = 0.01 : learning rate.
+
+* tau = 2000.0 : time constant of the post-synaptic threshold.
+
+**Learning rule**:
+
+* theta : post-synaptic threshold:
+
+```
+tau * dtheta/dt + theta = post.r^2
+```
+
+* w : weight:
+
+```
+dw/dt = eta * post.r * (post.r - theta) * pre.r 
+```
+
+Equivalent code:
+
+```python
+IBCM = ann.Synapse(
+    parameters = """
+        eta = 0.01 : projection
+        tau = 2000.0 : projection
+    """,
+    equations = """
+        tau * dtheta/dt + theta = post.r^2 : postsynaptic, exponential
+        dw/dt = eta * post.r * (post.r - theta) * pre.r : min=0.0, explicit
+    """
+)
+```

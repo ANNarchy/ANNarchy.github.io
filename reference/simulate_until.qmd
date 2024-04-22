@@ -1,0 +1,30 @@
+# simulate_until { #ANNarchy.core.Simulate.simulate_until }
+
+`core.Simulate.simulate_until(max_duration, population, operator='and', measure_time=False, net_id=0)`
+
+Runs the network for the maximal duration in milliseconds. If the ``stop_condition`` defined in the population becomes true during the simulation, it is stopped.
+
+One can specify several populations. If the stop condition is true for any of the populations, the simulation will stop ('or' function).
+
+Example:
+
+```python
+pop1 = Population( ..., stop_condition = "r > 1.0 : any")
+compile()
+simulate_until(max_duration=1000.0, population=pop1)
+```
+
+## Parameters
+
+| Name           | Type                                                                               | Description                                                                                  | Default    |
+|----------------|------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|------------|
+| `max_duration` | float                                                                              | Maximum duration of the simulation in milliseconds.                                          | _required_ |
+| `population`   | ANNarchy.core.Population.Population \| list\[ANNarchy.core.Population.Population\] | (list of) population(s) whose ``stop_condition`` should be checked to stop the simulation.   | _required_ |
+| `operator`     |                                                                                    | Operator to be used ('and' or 'or') when multiple populations are provided (default: 'and'). | `'and'`    |
+| `measure_time` | bool                                                                               | Defines whether the simulation time should be printed (default=False).                       | `False`    |
+
+## Returns
+
+| Type   | Description                                            |
+|--------|--------------------------------------------------------|
+|        | the actual duration of the simulation in milliseconds. |

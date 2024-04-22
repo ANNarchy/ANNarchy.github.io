@@ -1,0 +1,241 @@
+# **Reference** {.doc .doc-index}
+
+## **Core components**
+
+Basic objects that should be used to create a network.
+
+| | |
+| --- | --- |
+| [Population](Population.qmd#ANNarchy.core.Population.Population) | Structure for a population of homogeneous neurons. |
+| [Projection](Projection.qmd#ANNarchy.core.Projection.Projection) | Structure holding all synapses of the same type between two populations. |
+| [Neuron](Neuron.qmd#ANNarchy.core.Neuron.Neuron) | Base class to define a neuron. |
+| [Synapse](Synapse.qmd#ANNarchy.core.Synapse.Synapse) | Base class to define a synapse. |
+| [Monitor](Monitor.qmd#ANNarchy.core.Monitor.Monitor) | Monitoring class allowing to record easily parameters or variables from Population, PopulationView, Dendrite or Projection objects. |
+| [Dendrite](Dendrite.qmd#ANNarchy.core.Dendrite.Dendrite) | A ``Dendrite`` is a sub-group of a ``Projection``, gathering the synapses between the pre-synaptic population and a single post-synaptic neuron. |
+| [Network](Network.qmd#ANNarchy.core.Network.Network) | A network gathers already defined populations, projections and monitors in order to run them independently. |
+
+## **Configuration**
+
+Configuration and compilation of the network.
+
+| | |
+| --- | --- |
+| [setup](setup.qmd#ANNarchy.intern.ConfigManagement.setup) | The setup function is used to configure ANNarchy simulation environment. It takes various optional arguments: |
+| [compile](compile.qmd#ANNarchy.generator.compile) | This method uses the network architecture to generate optimized C++ code and compile a shared library that will perform the simulation. |
+| [clear](clear.qmd#ANNarchy.core.Global.clear) | Clears all variables (erasing already defined populations, projections, monitors and constants), as if you had just imported ANNarchy. |
+| [reset](reset.qmd#ANNarchy.core.Global.reset) | Reinitialises the network to its state before the call to compile. The network time will be set to 0ms. |
+| [set_seed](set_seed.qmd#ANNarchy.core.Global.set_seed) | Sets the seed of the random number generators, both in numpy.random and in the C++ library when it is created. |
+| [get_population](get_population.qmd#ANNarchy.core.Global.get_population) | Returns the population with the given name. |
+| [get_projection](get_projection.qmd#ANNarchy.core.Global.get_projection) | Returns the projection with the given name. |
+| [populations](populations.qmd#ANNarchy.core.Global.populations) | Returns a list of all declared populations. |
+| [projections](projections.qmd#ANNarchy.core.Global.projections) | Returns a list of all declared populations. By default, the method returns all connections which were defined. |
+
+## **Simulation**
+
+Methods to control the simulation.
+
+| | |
+| --- | --- |
+| [simulate](simulate.qmd#ANNarchy.core.Simulate.simulate) | Simulates the network for the given duration in milliseconds.  |
+| [simulate_until](simulate_until.qmd#ANNarchy.core.Simulate.simulate_until) | Runs the network for the maximal duration in milliseconds. If the ``stop_condition`` defined in the population becomes true during the simulation, it is stopped. |
+| [step](step.qmd#ANNarchy.core.Simulate.step) | Performs a single simulation step (duration = ``dt``). |
+| [parallel_run](parallel_run.qmd#ANNarchy.core.Network.parallel_run) | Allows to run multiple networks in parallel using multiprocessing. |
+| [enable_learning](enable_learning.qmd#ANNarchy.core.Global.enable_learning) | Enables learning for all projections. Optionally *period* and *offset* can be changed for all projections. |
+| [disable_learning](disable_learning.qmd#ANNarchy.core.Global.disable_learning) | Disables learning for all projections. |
+| [get_time](get_time.qmd#ANNarchy.core.Global.get_time) | Returns the current time in ms. |
+| [set_time](set_time.qmd#ANNarchy.core.Global.set_time) | Sets the current time in ms. |
+| [get_current_step](get_current_step.qmd#ANNarchy.core.Global.get_current_step) | Returns the current simulation step. |
+| [set_current_step](set_current_step.qmd#ANNarchy.core.Global.set_current_step) | Sets the current simulation step (integer). |
+| [dt](dt.qmd#ANNarchy.core.Global.dt) | Returns the simulation step size `dt` used in the simulation. |
+
+## **Neuron models**
+
+Default neuron models that can be used directly. The naming follows the PyNN convention.
+
+| | |
+| --- | --- |
+| [LeakyIntegrator](LeakyIntegrator.qmd#ANNarchy.models.Neurons.LeakyIntegrator) | Leaky-integrator rate-coded neuron, optionally noisy. |
+| [Izhikevich](Izhikevich.qmd#ANNarchy.models.Neurons.Izhikevich) | Izhikevich quadratic spiking neuron. |
+| [IF_curr_exp](IF_curr_exp.qmd#ANNarchy.models.Neurons.IF_curr_exp) | Leaky integrate-and-fire model with fixed threshold and decaying-exponential post-synaptic current.  |
+| [IF_cond_exp](IF_cond_exp.qmd#ANNarchy.models.Neurons.IF_cond_exp) | Leaky integrate-and-fire model with fixed threshold and decaying-exponential post-synaptic conductance. |
+| [IF_curr_alpha](IF_curr_alpha.qmd#ANNarchy.models.Neurons.IF_curr_alpha) | Leaky integrate-and-fire model with fixed threshold and alpha post-synaptic currents.  |
+| [IF_cond_alpha](IF_cond_alpha.qmd#ANNarchy.models.Neurons.IF_cond_alpha) | Leaky integrate-and-fire model with fixed threshold and alpha post-synaptic conductance. |
+| [HH_cond_exp](HH_cond_exp.qmd#ANNarchy.models.Neurons.HH_cond_exp) | Single-compartment Hodgkin-Huxley-type neuron with transient sodium and delayed-rectifier potassium currents using the ion channel models from Traub. |
+| [EIF_cond_alpha_isfa_ista](EIF_cond_alpha_isfa_ista.qmd#ANNarchy.models.Neurons.EIF_cond_alpha_isfa_ista) | Exponential integrate-and-fire neuron with spike triggered and sub-threshold adaptation conductances (isfa, ista reps.). |
+| [EIF_cond_exp_isfa_ista](EIF_cond_exp_isfa_ista.qmd#ANNarchy.models.Neurons.EIF_cond_exp_isfa_ista) | Exponential integrate-and-fire neuron with spike triggered and sub-threshold adaptation currents (isfa, ista reps.). |
+
+## **Synapse models**
+
+Default synapse models that can be used directly.
+
+| | |
+| --- | --- |
+| [STP](STP.qmd#ANNarchy.models.Synapses.STP) | Synapse exhibiting short-term facilitation and depression. |
+| [STDP](STDP.qmd#ANNarchy.models.Synapses.STDP) | Spike-timing dependent plasticity, online version. |
+| [Hebb](Hebb.qmd#ANNarchy.models.Synapses.Hebb) | Rate-coded synapse with Hebbian plasticity. |
+| [Oja](Oja.qmd#ANNarchy.models.Synapses.Oja) | Rate-coded synapse with regularized Hebbian plasticity (Oja). |
+| [IBCM](IBCM.qmd#ANNarchy.models.Synapses.IBCM) | Rate-coded synapse with Intrator & Cooper (1992) plasticity. |
+
+## **Inputs**
+
+Input populations that can be used to stimulate the networks.
+
+| | |
+| --- | --- |
+| [InputArray](InputArray.qmd#ANNarchy.inputs.InputArray.InputArray) | Population holding static inputs for a rate-coded network. |
+| [TimedArray](TimedArray.qmd#ANNarchy.inputs.TimedArray.TimedArray) | Data structure holding sequential inputs for a rate-coded network. |
+| [PoissonPopulation](PoissonPopulation.qmd#ANNarchy.inputs.PoissonPopulation.PoissonPopulation) | Population of spiking neurons following a Poisson distribution. |
+| [TimedPoissonPopulation](TimedPoissonPopulation.qmd#ANNarchy.inputs.TimedArray.TimedPoissonPopulation) | Poisson population whose rate vary with the provided schedule. |
+| [SpikeSourceArray](SpikeSourceArray.qmd#ANNarchy.inputs.SpikeSourceArray.SpikeSourceArray) | Spike source generating spikes at the times given in the spike_times array. |
+| [HomogeneousCorrelatedSpikeTrains](HomogeneousCorrelatedSpikeTrains.qmd#ANNarchy.inputs.SpikeTrains.HomogeneousCorrelatedSpikeTrains) | Population of spiking neurons following a homogeneous distribution with correlated spike trains. |
+| [CurrentInjection](CurrentInjection.qmd#ANNarchy.inputs.CurrentInjection.CurrentInjection) | Inject current from a rate-coded population into a spiking population. |
+| [DecodingProjection](DecodingProjection.qmd#ANNarchy.inputs.DecodingProjection.DecodingProjection) | Decoding projection to transform spike trains into firing rates. |
+| [ImagePopulation](ImagePopulation.qmd#ANNarchy.extensions.image.ImagePopulation.ImagePopulation) | Rate-coded Population allowing to represent images (png, jpg...) as the firing rate of a population (each neuron represents one pixel). |
+| [VideoPopulation](VideoPopulation.qmd#ANNarchy.extensions.image.ImagePopulation.VideoPopulation) | Rate-coded Population allowing to feed a webcam input into the firing rate of a population (each neuron represents one pixel). |
+
+## **IO**
+
+Saving and loading methods for the network.
+
+| | |
+| --- | --- |
+| [save](save.qmd#ANNarchy.core.IO.save) | Save the current network state (parameters and variables) to a file. |
+| [load](load.qmd#ANNarchy.core.IO.load) | Loads a saved state of the network. |
+| [save_parameters](save_parameters.qmd#ANNarchy.core.IO.save_parameters) | Saves the global parameters of a network (flag ``population`` for neurons, ``projection`` for synapses) to a JSON file. |
+| [load_parameters](load_parameters.qmd#ANNarchy.core.IO.load_parameters) | Loads the global parameters of a network (flag ``population`` for neurons, ``projection`` for synapses) from a JSON file. |
+
+## **Utilities**
+
+Various additional utilities.
+
+| | |
+| --- | --- |
+| [report](report.qmd#ANNarchy.parser.report.Report.report) | Generates a report describing the network. |
+
+## **Random Distributions**
+
+Random distributions that can be used to generate numpy arrays.
+
+| | |
+| --- | --- |
+| [Uniform](Uniform.qmd#ANNarchy.core.Random.Uniform) | Uniform distribution between ``min`` and ``max``. |
+| [DiscreteUniform](DiscreteUniform.qmd#ANNarchy.core.Random.DiscreteUniform) | Discrete uniform distribution between ``min`` and ``max``. |
+| [Normal](Normal.qmd#ANNarchy.core.Random.Normal) | Normal distribution. |
+| [LogNormal](LogNormal.qmd#ANNarchy.core.Random.LogNormal) | Log-normal distribution. |
+| [Exponential](Exponential.qmd#ANNarchy.core.Random.Exponential) | Exponential distribution, according to the density function: |
+| [Gamma](Gamma.qmd#ANNarchy.core.Random.Gamma) | Gamma distribution. |
+| [Binomial](Binomial.qmd#ANNarchy.core.Random.Binomial) | Binomial distribution. |
+
+## **Functions and Constants**
+
+Functions and constants declared at the global level.
+
+| | |
+| --- | --- |
+| [add_function](add_function.qmd#ANNarchy.core.Global.add_function) | Defines a global function which can be used by all neurons and synapses. |
+| [functions](functions.qmd#ANNarchy.core.Global.functions) | Allows to access a global function declared with ``add_function`` and use it from Python using arrays **after compilation**. |
+| [Constant](Constant.qmd#ANNarchy.core.Constant.Constant) | Constant parameter that can be used by all neurons and synapses. |
+| [list_constants](list_constants.qmd#ANNarchy.core.Global.list_constants) | Returns a list of all constants declared with ``Constant(name, value)``. |
+| [get_constant](get_constant.qmd#ANNarchy.core.Global.get_constant) | Returns the ``Constant`` object with the given name, ``None`` otherwise. |
+
+## **Plotting**
+
+Plotting methods from `Monitor`that can be used without the `Monitor` object, i.e. offline.
+
+| | |
+| --- | --- |
+| [raster_plot](raster_plot.qmd#ANNarchy.core.Monitor.raster_plot) | Returns two vectors representing for each recorded spike 1) the spike times and 2) the ranks of the neurons. |
+| [histogram](histogram.qmd#ANNarchy.core.Monitor.histogram) | Returns a histogram for the recorded spikes in the population. |
+| [inter_spike_interval](inter_spike_interval.qmd#ANNarchy.core.Monitor.inter_spike_interval) | Computes the inter-spike interval (ISI) for the recorded spike events of a population. |
+| [coefficient_of_variation](coefficient_of_variation.qmd#ANNarchy.core.Monitor.coefficient_of_variation) | Computes the coefficient of variation of the inter-spike intervals for the recorded spike events of a population. |
+| [population_rate](population_rate.qmd#ANNarchy.core.Monitor.population_rate) | Takes the recorded spikes of a population and returns a smoothed firing rate for the population of recorded neurons. |
+| [smoothed_rate](smoothed_rate.qmd#ANNarchy.core.Monitor.smoothed_rate) | Computes the smoothed firing rate of the recorded spiking neurons. |
+
+## **Callbacks**
+
+Decorator used to interrupt the simulation at the desired time. 
+
+```python
+@every(period=100., offset=-10.)
+def step_input(n):
+    pop.I = float(n) / 100.
+
+simulate(10000.)
+```
+
+
+| | |
+| --- | --- |
+| [every](every.qmd#ANNarchy.core.Simulate.every) | Decorator to declare a callback method that will be called periodically during the simulation. |
+| [callbacks_enabled](callbacks_enabled.qmd#ANNarchy.core.Simulate.callbacks_enabled) | Returns True if callbacks are enabled for the network. |
+| [disable_callbacks](disable_callbacks.qmd#ANNarchy.core.Simulate.disable_callbacks) | Disables all callbacks for the network. |
+| [enable_callbacks](enable_callbacks.qmd#ANNarchy.core.Simulate.enable_callbacks) | Enables all declared callbacks for the network. |
+| [clear_all_callbacks](clear_all_callbacks.qmd#ANNarchy.core.Simulate.clear_all_callbacks) | Clears the list of declared callbacks for the network. |
+
+## **Convolution**
+
+Extension for convolution and pooling projections. The extension has to be explicitly imported:
+
+```python
+import ANNarchy as ann
+from ANNarchy.extensions.convolution import *
+```
+
+
+| | |
+| --- | --- |
+| [Convolution](Convolution.qmd#ANNarchy.extensions.convolution.Convolve.Convolution) | Performs a convolution of a weight kernel on the pre-synaptic population. |
+| [Pooling](Pooling.qmd#ANNarchy.extensions.convolution.Pooling.Pooling) | Performs a pooling operation (e.g. max.pooling) on the pre-synaptic population. |
+| [Transpose](Transpose.qmd#ANNarchy.extensions.convolution.Transpose.Transpose) | Transposed projection reusing the weights of an already-defined rate-coded projection.  |
+| [Copy](Copy.qmd#ANNarchy.extensions.convolution.Copy.Copy) | Creates a virtual projection reusing the weights and delays of an already-defined projection. |
+
+## **BOLD monitoring**
+
+Extension for monitoring BOLD signals in a population.
+
+```python
+import ANNarchy as ann
+from ANNarchy.extensions.bold import *
+```
+
+
+| | |
+| --- | --- |
+| [BoldMonitor](BoldMonitor.qmd#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor) | Monitors the BOLD signal for several populations using a computational model. |
+| [BoldModel](BoldModel.qmd#ANNarchy.extensions.bold.BoldModel.BoldModel) | Base class to define a BOLD model to be used in a BOLD monitor. |
+| [balloon_RN](balloon_RN.qmd#ANNarchy.extensions.bold.PredefinedModels.balloon_RN) | A balloon model with revised coefficients and non-linear BOLD equation derived from Stephan et al. (2007). |
+| [balloon_RL](balloon_RL.qmd#ANNarchy.extensions.bold.PredefinedModels.balloon_RL) | A balloon model with revised coefficients and linear BOLD equation derived from Stephan et al. (2007). |
+| [balloon_CN](balloon_CN.qmd#ANNarchy.extensions.bold.PredefinedModels.balloon_CN) | A balloon model with classic coefficients and non-linear BOLD equation derived from Stephan et al. (2007). |
+| [balloon_CL](balloon_CL.qmd#ANNarchy.extensions.bold.PredefinedModels.balloon_CL) | A balloon model with classical coefficients and linear BOLD equation derived from Stephan et al. (2007). |
+| [balloon_maith2021](balloon_maith2021.qmd#ANNarchy.extensions.bold.PredefinedModels.balloon_maith2021) | The balloon model as used in Maith et al. (2021). |
+| [balloon_two_inputs](balloon_two_inputs.qmd#ANNarchy.extensions.bold.PredefinedModels.balloon_two_inputs) | BOLD model with two input signals (CBF-driving and CMRO2-driving) for the ballon model and non-linear BOLD equation with revised coefficients based on Buxton et al. (2004), Friston et al. (2000) and Stephan et al. (2007). |
+
+## **Tensorboard logging**
+
+Logging utilities based on `tensorboard` are provided in the module `ANNarchy.extensions.tensorboard`, which must be explicitly imported:
+
+```python
+import ANNarchy as ann
+from ANNarchy.extensions.tensorboard import Logger
+```
+
+The main object is the `Logger` class.
+
+
+| | |
+| --- | --- |
+| [Logger](Logger.qmd#ANNarchy.extensions.tensorboard.Logger.Logger) | Logger class to use tensorboard to visualize ANNarchy simulations. Requires the `tensorboardX` package (pip install tensorboardX).  |
+
+## **ANN-to-SNN conversion**
+
+Module allowing to convert an ANN trained with keras into a spiking neural network:
+
+```python
+import ANNarchy as ann
+from ANNarchy.extensions.ann_to_snn_conversion import ANNtoSNNConverter
+```
+
+
+| | |
+| --- | --- |
+| [ANNtoSNNConverter](ANNtoSNNConverter.qmd#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter) | Converts a pre-trained Keras model into a spiking neural network.  |

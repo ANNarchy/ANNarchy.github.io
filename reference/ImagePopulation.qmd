@@ -1,0 +1,47 @@
+# ImagePopulation { #ANNarchy.extensions.image.ImagePopulation.ImagePopulation }
+
+`extensions.image.ImagePopulation.ImagePopulation(self, geometry, name=None, copied=False)`
+
+Rate-coded Population allowing to represent images (png, jpg...) as the firing rate of a population (each neuron represents one pixel).
+
+This extension requires the Python Image Library (pip install Pillow).
+
+The extensions has to be explicitly imported:
+
+```python
+import ANNarchy as ann
+from ANNarchy.extensions.image import ImagePopulation
+
+pop = ImagePopulation(geometry=(480, 640))
+pop.set_image('image.jpg')
+```
+
+About the geometry:
+
+* If the geometry is 2D, it corresponds to the (height, width) of the image. Only the luminance of the pixels will be represented (grayscale image).
+* If the geometry is 3D, the third dimension can be either 1 (grayscale) or 3 (color).
+
+If the third dimension is 3, each will correspond to the RGB values of the pixels.
+
+**Warning:** due to the indexing system of Numpy, a 640*480 image should be fed into a (480, 640) or (480, 640, 3) population.
+
+## Parameters
+
+| Name       | Type   | Description                                                                                                   | Default    |
+|------------|--------|---------------------------------------------------------------------------------------------------------------|------------|
+| `geometry` | tuple  | population geometry as tuple. It must correspond to the image size and be fixed through the whole simulation. | _required_ |
+| `name`     | str    | unique name of the population (optional).                                                                     | `None`     |
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [set_image](#ANNarchy.extensions.image.ImagePopulation.ImagePopulation.set_image) | Sets an image (.png, .jpg or whatever is supported by PIL) into the firing rate of the population. |
+
+### set_image { #ANNarchy.extensions.image.ImagePopulation.ImagePopulation.set_image }
+
+`extensions.image.ImagePopulation.ImagePopulation.set_image(image_name)`
+
+Sets an image (.png, .jpg or whatever is supported by PIL) into the firing rate of the population.
+
+If the image has a different size from the population, it will be resized.

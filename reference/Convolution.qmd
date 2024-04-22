@@ -1,0 +1,142 @@
+# Convolution { #ANNarchy.extensions.convolution.Convolve.Convolution }
+
+`extensions.convolution.Convolve.Convolution(self, pre, post, target, psp='pre.r * w', operation='sum', name=None, copied=False)`
+
+Performs a convolution of a weight kernel on the pre-synaptic population.
+
+Despite its name, the operation performed is actually a cross-correlation, as is usual in computer vision and convolutional neural networks:
+
+$$g(x) = \sum_{k=-n}^n h(k) \, f(x + k)$$
+
+The convolution operation benefits from giving a multi-dimensional geometry to the populations and filters, for example in 2D:
+
+```python
+inp = ann.Population(geometry=(100, 100), neuron=ann.Neuron(parameters="r = 0.0"))
+pop = ann.Population(geometry=(100, 100), neuron=ann.Neuron(equations="r = sum(exc)"))
+
+proj = Convolution(inp, pop, 'exc')
+proj.connect_filter(
+    [
+        [-1., 0., 1.],
+        [-1., 0., 1.],
+        [-1., 0., 1.]
+    ])
+```
+
+The maximum number of dimensions for populations and filters is 4, an error is thrown otherwise.
+
+Depending on the number of dimensions of the pre- and post-synaptic populations, as well as of the kernel, the convolution is implemented differentely.
+
+**Method connect_filter()**
+
+* If the pre- and post-populations have the same dimension as the kernel, the convolution is regular. Example:
+
+    (100, 100) * (3, 3) -> (100, 100)
+
+* If the post-population has one dimension less than the pre-synaptic one, the last dimension of the kernel must match the last one of the pre-synaptic population. Example:
+
+    (100, 100, 3) * (3, 3, 3) -> (100, 100)
+
+* If the kernel has less dimensions than the two populations, the number of neurons in the last dimension of the populations must be the same. The convolution will be calculated for each feature map in the last dimension. In this case, you must set ``keep_last_dimension`` to ``True``. Example:
+
+    (100, 100, 16) * (3, 3) -> (100, 100, 16)
+
+**Method connect_filters()**
+
+* If the kernel has more dimensions than the pre-synaptic population, this means a bank of different filters will be applied on the pre-synaptic population (like a convolutional layer in a CNN). Attention: the first index of ``weights`` corresponds to the different filters, while the result will be accessible in the last dimension of the post-synaptic population. You must set the ``multiple`` argument to True. Example:
+
+    (100, 100) * (16, 3, 3) -> (100, 100, 16)
+
+The convolution **always** uses padding for elements that would be outside the array (no equivalent of ``valid`` in tensorflow). It is 0.0 by default, but can be changed using the ``padding`` argument. Setting ``padding`` to the string ``border`` will repeat the value of the border elements.
+
+Sub-sampling will be automatically performed according to the populations' geometry. If these geometries do not match, an error will be thrown. Example:
+
+    (100, 100) * (3, 3) -> (50, 50)
+
+You can redefine the sub-sampling by providing a list ``subsampling`` as argument, defining for each post-synaptic neuron the coordinates of the pre-synaptic neuron which will be the center of the filter/kernel.
+
+## Parameters
+
+| Name        | Type   | Description                                                                                                 | Default       |
+|-------------|--------|-------------------------------------------------------------------------------------------------------------|---------------|
+| `pre`       |        | pre-synaptic population (either its name or a ``Population`` object).                                       | _required_    |
+| `post`      |        | post-synaptic population (either its name or a ``Population`` object).                                      | _required_    |
+| `target`    |        | type of the connection                                                                                      | _required_    |
+| `psp`       |        | continuous influence of a single synapse on the post-synaptic neuron (default for rate-coded: ``w*pre.r``). | `'pre.r * w'` |
+| `operation` |        | operation (sum, max, min, mean) performed by the kernel (default: sum).                                     | `'sum'`       |
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [connect_filter](#ANNarchy.extensions.convolution.Convolve.Convolution.connect_filter) | Applies a single filter on the pre-synaptic population. |
+| [connect_filters](#ANNarchy.extensions.convolution.Convolve.Convolution.connect_filters) | Applies a set of different filters on the pre-synaptic population. |
+| [connectivity_matrix](#ANNarchy.extensions.convolution.Convolve.Convolution.connectivity_matrix) | Not available. |
+| [load](#ANNarchy.extensions.convolution.Convolve.Convolution.load) | Not available. |
+| [receptive_fields](#ANNarchy.extensions.convolution.Convolve.Convolution.receptive_fields) | Not available. |
+| [save](#ANNarchy.extensions.convolution.Convolve.Convolution.save) | Not available. |
+| [save_connectivity](#ANNarchy.extensions.convolution.Convolve.Convolution.save_connectivity) | Not available. |
+
+### connect_filter { #ANNarchy.extensions.convolution.Convolve.Convolution.connect_filter }
+
+`extensions.convolution.Convolve.Convolution.connect_filter(weights, delays=0.0, keep_last_dimension=False, padding=0.0, subsampling=None)`
+
+Applies a single filter on the pre-synaptic population.
+
+#### Parameters
+
+| Name                  | Type   | Description                                                                                                                                                                                                                                                                                        | Default    |
+|-----------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `weights`             |        | numpy array or list of lists representing the matrix of weights for the filter.                                                                                                                                                                                                                    | _required_ |
+| `delays`              |        | delay in synaptic transmission (default: dt). Can only be the same value for all neurons.                                                                                                                                                                                                          | `0.0`      |
+| `keep_last_dimension` |        | defines if the last dimension of the pre- and post-synaptic will be convolved in parallel. The weights matrix must have one dimension less than the pre-synaptic population, and the number of neurons in the last dimension of the pre- and post-synaptic populations must match. Default: False. | `False`    |
+| `padding`             |        | value to be used for the rates outside the pre-synaptic population. If it is a floating value, the pre-synaptic population is virtually extended with this value above its boundaries. If it is equal to 'border', the values on the boundaries are repeated. Default: 0.0.                        | `0.0`      |
+| `subsampling`         |        | list for each post-synaptic neuron of coordinates in the pre-synaptic population defining the center of the kernel/filter. Default: None.                                                                                                                                                          | `None`     |
+
+### connect_filters { #ANNarchy.extensions.convolution.Convolve.Convolution.connect_filters }
+
+`extensions.convolution.Convolve.Convolution.connect_filters(weights, delays=0.0, keep_last_dimension=False, padding=0.0, subsampling=None)`
+
+Applies a set of different filters on the pre-synaptic population.
+
+The weights matrix must have one dimension more than the pre-synaptic populations, and the number of neurons in the last dimension of the post-synaptic population must be equal to the number of filters.
+
+#### Parameters
+
+| Name                  | Type   | Description                                                                                                                                                                                                                                                                                        | Default    |
+|-----------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `weights`             |        | numpy array or list of lists representing the matrix of weights for the filter.                                                                                                                                                                                                                    | _required_ |
+| `delays`              |        | delay in synaptic transmission (default: dt). Can only be the same value for all neurons.                                                                                                                                                                                                          | `0.0`      |
+| `keep_last_dimension` |        | defines if the last dimension of the pre- and post-synaptic will be convolved in parallel. The weights matrix must have one dimension less than the pre-synaptic population, and the number of neurons in the last dimension of the pre- and post-synaptic populations must match. Default: False. | `False`    |
+| `padding`             |        | value to be used for the rates outside the pre-synaptic population. If it is a floating value, the pre-synaptic population is virtually extended with this value above its boundaries. If it is equal to 'border', the values on the boundaries are repeated. Default: 0.0.                        | `0.0`      |
+| `subsampling`         |        | list for each post-synaptic neuron of coordinates in the pre-synaptic population defining the center of the kernel/filter. Default: None.                                                                                                                                                          | `None`     |
+
+### connectivity_matrix { #ANNarchy.extensions.convolution.Convolve.Convolution.connectivity_matrix }
+
+`extensions.convolution.Convolve.Convolution.connectivity_matrix(fill=0.0)`
+
+Not available.
+
+### load { #ANNarchy.extensions.convolution.Convolve.Convolution.load }
+
+`extensions.convolution.Convolve.Convolution.load(filename)`
+
+Not available.
+
+### receptive_fields { #ANNarchy.extensions.convolution.Convolve.Convolution.receptive_fields }
+
+`extensions.convolution.Convolve.Convolution.receptive_fields(variable='w', in_post_geometry=True)`
+
+Not available.
+
+### save { #ANNarchy.extensions.convolution.Convolve.Convolution.save }
+
+`extensions.convolution.Convolve.Convolution.save(filename)`
+
+Not available.
+
+### save_connectivity { #ANNarchy.extensions.convolution.Convolve.Convolution.save_connectivity }
+
+`extensions.convolution.Convolve.Convolution.save_connectivity(filename)`
+
+Not available.

@@ -1,0 +1,66 @@
+# Transpose { #ANNarchy.extensions.convolution.Transpose.Transpose }
+
+`extensions.convolution.Transpose.Transpose(self, proj, target)`
+
+Transposed projection reusing the weights of an already-defined rate-coded projection. 
+
+Even though the original projection can be learnable, this one can not. The computed post-synaptic potential is the default case for rate-coded projections: "w * pre.r"
+
+The proposed `target` can differ from the target of the forward projection.
+
+Example:
+
+```python
+proj_ff = ann.Projection( input, output, target="exc" )
+proj_ff.connect_all_to_all(weights=Uniform(0,1)
+
+proj_fb = Transpose(proj_ff, target="inh")
+proj_fb.connect()
+````
+
+## Parameters
+
+| Name     | Type   | Description                                                | Default    |
+|----------|--------|------------------------------------------------------------|------------|
+| `proj`   |        | original projection.                                       | _required_ |
+| `target` |        | type of the connection (can differ from the original one). | _required_ |
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [connectivity_matrix](#ANNarchy.extensions.convolution.Transpose.Transpose.connectivity_matrix) | Not available. |
+| [load](#ANNarchy.extensions.convolution.Transpose.Transpose.load) | Not available. |
+| [receptive_fields](#ANNarchy.extensions.convolution.Transpose.Transpose.receptive_fields) | Not available. |
+| [save](#ANNarchy.extensions.convolution.Transpose.Transpose.save) | Not available. |
+| [save_connectivity](#ANNarchy.extensions.convolution.Transpose.Transpose.save_connectivity) | Not available. |
+
+### connectivity_matrix { #ANNarchy.extensions.convolution.Transpose.Transpose.connectivity_matrix }
+
+`extensions.convolution.Transpose.Transpose.connectivity_matrix(fill=0.0)`
+
+Not available.
+
+### load { #ANNarchy.extensions.convolution.Transpose.Transpose.load }
+
+`extensions.convolution.Transpose.Transpose.load(filename)`
+
+Not available.
+
+### receptive_fields { #ANNarchy.extensions.convolution.Transpose.Transpose.receptive_fields }
+
+`extensions.convolution.Transpose.Transpose.receptive_fields(variable='w', in_post_geometry=True)`
+
+Not available.
+
+### save { #ANNarchy.extensions.convolution.Transpose.Transpose.save }
+
+`extensions.convolution.Transpose.Transpose.save(filename)`
+
+Not available.
+
+### save_connectivity { #ANNarchy.extensions.convolution.Transpose.Transpose.save_connectivity }
+
+`extensions.convolution.Transpose.Transpose.save_connectivity(filename)`
+
+Not available.

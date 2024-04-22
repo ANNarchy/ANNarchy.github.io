@@ -1,0 +1,35 @@
+# save { #ANNarchy.core.IO.save }
+
+`core.IO.save(filename, populations=True, projections=True, net_id=0)`
+
+Save the current network state (parameters and variables) to a file.
+
+* If the extension is '.npz', the data will be saved and compressed using `np.savez_compressed` (recommended).
+
+* If the extension is '.mat', the data will be saved as a Matlab 7.2 file. Scipy must be installed.
+
+* If the extension ends with '.gz', the data will be pickled into a binary file and compressed using gzip.
+
+* Otherwise, the data will be pickled into a simple binary text file using cPickle.
+
+**Warning:** The '.mat' data will not be loadable by ANNarchy, it is only for external analysis purpose.
+
+Example:
+
+```python
+ann.save('results/init.npz')
+
+ann.save('results/init.data')
+
+ann.save('results/init.txt.gz')
+
+ann.save('1000_trials.mat')
+```
+
+## Parameters
+
+| Name          | Type   | Description                                              | Default    |
+|---------------|--------|----------------------------------------------------------|------------|
+| `filename`    | str    | filename, may contain relative or absolute path.         | _required_ |
+| `populations` | bool   | if True, population data will be saved (by default True) | `True`     |
+| `projections` | bool   | if True, projection data will be saved (by default True) | `True`     |

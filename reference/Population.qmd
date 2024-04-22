@@ -1,0 +1,290 @@
+# Population { #ANNarchy.core.Population.Population }
+
+`core.Population.Population(self, geometry, neuron, name=None, stop_condition=None, storage_order='post_to_pre', copied=False)`
+
+Structure for a population of homogeneous neurons.
+
+Example:
+
+```python
+pop = ann.Population(100, neuron=ann.Izhikevich, name="Excitatory population")
+```
+
+## Parameters
+
+| Name             | Type                        | Description                                                                                | Default    |
+|------------------|-----------------------------|--------------------------------------------------------------------------------------------|------------|
+| `geometry`       | tuple \| int                | population geometry as tuple. If an integer is given, it is the size of the population.    | _required_ |
+| `neuron`         | ANNarchy.core.Neuron.Neuron | `Neuron`instance. It can be user-defined or a built-in model.                              | _required_ |
+| `name`           | str                         | unique name of the population (optional, it defaults to `pop0`, `pop1`, etc).              | `None`     |
+| `stop_condition` | str                         | a single condition on a neural variable which can stop the simulation whenever it is true. | `None`     |
+
+## Attributes
+
+| Name | Description |
+| --- | --- |
+| [neurons](#ANNarchy.core.Population.Population.neurons) | Returns iteratively each neuron in the population. |
+| [refractory](#ANNarchy.core.Population.Population.refractory) | Refractory period (in ms). |
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [clear](#ANNarchy.core.Population.Population.clear) | Clears all spiking events previously emitted (history of spikes, delayed spikes). |
+| [compute_firing_rate](#ANNarchy.core.Population.Population.compute_firing_rate) | Tells spiking neurons in the population to compute their mean firing rate over the given window and store the values in the variable `r`. |
+| [coordinates_from_rank](#ANNarchy.core.Population.Population.coordinates_from_rank) | Returns the coordinates of a neuron based on its rank. |
+| [disable](#ANNarchy.core.Population.Population.disable) | Temporarily disables computations in this population (including the projections leading to it). |
+| [enable](#ANNarchy.core.Population.Population.enable) | (Re)-enables computations in this population, after they were disabled by the ``disable()`` method. |
+| [get](#ANNarchy.core.Population.Population.get) | Returns the value of neural variables and parameters. |
+| [load](#ANNarchy.core.Population.Population.load) | Load the saved state of the population by `Population.save()`. |
+| [neuron](#ANNarchy.core.Population.Population.neuron) | Returns an ``IndividualNeuron`` object wrapping the neuron with the provided rank or coordinates. |
+| [normalized_coordinates_from_rank](#ANNarchy.core.Population.Population.normalized_coordinates_from_rank) | Returns normalized coordinates of a neuron based on its rank.  |
+| [rank_from_coordinates](#ANNarchy.core.Population.Population.rank_from_coordinates) | Returns the rank of a neuron based on coordinates. |
+| [reset](#ANNarchy.core.Population.Population.reset) | Resets all parameters and variables of the population to the value they had before the call to compile(). |
+| [save](#ANNarchy.core.Population.Population.save) | Saves all information about the population (structure, current value of parameters and variables) into a file. |
+| [set](#ANNarchy.core.Population.Population.set) | Sets the value of neural variables and parameters. |
+| [size_in_bytes](#ANNarchy.core.Population.Population.size_in_bytes) | Returns the size of allocated memory on the C++ side. Please note that this does not contain monitored data and works only if compile() has been invoked. |
+| [sum](#ANNarchy.core.Population.Population.sum) | Returns the array of weighted sums corresponding to the target: |
+
+### clear { #ANNarchy.core.Population.Population.clear }
+
+`core.Population.Population.clear()`
+
+Clears all spiking events previously emitted (history of spikes, delayed spikes).
+
+Can be useful if you do not want to totally reset a population (i.e. all variables), only to clear the spiking history between two trials.
+
+Note: does nothing for rate-coded networks.
+
+### compute_firing_rate { #ANNarchy.core.Population.Population.compute_firing_rate }
+
+`core.Population.Population.compute_firing_rate(window)`
+
+Tells spiking neurons in the population to compute their mean firing rate over the given window and store the values in the variable `r`.
+
+This method has an effect on spiking neurons only.
+
+If this method is not called, `r` will always be 0.0. `r` can of course be accessed and recorded as any other variable.
+
+#### Parameters
+
+| Name     | Type   | Description                                         | Default    |
+|----------|--------|-----------------------------------------------------|------------|
+| `window` | float  | window in ms over which the spikes will be counted. | _required_ |
+
+### coordinates_from_rank { #ANNarchy.core.Population.Population.coordinates_from_rank }
+
+`core.Population.Population.coordinates_from_rank(rank)`
+
+Returns the coordinates of a neuron based on its rank.
+
+#### Parameters
+
+| Name   | Type   | Description         | Default    |
+|--------|--------|---------------------|------------|
+| `rank` | int    | Rank of the neuron. | _required_ |
+
+#### Returns
+
+| Type   | Description   |
+|--------|---------------|
+| tuple  | Coordinates.  |
+
+### disable { #ANNarchy.core.Population.Population.disable }
+
+`core.Population.Population.disable()`
+
+Temporarily disables computations in this population (including the projections leading to it).
+
+You can re-enable it with the ``enable()`` method.
+
+### enable { #ANNarchy.core.Population.Population.enable }
+
+`core.Population.Population.enable()`
+
+(Re)-enables computations in this population, after they were disabled by the ``disable()`` method.
+
+The status of the population is accessible through the ``enabled`` flag.
+
+### get { #ANNarchy.core.Population.Population.get }
+
+`core.Population.Population.get(name)`
+
+Returns the value of neural variables and parameters.
+
+#### Parameters
+
+| Name   | Type   | Description                 | Default    |
+|--------|--------|-----------------------------|------------|
+| `name` | str    | attribute name as a string. | _required_ |
+
+### load { #ANNarchy.core.Population.Population.load }
+
+`core.Population.Population.load(filename, pickle_encoding=None)`
+
+Load the saved state of the population by `Population.save()`.
+
+Warning: Matlab data can not be loaded.
+
+Example:
+
+```python
+pop.load('pop1.npz')
+pop.load('pop1.txt')
+pop.load('pop1.txt.gz')
+```
+
+#### Parameters
+
+| Name       | Type   | Description                                  | Default    |
+|------------|--------|----------------------------------------------|------------|
+| `filename` |        | the filename with relative or absolute path. | _required_ |
+
+### neuron { #ANNarchy.core.Population.Population.neuron }
+
+`core.Population.Population.neuron(*coord)`
+
+Returns an ``IndividualNeuron`` object wrapping the neuron with the provided rank or coordinates.
+
+#### Returns
+
+| Type                                  | Description                |
+|---------------------------------------|----------------------------|
+| ANNarchy.core.Neuron.IndividualNeuron | IndividualNeuron instance. |
+
+### normalized_coordinates_from_rank { #ANNarchy.core.Population.Population.normalized_coordinates_from_rank }
+
+`core.Population.Population.normalized_coordinates_from_rank(rank, norm=1.0)`
+
+Returns normalized coordinates of a neuron based on its rank. 
+The geometry of the population is mapped to the hypercube $[0, 1]^d$
+
+#### Parameters
+
+| Name   | Type   | Description                      | Default    |
+|--------|--------|----------------------------------|------------|
+| `rank` | int    | Rank of the neuron               | _required_ |
+| `norm` | float  | Norm of the cube (default = 1.0) | `1.0`      |
+
+#### Returns
+
+| Type   | Description   |
+|--------|---------------|
+| tuple  | Coordinates.  |
+
+### rank_from_coordinates { #ANNarchy.core.Population.Population.rank_from_coordinates }
+
+`core.Population.Population.rank_from_coordinates(coord)`
+
+Returns the rank of a neuron based on coordinates.
+
+#### Parameters
+
+| Name    | Type   | Description                                | Default    |
+|---------|--------|--------------------------------------------|------------|
+| `coord` | tuple  | Coordinate tuple, can be multidimensional. | _required_ |
+
+#### Returns
+
+| Type   | Description   |
+|--------|---------------|
+| int    | Rank.         |
+
+### reset { #ANNarchy.core.Population.Population.reset }
+
+`core.Population.Population.reset(attributes=None)`
+
+Resets all parameters and variables of the population to the value they had before the call to compile().
+
+#### Parameters
+
+| Name         | Type   | Description                                                                                        | Default   |
+|--------------|--------|----------------------------------------------------------------------------------------------------|-----------|
+| `attributes` | list   | list of attributes (parameter or variable) which should be reinitialized. Default: all attributes. | `None`    |
+
+### save { #ANNarchy.core.Population.Population.save }
+
+`core.Population.Population.save(filename)`
+
+Saves all information about the population (structure, current value of parameters and variables) into a file.
+
+* If the file name is '.npz', the data will be saved and compressed using `np.savez_compressed` (recommended).
+
+* If the file name ends with '.gz', the data will be pickled into a binary file and compressed using gzip.
+
+* If the file name is '.mat', the data will be saved as a Matlab 7.2 file. Scipy must be installed.
+
+* Otherwise, the data will be pickled into a simple binary text file using pickle.
+
+**Warning:** The '.mat' data will not be loadable by ANNarchy, it is only for external analysis purpose.
+
+Example:
+
+```python
+pop.save('pop1.npz')
+pop.save('pop1.txt')
+pop.save('pop1.txt.gz')
+pop.save('pop1.mat')
+```
+
+#### Parameters
+
+| Name       | Type   | Description                                      | Default    |
+|------------|--------|--------------------------------------------------|------------|
+| `filename` | str    | Filename, may contain relative or absolute path. | _required_ |
+
+### set { #ANNarchy.core.Population.Population.set }
+
+`core.Population.Population.set(values)`
+
+Sets the value of neural variables and parameters.
+
+Example:
+
+```python
+pop.set({'tau': 20.0, 'r': np.random.rand((8,8)) } )
+```
+
+#### Parameters
+
+| Name     | Type   | Description                             | Default    |
+|----------|--------|-----------------------------------------|------------|
+| `values` | dict   | dictionary of attributes to be updated. | _required_ |
+
+### size_in_bytes { #ANNarchy.core.Population.Population.size_in_bytes }
+
+`core.Population.Population.size_in_bytes()`
+
+Returns the size of allocated memory on the C++ side. Please note that this does not contain monitored data and works only if compile() has been invoked.
+
+#### Returns
+
+| Type   | Description   |
+|--------|---------------|
+| int    | Size.         |
+
+### sum { #ANNarchy.core.Population.Population.sum }
+
+`core.Population.Population.sum(target)`
+
+Returns the array of weighted sums corresponding to the target:
+
+```python
+excitatory = pop.sum('exc')
+```
+
+For spiking networks, this is equivalent to accessing the conductances directly:
+
+```python
+excitatory = pop.g_exc
+```
+
+If no incoming projection has the given target, the method returns zeros.
+
+**Note:** it is not possible to distinguish the original population when the same target is used.
+
+#### Parameters
+
+| Name     | Type   | Description                    | Default    |
+|----------|--------|--------------------------------|------------|
+| `target` | str    | the desired projection target. | _required_ |

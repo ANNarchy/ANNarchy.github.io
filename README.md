@@ -1,27 +1,23 @@
 # Documentation for ANNarchy
 
-The documentation is done using mkdocs and the material theme.
+The documentation is at <https://annarchy.github.io>. 
 
-Required packages:
+Generating the documentation requires **Quarto** (<https://quarto.org>) and `quartodoc` (<https://github.com/machow/quartodoc>, `pip install quartodoc`) for the API. 
+
+First build the API:
 
 ```bash
-pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python pymdown-extensions mknotebooks
+quartodoc build
 ```
 
-In the root directory (where mkdocs.yml lies), preview the doc with:
+Preview the doc:
 
 ```bash
-mkdocs serve
+quarto preview
 ```
 
-To generate the static website in `site/`:
+Push it to github:
 
 ```bash
-mkdocs build
-```
-
-To deploy on Github pages:
-
-```bash
-mkdocs gh-deploy
+quarto publish gh-pages
 ```
