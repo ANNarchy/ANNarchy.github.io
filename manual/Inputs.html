@@ -1,2537 +1,1226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-      
-        <link rel="prev" href="Connector.html">
-      
-      
-        <link rel="next" href="Simulation.html">
-      
-      
-      <link rel="icon" href="../_static/logo.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
-    
-    
-      
-        <title>Setting inputs - ANNarchy 4.7.3</title>
-      
-    
-    
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
-      
-        
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
-      
-      
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-    
-    
-      
-    
-    
-      
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
-    
-    
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
-    
-      <link rel="stylesheet" href="../css/ansi-colours.css">
-    
-      <link rel="stylesheet" href="../css/jupyter-cells.css">
-    
-      <link rel="stylesheet" href="../css/pandas-dataframe.css">
-    
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-    
-      
+<title>ANNarchy 4.7.3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
 
-    
-    
-    
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
-  
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#setting-inputs" class="md-skip">
-          Skip to content
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-    
-      
 
-  
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../manual/Simulation.html" rel="next">
+<link href="../manual/Connector.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
-<header class="md-header md-header--shadow" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../index.html" title="ANNarchy 4.7.3" class="md-header__button md-logo" aria-label="ANNarchy 4.7.3" data-md-component="logo">
-      
-  <img src="../_static/logowhite.svg" alt="logo">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            ANNarchy 4.7.3
-          </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
-            
-              Setting inputs
-            
-          </span>
-        </div>
-      </div>
-    </div>
-    
-      
-    
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ANNarchy 4.7.3</span>
+    </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">ANNarchy</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Installation.html"> 
+<span class="menu-text">Installation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tutorial/index.html"> 
+<span class="menu-text">Tutorial</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../manual/Structure.html" aria-current="page"> 
+<span class="menu-text">Manual</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/index.html"> 
+<span class="menu-text">Notebooks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../reference/index.html"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ANNarchy/ANNarchy"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
 </div>
-    
-    
-      <div class="md-header__source">
-        <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    GitHub
-  </div>
-</a>
-      </div>
-    
-  </nav>
-  
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-          
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="ANNarchy 4.7.3" class="md-nav__button md-logo" aria-label="ANNarchy 4.7.3" data-md-component="logo">
-      
-  <img src="../_static/logowhite.svg" alt="logo">
-
-    </a>
-    ANNarchy 4.7.3
-  </label>
-  
-    <div class="md-nav__source">
-      <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    GitHub
-  </div>
-</a>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <a class="flex-grow-1 no-decor" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+          <h1 class="quarto-secondary-nav-title"></h1>
+        </a>     
     </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../index.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Home
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../Installation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Installation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Manual
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Manual
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Structure.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    General structure
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Parser.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parser
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="RateNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Rate-coded neurons
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="SpikeNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Spiking neurons
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="RateSynapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Rate-coded synapses
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="SpikeSynapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Spiking synapses
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Populations.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Populations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Projections.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Projections
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Connector.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Connectivity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Setting inputs
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="Inputs.html" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    Setting inputs
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#inputs-to-a-rate-coded-network" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inputs to a rate-coded network
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Inputs to a rate-coded network">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#standard-method" class="md-nav__link">
-    <span class="md-ellipsis">
-      Standard method
-    </span>
-  </a>
-  
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text"><strong>Model structure</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Structure of an ANNarchy model</span></a>
+  </div>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#timed-arrays" class="md-nav__link">
-    <span class="md-ellipsis">
-      Timed Arrays
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Parser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parser</span></a>
+  </div>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#images-and-videos" class="md-nav__link">
-    <span class="md-ellipsis">
-      Images and Videos
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/RateNeuron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rate-coded neurons</span></a>
+  </div>
 </li>
-        
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/SpikeNeuron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spiking neurons</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Populations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Populations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/RateSynapse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rate-coded synapses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/SpikeSynapse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spiking synapses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projections</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Connector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Connectivity</span></a>
+  </div>
+</li>
       </ul>
-    </nav>
-  
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text"><strong>Simulation</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Inputs.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Setting inputs</span></a>
+  </div>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#inputs-to-a-spiking-network" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inputs to a spiking network
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Inputs to a spiking network">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#standard-method_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Standard method
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Standard method">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#current-injection" class="md-nav__link">
-    <span class="md-ellipsis">
-      Current injection
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simulation</span></a>
+  </div>
 </li>
-        
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Configuration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Configuration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/NumericalMethods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Equations and numerical methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Recording.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Recording with Monitors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Saving.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Saving and loading a network</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parallel simulations and networks</span></a>
+  </div>
+</li>
       </ul>
-    </nav>
-  
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text"><strong>Extensions</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hybrid networks</span></a>
+  </div>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#spikesourcearray" class="md-nav__link">
-    <span class="md-ellipsis">
-      SpikeSourceArray
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/StructuralPlasticity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Structural plasticity</span></a>
+  </div>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#poisson-population" class="md-nav__link">
-    <span class="md-ellipsis">
-      Poisson population
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/ConvolutionalNetworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Convolution and pooling</span></a>
+  </div>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#homogeneous-correlated-inputs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Homogeneous correlated inputs
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Notebooks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Jupyter / IPython Notebooks</span></a>
+  </div>
 </li>
-        
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reporting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Logging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logging with tensorboard</span></a>
+  </div>
+</li>
       </ul>
-    </nav>
-  
-</li>
-      
+  </li>
     </ul>
-  
+    </div>
 </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Simulation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Simulation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Configuration.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Configuration
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="NumericalMethods.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Equations and numerical methods
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Recording.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Recording with Monitors
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Saving.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Saving and loading a network
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Network.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parallel simulations and networks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Hybrid.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hybrid networks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="StructuralPlasticity.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Structural plasticity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="ConvolutionalNetworks.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Convolution and pooling
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Notebooks.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Notebooks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Reporting.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Reporting
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Logging.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    API
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            API
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    core
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_1">
-            <span class="md-nav__icon md-icon"></span>
-            core
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/ANNarchy.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Top-level methods
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Neuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Neuron
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Built-in neuron types
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Synapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Synapse
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificSynapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Built-in synapse types
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Population.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Population
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificPopulation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specific Populations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Projection.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Projection
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificProjection.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specific Projections
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Dendrite.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Dendrite
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Monitor.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/RandomDistribution.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Random Distributions
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Network.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Network
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/IO.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Saving / Loading
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Utilities.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Reporting
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    extensions
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            extensions
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Convolution.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Convolution and Pooling
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Logging.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/BOLD.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    BOLD monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/ANNtoSNN.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ANN-to-SNN conversion
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Examples
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            Examples
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/List.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    List of notebooks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/NeuralField.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Neural Field
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BarLearning.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Bar Learning
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/StructuralPlasticity.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Structural plasticity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Izhikevich.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Izhikevich
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/GapJunctions.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Gap junctions
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/HodgkinHuxley.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hodgkin-Huxley
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/COBA.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    COBA
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/STP.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    STP
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/SimpleSTDP.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    STDP
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Ramp.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Ramp
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Hybrid.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hybrid
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Image.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Image
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Webcam.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Webcam
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/MultipleNetworks.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parallel simulations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BayesianOptimization.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Bayesian optimization
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BasalGanglia.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BoldMonitoring.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    BOLD monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/ANN2SNN.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ANN to SNN Conversion
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../License.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    License
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setting-inputs" id="toc-setting-inputs" class="nav-link active" data-scroll-target="#setting-inputs">Setting inputs</a>
+  <ul class="collapse">
+  <li><a href="#inputs-to-a-rate-coded-network" id="toc-inputs-to-a-rate-coded-network" class="nav-link" data-scroll-target="#inputs-to-a-rate-coded-network">Inputs to a rate-coded network</a>
+  <ul class="collapse">
+  <li><a href="#standard-method" id="toc-standard-method" class="nav-link" data-scroll-target="#standard-method">Standard method</a></li>
+  <li><a href="#timed-arrays" id="toc-timed-arrays" class="nav-link" data-scroll-target="#timed-arrays">Timed Arrays</a></li>
+  <li><a href="#images-and-videos" id="toc-images-and-videos" class="nav-link" data-scroll-target="#images-and-videos">Images and Videos</a></li>
+  </ul></li>
+  <li><a href="#inputs-to-a-spiking-network" id="toc-inputs-to-a-spiking-network" class="nav-link" data-scroll-target="#inputs-to-a-spiking-network">Inputs to a spiking network</a>
+  <ul class="collapse">
+  <li><a href="#standard-method-1" id="toc-standard-method-1" class="nav-link" data-scroll-target="#standard-method-1">Standard method</a></li>
+  <li><a href="#spikesourcearray" id="toc-spikesourcearray" class="nav-link" data-scroll-target="#spikesourcearray">SpikeSourceArray</a></li>
+  <li><a href="#poisson-population" id="toc-poisson-population" class="nav-link" data-scroll-target="#poisson-population">Poisson population</a></li>
+  <li><a href="#homogeneous-correlated-inputs" id="toc-homogeneous-correlated-inputs" class="nav-link" data-scroll-target="#homogeneous-correlated-inputs">Homogeneous correlated inputs</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#inputs-to-a-rate-coded-network" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inputs to a rate-coded network
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Inputs to a rate-coded network">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#standard-method" class="md-nav__link">
-    <span class="md-ellipsis">
-      Standard method
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#timed-arrays" class="md-nav__link">
-    <span class="md-ellipsis">
-      Timed Arrays
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#images-and-videos" class="md-nav__link">
-    <span class="md-ellipsis">
-      Images and Videos
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inputs-to-a-spiking-network" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inputs to a spiking network
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Inputs to a spiking network">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#standard-method_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Standard method
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Standard method">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#current-injection" class="md-nav__link">
-    <span class="md-ellipsis">
-      Current injection
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spikesourcearray" class="md-nav__link">
-    <span class="md-ellipsis">
-      SpikeSourceArray
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#poisson-population" class="md-nav__link">
-    <span class="md-ellipsis">
-      Poisson population
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#homogeneous-correlated-inputs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Homogeneous correlated inputs
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          
-            <div class="md-content" data-md-component="content">
-              <article class="md-content__inner md-typeset">
-                
-                  
-
-  
-  
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
 
 
-<h1 id="setting-inputs">Setting inputs<a class="headerlink" href="#setting-inputs" title="Permanent link">#</a></h1>
-<p>The methods to set inputs to a network depends on whether it is
-rate-coded or spiking. Specific populations to set inputs are described
-in the <a href="../API/SpecificPopulation.html">API</a>.</p>
-<h2 id="inputs-to-a-rate-coded-network">Inputs to a rate-coded network<a class="headerlink" href="#inputs-to-a-rate-coded-network" title="Permanent link">#</a></h2>
-<h3 id="standard-method">Standard method<a class="headerlink" href="#standard-method" title="Permanent link">#</a></h3>
-<p>The simplest way to define an input population is to use a dummy neuron
-which simply holds a firing rate <code>r</code> as parameter, and connect it to
-another population:</p>
-<div class="highlight"><pre><span></span><code><span class="n">input_pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">Neuron</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;r=0.0&quot;</span><span class="p">))</span>
 
-<span class="n">pop</span> <span class="o">=</span> <span class="n">Population</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">LeakyIntegrator</span><span class="p">)</span>
 
-<span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">input_pop</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
-<span class="n">proj</span><span class="o">.</span><span class="n">connect_one_to_one</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-
-<span class="nb">compile</span><span class="p">()</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
-
-<span class="n">input_pop</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="mf">1.0</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
-</code></pre></div>
-<p>The only thing you need to do is to manipulate the numpy array <code>r</code>
-holded by <code>input_pop</code>, and it will influence the \"real\" population
-<code>pop</code></p>
-<p>It is <strong>important</strong> to define <code>r</code> as a <strong>parameter</strong> of the neuron, not
-a variable in <code>equations</code>. A variable sees its value updated at each
-step, so the value you set would be immediately forgotten.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Using this method necessitates to interact with the input population in
-the Python script everytime you want to change the inputs. If the inputs
-change every time step, your simulation will alternate between Python
-and C++ executions and potentially become very slow.</p>
+<section id="setting-inputs" class="level1">
+<h1>Setting inputs</h1>
+<p>The methods to set inputs to a network depends on whether it is rate-coded or spiking. Specific populations to set inputs are described in the <a href="../reference/index.html#specific-populations">API</a>.</p>
+<section id="inputs-to-a-rate-coded-network" class="level2">
+<h2 class="anchored" data-anchor-id="inputs-to-a-rate-coded-network">Inputs to a rate-coded network</h2>
+<section id="standard-method" class="level3">
+<h3 class="anchored" data-anchor-id="standard-method">Standard method</h3>
+<p>The simplest way to define an input population is to use a dummy neuron which simply holds a firing rate <code>r</code> as parameter, and connect it to another population:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>input_pop <span class="op">=</span> ann.Population(<span class="dv">10</span>, Neuron(parameters<span class="op">=</span><span class="st">"r=0.0"</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population (<span class="dv">10</span>, LeakyIntegrator)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> ann.Projection(input_pop, pop, <span class="st">'exc'</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>proj.connect_one_to_one(<span class="fl">1.0</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">100.</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>input_pop.r <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">100.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The only thing you need to do is to manipulate the numpy array <code>r</code> holded by <code>input_pop</code>, and it will influence the “real” population <code>pop</code></p>
+<p>It is <strong>important</strong> to define <code>r</code> as a <strong>parameter</strong> of the neuron, not a variable in <code>equations</code>. A variable sees its value updated at each step, so the value you set would be immediately forgotten.</p>
+<div class="callout-hint">
+<p>Using this method necessitates to interact with the input population in the Python script everytime you want to change the inputs. If the inputs change every time step, your simulation will alternate between Python and C++ executions and potentially become very slow.</p>
 </div>
-<h3 id="timed-arrays">Timed Arrays<a class="headerlink" href="#timed-arrays" title="Permanent link">#</a></h3>
-<p>If the inputs change frequently, it may be more efficient to store all
-these values in a <code>TimedArray</code> (doc in the <a href="../API/SpecificPopulation.html">API</a>).</p>
-<p>Let's suppose you have a population of 10 neurons which should be
-activated sequentially over time. You can store the inputs to these
-neurons in a Numpy array, where the first axis corresponds to time and
-the second (or more) to the geometry of the population:</p>
-<div class="highlight"><pre><span></span><code><span class="n">inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="p">]</span>
-<span class="p">)</span>
-
-<span class="n">inp</span> <span class="o">=</span> <span class="n">TimedArray</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="n">inputs</span><span class="p">)</span>
-
-<span class="n">pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r=sum(exc)&quot;</span><span class="p">))</span>
-
-<span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
-<span class="n">proj</span><span class="o">.</span><span class="n">connect_one_to_one</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-
-<span class="nb">compile</span><span class="p">()</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">10.</span><span class="p">)</span>
-</code></pre></div>
-<p>With this code, each neuron will be activated in sequence at each time
-step (<code>dt=1.0</code> by default). If you simulate longer than 10 ms, the last
-input [0, 0, .., 1] will be kept forever.</p>
-<p>If the <code>rates</code> array has two dimensions, the corresponding population
-will be 1D. You can pass a multidimensional array to obtain a 2D or 3D
-population.</p>
-<p>Presenting a input for only one time step is very short, especially if
-the population <code>pop</code> uses ODEs to integrate the inputs. You can provide
-a <code>schedule</code> parameter to the <code>TimedArray</code> to define how long (in ms) an
-input should be presented:</p>
-<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">TimedArray</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">schedule</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
-</code></pre></div>
-<p>Here each input will be kept constant for 10 ms, so the 10 inputs will
-need 100 ms of simulation to be presented. If you do not want a regular
-schedule, you can also provide a list of times where inputs should be
-set:</p>
-<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">TimedArray</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> 
-    <span class="n">schedule</span><span class="o">=</span><span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mf">30.</span><span class="p">,</span> <span class="mf">60.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">,</span> <span class="mf">150.</span><span class="p">,</span> <span class="mf">210.</span><span class="p">,</span> <span class="mf">280.</span><span class="p">,</span> <span class="mf">360.</span><span class="p">,</span> <span class="mf">450.</span><span class="p">])</span>
-</code></pre></div>
-<p>The length of the <code>schedule</code> list should be equal or smaller to the
-number of inputs defined in <code>rates</code>. If this length is smaller (e.g. 7),
-only the 7 first inputs will be used as inputs. If the length is bigger,
-it will lead to an error.</p>
+</section>
+<section id="timed-arrays" class="level3">
+<h3 class="anchored" data-anchor-id="timed-arrays">Timed Arrays</h3>
+<p>If the inputs change frequently, it may be more efficient to store all these values in a <code>TimedArray</code> (doc in the <a href="../reference/TimedArray.html">API</a>).</p>
+<p>Let’s suppose you have a population of 10 neurons which should be activated sequentially over time. You can store the inputs to these neurons in a Numpy array, where the first axis corresponds to time and the second (or more) to the geometry of the population:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> np.array(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>],</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.TimedArray(rates<span class="op">=</span>inputs)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">10</span>, Neuron(equations<span class="op">=</span><span class="st">"r=sum(exc)"</span>))</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> ann.Projection(inp, pop, <span class="st">'exc'</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>proj.connect_one_to_one(<span class="fl">1.0</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">10.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With this code, each neuron will be activated in sequence at each time step (<code>dt=1.0</code> by default). If you simulate longer than 10 ms, the last input [0, 0, .., 1] will be kept forever.</p>
+<p>If the <code>rates</code> array has two dimensions, the corresponding population will be 1D. You can pass a multidimensional array to obtain a 2D or 3D population.</p>
+<p>Presenting a input for only one time step is very short, especially if the population <code>pop</code> uses ODEs to integrate the inputs. You can provide a <code>schedule</code> parameter to the <code>TimedArray</code> to define how long (in ms) an input should be presented:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.TimedArray(rates<span class="op">=</span>inputs, schedule<span class="op">=</span><span class="fl">10.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here each input will be kept constant for 10 ms, so the 10 inputs will need 100 ms of simulation to be presented. If you do not want a regular schedule, you can also provide a list of times where inputs should be set:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.TimedArray(rates<span class="op">=</span>inputs, </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    schedule<span class="op">=</span>[<span class="fl">0.</span>, <span class="fl">10.</span>, <span class="fl">30.</span>, <span class="fl">60.</span>, <span class="fl">100.</span>, <span class="fl">150.</span>, <span class="fl">210.</span>, <span class="fl">280.</span>, <span class="fl">360.</span>, <span class="fl">450.</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The length of the <code>schedule</code> list should be equal or smaller to the number of inputs defined in <code>rates</code>. If this length is smaller (e.g.&nbsp;7), only the 7 first inputs will be used as inputs. If the length is bigger, it will lead to an error.</p>
 <p>A <code>TimedArray</code> can be reset to iterate again over the inputs:</p>
-<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">TimedArray</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">schedule</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
-
-<span class="o">...</span>
-
-<span class="nb">compile</span><span class="p">()</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span> <span class="c1"># The ten inputs are shown with a schedule of 10 ms</span>
-
-<span class="n">inp</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span> <span class="c1"># The same ten inputs are presented again.</span>
-</code></pre></div>
-<p>The times declared in <code>schedule</code> are therefore relative to the last call
-to <code>reset()</code> (or to <code>t=0.0</code> at the beginning).</p>
-<p>If you want to systematically iterate over the inputs without iterating
-over <code>simulate()</code> and <code>reset()</code>, you can provide the <code>period</code> argument
-to the <code>TimedArray</code> to define how often the inputs will be reset:</p>
-<div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">TimedArray</span><span class="p">(</span><span class="n">rates</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">schedule</span><span class="o">=</span><span class="mf">10.</span><span class="o">.</span> <span class="n">period</span><span class="o">=</span><span class="mf">100.</span><span class="p">)</span>
-
-<span class="o">...</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">100000.</span><span class="p">)</span>
-</code></pre></div>
-<p>If the period is smaller than the total durations of the inputs, the
-last inputs will be skipped.</p>
-<p>The <code>rates</code>, <code>schedule</code> and <code>period</code> can be modified after compilation.
-The only constraint is that the size of the population (defined in the
-<code>rates</code> array) must stay the same.</p>
-<h3 id="images-and-videos">Images and Videos<a class="headerlink" href="#images-and-videos" title="Permanent link">#</a></h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.TimedArray(rates<span class="op">=</span>inputs, schedule<span class="op">=</span><span class="fl">10.</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">100.</span>) <span class="co"># The ten inputs are shown with a schedule of 10 ms</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>inp.reset()</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">100.</span>) <span class="co"># The same ten inputs are presented again.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The times declared in <code>schedule</code> are therefore relative to the last call to <code>reset()</code> (or to <code>t=0.0</code> at the beginning).</p>
+<p>If you want to systematically iterate over the inputs without iterating over <code>simulate()</code> and <code>reset()</code>, you can provide the <code>period</code> argument to the <code>TimedArray</code> to define how often the inputs will be reset:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.TimedArray(rates<span class="op">=</span>inputs, schedule<span class="op">=</span><span class="fl">10.</span>. period<span class="op">=</span><span class="fl">100.</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">100000.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the period is smaller than the total durations of the inputs, the last inputs will be skipped.</p>
+<p>The <code>rates</code>, <code>schedule</code> and <code>period</code> can be modified after compilation. The only constraint is that the size of the population (defined in the <code>rates</code> array) must stay the same.</p>
+</section>
+<section id="images-and-videos" class="level3">
+<h3 class="anchored" data-anchor-id="images-and-videos">Images and Videos</h3>
 <p><strong>Images</strong></p>
-<p>A simple utility to directly load an image into the firing rates <code>r</code> of
-a Population is provided by the <code>ImagePopulation</code> class. This class is
-not automatically imported with ANNarchy, you need to explicitly import
-it:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">ANNarchy.extensions.image</span> <span class="kn">import</span> <span class="n">ImagePopulation</span>
-
-<span class="n">inp</span> <span class="o">=</span> <span class="n">ImagePopulation</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">))</span>
-<span class="n">inp</span><span class="o">.</span><span class="n">set_image</span><span class="p">(</span><span class="s1">&#39;image.jpg&#39;</span><span class="p">)</span>
-</code></pre></div>
-<p>Using this class requires that you have the <strong>Python Image Library</strong>
-installed (<code>pip install Pillow</code>). Any image with a format supported by
-Pillow can be loaded, see <a href="https://pillow.readthedocs.io">the
-documentation</a>.</p>
-<p>The <code>ImagePopulation</code> must be initialized with a geometry corresponding
-to the desired size of the population. If it differs from the resolution
-of the image (set with <code>set_image</code>), the image will be first resized to
-match the geometry of the population.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The size of an image is defined as (height, width), so a
-640x480 image should be loaded in a (480, 640 population).</p>
+<p>A simple utility to directly load an image into the firing rates <code>r</code> of a Population is provided by the <code>ImagePopulation</code> class. This class is not automatically imported with ANNarchy, you need to explicitly import it:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ANNarchy.extensions.image <span class="im">import</span> ImagePopulation</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ImagePopulation(geometry<span class="op">=</span>(<span class="dv">480</span>, <span class="dv">640</span>))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>inp.set_image(<span class="st">'image.jpg'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Using this class requires that you have the <strong>Python Image Library</strong> installed (<code>pip install Pillow</code>). Any image with a format supported by Pillow can be loaded, see <a href="https://pillow.readthedocs.io">the documentation</a>.</p>
+<p>The <code>ImagePopulation</code> must be initialized with a geometry corresponding to the desired size of the population. If it differs from the resolution of the image (set with <code>set_image</code>), the image will be first resized to match the geometry of the population.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p>If the geometry has only two dimensions (480, 640), each neuron will
-represent the <strong>luminance</strong> (or brightness) of the corresponding pixel.</p>
-<p>If the geometry has three dimensions (480, 640, 3), the color channels
-will additionally be represented (RGB). Any other value than 3 for the
-third dimension will generate an error.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The firing rate <code>r</code> of a neuron is 1.0 when the corresponding pixel is
-white (value 255 as an unsigned integer on 8 bits).</p>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The size of an image is defined as (height, width), so a 640x480 image should be loaded in a (480, 640) population.</p>
+</div>
+</div>
+<p>If the geometry has only two dimensions (480, 640), each neuron will represent the <strong>luminance</strong> (or brightness) of the corresponding pixel.</p>
+<p>If the geometry has three dimensions (480, 640, 3), the color channels will additionally be represented (RGB). Any other value than 3 for the third dimension will generate an error.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The firing rate <code>r</code> of a neuron is 1.0 when the corresponding pixel is white (value 255 as an unsigned integer on 8 bits).</p>
+</div>
 </div>
 <p>Note that the following code is functionally equivalent:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-
-<span class="n">inp</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">),</span> <span class="n">Neuron</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;r=0.0&quot;</span><span class="p">))</span>
-
-<span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;image.jpg&#39;</span><span class="p">)</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">))</span> <span class="o">/</span><span class="mf">255.</span>
-
-<span class="n">inp</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">480</span>, <span class="dv">640</span>), Neuron(parameters<span class="op">=</span><span class="st">"r=0.0"</span>))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> Image.<span class="bu">open</span>(<span class="st">'image.jpg'</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> img.convert(<span class="st">'L'</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> img.resize((<span class="dv">480</span>, <span class="dv">640</span>)) <span class="op">/</span><span class="fl">255.</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>inp.r <span class="op">=</span> np.array(img)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>An example is provided in <code>examples/image/Image.py</code>.</p>
 <p><strong>Videos</strong></p>
-<p>The <code>VideoPopulation</code> class allows to retrieve images from a Webcam,
-using the <a href="http://opencv.org">OpenCV</a> computer vision library, version
-4.0 or later. <code>pkg-config opencv4 --cflags --libs</code> should not return an
-error. <code>vtk</code> might have to be additionally installed.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">ANNarchy.extensions.image</span> <span class="kn">import</span> <span class="n">VideoPopulation</span>
-
-<span class="n">inp</span> <span class="o">=</span> <span class="n">VideoPopulation</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">))</span>
-
-<span class="nb">compile</span><span class="p">()</span>
-
-<span class="n">inp</span><span class="o">.</span><span class="n">start_camera</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="k">while</span><span class="p">(</span><span class="kc">True</span><span class="p">):</span>
-  <span class="n">inp</span><span class="o">.</span><span class="n">grab_image</span><span class="p">()</span>
-  <span class="n">simulate</span><span class="p">(</span><span class="mf">10.0</span><span class="p">)</span>
-</code></pre></div>
-<p>A geometry must be provided as for <code>ImagePopulations</code>. The camera must
-be explicitly started after <code>compile()</code> with <code>inp.start_camera(0)</code>. 0
-corresponds to the index of your camera, change it if you have multiple
-cameras.</p>
-<p>The <code>VideoPopulation</code> can then acquire frames from the camera with
-<code>inp.grab_image()</code> and store the correponding image in its firing rate
-<code>r</code> (also scaled between 0.0 and 1.0). An example is provided in
-<code>examples/image/Webcam.py</code>.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
+<p>The <code>VideoPopulation</code> class allows to retrieve images from a Webcam, using the <a href="http://opencv.org">OpenCV</a> computer vision library, version 4.0 or later. <code>pkg-config opencv4 --cflags --libs</code> should not return an error. <code>vtk</code> might have to be additionally installed.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ANNarchy.extensions.image <span class="im">import</span> VideoPopulation</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> VideoPopulation(geometry<span class="op">=</span>(<span class="dv">480</span>, <span class="dv">640</span>))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>inp.start_camera(<span class="dv">0</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(<span class="va">True</span>):</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  inp.grab_image()</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  ann.simulate(<span class="fl">10.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A geometry must be provided as for <code>ImagePopulations</code>. The camera must be explicitly started after <code>compile()</code> with <code>inp.start_camera(0)</code>. 0 corresponds to the index of your camera, change it if you have multiple cameras.</p>
+<p>The <code>VideoPopulation</code> can then acquire frames from the camera with <code>inp.grab_image()</code> and store the correponding image in its firing rate <code>r</code> (also scaled between 0.0 and 1.0). An example is provided in <code>examples/image/Webcam.py</code>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p><code>VideoPopulation</code> is not available with the CUDA backend.</p>
 </div>
-<h2 id="inputs-to-a-spiking-network">Inputs to a spiking network<a class="headerlink" href="#inputs-to-a-spiking-network" title="Permanent link">#</a></h2>
-<h3 id="standard-method_1">Standard method<a class="headerlink" href="#standard-method_1" title="Permanent link">#</a></h3>
-<p>To control the spiking patterns of a spiking population, the simplest
-way is to <strong>inject</strong> current into the corresponding membrane potentials.
-The built-in neuron types defined by ANNarchy have a <code>i_offset</code> variable
-that can be used for this purpose:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">setup</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-
-<span class="n">pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">Izhikevich</span><span class="p">)</span>
-
-<span class="n">pop</span><span class="o">.</span><span class="n">i_offset</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-
-<span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
-
-<span class="nb">compile</span><span class="p">()</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (ms)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;# neuron&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
-<p><img alt="image" src="../_static/regular.png" /></p>
-<h4 id="current-injection">Current injection<a class="headerlink" href="#current-injection" title="Permanent link">#</a></h4>
-<p>If you want the injected current to be time-varying, you can design a
-rate-coded population of the same size as the spiking population and
-create a <code>CurrentInjection</code> projection between them:</p>
-<div class="highlight"><pre><span></span><code>inp = Population(100, Neuron(equations=&quot;r = sin(t)&quot;))
-
-pop = Population(100, Izhikevich)
-
-proj = CurrentInjection(inp, pop, &#39;exc&#39;)
-proj.connect_current()
-</code></pre></div>
-<p>The current <code>g_exc</code> of a neuron in <code>pop</code> will be set at each time step
-to the firing rate <code>r</code> of the corresponding neuron in <code>inp</code> (i.e. with
-the same rank). <code>inp</code> can also be defined as a <code>TimedArray</code>.</p>
-<p>The connector method should be <code>connect_current()</code>, which accepts no
-weight value and no delay.</p>
-<h3 id="spikesourcearray">SpikeSourceArray<a class="headerlink" href="#spikesourcearray" title="Permanent link">#</a></h3>
-<p>If you want to control precisely the spiking patterns used as inputs,
-you can provide a list of spike times to a <code>SpikeSourceArray</code> object:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">setup</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-
-<span class="n">spike_times</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="p">[</span>  <span class="mi">10</span> <span class="o">+</span> <span class="n">i</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span>
-     <span class="mi">20</span> <span class="o">+</span> <span class="n">i</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span>
-     <span class="mi">30</span> <span class="o">+</span> <span class="n">i</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span>
-     <span class="mi">40</span> <span class="o">+</span> <span class="n">i</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span>
-     <span class="mi">50</span> <span class="o">+</span> <span class="n">i</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span>
-     <span class="mi">60</span> <span class="o">+</span> <span class="n">i</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span>
-     <span class="mi">70</span> <span class="o">+</span> <span class="n">i</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span>
-     <span class="mi">80</span> <span class="o">+</span> <span class="n">i</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span>
-     <span class="mi">90</span> <span class="o">+</span> <span class="n">i</span><span class="o">/</span><span class="mi">10</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-<span class="p">]</span>
-
-<span class="n">pop</span> <span class="o">=</span> <span class="n">SpikeSourceArray</span><span class="p">(</span><span class="n">spike_times</span><span class="o">=</span><span class="n">spike_times</span><span class="p">)</span>
-
-<span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
-
-<span class="nb">compile</span><span class="p">()</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (ms)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;# neuron&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
-<p><img alt="image" src="../_static/delayedspikes.png" /></p>
-<p>The <code>spike_times</code> argument must be a list of lists containing the spike
-times in ms. Its length defines the number of neurons in the population.
-It is not possible to define a geometry. If one neuron should not spike
-at all, just provide an empty list. The different neurons can have a
-different number of spikes.</p>
-<p>If you want to repeat the same stimulation, you can reset the
-SpikeSourceArray, what will set its internal time back to 0.0:</p>
-<div class="highlight"><pre><span></span><code><span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
-
-<span class="n">pop</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
-</code></pre></div>
-<p>The spikes times can be changed after compilation, bit it must have the
-same number of neurons:</p>
-<div class="highlight"><pre><span></span><code>pop.spike_times = new_spike_times_array
-</code></pre></div>
+</div>
+</section>
+</section>
+<section id="inputs-to-a-spiking-network" class="level2">
+<h2 class="anchored" data-anchor-id="inputs-to-a-spiking-network">Inputs to a spiking network</h2>
+<section id="standard-method-1" class="level3">
+<h3 class="anchored" data-anchor-id="standard-method-1">Standard method</h3>
+<p>To control the spiking patterns of a spiking population, the simplest way is to <strong>inject</strong> current into the corresponding membrane potentials. The built-in neuron types defined by ANNarchy have a <code>i_offset</code> variable that can be used for this purpose:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ann.setup(dt<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">100</span>, Izhikevich)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>pop.i_offset<span class="op">=</span> np.linspace(<span class="fl">0.0</span>, <span class="fl">30.0</span>, <span class="dv">100</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> ann.Monitor(pop, <span class="st">'spike'</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">100.</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> m.get(<span class="st">'spike'</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>t, n <span class="op">=</span> m.raster_plot(data)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>plt.plot(t, n, <span class="st">'.'</span>)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time (ms)'</span>)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'# neuron'</span>)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="img//regular.png" class="img-fluid"></p>
+<section id="current-injection" class="level4">
+<h4 class="anchored" data-anchor-id="current-injection">Current injection</h4>
+<p>If you want the injected current to be time-varying, you can design a rate-coded population of the same size as the spiking population and create a <code>CurrentInjection</code> projection between them:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.Population(<span class="dv">100</span>, Neuron(equations<span class="op">=</span><span class="st">"r = sin(t)"</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">100</span>, Izhikevich)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> ann.CurrentInjection(inp, pop, <span class="st">'exc'</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>proj.connect_current()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The current <code>g_exc</code> of a neuron in <code>pop</code> will be set at each time step to the firing rate <code>r</code> of the corresponding neuron in <code>inp</code> (i.e.&nbsp;with the same rank). <code>inp</code> can also be defined as a <code>TimedArray</code>.</p>
+<p>The connector method should be <code>connect_current()</code>, which accepts no weight value and no delay.</p>
+</section>
+</section>
+<section id="spikesourcearray" class="level3">
+<h3 class="anchored" data-anchor-id="spikesourcearray">SpikeSourceArray</h3>
+<p>If you want to control precisely the spiking patterns used as inputs, you can provide a list of spike times to a <code>SpikeSourceArray</code> object:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ann.setup(dt<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>spike_times <span class="op">=</span> [</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  [  <span class="dv">10</span> <span class="op">+</span> i<span class="op">/</span><span class="dv">10</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>     <span class="dv">20</span> <span class="op">+</span> i<span class="op">/</span><span class="dv">10</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>     <span class="dv">30</span> <span class="op">+</span> i<span class="op">/</span><span class="dv">10</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>     <span class="dv">40</span> <span class="op">+</span> i<span class="op">/</span><span class="dv">10</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>     <span class="dv">50</span> <span class="op">+</span> i<span class="op">/</span><span class="dv">10</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>     <span class="dv">60</span> <span class="op">+</span> i<span class="op">/</span><span class="dv">10</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>     <span class="dv">70</span> <span class="op">+</span> i<span class="op">/</span><span class="dv">10</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>     <span class="dv">80</span> <span class="op">+</span> i<span class="op">/</span><span class="dv">10</span>,</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>     <span class="dv">90</span> <span class="op">+</span> i<span class="op">/</span><span class="dv">10</span>] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.SpikeSourceArray(spike_times<span class="op">=</span>spike_times)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> ann.Monitor(pop, <span class="st">'spike'</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">100.</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> m.get(<span class="st">'spike'</span>)</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>t, n <span class="op">=</span> m.raster_plot(data)</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>plt.plot(t, n, <span class="st">'.'</span>)</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time (ms)'</span>)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'# neuron'</span>)</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="img/delayedspikes.png" class="img-fluid"></p>
+<p>The <code>spike_times</code> argument must be a list of lists containing the spike times in ms. Its length defines the number of neurons in the population. It is not possible to define a geometry. If one neuron should not spike at all, just provide an empty list. The different neurons can have a different number of spikes.</p>
+<p>If you want to repeat the same stimulation, you can reset the SpikeSourceArray, what will set its internal time back to 0.0:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">100.</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>pop.reset()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">100.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The spikes times can be changed after compilation, bit it must have the same number of neurons:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pop.spike_times <span class="op">=</span> new_spike_times_array</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>An example is provided in <code>examples/pyNN/IF_curr_alpha.py</code>.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p><code>SpikeSourceArray</code> is not available with the CUDA backend.</p>
 </div>
-<h3 id="poisson-population">Poisson population<a class="headerlink" href="#poisson-population" title="Permanent link">#</a></h3>
-<p>The <code>PoissonPopulation</code> class allows to create a population of identical
-spiking neurons, whose spiking patterns vary according to a Poisson
-distribution:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">setup</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-
-<span class="n">pop</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">30.</span><span class="p">)</span>
-
-<span class="n">m</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;spike&#39;</span><span class="p">)</span>
-
-<span class="nb">compile</span><span class="p">()</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">raster_plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (ms)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;# neuron&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
-<p>In this example, each of the 100 neurons fires randomly, with a mean
-firing rate of 30 Hz (next figure, top-left).</p>
-<p>It is also possible to specify the mean firing rate individually for
-each neuron (next figure, top-right):</p>
-<div class="highlight"><pre><span></span><code><span class="n">pop</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-</code></pre></div>
-<p>The <code>rates</code> attribute can be modified at any time during the simulation,
-as long as it has the same size as the population.</p>
-<p>Another possibility is to define a rule for the evolution of the mean
-firing rate in the population (next figure, bottom-left):</p>
-<div class="highlight"><pre><span></span><code><span class="n">pop</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span>
-        <span class="n">geometry</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-        <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">            amp = 100.0</span>
-<span class="s2">            frequency = 50.0</span>
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
-        <span class="n">rates</span><span class="o">=</span><span class="s2">&quot;amp * (1.0 + sin(2*pi*frequency*t/1000.0) )/2.0&quot;</span>
-    <span class="p">)</span>
-</code></pre></div>
-<p>The rule can only depend on the time <code>t</code>: the corresponding mean firing
-rate is the same for all neurons in the population.</p>
-<p>Finally, the <code>rates</code> argument can be replaced by a target, so it can be
-computed by another rate-coded population (next figure, bottom-right):</p>
-<div class="highlight"><pre><span></span><code><span class="n">rates</span> <span class="o">=</span> <span class="mf">10.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="n">rates</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span><span class="mi">50</span><span class="p">]</span> <span class="o">=</span> <span class="mf">100.</span>
-<span class="n">rates</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">:]</span> <span class="o">=</span> <span class="mf">100.</span>
-<span class="n">inp</span> <span class="o">=</span> <span class="n">TimedArray</span><span class="p">(</span><span class="n">rates</span> <span class="o">=</span> <span class="n">rates</span><span class="p">,</span> <span class="n">schedule</span><span class="o">=</span><span class="mf">50.</span><span class="p">)</span>
-
-<span class="n">pop</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;exc&quot;</span><span class="p">)</span>
-
-<span class="n">proj</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
-<span class="n">proj</span><span class="o">.</span><span class="n">connect_one_to_one</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-</code></pre></div>
-<p>In the code above, we define a <code>TimedArray</code> for 100 neurons, so that
-half of the neurons fire at 100 Hz, while the others fire at 10 Hz.
-Every 50 ms, the two halves are swapped.</p>
-<p>We just need to create a projection with the target \"exc\" between the
-TimedArray and the PoissonPopulation (with a one-to-one pattern and
-weights 1.0 to preserve scaling), and the Poisson population will
-reflect the firing rates defined by the TimedArray.</p>
-<p><img alt="image" src="../_static/poisson.png" /></p>
-<h3 id="homogeneous-correlated-inputs">Homogeneous correlated inputs<a class="headerlink" href="#homogeneous-correlated-inputs" title="Permanent link">#</a></h3>
-<p><code>HomogeneousCorrelatedSpikeTrains</code> defines spiking neurons following a
-homogeneous distribution with correlated spike trains.</p>
-<p>The method describing the generation of homogeneous correlated spike
-trains is described in:</p>
-<blockquote>
-<p>Brette, R. (2009). Generation of correlated spike trains. <a href="http://audition.ens.fr/brette/papers/Brette2008NC.html">http://audition.ens.fr/brette/papers/Brette2008NC.html</a></p>
-</blockquote>
-<p>The implementation is based on the one provided by
-<a href="http://briansimulator.org">Brian</a>.</p>
-<p>To generate correlated spike trains, the population rate of the group of
-Poisson-like spiking neurons varies following a stochastic differential
-equation:</p>
-<div class="arithmatex">\[\dfrac{dx}{dt} = \dfrac{\mu - x}{\tau} + \sigma \, \dfrac{\xi }{\sqrt{\tau}}\]</div>
-<p>where <span class="arithmatex">\(\xi\)</span> is a random variable. Basically, <span class="arithmatex">\(x\)</span> will randomly vary around $\mu§
-over time, with an amplitude determined by <span class="arithmatex">\(\sigma\)</span> and a speed determined
-by <span class="arithmatex">\(\tau\)</span>.</p>
-<p>This doubly stochastic process is called a Cox process or
-Ornstein-Uhlenbeck process.</p>
-<p>To avoid that x becomes negative, the values of mu and sigma are
-computed from a rectified Gaussian distribution, parameterized by the
-desired population rate <strong>rates</strong>, the desired correlation strength
-<strong>corr</strong> and the time constant <strong>tau</strong>. See Brette's paper for details.</p>
-<p>In short, you should only define the parameters <code>rates</code>, <code>corr</code> and
-<code>tau</code>, and let the class compute mu and sigma for you. Changing <code>rates</code>,
-<code>corr</code> or <code>tau</code> after initialization automatically recomputes mu and
-sigma.</p>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">setup</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-
-<span class="n">pop_poisson</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
-<span class="n">pop_corr</span>    <span class="o">=</span> <span class="n">HomogeneousCorrelatedSpikeTrains</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">corr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
-
-<span class="nb">compile</span><span class="p">()</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
-
-<span class="n">pop_poisson</span><span class="o">.</span><span class="n">rates</span><span class="o">=</span><span class="mf">30.</span>
-<span class="n">pop_corr</span><span class="o">.</span><span class="n">rates</span><span class="o">=</span><span class="mf">30.</span>
-
-<span class="n">simulate</span><span class="p">(</span><span class="mf">1000.</span><span class="p">)</span>
-</code></pre></div>
-<p><img alt="image" src="../_static/homogeneouscorrelated.png" /></p>
-
-
-
-
-
-
-
-
-
-
-
-
-                
-              </article>
-            </div>
-          
-          
-<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
-        </div>
-        
-      </main>
-      
-        <footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-    <div class="md-copyright__highlight">
-      Copyright &copy; Julien Vitay, Helge Ülo Dinkelbach, Fred H. Hamker
-    </div>
-  
-  
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
-    </a>
-  
 </div>
-      
+</section>
+<section id="poisson-population" class="level3">
+<h3 class="anchored" data-anchor-id="poisson-population">Poisson population</h3>
+<p>The <code>PoissonPopulation</code> class allows to create a population of identical spiking neurons, whose spiking patterns vary according to a Poisson distribution:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>ann.setup(dt<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.PoissonPopulation(<span class="dv">100</span>, rates<span class="op">=</span><span class="fl">30.</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> ann.Monitor(pop, <span class="st">'spike'</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">100.</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> m.get(<span class="st">'spike'</span>)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>t, n <span class="op">=</span> m.raster_plot(data)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>plt.plot(t, n, <span class="st">'.'</span>)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time (ms)'</span>)</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'# neuron'</span>)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this example, each of the 100 neurons fires randomly, with a mean firing rate of 30 Hz (next figure, top-left).</p>
+<p>It is also possible to specify the mean firing rate individually for each neuron (next figure, top-right):</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> PoissonPopulation(<span class="dv">100</span>, rates<span class="op">=</span>np.linspace(<span class="fl">0.0</span>, <span class="fl">100.0</span>, <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>rates</code> attribute can be modified at any time during the simulation, as long as it has the same size as the population.</p>
+<p>Another possibility is to define a rule for the evolution of the mean firing rate in the population (next figure, bottom-left):</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> PoissonPopulation(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>        geometry<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        parameters <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="st">            amp = 100.0</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="st">            frequency = 50.0</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="st">        """</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        rates<span class="op">=</span><span class="st">"amp * (1.0 + sin(2*pi*frequency*t/1000.0) )/2.0"</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The rule can only depend on the time <code>t</code>: the corresponding mean firing rate is the same for all neurons in the population.</p>
+<p>Finally, the <code>rates</code> argument can be replaced by a target, so it can be computed by another rate-coded population (next figure, bottom-right):</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>rates <span class="op">=</span> <span class="fl">10.</span><span class="op">*</span>np.ones((<span class="dv">2</span>, <span class="dv">100</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>rates[<span class="dv">0</span>, :<span class="dv">50</span>] <span class="op">=</span> <span class="fl">100.</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>rates[<span class="dv">1</span>, <span class="dv">50</span>:] <span class="op">=</span> <span class="fl">100.</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> TimedArray(rates <span class="op">=</span> rates, schedule<span class="op">=</span><span class="fl">50.</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> PoissonPopulation(<span class="dv">100</span>, target<span class="op">=</span><span class="st">"exc"</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Projection(inp, pop, <span class="st">'exc'</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>proj.connect_one_to_one(<span class="fl">1.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the code above, we define a <code>TimedArray</code> for 100 neurons, so that half of the neurons fire at 100 Hz, while the others fire at 10 Hz. Every 50 ms, the two halves are swapped.</p>
+<p>We just need to create a projection with the target "exc" between the TimedArray and the PoissonPopulation (with a one-to-one pattern and weights 1.0 to preserve scaling), and the Poisson population will reflect the firing rates defined by the TimedArray.</p>
+<p><img src="img/poisson.png" class="img-fluid"></p>
+</section>
+<section id="homogeneous-correlated-inputs" class="level3">
+<h3 class="anchored" data-anchor-id="homogeneous-correlated-inputs">Homogeneous correlated inputs</h3>
+<p><code>HomogeneousCorrelatedSpikeTrains</code> defines spiking neurons following a homogeneous distribution with correlated spike trains.</p>
+<p>The method describing the generation of homogeneous correlated spike trains is described in:</p>
+<blockquote class="blockquote">
+<p>Brette, R. (2009). Generation of correlated spike trains. <a href="http://audition.ens.fr/brette/papers/Brette2008NC.html" class="uri">http://audition.ens.fr/brette/papers/Brette2008NC.html</a></p>
+</blockquote>
+<p>The implementation is based on the one provided by <a href="http://briansimulator.org">Brian</a>.</p>
+<p>To generate correlated spike trains, the population rate of the group of Poisson-like spiking neurons varies following a stochastic differential equation:</p>
+<p><span class="math display">\dfrac{dx}{dt} = \dfrac{\mu - x}{\tau} + \sigma \, \dfrac{\xi }{\sqrt{\tau}}</span></p>
+<p>where <span class="math inline">\xi</span> is a random variable. Basically, <span class="math inline">x</span> will randomly vary around $§ over time, with an amplitude determined by <span class="math inline">\sigma</span> and a speed determined by <span class="math inline">\tau</span>.</p>
+<p>This doubly stochastic process is called a Cox process or Ornstein-Uhlenbeck process.</p>
+<p>To avoid that x becomes negative, the values of mu and sigma are computed from a rectified Gaussian distribution, parameterized by the desired population rate <strong>rates</strong>, the desired correlation strength <strong>corr</strong> and the time constant <strong>tau</strong>. See Brette’s paper for details.</p>
+<p>In short, you should only define the parameters <code>rates</code>, <code>corr</code> and <code>tau</code>, and let the class compute mu and sigma for you. Changing <code>rates</code>, <code>corr</code> or <code>tau</code> after initialization automatically recomputes mu and sigma.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>ann.setup(dt<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>pop_poisson <span class="op">=</span> ann.PoissonPopulation(<span class="dv">200</span>, rates<span class="op">=</span><span class="fl">10.</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>pop_corr    <span class="op">=</span> ann.HomogeneousCorrelatedSpikeTrains(<span class="dv">200</span>, rates<span class="op">=</span><span class="fl">10.</span>, corr<span class="op">=</span><span class="fl">0.3</span>, tau<span class="op">=</span><span class="fl">10.</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">1000.</span>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>pop_poisson.rates<span class="op">=</span><span class="fl">30.</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>pop_corr.rates<span class="op">=</span><span class="fl">30.</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">1000.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="img/homogeneouscorrelated.png" class="img-fluid"></p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../manual/Connector.html" class="pagination-link" aria-label="Connectivity">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Connectivity</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../manual/Simulation.html" class="pagination-link" aria-label="Simulation">
+        <span class="nav-page-text">Simulation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright Julien Vitay, Helge Ülo Dinkelbach, Fred Hamker</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
     </div>
   </div>
 </footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    
-    
-    <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-    
-    
-      <script src="../assets/javascripts/bundle.c8d2eff1.min.js"></script>
-      
-        <script src="../javascripts/config.js"></script>
-      
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      
-        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-      
-    
-  </body>
-</html>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

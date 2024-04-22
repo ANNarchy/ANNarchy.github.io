@@ -1,2312 +1,1050 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-      
-        <link rel="prev" href="RateSynapse.html">
-      
-      
-        <link rel="next" href="Populations.html">
-      
-      
-      <link rel="icon" href="../_static/logo.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
-    
-    
-      
-        <title>Spiking synapses - ANNarchy 4.7.3</title>
-      
-    
-    
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
-      
-        
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
-      
-      
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-    
-    
-      
-    
-    
-      
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
-    
-    
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
-    
-      <link rel="stylesheet" href="../css/ansi-colours.css">
-    
-      <link rel="stylesheet" href="../css/jupyter-cells.css">
-    
-      <link rel="stylesheet" href="../css/pandas-dataframe.css">
-    
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-    
-      
+<title>ANNarchy 4.7.3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
 
-    
-    
-    
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
-  
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#spiking-synapses" class="md-skip">
-          Skip to content
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-    
-      
 
-  
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../manual/Projections.html" rel="next">
+<link href="../manual/RateSynapse.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
-<header class="md-header md-header--shadow" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../index.html" title="ANNarchy 4.7.3" class="md-header__button md-logo" aria-label="ANNarchy 4.7.3" data-md-component="logo">
-      
-  <img src="../_static/logowhite.svg" alt="logo">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            ANNarchy 4.7.3
-          </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
-            
-              Spiking synapses
-            
-          </span>
-        </div>
-      </div>
-    </div>
-    
-      
-    
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ANNarchy 4.7.3</span>
+    </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">ANNarchy</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Installation.html"> 
+<span class="menu-text">Installation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tutorial/index.html"> 
+<span class="menu-text">Tutorial</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../manual/Structure.html" aria-current="page"> 
+<span class="menu-text">Manual</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/index.html"> 
+<span class="menu-text">Notebooks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../reference/index.html"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ANNarchy/ANNarchy"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
 </div>
-    
-    
-      <div class="md-header__source">
-        <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    GitHub
-  </div>
-</a>
-      </div>
-    
-  </nav>
-  
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-          
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="ANNarchy 4.7.3" class="md-nav__button md-logo" aria-label="ANNarchy 4.7.3" data-md-component="logo">
-      
-  <img src="../_static/logowhite.svg" alt="logo">
-
-    </a>
-    ANNarchy 4.7.3
-  </label>
-  
-    <div class="md-nav__source">
-      <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    GitHub
-  </div>
-</a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../index.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Home
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../Installation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Installation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Manual
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Manual
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Structure.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    General structure
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Parser.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parser
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="RateNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Rate-coded neurons
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="SpikeNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Spiking neurons
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="RateSynapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Rate-coded synapses
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Spiking synapses
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="SpikeSynapse.html" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    Spiking synapses
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#increase-of-conductance-after-a-pre-synaptic-spike" class="md-nav__link">
-    <span class="md-ellipsis">
-      Increase of conductance after a pre-synaptic spike
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#synaptic-plasticity" class="md-nav__link">
-    <span class="md-ellipsis">
-      Synaptic plasticity
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Synaptic plasticity">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-spike-time-differences" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using spike-time differences
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#online-version" class="md-nav__link">
-    <span class="md-ellipsis">
-      Online version
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#order-of-evaluation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Order of evaluation
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
+      </div> <!-- /container-fluid -->
     </nav>
-  
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <a class="flex-grow-1 no-decor" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+          <h1 class="quarto-secondary-nav-title"></h1>
+        </a>     
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text"><strong>Model structure</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Structure of an ANNarchy model</span></a>
+  </div>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#continuous-synaptic-transmission" class="md-nav__link">
-    <span class="md-ellipsis">
-      Continuous synaptic transmission
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Parser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parser</span></a>
+  </div>
 </li>
-      
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/RateNeuron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rate-coded neurons</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/SpikeNeuron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spiking neurons</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Populations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Populations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/RateSynapse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rate-coded synapses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/SpikeSynapse.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Spiking synapses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projections</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Connector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Connectivity</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text"><strong>Simulation</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Inputs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting inputs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Configuration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Configuration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/NumericalMethods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Equations and numerical methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Recording.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Recording with Monitors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Saving.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Saving and loading a network</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parallel simulations and networks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text"><strong>Extensions</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hybrid networks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/StructuralPlasticity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Structural plasticity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/ConvolutionalNetworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Convolution and pooling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Notebooks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Jupyter / IPython Notebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reporting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Logging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logging with tensorboard</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
-  
+    </div>
 </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Populations.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Populations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Projections.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Projections
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Connector.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Connectivity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Inputs.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Setting inputs
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Simulation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Simulation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Configuration.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Configuration
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="NumericalMethods.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Equations and numerical methods
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Recording.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Recording with Monitors
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Saving.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Saving and loading a network
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Network.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parallel simulations and networks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Hybrid.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hybrid networks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="StructuralPlasticity.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Structural plasticity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="ConvolutionalNetworks.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Convolution and pooling
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Notebooks.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Notebooks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Reporting.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Reporting
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Logging.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    API
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            API
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    core
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_1">
-            <span class="md-nav__icon md-icon"></span>
-            core
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/ANNarchy.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Top-level methods
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Neuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Neuron
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Built-in neuron types
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Synapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Synapse
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificSynapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Built-in synapse types
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Population.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Population
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificPopulation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specific Populations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Projection.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Projection
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificProjection.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specific Projections
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Dendrite.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Dendrite
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Monitor.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/RandomDistribution.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Random Distributions
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Network.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Network
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/IO.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Saving / Loading
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Utilities.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Reporting
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    extensions
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            extensions
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Convolution.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Convolution and Pooling
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Logging.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/BOLD.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    BOLD monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/ANNtoSNN.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ANN-to-SNN conversion
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Examples
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            Examples
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/List.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    List of notebooks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/NeuralField.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Neural Field
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BarLearning.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Bar Learning
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/StructuralPlasticity.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Structural plasticity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Izhikevich.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Izhikevich
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/GapJunctions.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Gap junctions
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/HodgkinHuxley.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hodgkin-Huxley
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/COBA.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    COBA
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/STP.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    STP
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/SimpleSTDP.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    STDP
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Ramp.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Ramp
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Hybrid.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hybrid
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Image.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Image
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Webcam.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Webcam
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/MultipleNetworks.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parallel simulations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BayesianOptimization.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Bayesian optimization
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BasalGanglia.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BoldMonitoring.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    BOLD monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/ANN2SNN.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ANN to SNN Conversion
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../License.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    License
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#spiking-synapses" id="toc-spiking-synapses" class="nav-link active" data-scroll-target="#spiking-synapses">Spiking synapses</a>
+  <ul class="collapse">
+  <li><a href="#increase-of-conductance-after-a-pre-synaptic-spike" id="toc-increase-of-conductance-after-a-pre-synaptic-spike" class="nav-link" data-scroll-target="#increase-of-conductance-after-a-pre-synaptic-spike">Increase of conductance after a pre-synaptic spike</a></li>
+  <li><a href="#synaptic-plasticity" id="toc-synaptic-plasticity" class="nav-link" data-scroll-target="#synaptic-plasticity">Synaptic plasticity</a>
+  <ul class="collapse">
+  <li><a href="#using-spike-time-differences" id="toc-using-spike-time-differences" class="nav-link" data-scroll-target="#using-spike-time-differences">Using spike-time differences</a></li>
+  <li><a href="#online-version" id="toc-online-version" class="nav-link" data-scroll-target="#online-version">Online version</a></li>
+  <li><a href="#order-of-evaluation" id="toc-order-of-evaluation" class="nav-link" data-scroll-target="#order-of-evaluation">Order of evaluation</a></li>
+  </ul></li>
+  <li><a href="#continuous-synaptic-transmission" id="toc-continuous-synaptic-transmission" class="nav-link" data-scroll-target="#continuous-synaptic-transmission">Continuous synaptic transmission</a></li>
+  </ul></li>
   </ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#increase-of-conductance-after-a-pre-synaptic-spike" class="md-nav__link">
-    <span class="md-ellipsis">
-      Increase of conductance after a pre-synaptic spike
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#synaptic-plasticity" class="md-nav__link">
-    <span class="md-ellipsis">
-      Synaptic plasticity
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Synaptic plasticity">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-spike-time-differences" class="md-nav__link">
-    <span class="md-ellipsis">
-      Using spike-time differences
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#online-version" class="md-nav__link">
-    <span class="md-ellipsis">
-      Online version
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#order-of-evaluation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Order of evaluation
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#continuous-synaptic-transmission" class="md-nav__link">
-    <span class="md-ellipsis">
-      Continuous synaptic transmission
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          
-            <div class="md-content" data-md-component="content">
-              <article class="md-content__inner md-typeset">
-                
-                  
-
-  
-  
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
 
 
-<h1 id="spiking-synapses">Spiking synapses<a class="headerlink" href="#spiking-synapses" title="Permanent link">#</a></h1>
-<p>Synapses in spiking networks differ from rate-coded synapses in that
-they are event-driven, i.e. the most important changes occur whenever a
-pre- or post-synaptic spike is emitted. For this reason, additional
-arguments have to be passed to the <code>Synapse</code> object.</p>
-<h2 id="increase-of-conductance-after-a-pre-synaptic-spike">Increase of conductance after a pre-synaptic spike<a class="headerlink" href="#increase-of-conductance-after-a-pre-synaptic-spike" title="Permanent link">#</a></h2>
-<p>In the simplest case, a pre-synaptic spike increases a <code>target</code>
-conductance value in the post-synaptic neuron. The rule defining how
-this conductance is modified has to be placed in the <code>pre_spike</code>
-argument of a <code>Synapse</code> object.</p>
+
+
+<section id="spiking-synapses" class="level1">
+<h1>Spiking synapses</h1>
+<p>Synapses in spiking networks differ from rate-coded synapses in that they are event-driven, i.e.&nbsp;the most important changes occur whenever a pre- or post-synaptic spike is emitted. For this reason, additional arguments have to be passed to the <code>Synapse</code> object.</p>
+<section id="increase-of-conductance-after-a-pre-synaptic-spike" class="level2">
+<h2 class="anchored" data-anchor-id="increase-of-conductance-after-a-pre-synaptic-spike">Increase of conductance after a pre-synaptic spike</h2>
+<p>In the simplest case, a pre-synaptic spike increases a <code>target</code> conductance value in the post-synaptic neuron. The rule defining how this conductance is modified has to be placed in the <code>pre_spike</code> argument of a <code>Synapse</code> object.</p>
 <p>The default spiking synapse in ANNarchy is equivalent to:</p>
-<div class="highlight"><pre><span></span><code><span class="n">DefaultSynapse</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
-    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;w=0.0&quot;</span><span class="p">,</span>
-    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">pre_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        g_target += w</span>
-<span class="s2">    &quot;&quot;&quot;</span>     
-<span class="p">)</span> 
-</code></pre></div>
-<p>The only thing it does is to increase the conductance <code>g_target</code> of the
-post-synaptic neuron (for example <code>g_exc</code> if the target is <code>exc</code>) every
-time a pre-synaptic spike arrives at the synapse, proportionally to the
-synaptic efficiency <code>w</code> of the synapse. Note that <code>w</code> is implicitely
-defined in all synapses, you will never need to define it explicitely.</p>
-<p>You can override this default behavior by providing a new <code>Synapse</code>
-object when building a <code>Projection</code>. For example, you may want to
-implement a \"fatigue\" mechanism for the synapse, transciently reducing
-the synaptic efficiency when the pre-synaptic neuron fires too strongly.
-One solution would be to decrease a synaptic variable everytime a
-pre-synaptic spike is received and increase the post-synaptic
-conductance proportionally to this value. When no spike is received,
-this <code>trace</code> variable should slowly return to its maximal value.</p>
-<div class="highlight"><pre><span></span><code><span class="n">FatigueSynapse</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
-    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        tau = 1000 : postsynaptic # Time constant of the trace is 1 second</span>
-<span class="s2">        dec = 0.05 : postsynaptic # Decrement of the trace</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        tau * dtrace/dt + trace = 1.0 : min = 0.0</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">pre_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        g_target += w * trace</span>
-<span class="s2">        trace -= dec</span>
-<span class="s2">    &quot;&quot;&quot;</span>     
-<span class="p">)</span> 
-</code></pre></div>
-<p>Each time a pre-synaptic spike occurs, the post-synaptic conductance is
-increased from <code>w*trace</code>. As the baseline of <code>trace</code> is 1.0 (as defined
-in <code>equations</code>), this means that a \"fresh\" synapse will use the full
-synaptic efficiency. However, after each pre-synaptic spike, trace is
-decreased from <code>dec = 0.05</code>, meaning that the \"real\" synaptic
-efficiency can go down to 0.0 (the minimal value of trace) if the
-pre-synaptic neuron fires too often.</p>
-<p>It is important here to restrict <code>trace</code> to positive values with the
-flags <code>min=0.0</code>, as it could otherwise transform an excitatory synapse
-into an inhibitory one.</p>
-<div class="admonition hint">
-<p class="admonition-title">Hint</p>
-<p>It is obligatory to use the keyword <code>g_target</code> for the post-synaptic
-conductance. This value relates to the corresponding value in
-post-synaptic neuron: The <code>target</code> will be replaced with the
-projection's target (for example <code>exc</code> or <code>inh</code>). So if you use this
-synapse in a projection with target = \'exc\', the value of g_exc in
-post-synaptic neuron will be automatically replaced.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>DefaultSynapse <span class="op">=</span> ann.Synapse(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">"w=0.0"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">""</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    pre_spike <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="st">        g_target += w</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>     </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The only thing it does is to increase the conductance <code>g_target</code> of the post-synaptic neuron (for example <code>g_exc</code> if the target is <code>exc</code>) every time a pre-synaptic spike arrives at the synapse, proportionally to the synaptic efficiency <code>w</code> of the synapse. Note that <code>w</code> is implicitely defined in all synapses, you will never need to define it explicitely.</p>
+<p>You can override this default behavior by providing a new <code>Synapse</code> object when building a <code>Projection</code>. For example, you may want to implement a "fatigue" mechanism for the synapse, transciently reducing the synaptic efficiency when the pre-synaptic neuron fires too strongly.</p>
+<p>One solution would be to decrease a synaptic variable everytime a pre-synaptic spike is received and increase the post-synaptic conductance proportionally to this value. When no spike is received, this <code>trace</code> variable should slowly return to its maximal value.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>FatigueSynapse <span class="op">=</span> ann.Synapse(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">        tau = 1000 : postsynaptic # Time constant of the trace is 1 second</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">        dec = 0.05 : postsynaptic # Decrement of the trace</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">        tau * dtrace/dt + trace = 1.0 : min = 0.0</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    pre_spike <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st">        g_target += w * trace</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">        trace -= dec</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>     </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each time a pre-synaptic spike occurs, the post-synaptic conductance is increased from <code>w*trace</code>. As the baseline of <code>trace</code> is 1.0 (as defined in <code>equations</code>), this means that a "fresh" synapse will use the full synaptic efficiency. However, after each pre-synaptic spike, trace is decreased from <code>dec = 0.05</code>, meaning that the "real" synaptic efficiency can go down to 0.0 (the minimal value of trace) if the pre-synaptic neuron fires too often.</p>
+<p>It is important here to restrict <code>trace</code> to positive values with the flags <code>min=0.0</code>, as it could otherwise transform an excitatory synapse into an inhibitory one.</p>
+<div class="callout-hint">
+<p>It is obligatory to use the keyword <code>g_target</code> for the post-synaptic conductance. This value relates to the corresponding value in post-synaptic neuron: The <code>target</code> will be replaced with the projection’s target (for example <code>exc</code> or <code>inh</code>). So if you use this synapse in a projection with target = 'exc', the value of g_exc in post-synaptic neuron will be automatically replaced.</p>
 </div>
-<h2 id="synaptic-plasticity">Synaptic plasticity<a class="headerlink" href="#synaptic-plasticity" title="Permanent link">#</a></h2>
-<p>In spiking networks, there are usually two methods to implement
-event-driven synaptic plasticity (see the entry on STDP at
-<a href="http://www.scholarpedia.org/article/Spike-timing_dependent_plasticity">Scholarpedia</a>):</p>
+</section>
+<section id="synaptic-plasticity" class="level2">
+<h2 class="anchored" data-anchor-id="synaptic-plasticity">Synaptic plasticity</h2>
+<p>In spiking networks, there are usually two methods to implement event-driven synaptic plasticity (see the entry on STDP at <a href="http://www.scholarpedia.org/article/Spike-timing_dependent_plasticity">Scholarpedia</a>):</p>
 <ul>
-<li>by using the difference in spike times between the pre- and
-    post-synaptic neurons;</li>
+<li>by using the difference in spike times between the pre- and post-synaptic neurons;</li>
 <li>by using online implementations.</li>
 </ul>
-<h3 id="using-spike-time-differences">Using spike-time differences<a class="headerlink" href="#using-spike-time-differences" title="Permanent link">#</a></h3>
+<section id="using-spike-time-differences" class="level3">
+<h3 class="anchored" data-anchor-id="using-spike-time-differences">Using spike-time differences</h3>
 <p>A <code>Synapse</code> has access to two specific variables:</p>
 <ul>
-<li><code>t_pre</code> corresponding to the time of the <em>last</em> pre-synaptic spike
-    in milliseconds.</li>
-<li><code>t_post</code> corresponding to the time of the <em>last</em> post-synaptic spike
-    in milliseconds.</li>
+<li><code>t_pre</code> corresponding to the time of the <em>last</em> pre-synaptic spike in milliseconds.</li>
+<li><code>t_post</code> corresponding to the time of the <em>last</em> post-synaptic spike in milliseconds.</li>
 </ul>
-<p>These times are relative to the creation of the network, so they only
-make sense when compared to each other or to <code>t</code>.</p>
-<p>Spike-timing dependent plasticity can for example be implemented the
-following way:</p>
-<div class="highlight"><pre><span></span><code><span class="n">STDP</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
-    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        tau_pre = 10.0 : projection</span>
-<span class="s2">        tau_post = 10.0 : projection</span>
-<span class="s2">        cApre = 0.01 : projection</span>
-<span class="s2">        cApost = 0.0105 : projection</span>
-<span class="s2">        wmax = 0.01 : projection</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">pre_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        g_target += w</span>
-<span class="s2">        w = clip(w - cApost * exp((t_post - t)/tau_post) , 0.0 , wmax) </span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>                  
-    <span class="n">post_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        w = clip(w + cApre * exp((t_pre - t)/tau_pre) , 0.0 , wmax)</span>
-<span class="s2">    &quot;&quot;&quot;</span>      
-<span class="p">)</span> 
-</code></pre></div>
-<ul>
-<li>Every time a pre-synaptic spike arrives at the synapse
-    (<code>pre_spike</code>), the post-synaptic conductance is increased from the
-    current value of the synaptic efficiency.</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="n">g_target</span> <span class="o">+=</span> <span class="n">w</span>
-</code></pre></div>
-<p>When a synapse object is defined, this behavior should be explicitely
-declared.</p>
-<p>The value <code>w</code> is then decreased using a decreasing exponential function
-of the time elapsed since the last post-synaptic spike:</p>
-<div class="highlight"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">cApost</span> <span class="o">*</span> <span class="n">exp</span><span class="p">((</span><span class="n">t_post</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span><span class="o">/</span><span class="n">tau_post</span><span class="p">)</span> <span class="p">,</span> <span class="mf">0.0</span> <span class="p">,</span> <span class="n">wmax</span><span class="p">)</span> 
-</code></pre></div>
-<p>The <code>clip()</code> global function is there to ensure that <code>w</code> is bounded
-between 0.0 and <code>wmax</code>. As <code>t &gt;= t_post</code>, the exponential part is
-smaller than 1.0. The <code>pre_spike</code> argument therefore ensures that the
-synapse is depressed is a pre-synaptic spike occurs shortly after a
-post-synaptic one. \"Shortly\" is quantified by the time constant
-<code>tau_post</code>, usually in the range of 10 ms.</p>
-<ul>
-<li>Every time a post-synaptic spike is emitted (<code>post_spike</code>), the
-    value <code>w</code> is increased proportionally to the time elapsed since the
-    last pre-synaptic spike:</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="n">w</span> <span class="o">+</span> <span class="n">cApre</span> <span class="o">*</span> <span class="n">exp</span><span class="p">((</span><span class="n">t_pre</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span><span class="o">/</span><span class="n">tau_pre</span><span class="p">)</span> <span class="p">,</span> <span class="mf">0.0</span> <span class="p">,</span> <span class="n">wmax</span><span class="p">)</span>
-</code></pre></div>
-<p>This term defines the potentiation of a synapse when a pre-synaptic
-spike is followed immediately by a post-synaptic one: the inferred
-causality between the two events should be reinforced.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Only the last pre- and post-synaptic spikes are accessible, not the
-whole history. Only <strong>nearest-neighbor spike-interactions</strong> are possible
-using ANNarchy, not temporal all-to-all interactions where the whole
-spike history is used for learning (see the entry on STDP at
-<a href="http://www.scholarpedia.org/article/Spike-timing_dependent_plasticity">Scholarpedia</a>).</p>
-<p>Some networks may not work properly when using this simulation mode. For
-example, whenever the pre-synaptic neurons fires twice in a very short
-interval and causes a post-synaptic spike, the corresponding weight
-should be reinforced twice. With the proposed STDP rule, it would be
-reinforced only once.</p>
+<p>These times are relative to the creation of the network, so they only make sense when compared to each other or to <code>t</code>.</p>
+<p>Spike-timing dependent plasticity can for example be implemented the following way:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>STDP <span class="op">=</span> ann.Synapse(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_pre = 10.0 : projection</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_post = 10.0 : projection</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">        cApre = 0.01 : projection</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="st">        cApost = 0.0105 : projection</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="st">        wmax = 0.01 : projection</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    pre_spike <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">        g_target += w</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="st">        w = clip(w - cApost * exp((t_post - t)/tau_post) , 0.0 , wmax) </span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,                  </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    post_spike <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="st">        w = clip(w + cApre * exp((t_pre - t)/tau_pre) , 0.0 , wmax)</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>      </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>pre_spike</strong></p>
+<p>Every time a pre-synaptic spike arrives at the synapse (<code>pre_spike</code>), the post-synaptic conductance is increased from the current value of the synaptic efficiency.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>g_target <span class="op">+=</span> w</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When a synapse object is defined, this behavior should be explicitely declared.</p>
+<p>The value <code>w</code> is then decreased using a decreasing exponential function of the time elapsed since the last post-synaptic spike:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> clip(w <span class="op">-</span> cApost <span class="op">*</span> exp((t_post <span class="op">-</span> t)<span class="op">/</span>tau_post) , <span class="fl">0.0</span> , wmax) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>clip()</code> global function is there to ensure that <code>w</code> is bounded between 0.0 and <code>wmax</code>. As <code>t &gt;= t_post</code>, the exponential part is smaller than 1.0. The <code>pre_spike</code> argument therefore ensures that the synapse is depressed is a pre-synaptic spike occurs shortly after a post-synaptic one. "Shortly" is quantified by the time constant <code>tau_post</code>, usually in the range of 10 ms.</p>
+<p><strong>post_spike</strong></p>
+<p>Every time a post-synaptic spike is emitted (<code>post_spike</code>), the value <code>w</code> is increased proportionally to the time elapsed since the last pre-synaptic spike:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> clip(w <span class="op">+</span> cApre <span class="op">*</span> exp((t_pre <span class="op">-</span> t)<span class="op">/</span>tau_pre) , <span class="fl">0.0</span> , wmax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This term defines the potentiation of a synapse when a pre-synaptic spike is followed immediately by a post-synaptic one: the inferred causality between the two events should be reinforced.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Only the last pre- and post-synaptic spikes are accessible, not the whole history. Only <strong>nearest-neighbor spike-interactions</strong> are possible using ANNarchy, not temporal all-to-all interactions where the whole spike history is used for learning (see the entry on STDP at <a href="http://www.scholarpedia.org/article/Spike-timing_dependent_plasticity">Scholarpedia</a>).</p>
+<p>Some networks may not work properly when using this simulation mode. For example, whenever the pre-synaptic neurons fires twice in a very short interval and causes a post-synaptic spike, the corresponding weight should be reinforced twice. With the proposed STDP rule, it would be reinforced only once.</p>
 <p>It is therefore generally advised to use online versions of STDP.</p>
 </div>
-<h3 id="online-version">Online version<a class="headerlink" href="#online-version" title="Permanent link">#</a></h3>
-<p>The online version of STDP requires two synaptic traces, which are
-increased whenever a pre- resp. post-synaptic spike is perceived, and
-decay with their own dynamics in between. Using the same vocabulary as
-Brian, such an implementation would be:</p>
-<div class="highlight"><pre><span></span><code><span class="n">STDP_online</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
-    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        tau_pre = 10.0 : projection</span>
-<span class="s2">        tau_post = 10.0 : projection</span>
-<span class="s2">        cApre = 0.01 : projection</span>
-<span class="s2">        cApost = 0.0105 : projection</span>
-<span class="s2">        wmax = 0.01 : projection</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        tau_pre * dApre/dt = - Apre : event-driven</span>
-<span class="s2">        tau_post * dApost/dt = - Apost : event-driven</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">pre_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        g_target += w</span>
-<span class="s2">        Apre += cApre * wmax</span>
-<span class="s2">        w = clip(w - Apost, 0.0 , wmax)</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>                  
-    <span class="n">post_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        Apost += cApost * wmax</span>
-<span class="s2">        w = clip(w + Apre, 0.0 , wmax)</span>
-<span class="s2">    &quot;&quot;&quot;</span>      
-<span class="p">)</span> 
-</code></pre></div>
-<p>The variables <code>Apre</code> and <code>Apost</code> are exponentially decreasing traces of
-pre- and post-synaptic spikes, as shown by the leaky integration in
-<code>equations</code>. When a pre-synaptic spike is emitted, <code>Apre</code> is
-incremented, the conductance level of the post-synaptic neuron
-<code>g_target</code> too, and the synaptic efficiency is decreased proportionally
-to <code>Apost</code> (this means that if a post-synaptic spike was emitted shortly
-before, LTD will strongly be applied, while if it was longer ago, no
-major change will be observed). When a post-synaptic spike is observed,
-<code>Apost</code> increases and the synaptic efficiency is increased
-proportionally to <code>Apre</code>.</p>
-<p>The effect of this online version is globally the same as the spike
-timing dependent version, except that the history of pre- and
-post-synaptic spikes is fully contained in the variables <code>Apre</code> and
-<code>Apost</code>.</p>
-<p>The <code>event-driven</code> keyword allows event-driven integration of the
-variables <code>Apre</code> and <code>Apost</code>. This means the equations are not updated
-at each time step, but only when a pre- or post-synaptic spike occurs at
-the synapse. This is only possible because the two variables follow
-linear first-order ODEs. The event-driven integration method allows to
-spare a lot of computations if the number of spikes is not too high in
-the network.</p>
-<h3 id="order-of-evaluation">Order of evaluation<a class="headerlink" href="#order-of-evaluation" title="Permanent link">#</a></h3>
+</div>
+</section>
+<section id="online-version" class="level3">
+<h3 class="anchored" data-anchor-id="online-version">Online version</h3>
+<p>The online version of STDP requires two synaptic traces, which are increased whenever a pre- resp. post-synaptic spike is perceived, and decay with their own dynamics in between. Using the same vocabulary as Brian, such an implementation would be:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>STDP_online <span class="op">=</span> ann.Synapse(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_pre = 10.0 : projection</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_post = 10.0 : projection</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="st">        cApre = 0.01 : projection</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">        cApost = 0.0105 : projection</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">        wmax = 0.01 : projection</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_pre * dApre/dt = - Apre : event-driven</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_post * dApost/dt = - Apost : event-driven</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    pre_spike <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="st">        g_target += w</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="st">        Apre += cApre * wmax</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="st">        w = clip(w - Apost, 0.0 , wmax)</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,                  </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    post_spike <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="st">        Apost += cApost * wmax</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="st">        w = clip(w + Apre, 0.0 , wmax)</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>      </span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The variables <code>Apre</code> and <code>Apost</code> are exponentially decreasing traces of pre- and post-synaptic spikes, as shown by the leaky integration in <code>equations</code>. When a pre-synaptic spike is emitted, <code>Apre</code> is incremented, the conductance level of the post-synaptic neuron <code>g_target</code> too, and the synaptic efficiency is decreased proportionally to <code>Apost</code> (this means that if a post-synaptic spike was emitted shortly before, LTD will strongly be applied, while if it was longer ago, no major change will be observed). When a post-synaptic spike is observed, <code>Apost</code> increases and the synaptic efficiency is increased proportionally to <code>Apre</code>.</p>
+<p>The effect of this online version is globally the same as the spike timing dependent version, except that the history of pre- and post-synaptic spikes is fully contained in the variables <code>Apre</code> and <code>Apost</code>.</p>
+<p>The <code>event-driven</code> keyword allows event-driven integration of the variables <code>Apre</code> and <code>Apost</code>. This means the equations are not updated at each time step, but only when a pre- or post-synaptic spike occurs at the synapse. This is only possible because the two variables follow linear first-order ODEs. The event-driven integration method allows to spare a lot of computations if the number of spikes is not too high in the network.</p>
+</section>
+<section id="order-of-evaluation" class="level3">
+<h3 class="anchored" data-anchor-id="order-of-evaluation">Order of evaluation</h3>
 <p>Three types of updates are potentially executed at every time step:</p>
-<ol>
-<li>Pre-synaptic events, defined by <code>pre_spike</code> and triggered after each
-    pre-synaptic spike, after a delay of at least <code>dt</code>.</li>
+<ol type="1">
+<li>Pre-synaptic events, defined by <code>pre_spike</code> and triggered after each pre-synaptic spike, after a delay of at least <code>dt</code>.</li>
 <li>Synaptic variables defined by <code>equations</code>.</li>
-<li>Post-synaptic events, defined by <code>post_spike</code> and triggered after
-    each post-synaptic spike, without delay.</li>
+<li>Post-synaptic events, defined by <code>post_spike</code> and triggered after each post-synaptic spike, without delay.</li>
 </ol>
-<p>These updates are conducted in that order at each time step. First, all
-spikes emitted in the previous step (or earlier if there are delays) are
-propagated to the corresponding synapses and influence variables there
-(especially conductance increases), then all synaptic variables are
-updated according to their ODE (after the neurons\' equations are
-updated), then all neurons which have emitted a spike in the current
-step modify their synapses.</p>
-<p>A potential problem arises when a pre-synaptic and a post-synaptic spike
-are emitted at the same time. STDP-like plasticity rules are usually not
-defined when the spike time difference is 0, as the two spikes can not
-be correlated in that case (the pre-spike can not possibly be the cause
-of the post-spike).</p>
-<p>By default, both event-driven updates (<code>pre_spike</code> leading to LTD,
-<code>post_spike</code> leading to LTP) will be conducted when the spikes are
-emitted at the same time. This can be problematic for some plastic
-models, for example the <code>simple_stdp</code> example provided in the source
-code.</p>
-<p>To avoid this problem, the flag <code>unless_post</code> can be specified in
-<code>pre_spike</code> to indicate that the corresponding variable should be
-updated after each pre-synaptic spike, <strong>unless</strong> the post-synaptic
-neuron also fired at the previous time step. Without even-driven
-integration, the online STDP learning rule would become:</p>
-<div class="highlight"><pre><span></span><code><span class="n">STDP_online</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
-    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        tau_pre = 10.0 : projection</span>
-<span class="s2">        tau_post = 10.0 : projection</span>
-<span class="s2">        cApre = 0.01 : projection</span>
-<span class="s2">        cApost = 0.0105 : projection</span>
-<span class="s2">        wmax = 0.01 : projection</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        tau_pre * dApre/dt = - Apre </span>
-<span class="s2">        tau_post * dApost/dt = - Apost </span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">pre_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        g_target += w</span>
-<span class="s2">        Apre += cApre : unless_post</span>
-<span class="s2">        w = clip(w - Apost, 0.0 , wmax) : unless_post</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>                  
-    <span class="n">post_spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        Apost += cApost</span>
-<span class="s2">        w = clip(w + Apre, 0.0 , wmax)</span>
-<span class="s2">    &quot;&quot;&quot;</span>      
-<span class="p">)</span> 
-</code></pre></div>
-<h2 id="continuous-synaptic-transmission">Continuous synaptic transmission<a class="headerlink" href="#continuous-synaptic-transmission" title="Permanent link">#</a></h2>
-<p>In some cases, synaptic transmission cannot be described in an
-event-driven framework. Synapses using the NMDA neurotransmitter are for
-example often modeled as non-linear synapses. Non-linear synapses can
-require the post-synaptic conductance to be a sum of synapse-specific
-variables, as for rate-coded neurons, and not simply incremented when a
-pre-synaptic spike occurs. NMDA synapses can be represented by two
-variables <span class="arithmatex">\(x(t)\)</span> and <span class="arithmatex">\(g(t)\)</span> following first-order ODEs:</p>
-<div class="arithmatex">\[\begin{aligned}
+<p>These updates are conducted in that order at each time step. First, all spikes emitted in the previous step (or earlier if there are delays) are propagated to the corresponding synapses and influence variables there (especially conductance increases), then all synaptic variables are updated according to their ODE (after the neurons' equations are updated), then all neurons which have emitted a spike in the current step modify their synapses.</p>
+<p>A potential problem arises when a pre-synaptic and a post-synaptic spike are emitted at the same time. STDP-like plasticity rules are usually not defined when the spike time difference is 0, as the two spikes can not be correlated in that case (the pre-spike can not possibly be the cause of the post-spike).</p>
+<p>By default, both event-driven updates (<code>pre_spike</code> leading to LTD, <code>post_spike</code> leading to LTP) will be conducted when the spikes are emitted at the same time. This can be problematic for some plastic models, for example the <code>simple_stdp</code> example provided in the source code.</p>
+<p>To avoid this problem, the flag <code>unless_post</code> can be specified in <code>pre_spike</code> to indicate that the corresponding variable should be updated after each pre-synaptic spike, <strong>unless</strong> the post-synaptic neuron also fired at the previous time step. Without even-driven integration, the online STDP learning rule would become:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>STDP_online <span class="op">=</span> ann.Synapse(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_pre = 10.0 : projection</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_post = 10.0 : projection</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">        cApre = 0.01 : projection</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="st">        cApost = 0.0105 : projection</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="st">        wmax = 0.01 : projection</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_pre * dApre/dt = - Apre </span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_post * dApost/dt = - Apost </span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    pre_spike <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="st">        g_target += w</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="st">        Apre += cApre : unless_post</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="st">        w = clip(w - Apost, 0.0 , wmax) : unless_post</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,                  </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    post_spike <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="st">        Apost += cApost</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="st">        w = clip(w + Apre, 0.0 , wmax)</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>      </span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="continuous-synaptic-transmission" class="level2">
+<h2 class="anchored" data-anchor-id="continuous-synaptic-transmission">Continuous synaptic transmission</h2>
+<p>In some cases, synaptic transmission cannot be described in an event-driven framework. Synapses using the NMDA neurotransmitter are for example often modeled as non-linear synapses. Non-linear synapses can require the post-synaptic conductance to be a sum of synapse-specific variables, as for rate-coded neurons, and not simply incremented when a pre-synaptic spike occurs. NMDA synapses can be represented by two variables <span class="math inline">x(t)</span> and <span class="math inline">g(t)</span> following first-order ODEs:</p>
+<p><span class="math display">\begin{aligned}
 \begin{aligned}
 \tau \cdot \frac{dx(t)}{dt} &amp;= - x(t) \\
 \tau \cdot \frac{dg(t)}{dt} &amp;= - g(t) +  x(t) \cdot (1 - g(t))
 \end{aligned}
-\end{aligned}\]</div>
-<p>When a pre-synaptic spike occurs, <span class="arithmatex">\(x(t)\)</span> is incremented by the weight
-<span class="arithmatex">\(w(t)\)</span>. However, it does not influence directly the post-synaptic
-neuron, as the output of a synapse is the signal <span class="arithmatex">\(g(t)\)</span>. The
-post-synaptic conductance is defined at each time <span class="arithmatex">\(t\)</span> as the sum over
-all synapses of the same type of their variable <span class="arithmatex">\(g(t)\)</span>:</p>
-<div class="arithmatex">\[g_\text{exc}(t) = \sum_{i=1}^{N_\text{exc}} g_i (t)\]</div>
+\end{aligned}</span></p>
+<p>When a pre-synaptic spike occurs, <span class="math inline">x(t)</span> is incremented by the weight <span class="math inline">w(t)</span>. However, it does not influence directly the post-synaptic neuron, as the output of a synapse is the signal <span class="math inline">g(t)</span>. The post-synaptic conductance is defined at each time <span class="math inline">t</span> as the sum over all synapses of the same type of their variable <span class="math inline">g(t)</span>:</p>
+<p><span class="math display">g_\text{exc}(t) = \sum_{i=1}^{N_\text{exc}} g_i (t)</span></p>
 <p>Such a synapse could be implemented the following way:</p>
-<div class="highlight"><pre><span></span><code>NMDA = Synapse(
-    parameters = &quot;&quot;&quot;
-    tau = 10.0 : projection
-    &quot;&quot;&quot;,
-    equations = &quot;&quot;&quot;
-    tau * dx/dt = -x
-    tau * dg/dt = -g +  x * (1 -g)
-    &quot;&quot;&quot;, 
-    pre_spike = &quot;x += w&quot;,
-    psp = &quot;g&quot;
-)
-</code></pre></div>
-<p>The synapse defines a <code>psp</code> argument which means that the output of this
-synapse is non-linear and the post-synaptic conductance should be summed
-over this value (<code>g</code> in this case). It is not possible to use the
-event-driven integration scheme for such non-linear synapses.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>NMDA <span class="op">=</span> ann.Synapse(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="st">    tau = 10.0 : projection</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="st">    tau * dx/dt = -x</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="st">    tau * dg/dt = -g +  x * (1 -g)</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>, </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    pre_spike <span class="op">=</span> <span class="st">"x += w"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    psp <span class="op">=</span> <span class="st">"g"</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The synapse defines a <code>psp</code> argument which means that the output of this synapse is non-linear and the post-synaptic conductance should be summed over this value (<code>g</code> in this case). It is not possible to use the event-driven integration scheme for such non-linear synapses.</p>
 
 
+</section>
+</section>
 
-
-
-
-
-
-
-
-
-
-                
-              </article>
-            </div>
-          
-          
-<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
-        </div>
-        
-      </main>
-      
-        <footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-    <div class="md-copyright__highlight">
-      Copyright &copy; Julien Vitay, Helge Ülo Dinkelbach, Fred H. Hamker
-    </div>
-  
-  
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
-    </a>
-  
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../manual/RateSynapse.html" class="pagination-link" aria-label="Rate-coded synapses">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Rate-coded synapses</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../manual/Projections.html" class="pagination-link" aria-label="Projections">
+        <span class="nav-page-text">Projections</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright Julien Vitay, Helge Ülo Dinkelbach, Fred Hamker</p>
 </div>
-      
+    <div class="nav-footer-right">
+      &nbsp;
     </div>
   </div>
 </footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    
-    
-    <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-    
-    
-      <script src="../assets/javascripts/bundle.c8d2eff1.min.js"></script>
-      
-        <script src="../javascripts/config.js"></script>
-      
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      
-        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-      
-    
-  </body>
-</html>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ANNarchy 4.7.3 - Neural Field</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notebooks/BarLearning.html" rel="next">
+<link href="../notebooks/RC.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ANNarchy 4.7.3</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">ANNarchy</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Installation.html"> 
+<span class="menu-text">Installation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tutorial/index.html"> 
+<span class="menu-text">Tutorial</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manual/Structure.html"> 
+<span class="menu-text">Manual</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../notebooks/index.html" aria-current="page"> 
+<span class="menu-text">Notebooks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../reference/index.html"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ANNarchy/ANNarchy"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <a class="flex-grow-1 no-decor" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+          <h1 class="quarto-secondary-nav-title">Neural Field</h1>
+        </a>     
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of notebooks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text"><strong>Rate-coded networks</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/RC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Echo-state networks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/NeuralField.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Neural field</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/BarLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bar Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/Miconi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Miconi network</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/StructuralPlasticity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Structural plasticity</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text"><strong>Spiking networks</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/AdEx.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">AdEx</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/PyNN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PyNN/Brian</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/Izhikevich.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Izhikevich</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/SynapticTransmission.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Synaptic transmission</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/GapJunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gap junctions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/HodgkinHuxley.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hodgkin-Huxley</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/COBA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">COBA/CUBA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/STP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/STDP1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STDP I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/STDP2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STDP II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/Ramp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homeostatic STDP - Ramp</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/SORF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homeostatic STDP - SORF</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text"><strong>Advanced features</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/Hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hybrid networks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/MultipleNetworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parallel run</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/BayesianOptimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian optimization</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text"><strong>Extensions</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/Image.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/BasalGanglia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tensorboard</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/BoldMonitoring1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BOLD monitor I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/BoldMonitoring2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BOLD monitor II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/ANN2SNN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANN to SNN</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#model-overview" id="toc-model-overview" class="nav-link active" data-scroll-target="#model-overview">Model overview</a></li>
+  <li><a href="#importing-annarchy" id="toc-importing-annarchy" class="nav-link" data-scroll-target="#importing-annarchy">Importing ANNarchy</a></li>
+  <li><a href="#defining-the-neurons" id="toc-defining-the-neurons" class="nav-link" data-scroll-target="#defining-the-neurons">Defining the neurons</a>
+  <ul class="collapse">
+  <li><a href="#input-neuron" id="toc-input-neuron" class="nav-link" data-scroll-target="#input-neuron">Input neuron</a></li>
+  <li><a href="#neural-field-neuron" id="toc-neural-field-neuron" class="nav-link" data-scroll-target="#neural-field-neuron">Neural Field neuron</a></li>
+  </ul></li>
+  <li><a href="#creating-the-populations" id="toc-creating-the-populations" class="nav-link" data-scroll-target="#creating-the-populations">Creating the populations</a></li>
+  <li><a href="#creating-the-projections" id="toc-creating-the-projections" class="nav-link" data-scroll-target="#creating-the-projections">Creating the projections</a></li>
+  <li><a href="#compiling-the-network-and-simulating" id="toc-compiling-the-network-and-simulating" class="nav-link" data-scroll-target="#compiling-the-network-and-simulating">Compiling the network and simulating</a></li>
+  <li><a href="#setting-inputs" id="toc-setting-inputs" class="nav-link" data-scroll-target="#setting-inputs">Setting inputs</a>
+  <ul class="collapse">
+  <li><a href="#pure-python-approach" id="toc-pure-python-approach" class="nav-link" data-scroll-target="#pure-python-approach">Pure Python approach</a></li>
+  <li><a href="#cython-approach" id="toc-cython-approach" class="nav-link" data-scroll-target="#cython-approach">Cython approach</a></li>
+  <li><a href="#visualizing-the-network" id="toc-visualizing-the-network" class="nav-link" data-scroll-target="#visualizing-the-network">Visualizing the network</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Neural Field</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/NeuralField.ipynb" target="_blank"><img src="https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&amp;logo=Jupyter.png" class="img-fluid" alt="Download JupyterNotebook"></a> <a href="https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/master/notebooks/NeuralField.ipynb" target="_blank"><img src="https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&amp;logo=Jupyter.png" class="img-fluid" alt="Download JupyterNotebook"></a></p>
+<div id="cell-2" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install ANNarchy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This notebook demonstrates a simple rate-coded model using <a href="http://www.scholarpedia.org/article/Neural_fields">Neural Fields</a>. It consists of two 2D populations <code>inp</code> and <code>focus</code>, with one-to-one connections between <code>inp</code> and <code>focus</code>, and Difference-of-Gaussians (DoG) lateral connections within <code>focus</code>.</p>
+<section id="model-overview" class="level2">
+<h2 class="anchored" data-anchor-id="model-overview">Model overview</h2>
+<p>Each population consists of N*N neurons, with N=20. The <code>inp</code> population is solely used to represent inputs for <code>focus</code>. The firing rate of each neuron is defined by a simple equation:</p>
+<p><span class="math display">r_i(t) = (\text{baseline}_i(t) + \eta(t))^+</span></p>
+<p>where <span class="math inline">r_i(t)</span> is the instantaneous firing rate, <span class="math inline">\text{baseline}_i(t)</span> its baseline activity, <span class="math inline">\eta(t)</span> an additive noise uniformly taken in <span class="math inline">[-0.5, 0.5]</span> and <span class="math inline">()^+</span> the positive function.</p>
+<p>The <code>focus</code> population implements a discretized neural field, with neurons following the ODE:</p>
+<p><span class="math display">\tau \frac{d r_i(t)}{dt} + r_i(t) = r^\text{input}_i(t) + \sum_{j=1}^{N} w_{j, i} \cdot r_j(t) + \eta(t)</span></p>
+<p>where <span class="math inline">r_i(t)</span> is the neuron’s firing rate, <span class="math inline">\tau</span> a time constant and <span class="math inline">w_{j, i}</span> the weight value (synaptic efficiency) of the synapse between the neurons j and i. <span class="math inline">f()</span> is a semi-linear function, ensuring the firing rate is bounded between 0 and 1.</p>
+<p>Each neuron in <code>focus</code> takes inputs from the neuron of <code>inp</code> which has the same position, leading to a <code>one_to_one</code> connection pattern.</p>
+<p>The lateral connections within <code>focus</code> follow a difference-of-Gaussians (<code>dog</code>) connection pattern, with the connection weights <span class="math inline">w_{i,j}</span> depending on the normalized euclidian distance between the neurons in the N*N population:</p>
+<p><span class="math display">w_{j, i} = A^+ \cdot \exp(-\frac{1}{2}\frac{d(i, j)^2}{\sigma_+^2}) -  A^- \cdot \exp(-\frac{1}{2}\frac{d(i, j)^2}{\sigma_-^2})</span></p>
+<p>If i and j have coordinates <span class="math inline">(x_i, y_i)</span> and <span class="math inline">(x_j, y_j)</span> in the N*N space, the distance between them is computed as:</p>
+<p><span class="math display">d(i, j)^2 = (\frac{x_i - x_j}{N})^2 + (\frac{y_i - y_j}{N})^2</span></p>
+<p>Inputs are given to the network by changing the baseline of <code>inp</code> neurons. This example clamps one or several gaussian profiles (called “bubbles”) with an additive noise, moving along a circular path at a certain speed (launch the example to understand this sentence…).</p>
+</section>
+<section id="importing-annarchy" class="level2">
+<h2 class="anchored" data-anchor-id="importing-annarchy">Importing ANNarchy</h2>
+<p>We first start by importing the numpy and ANNarchy libraries:</p>
+<div id="cell-8" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ann.clear() <span class="co"># needed in case you rerun the notebook</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ANNarchy 4.8 (4.8.0) on darwin (posix).</code></pre>
+</div>
+</div>
+<p>If you want to run the simulation on your graphic card instead of CPU, simply uncomment the following line:</p>
+<div id="cell-10" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ann.setup(paradigm="cuda")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>setup()</code> method allows to configure ANNarchy to run in different modes, such as chosing the parallel framework (omp or cuda), setting the simulation step <code>dt</code>, the numerical method <code>method</code> or the <code>seed</code> of the random number generators.</p>
+</section>
+<section id="defining-the-neurons" class="level2">
+<h2 class="anchored" data-anchor-id="defining-the-neurons">Defining the neurons</h2>
+<section id="input-neuron" class="level3">
+<h3 class="anchored" data-anchor-id="input-neuron">Input neuron</h3>
+<div id="cell-14" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>InputNeuron <span class="op">=</span> ann.Neuron(   </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">        baseline = 0.0</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    equations<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="st">        r = pos(baseline + Uniform(-0.5, 0.5))</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span> </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Defining the input neuron is straightforward. <code>InputNeuron</code> is here an instance of <code>Neuron</code>, whose only parameter is <code>baseline</code> (initialized to 0.0, but it does not matter here as it will be set externally).</p>
+<p>The firing rate of each neuron, <code>r</code>, is updated at every time step as the positive part (<code>pos()</code>) of the sum of the baseline and a random number taken from a uniform distribution between -0.5 and 0.5.</p>
+</section>
+<section id="neural-field-neuron" class="level3">
+<h3 class="anchored" data-anchor-id="neural-field-neuron">Neural Field neuron</h3>
+<div id="cell-17" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>NeuralFieldNeuron <span class="op">=</span> ann.Neuron(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span><span class="st">""" </span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="st">        tau = 10.0 : population</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    equations<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="st">        tau * dr/dt + r = sum(exc) + sum(inh) + Uniform(-0.5, 0.5) : min=0.0, max=1.0</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The second neuron we need is a bit more complex, as it is governed by an ODE and considers inputs from other neurons. It also has a non-linear activation function, which is linear when the firing rate is between 0.0 and 1.0, and constant otherwise.</p>
+<p><code>tau</code> is a population-wise parameter, whose value will be the same for all neuron of the population.</p>
+<p><code>r</code> is the firing rate of he neuron, whose dynamics are governed by a first-order linear ODE, integrating the sums of excitatory and inhibitory inputs with noise.</p>
+<p>As explained in the manual for rate-coded neurons, <code>sum(exc)</code> retrieves the weighted sum of pre-synaptic firing rates for the synapses having the connection type <code>exc</code>, here the one_to_one connections between <code>inp</code> and <code>focus</code>. <code>sum(inh)</code> does the same for <code>inh</code> type connections, here the lateral connections within <code>focus</code>.</p>
+<p>The firing rate is restricted to the range [0, 1] by setting the <code>min</code> and <code>max</code> accordingly in the flags section (everything after the <code>:</code>). This means that after evaluating the ODE and getting a new value for <code>r</code>, its value will be clamped if it outside these values. One can define both <code>min</code> and <code>max</code>, only one, or none.</p>
+</section>
+</section>
+<section id="creating-the-populations" class="level2">
+<h2 class="anchored" data-anchor-id="creating-the-populations">Creating the populations</h2>
+<p>The two populations have a geometry of (20, 20), therefore 400 neurons each. They are created simply by instantiating the <code>Population</code> class:</p>
+<div id="cell-22" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.Population(geometry <span class="op">=</span> (N, N), neuron <span class="op">=</span> InputNeuron, name<span class="op">=</span><span class="st">'Input'</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>focus <span class="op">=</span> ann.Population(geometry <span class="op">=</span> (N, N), neuron <span class="op">=</span> NeuralFieldNeuron, name<span class="op">=</span><span class="st">'Focus'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The populations can be assigned a unique name (here ‘Input’ and ‘Focus’) in order to be be able to retrieve them if the references <code>inp</code> and <code>focus</code> are lost. They are given a 2D geometry and associated to the corresponding <code>Neuron</code> instance.</p>
+</section>
+<section id="creating-the-projections" class="level2">
+<h2 class="anchored" data-anchor-id="creating-the-projections">Creating the projections</h2>
+<p>The first projection is a one-to-one projection from Input to Focus with the type ‘exc’. This connection pattern pattern is possible because the two populations have the same geometry. The weights are initialized to 1.0, and this value will not change with time (no learning), so it is not necessary to define a synapse type:</p>
+<div id="cell-26" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ff <span class="op">=</span> ann.Projection(pre<span class="op">=</span>inp, post<span class="op">=</span>focus, target<span class="op">=</span><span class="st">'exc'</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ff.connect_one_to_one(weights<span class="op">=</span><span class="fl">1.0</span>, delays <span class="op">=</span> <span class="fl">20.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x12ca91cd0&gt;</code></pre>
+</div>
+</div>
+<p>The references to the pre- and post-synaptic population (or their names), as well as the target type, are passed to the constructor of <code>Projection</code>. The connector method <code>connect_one_to_one()</code> is immediately applied to the Projection, defining how many synapses will be created. The weights are initialized uniformly to 1.0.</p>
+<p>The second projection is a difference of gaussians (DoG) for the lateral connections within ‘focus’. The connector method is already provided by ANNarchy, so there is nothing more to do than to call it with the right parameters:</p>
+<div id="cell-28" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>lat <span class="op">=</span> ann.Projection(pre<span class="op">=</span>focus, post<span class="op">=</span>focus, target<span class="op">=</span><span class="st">'inh'</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>lat.connect_dog(amp_pos<span class="op">=</span><span class="fl">0.2</span>, sigma_pos<span class="op">=</span><span class="fl">0.1</span>, amp_neg<span class="op">=</span><span class="fl">0.1</span>, sigma_neg<span class="op">=</span><span class="fl">0.7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x13cc49cd0&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="compiling-the-network-and-simulating" class="level2">
+<h2 class="anchored" data-anchor-id="compiling-the-network-and-simulating">Compiling the network and simulating</h2>
+<p>Once the populations and projections are created, the network is ready to be generated, compiled and simulated. Compilation is simply done by calling <code>compile()</code>:</p>
+<div id="cell-31" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This generates optimized C++ code from the neurons’ definition and network structure, compiles it with gcc/clang and instantiates all objects, particularly the synapses. If some errors were made in the neuron definition, they will be signaled at this point.</p>
+<p><strong>Hint:</strong> The call to <code>compile()</code> is mandatory in any script. After it is called, populations and projections can not be added anymore.</p>
+<p>Once the compilation is successful, the network can be simulated by calling <code>simulate()</code>:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">1000.0</span>) <span class="co"># simulate for 1 second</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As no input has been fed into the network, calling <code>simulate()</code> now won’t lead to anything interesting. The next step is to clamp inputs into the input population’s baseline.</p>
+</section>
+<section id="setting-inputs" class="level2">
+<h2 class="anchored" data-anchor-id="setting-inputs">Setting inputs</h2>
+<section id="pure-python-approach" class="level3">
+<h3 class="anchored" data-anchor-id="pure-python-approach">Pure Python approach</h3>
+<p>In this example, we consider as input a moving bubble of activity rotating along a circle in the input space in 5 seconds. A naive way of setting such inputs would be to access population attributes (namely <code>inp.baseline</code>) in a tight loop in Python:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>angle <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(np.linspace(<span class="dv">0</span>, <span class="dv">19</span>, <span class="dv">20</span>), np.linspace(<span class="dv">0</span>, <span class="dv">19</span>, <span class="dv">20</span>))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Main loop</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update the angle</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    angle <span class="op">+=</span> <span class="fl">1.0</span><span class="op">/</span><span class="fl">5000.0</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute the center of the bubble</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    cx <span class="op">=</span> <span class="fl">10.0</span> <span class="op">*</span> ( <span class="fl">1.0</span> <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> np.cos(<span class="fl">2.0</span> <span class="op">*</span> np.pi <span class="op">*</span> angle ) )</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    cy <span class="op">=</span> <span class="fl">10.0</span> <span class="op">*</span> ( <span class="fl">1.0</span> <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> np.sin(<span class="fl">2.0</span> <span class="op">*</span> np.pi <span class="op">*</span> angle ) )</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Clamp the bubble into pop.baseline</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    inp.baseline <span class="op">=</span> (np.exp(<span class="op">-</span>((x<span class="op">-</span>cx)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (y<span class="op">-</span>cy)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="fl">8.0</span>))</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simulate for 1 ms</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    ann.step()  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>angle</code> represents the angle made by the bubble with respect to the center of the input population. <code>x</code> and <code>y</code> are Numpy arrays representing the X- and Y- coordinates of neurons in the input population. At each iteration of the simulation (i.e.&nbsp;every millisecond of simulation, the bubble is slightly rotated (<code>angle</code> is incremented) so as to make a complete revolution in 5 seconds (5000 steps). <code>cx</code> and <code>cy</code> represent the coordinates of the center of the bubble in neural coordinates according to the new value of the angle.</p>
+<p>A Gaussian profile (in the form of a Numpy array) is then clamped into the baseline of <code>inp</code> using the distance between each neuron of the population (<code>x</code> and <code>y</code>) and the center of the bubble. Last, a single simulation step is performed using <code>step()</code>, before the whole process starts again until the user quits. <code>step()</code> is equivalent to <code>simulate(1)</code>, although a little bit faster as it does not check anything.</p>
+<p>Although this approach works, you would observe that it is very slow: the computation of the bubble and its feeding into <code>InputPop</code> takes much more time than the call to <code>step()</code>. The interest of using a parallel simulator disappears. This is due to the fact that Python is knowingly bad at performing tight loops because of its interpreted nature. If the <code>while</code> loop were compiled from C code, the computation would be much more efficient. This is what Cython brings you.</p>
+</section>
+<section id="cython-approach" class="level3">
+<h3 class="anchored" data-anchor-id="cython-approach">Cython approach</h3>
+<p><strong>Generalities on Cython</strong></p>
+<p>The Cython approach requires to write Cython-specific code in a <code>.pyx</code> file, generate the corresponding C code with Python access methods, compile it and later import it into your Python code.</p>
+<p>Happily, the Cython syntax is very close to Python. In the most basic approach, it is simply Python code with a couple of type declarations. Instead of:</p>
+<pre class="cython"><code>bar = 1
+foo = np.ones((10, 10))</code></pre>
+<p>you would write in Cython:</p>
+<pre class="cython"><code>cdef int bar = 1
+cdef np.ndarray foo = np.ones((10, 10))</code></pre>
+<p>By specifing the type of a variable (which can not be changed later contrary to Python), you help Cython generate optimized C code, what can lead in some cases to speedups up to 100x. The rest of the syntax (indentation, for loops, if…) is the same as in Python.</p>
+<p>You can als import any Python module in your Cython code. Some modules (importantly Numpy) even provide a Cython interface where the equivalent Cython code can be directly imported (so it becomes very fast to use).</p>
+<p>The whole compilation procedure is very easy. One particularly simple approach is to use the <code>pyximport</code> module shipped with Cython. Let us suppose you wrote a <code>dummy()</code> method in a Cython file named <code>TestModule.pyx</code>. All you need to use this method in your python code is to write:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyximport<span class="op">;</span> pyximport.install()</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> TestModule <span class="im">import</span> dummy</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>dummy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>pyximport</code> takes care of the compilation process (but emits quite a lot of warnings that can be ignored), and allows to import <code>TestModule</code> as if it were a regular Python module. Please refer to the <a href="http://docs.cython.org">Cython documentation</a> to know more.</p>
+<p><strong>Moving bubbles in Cython</strong></p>
+<p>The file <code>BubbleWorld.pyx</code> defines a <code>World</code> class able to rotate the bubble for a specified duration.</p>
+<pre class="cython"><code>import numpy as np
+cimport numpy as np</code></pre>
+<p>At the beginning of the file, numpy is imported once as a normal Python module with <code>import</code>, and once as a Cython module with <code>cimport</code>. This allows our Cython module to access directly the internal representations of Numpy without going through the Python interpreter.</p>
+<p>We can then define a <code>World</code> class taking as parameters:</p>
+<ul>
+<li>the population which will be used as input (here <code>Input</code>),</li>
+<li>several arguments such as <code>radius</code>, <code>sigma</code> and <code>period</code> which allow to parameterize the behavior of the rotating bubble,</li>
+<li><code>func</code> which is the Python method that will be called at each time step, i.e.e the <code>step()</code> method of ANNarchy.</li>
+</ul>
+<pre class="cython"><code>cdef class World:
+    " Environment class allowing to clamp a rotating bubble into the baseline of a population."
+    
+    cdef pop # Input population
+    cdef func # Function to call
+
+    cdef float angle # Current angle
+    cdef float radius # Radius of the circle 
+    cdef float sigma # Width of the bubble
+    cdef float period # Number of steps needed to make one revolution
+
+    cdef np.ndarray xx, yy # indices
+    cdef float cx, cy, midw, midh
+    cdef np.ndarray data 
+    
+    def __cinit__(self, population, radius, sigma, period, func):
+        " Constructor"
+        self.pop = population
+        self.func=func
+        self.angle = 0.0
+        self.radius = radius
+        self.sigma = sigma
+        self.period = period
+        cdef np.ndarray x = np.linspace(0, self.pop.geometry[0]-1, self.pop.geometry[0])
+        cdef np.ndarray y = np.linspace(0, self.pop.geometry[1]-1, self.pop.geometry[1])
+        self.xx, self.yy = np.meshgrid(x, y)
+        self.midw = self.pop.geometry[0]/2
+        self.midh = self.pop.geometry[1]/2
+    
+    def rotate(self, int duration):
+        " Rotates the bubble for the given duration"
+        cdef int t
+        for t in xrange(duration):
+            # Update the angle
+            self.angle += 1.0/self.period
+            # Compute the center of the bubble
+            self.cx = self.midw * ( 1.0 + self.radius * np.cos(2.0 * np.pi * self.angle ) )
+            self.cy = self.midh * ( 1.0 + self.radius * np.sin(2.0 * np.pi * self.angle ) )
+            # Create the bubble
+            self.data = (np.exp(-((self.xx-self.cx)**2 + (self.yy-self.cy)**2)/2.0/self.sigma**2))
+            # Clamp the bubble into pop.baseline
+            self.pop.baseline = self.data
+            # Simulate for 1 step
+            self.func()  </code></pre>
+<p>Although this tutorial won’t go into much detail, you can note the following:</p>
+<ul>
+<li>The data given to or initialized in the constructor are previously declared (with their type) as attributes of the class. This way, Cython knows at the compilation time which operations are possible on them, which amount of memory to allocate and so on, resulting in a more efficient implementation.</li>
+<li>The input population (<code>self.pop</code>) can be accessed as a normal Python object. In particular, self.pop.geometry is used in the constructor to initialize the meshgrid.</li>
+<li>The method <code>rotate()</code> performs the simulation for the given duration (in steps, not milliseconds). Its content is relatively similar to the Python version.</li>
+</ul>
+<p><strong>Running the simulation</strong></p>
+<p>Once the environment has been defined, the simulation can be executed. The following code, to be placed after the network definition, performs a simulation of the network, taking inputs from <code>BubbleWorld.pyx</code>, during 2 seconds:</p>
+<div id="cell-40" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the environment</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyximport<span class="op">;</span> pyximport.install(setup_args<span class="op">=</span>{<span class="st">'include_dirs'</span>: np.get_include()})</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> BubbleWorld <span class="im">import</span> World</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>world <span class="op">=</span> World(population<span class="op">=</span>inp, radius<span class="op">=</span><span class="fl">0.5</span>, sigma<span class="op">=</span><span class="fl">2.0</span>, period<span class="op">=</span><span class="fl">5000.0</span>, func<span class="op">=</span>ann.step)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate for 2 seconds with inputs</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>world.rotate(<span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualizing-the-network" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-the-network">Visualizing the network</h3>
+<p>The preceding code performs correctly the intended simulation, but nothing is visualized. The user has all freedom to visualize his network the way he prefers (for example through animated Matplotlib figures):</p>
+<div id="cell-43" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">121</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>plt.imshow(inp.r, interpolation<span class="op">=</span><span class="st">'nearest'</span>, cmap<span class="op">=</span>plt.cm.gray)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">122</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>plt.imshow(focus.r, interpolation<span class="op">=</span><span class="st">'nearest'</span>, cmap<span class="op">=</span>plt.cm.gray)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="NeuralField_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>However, Matplotlib animations are rather slow, and visualizing the network at each time step would take more time than running the simulation. The provided example takes advantage of the PyQtGraph library (www.pyqtgraph.org) to visualize efficiently activity in the network using OpenGL.</p>
+<p>The following class and method is defined in <code>Viz.py</code>:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizer using PyQtGraph</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> pyqtgraph.Qt <span class="im">import</span> QtGui, QtCore</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> pyqtgraph <span class="im">as</span> pg</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'PyQtGraph is not installed on your system, can not visualize the network.'</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    exit(<span class="dv">0</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> pyqtgraph.opengl <span class="im">as</span> gl</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'OpenGL is not installed on your system, can not visualize the network.'</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    exit(<span class="dv">0</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GLViewer(<span class="bu">object</span>):</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">" Class to visualize the network activity using PyQtGraph and openGL."</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, populations, func, update_rate): </span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Parameters   </span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.populations <span class="op">=</span> populations</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.func <span class="op">=</span> func    </span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.update_rate <span class="op">=</span> update_rate</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Window</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.win <span class="op">=</span> gl.GLViewWidget()</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.win.show()</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.win.setCameraPosition(distance<span class="op">=</span><span class="dv">40</span>)</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Prepare the plots</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.plots <span class="op">=</span> []</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>        shift <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pop <span class="kw">in</span> <span class="va">self</span>.populations: </span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>            p <span class="op">=</span> gl.GLSurfacePlotItem(</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>                x <span class="op">=</span> np.linspace(<span class="dv">0</span>, pop.geometry[<span class="dv">0</span>]<span class="op">-</span><span class="dv">1</span>, pop.geometry[<span class="dv">0</span>]), </span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>                y <span class="op">=</span> np.linspace(<span class="dv">0</span>, pop.geometry[<span class="dv">1</span>]<span class="op">-</span><span class="dv">1</span>, pop.geometry[<span class="dv">1</span>]), </span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>                shader<span class="op">=</span><span class="st">'heightColor'</span>, </span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>                computeNormals<span class="op">=</span><span class="va">False</span>, </span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>                smooth<span class="op">=</span><span class="va">False</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>            p.translate(shift, <span class="op">-</span><span class="dv">10</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.win.addItem(p)</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.plots.append(p)</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>            shift <span class="op">-=</span> <span class="dv">25</span></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> scale(<span class="va">self</span>, data):</span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>        <span class="co">" Colors are shown in the range [-1, 1] per default."</span></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">1.8</span> <span class="op">*</span> data <span class="op">-</span><span class="fl">0.9</span></span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> update(<span class="va">self</span>):</span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>        <span class="co">"Callback"</span></span>
+<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Simulate for 200ms</span></span>
+<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.func(<span class="va">self</span>.update_rate)     </span>
+<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Refresh the GUI</span></span>
+<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.populations)):</span>
+<span id="cb27-53"><a href="#cb27-53" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.plots[i].setData(z<span class="op">=</span><span class="va">self</span>.scale(<span class="va">self</span>.populations[i].r)) </span>
+<span id="cb27-54"><a href="#cb27-54" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Listen to mouse/keyboard events</span></span>
+<span id="cb27-55"><a href="#cb27-55" aria-hidden="true" tabindex="-1"></a>        QtGui.QApplication.processEvents()</span>
+<span id="cb27-56"><a href="#cb27-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-57"><a href="#cb27-57" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run(<span class="va">self</span>):</span>
+<span id="cb27-58"><a href="#cb27-58" aria-hidden="true" tabindex="-1"></a>        <span class="co">"Inifinite loop"</span></span>
+<span id="cb27-59"><a href="#cb27-59" aria-hidden="true" tabindex="-1"></a>        timer <span class="op">=</span> QtCore.QTimer()</span>
+<span id="cb27-60"><a href="#cb27-60" aria-hidden="true" tabindex="-1"></a>        timer.timeout.<span class="ex">connect</span>(<span class="va">self</span>.update)</span>
+<span id="cb27-61"><a href="#cb27-61" aria-hidden="true" tabindex="-1"></a>        timer.start(<span class="dv">0</span>)  </span>
+<span id="cb27-62"><a href="#cb27-62" aria-hidden="true" tabindex="-1"></a>        QtGui.QApplication.instance().exec_() </span>
+<span id="cb27-63"><a href="#cb27-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-64"><a href="#cb27-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-65"><a href="#cb27-65" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loop_bubbles(populations, func, update_rate):</span>
+<span id="cb27-66"><a href="#cb27-66" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Launches the GL GUI and rotates the bubble infinitely."</span></span>
+<span id="cb27-67"><a href="#cb27-67" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the GUI using PyQtGraph</span></span>
+<span id="cb27-68"><a href="#cb27-68" aria-hidden="true" tabindex="-1"></a>    app <span class="op">=</span> QtGui.QApplication([])</span>
+<span id="cb27-69"><a href="#cb27-69" aria-hidden="true" tabindex="-1"></a>    viewer <span class="op">=</span> GLViewer(populations, func, update_rate)</span>
+<span id="cb27-70"><a href="#cb27-70" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Start the simulation forever          </span></span>
+<span id="cb27-71"><a href="#cb27-71" aria-hidden="true" tabindex="-1"></a>    viewer.run()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We leave out again the details about this class (please look at the examples and tutorials on the PyQtGraph website to understand it). It allows to open a PyQtGraph window and display the firing rate of both <code>Input</code> and <code>Focus</code> populations using OpenGL. The <code>run()</code> method is an endless loop calling regularly the <code>update()</code> method.</p>
+<p>The <code>update()</code> method calls first <code>World.rotate(200)</code> and waits for its completion before reactualizing the display. The reason is that refreshing the display can only be done sequentially with the simulation, and calling it too often would impair the simulation time.</p>
+<p>Once this class has been defined, the simulation can be run endlessly by importing the <code>Viz</code> module:</p>
+<div id="cell-45" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch the GUI and run the simulation</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Viz <span class="im">import</span> loop_bubbles</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>loop_bubbles(populations <span class="op">=</span> [inp, focus], func<span class="op">=</span>world.rotate, update_rate<span class="op">=</span><span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../notebooks/RC.html" class="pagination-link" aria-label="Echo-state networks">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Echo-state networks</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notebooks/BarLearning.html" class="pagination-link" aria-label="Bar Learning">
+        <span class="nav-page-text">Bar Learning</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright Julien Vitay, Helge Ülo Dinkelbach, Fred Hamker</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

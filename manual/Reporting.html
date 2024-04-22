@@ -1,2543 +1,1364 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-      
-        <link rel="prev" href="Notebooks.html">
-      
-      
-        <link rel="next" href="Logging.html">
-      
-      
-      <link rel="icon" href="../_static/logo.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
-    
-    
-      
-        <title>Reporting - ANNarchy 4.7.3</title>
-      
-    
-    
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
-      
-        
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
-      
-      
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-    
-    
-      
-    
-    
-      
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
-    
-    
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
-    
-      <link rel="stylesheet" href="../css/ansi-colours.css">
-    
-      <link rel="stylesheet" href="../css/jupyter-cells.css">
-    
-      <link rel="stylesheet" href="../css/pandas-dataframe.css">
-    
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-    
-      
+<title>ANNarchy 4.7.3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
 
-    
-    
-    
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
-  
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#reporting" class="md-skip">
-          Skip to content
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-    
-      
 
-  
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../manual/Logging.html" rel="next">
+<link href="../manual/Notebooks.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
-<header class="md-header md-header--shadow" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../index.html" title="ANNarchy 4.7.3" class="md-header__button md-logo" aria-label="ANNarchy 4.7.3" data-md-component="logo">
-      
-  <img src="../_static/logowhite.svg" alt="logo">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            ANNarchy 4.7.3
-          </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
-            
-              Reporting
-            
-          </span>
-        </div>
-      </div>
-    </div>
-    
-      
-    
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ANNarchy 4.7.3</span>
+    </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">ANNarchy</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Installation.html"> 
+<span class="menu-text">Installation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tutorial/index.html"> 
+<span class="menu-text">Tutorial</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../manual/Structure.html" aria-current="page"> 
+<span class="menu-text">Manual</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/index.html"> 
+<span class="menu-text">Notebooks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../reference/index.html"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ANNarchy/ANNarchy"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
 </div>
-    
-    
-      <div class="md-header__source">
-        <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    GitHub
-  </div>
-</a>
-      </div>
-    
-  </nav>
-  
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-          
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="ANNarchy 4.7.3" class="md-nav__button md-logo" aria-label="ANNarchy 4.7.3" data-md-component="logo">
-      
-  <img src="../_static/logowhite.svg" alt="logo">
-
-    </a>
-    ANNarchy 4.7.3
-  </label>
-  
-    <div class="md-nav__source">
-      <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    GitHub
-  </div>
-</a>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <a class="flex-grow-1 no-decor" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+          <h1 class="quarto-secondary-nav-title"></h1>
+        </a>     
     </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../index.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Home
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../Installation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Installation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Manual
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Manual
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Structure.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    General structure
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Parser.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parser
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="RateNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Rate-coded neurons
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="SpikeNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Spiking neurons
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="RateSynapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Rate-coded synapses
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="SpikeSynapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Spiking synapses
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Populations.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Populations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Projections.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Projections
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Connector.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Connectivity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Inputs.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Setting inputs
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Simulation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Simulation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Configuration.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Configuration
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="NumericalMethods.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Equations and numerical methods
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Recording.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Recording with Monitors
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Saving.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Saving and loading a network
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Network.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parallel simulations and networks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Hybrid.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hybrid networks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="StructuralPlasticity.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Structural plasticity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="ConvolutionalNetworks.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Convolution and pooling
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Notebooks.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Notebooks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Reporting
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="Reporting.html" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    Reporting
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#content-of-the-tex-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      Content of the TeX file
-    </span>
-  </a>
-  
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text"><strong>Model structure</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Structure of an ANNarchy model</span></a>
+  </div>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#content-of-the-markdown-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      Content of the Markdown file
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Parser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parser</span></a>
+  </div>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#documenting-the-network" class="md-nav__link">
-    <span class="md-ellipsis">
-      Documenting the network
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/RateNeuron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rate-coded neurons</span></a>
+  </div>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/SpikeNeuron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spiking neurons</span></a>
+  </div>
 </li>
-      
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Populations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Populations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/RateSynapse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rate-coded synapses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/SpikeSynapse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spiking synapses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projections</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Connector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Connectivity</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text"><strong>Simulation</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Inputs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting inputs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Configuration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Configuration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/NumericalMethods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Equations and numerical methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Recording.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Recording with Monitors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Saving.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Saving and loading a network</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parallel simulations and networks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text"><strong>Extensions</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hybrid networks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/StructuralPlasticity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Structural plasticity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/ConvolutionalNetworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Convolution and pooling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Notebooks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Jupyter / IPython Notebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Reporting.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Reporting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Logging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logging with tensorboard</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
-  
+    </div>
 </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Logging.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    API
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            API
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    core
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_1">
-            <span class="md-nav__icon md-icon"></span>
-            core
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/ANNarchy.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Top-level methods
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Neuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Neuron
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Built-in neuron types
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Synapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Synapse
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificSynapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Built-in synapse types
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Population.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Population
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificPopulation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specific Populations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Projection.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Projection
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificProjection.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specific Projections
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Dendrite.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Dendrite
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Monitor.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/RandomDistribution.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Random Distributions
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Network.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Network
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/IO.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Saving / Loading
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Utilities.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Reporting
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    extensions
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            extensions
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Convolution.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Convolution and Pooling
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Logging.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/BOLD.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    BOLD monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/ANNtoSNN.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ANN-to-SNN conversion
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Examples
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            Examples
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/List.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    List of notebooks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/NeuralField.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Neural Field
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BarLearning.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Bar Learning
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/StructuralPlasticity.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Structural plasticity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Izhikevich.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Izhikevich
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/GapJunctions.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Gap junctions
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/HodgkinHuxley.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hodgkin-Huxley
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/COBA.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    COBA
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/STP.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    STP
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/SimpleSTDP.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    STDP
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Ramp.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Ramp
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Hybrid.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hybrid
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Image.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Image
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Webcam.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Webcam
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/MultipleNetworks.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parallel simulations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BayesianOptimization.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Bayesian optimization
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BasalGanglia.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BoldMonitoring.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    BOLD monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/ANN2SNN.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ANN to SNN Conversion
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../License.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    License
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#reporting" id="toc-reporting" class="nav-link active" data-scroll-target="#reporting">Reporting</a>
+  <ul class="collapse">
+  <li><a href="#content-of-the-tex-file" id="toc-content-of-the-tex-file" class="nav-link" data-scroll-target="#content-of-the-tex-file">Content of the TeX file</a></li>
+  <li><a href="#content-of-the-markdown-file" id="toc-content-of-the-markdown-file" class="nav-link" data-scroll-target="#content-of-the-markdown-file">Content of the Markdown file</a></li>
+  <li><a href="#documenting-the-network" id="toc-documenting-the-network" class="nav-link" data-scroll-target="#documenting-the-network">Documenting the network</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  </ul></li>
   </ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#content-of-the-tex-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      Content of the TeX file
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#content-of-the-markdown-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      Content of the Markdown file
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documenting-the-network" class="md-nav__link">
-    <span class="md-ellipsis">
-      Documenting the network
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          
-            <div class="md-content" data-md-component="content">
-              <article class="md-content__inner md-typeset">
-                
-                  
-
-  
-  
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
 
 
-<h1 id="reporting">Reporting<a class="headerlink" href="#reporting" title="Permanent link">#</a></h1>
-<p>ANNarchy includes an utility allowing to automatically generate a report
-based on the current structure of the network:</p>
-<div class="highlight"><pre><span></span><code><span class="n">report</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;model_description.tex&quot;</span><span class="p">)</span>
-<span class="n">report</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;model_description.md&quot;</span><span class="p">)</span>
-</code></pre></div>
-<p>If the filename ends with <code>.tex</code>, the LaTeX report will be generated
-based on the specifications provided in:</p>
-<blockquote>
+
+
+<section id="reporting" class="level1">
+<h1>Reporting</h1>
+<p>ANNarchy includes an utility allowing to automatically generate a report based on the current structure of the network:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ann.report(filename<span class="op">=</span><span class="st">"model_description.tex"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ann.report(filename<span class="op">=</span><span class="st">"model_description.qmd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the filename ends with <code>.tex</code>, the LaTeX report will be generated based on the specifications provided in:</p>
+<blockquote class="blockquote">
 <p>Nordlie E, Gewaltig M-O, Plesser HE (2009). Towards Reproducible Descriptions of Neuronal Network Models. PLoS Comput Biol 5(8):e1000456.</p>
 </blockquote>
-<p>If the filename ends with <code>.md</code>, the report will be generated in
-Markdown, so it can later be exported to pdf or html using
-<a href="http://www.pandoc.org">pandoc</a>.</p>
+<p>If the filename ends with <code>.qmd</code>, the report will be generated in Markdown, so it can later be exported to pdf or html using <a href="http://www.pandoc.org">pandoc</a>.</p>
 <p><code>report()</code> accepts several arguments:</p>
 <ul>
-<li><code>filename</code>: name of the file where the report will be written
-    (default: \"./report.tex\")</li>
-<li><code>standalone</code>: tells if the generated TeX file should be directly
-    compilable or only includable. Ignored in Markdown.</li>
-<li><code>gather_subprojections</code>: if a projection between two populations has
-    been implemented as a multiple of projections between
-    sub-populations, this flag allows to group them in the summary
-    (default: False).</li>
+<li><code>filename</code>: name of the file where the report will be written (default: "./report.tex")</li>
+<li><code>standalone</code>: tells if the generated TeX file should be directly compilable or only includable. Ignored in Markdown.</li>
+<li><code>gather_subprojections</code>: if a projection between two populations has been implemented as a multiple of projections between sub-populations, this flag allows to group them in the summary (default: False).</li>
 <li><code>title</code>: title of the document (Markdown only)</li>
 <li><code>author</code>: author of the document (Markdown only)</li>
 <li><code>date</code>: date of the document (Markdown only)</li>
-<li><code>net_id</code>: id of the network to be used for reporting (default: 0,
-    everything that was declared)</li>
+<li><code>net_id</code>: id of the network to be used for reporting (default: 0, everything that was declared)</li>
 </ul>
-<h2 id="content-of-the-tex-file">Content of the TeX file<a class="headerlink" href="#content-of-the-tex-file" title="Permanent link">#</a></h2>
-<p><code>report()</code> produces a <code>.tex</code> file (by default <code>report.tex</code> in the
-current directory, but this can be changed by passing the <code>filename</code>
-argument) which can be directly compiled with <code>pdflatex</code> or integrated
-into a larger file:</p>
-<div class="highlight"><pre><span></span><code>pdflatex model_description.tex
-</code></pre></div>
-<p>This report consists of different tables describing several aspects of
-the model:</p>
-<ol>
-<li><strong>Summary</strong>: A summary of the network, with a list of populations,
-    neuron and synapse models, topologies, etc. This section may have to
-    be adapted, as for example, ANNarchy does not make a distinction
-    between synapse and plasticity models.</li>
-<li><strong>Populations</strong>: A list of populations, with their respective neural
-    models and geometries.</li>
-<li><strong>Projections</strong>: A list of projections, with the pre- and
-    post-synaptic populations, the target, the synapse model if any, and
-    a description of the connection pattern.</li>
-<li><strong>Neuron models</strong>: For each neuron model, a description of its
-    dynamics with equations parsed using SymPy and translated to the
-    LaTeX mathematical language.</li>
-<li><strong>Synapse models</strong>: For each synapse model, a description of its
-    dynamics if any.</li>
-<li><strong>Parameters</strong>: The initial value (before the call to <code>compile()</code>)
-    of the parameters of each population and projection (if any).</li>
+<section id="content-of-the-tex-file" class="level2">
+<h2 class="anchored" data-anchor-id="content-of-the-tex-file">Content of the TeX file</h2>
+<p><code>report()</code> produces a <code>.tex</code> file (by default <code>report.tex</code> in the current directory, but this can be changed by passing the <code>filename</code> argument) which can be directly compiled with <code>pdflatex</code> or integrated into a larger file:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pdflatex</span> model_description.tex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This report consists of different tables describing several aspects of the model:</p>
+<ol type="1">
+<li><strong>Summary</strong>: A summary of the network, with a list of populations, neuron and synapse models, topologies, etc. This section may have to be adapted, as for example, ANNarchy does not make a distinction between synapse and plasticity models.</li>
+<li><strong>Populations</strong>: A list of populations, with their respective neural models and geometries.</li>
+<li><strong>Projections</strong>: A list of projections, with the pre- and post-synaptic populations, the target, the synapse model if any, and a description of the connection pattern.</li>
+<li><strong>Neuron models</strong>: For each neuron model, a description of its dynamics with equations parsed using SymPy and translated to the LaTeX mathematical language.</li>
+<li><strong>Synapse models</strong>: For each synapse model, a description of its dynamics if any.</li>
+<li><strong>Parameters</strong>: The initial value (before the call to <code>compile()</code>) of the parameters of each population and projection (if any).</li>
 <li><strong>Input</strong>: Inputs set to the network (has to be filled manually).</li>
-<li><strong>Measurements</strong>: Measurements done in the network (has to be filled
-    manually).</li>
+<li><strong>Measurements</strong>: Measurements done in the network (has to be filled manually).</li>
 </ol>
-<h2 id="content-of-the-markdown-file">Content of the Markdown file<a class="headerlink" href="#content-of-the-markdown-file" title="Permanent link">#</a></h2>
-<p>The generated Mardown file is globally similar to the LaTeX one, with
-additional information that make it more useful for debugging (locality
-of attributes, type...). The Markown file is readable by design, but it
-can be translated to many markup languages (html, epub, latex, pdf...)
-using <a href="http://www.pandoc.org">pandoc</a>.</p>
-<p>To obtain a pdf from the Markdown file (supposing you have a LaTeX
-distribution available), just type:</p>
-<div class="highlight"><pre><span></span><code>pandoc<span class="w"> </span>model_description.md<span class="w"> </span>-sN<span class="w"> </span>-V<span class="w"> </span>geometry:margin<span class="o">=</span>1in<span class="w"> </span>-o<span class="w"> </span>model_description.pdf
-</code></pre></div>
-<p>The <code>-V</code> argument tells LaTex to use the full page instead of the
-default booklet format.</p>
+</section>
+<section id="content-of-the-markdown-file" class="level2">
+<h2 class="anchored" data-anchor-id="content-of-the-markdown-file">Content of the Markdown file</h2>
+<p>The generated Mardown file is globally similar to the LaTeX one, with additional information that make it more useful for debugging (locality of attributes, type...). The Markown file is readable by design, but it can be translated to many markup languages (html, epub, latex, pdf...) using <a href="http://www.pandoc.org">pandoc</a>.</p>
+<p>To obtain a pdf from the Markdown file (supposing you have a LaTeX distribution available), just type:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> model_description.qmd <span class="at">-sN</span> <span class="at">-V</span> geometry:margin=1in <span class="at">-o</span> model_description.pdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>-V</code> argument tells LaTex to use the full page instead of the default booklet format.</p>
 <p>To obtain a html file, use:</p>
-<div class="highlight"><pre><span></span><code>pandoc<span class="w"> </span>model_description.md<span class="w"> </span>-sSN<span class="w"> </span>--mathjax<span class="w"> </span>-o<span class="w"> </span>model_description.html
-</code></pre></div>
-<p>You can omit the <code>-S</code> option if you only want to include the code into a
-webpage, otherwise it is a standalone file. <code>--mathjax</code> is needed to
-display mathematical equations using the javascript library
-<a href="http://mathjax.org">MathJax</a>.</p>
-<p>By default, the html file has no styling, and tables can be very ugly.
-With a simple css file like <a href="../_static/simple.css">this one</a>, the html
-page looks nicer (feel free to edit):</p>
-<div class="highlight"><pre><span></span><code>pandoc<span class="w"> </span>model_description.md<span class="w"> </span>-sSN<span class="w"> </span>--mathjax<span class="w"> </span>--css<span class="o">=</span>simple.css<span class="w"> </span>-o<span class="w"> </span>model_description.html
-</code></pre></div>
-<p>If you upload your model to a github-like service (bitbucket, gitlab,
-gogs...), it could be a good idea to generate the <code>README.md</code> directly
-with <code>report()</code>. Do not forget to set a title+author+date then.</p>
-<h2 id="documenting-the-network">Documenting the network<a class="headerlink" href="#documenting-the-network" title="Permanent link">#</a></h2>
-<p>The report is generated based entirely on the Python script. For it to
-make sense, the user has to provide the necessary information while
-defining the network:</p>
-<ol>
-<li>
-<p>Populations must be assigned a unique name. If no name is given,
-    generic names such as <code>pop0</code> or <code>pop1</code> will be used. If two
-    populations have the same name, the connectivity will be unreadable:</p>
-<div class="highlight"><pre><span></span><code><span class="n">pop1</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Izhikevich</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Excitatory&quot;</span><span class="p">)</span>
-<span class="n">pop2</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Izhikevich</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Inhibitory&quot;</span><span class="p">)</span>
-</code></pre></div>
-</li>
-<li>
-<p>User-defined neuron and synapse models should be assigned a name and
-    description. The name should be relatively short and generic (e.g.
-    "Izhikevich", "BCM learning rule"), while the description should
-    be more specific. They can contain LaTeX code, but remember to
-    double the <code>\</code> which is the escape symbol in Python strings:</p>
-<div class="highlight"><pre><span></span><code><span class="n">LIF</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
-    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        tau = 10.0</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        tau * dv/dt + v = g_exc</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;v &gt; 30.0&quot;</span><span class="p">,</span>
-    <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;v = 0.0&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;LIF&quot;</span><span class="p">,</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Leaky Integrate-and-Fire spiking neuron with time constant $</span><span class="se">\\</span><span class="s2">tau$.&quot;</span> 
-<span class="p">)</span>
-
-<span class="n">Oja</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
-    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        eta = 10.0 </span>
-<span class="s2">        tau = 10.0 : postsynaptic</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        tau * dalpha/dt + alpha = pos(post.r - 1.0) : postsynaptic</span>
-<span class="s2">        eta * dw/dt = pre.r * post.r - alpha * post.r^2 * w : min=0.0</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span> 
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Oja learning rule&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span> <span class="s2">&quot;&quot;&quot;Oja learning rule ensuring regularization of the synaptic weights.&quot;&quot;&quot;</span>
-<span class="p">)</span> 
-</code></pre></div>
-</li>
-<li>
-<p>Choose simple parameter and variable names for the description of
-    equations. If a parameter/variable name uses only one character, it
-    will be treated as a mathematical variable in the equations (ex: <code>v</code>
-    becomes <span class="arithmatex">\(v\)</span>), otherwise the plain text representation will be used
-    (ugly). If the name corresponds to a greek letter (<code>alpha</code>, <code>tau</code>,
-    etc.), it will be represented by the corresponding greek letter
-    (<span class="arithmatex">\(\alpha\)</span>, <span class="arithmatex">\(\tau\)</span>). If the name is composed of two terms separated
-    by an underscore (<code>tau_exc</code>), a subscript will be used
-    (<span class="arithmatex">\(\tau_\text{exc}\)</span>). If more than one underscore is used, the text
-    representation is used instead (LaTeX does not allow multiple
-    subscripts).</p>
-</li>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> model_description.qmd <span class="at">-sSN</span> <span class="at">--mathjax</span> <span class="at">-o</span> model_description.html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can omit the <code>-S</code> option if you only want to include the code into a webpage, otherwise it is a standalone file. <code>--mathjax</code> is needed to display mathematical equations using the javascript library <a href="http://mathjax.org">MathJax</a>.</p>
+<p>By default, the html file has no styling, and tables can be very ugly. With a simple css file like <a href="../_static/simple.css">this one</a>, the html page looks nicer (feel free to edit):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> model_description.qmd <span class="at">-sSN</span> <span class="at">--mathjax</span> <span class="at">--css</span><span class="op">=</span>simple.css <span class="at">-o</span> model_description.html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you upload your model to a github-like service (bitbucket, gitlab, gogs...), it could be a good idea to generate the <code>README.qmd</code> directly with <code>report()</code>. Do not forget to set a title+author+date then.</p>
+</section>
+<section id="documenting-the-network" class="level2">
+<h2 class="anchored" data-anchor-id="documenting-the-network">Documenting the network</h2>
+<p>The report is generated based entirely on the Python script. For it to make sense, the user has to provide the necessary information while defining the network:</p>
+<ol type="1">
+<li><p>Populations must be assigned a unique name. If no name is given, generic names such as <code>pop0</code> or <code>pop1</code> will be used. If two populations have the same name, the connectivity will be unreadable:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), neuron<span class="op">=</span>ann.Izhikevich, name<span class="op">=</span><span class="st">"Excitatory"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">20</span>), neuron<span class="op">=</span>ann.Izhikevich, name<span class="op">=</span><span class="st">"Inhibitory"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>User-defined neuron and synapse models should be assigned a name and description. The name should be relatively short and generic (e.g. “Izhikevich”, “BCM learning rule”), while the description should be more specific. They can contain LaTeX code, but remember to double the <code>\</code> which is the escape symbol in Python strings:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>LIF <span class="op">=</span> ann.Neuron(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="st">        tau = 10.0</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">        tau * dv/dt + v = g_exc</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    spike <span class="op">=</span> <span class="st">"v &gt; 30.0"</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    reset <span class="op">=</span> <span class="st">"v = 0.0"</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">"LIF"</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    description <span class="op">=</span> <span class="st">"Leaky Integrate-and-Fire spiking neuron with time constant $</span><span class="ch">\\</span><span class="st">tau$."</span> </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>Oja <span class="op">=</span> ann.Synapse(</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="st">        eta = 10.0 </span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="st">        tau = 10.0 : postsynaptic</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="st">        tau * dalpha/dt + alpha = pos(post.r - 1.0) : postsynaptic</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="st">        eta * dw/dt = pre.r * post.r - alpha * post.r^2 * w : min=0.0</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>, </span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"Oja learning rule"</span>,</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span> <span class="st">"""Oja learning rule ensuring regularization of the synaptic weights."""</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Choose simple parameter and variable names for the description of equations. If a parameter/variable name uses only one character, it will be treated as a mathematical variable in the equations (ex: <code>v</code> becomes <span class="math inline">v</span>), otherwise the plain text representation will be used (ugly). If the name corresponds to a greek letter (<code>alpha</code>, <code>tau</code>, etc.), it will be represented by the corresponding greek letter (<span class="math inline">\alpha</span>, <span class="math inline">\tau</span>). If the name is composed of two terms separated by an underscore (<code>tau_exc</code>), a subscript will be used (<span class="math inline">\tau_\text{exc}</span>). If more than one underscore is used, the text representation is used instead (LaTeX does not allow multiple subscripts).</p></li>
 </ol>
-<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">#</a></h2>
-<p>Let's take the homeostatic STDP ramp example provided in
-<code>examples/homeostatic_stdp/Ramp.py</code> and add names/descriptions to the
-objects:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="c1"># Izhikevich RS neuron</span>
-<span class="n">RSNeuron</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span>
-    <span class="n">parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        a = 0.02 : population</span>
-<span class="s2">        b = 0.2 : population</span>
-<span class="s2">        c = -65. : population</span>
-<span class="s2">        d = 8. : population</span>
-<span class="s2">        tau_ampa = 5. : population</span>
-<span class="s2">        tau_nmda = 150. : population</span>
-<span class="s2">        vrev = 0.0 : population</span>
-<span class="s2">    &quot;&quot;&quot;</span> <span class="p">,</span>
-    <span class="n">equations</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        # Inputs</span>
-<span class="s2">        I = g_ampa * (vrev - v) + g_nmda * nmda(v, -80.0, 60.0) * (vrev -v)  </span>
-<span class="s2">        # Midpoint scheme      </span>
-<span class="s2">        dv/dt = (0.04 * v + 5.0) * v + 140.0 - u + I : init=-65., midpoint</span>
-<span class="s2">        du/dt = a * (b*v - u) : init=-13., midpoint</span>
-<span class="s2">        # Izhikevich scheme</span>
-<span class="s2">        # new_v = v + 0.5*(0.04 * v^2 + 5.0 * v + 140.0 - u + I) : init=-65.</span>
-<span class="s2">        # v = new_v + 0.5*(0.04 * new_v^2 + 5.0 * new_v + 140.0 - u + I) : init=-65.</span>
-<span class="s2">        # u += a * (b*v - u) : init=-13.</span>
-<span class="s2">        # Conductances</span>
-<span class="s2">        tau_ampa * dg_ampa/dt = -g_ampa : exponential</span>
-<span class="s2">        tau_nmda * dg_nmda/dt = -g_nmda : exponential</span>
-<span class="s2">    &quot;&quot;&quot;</span> <span class="p">,</span> 
-    <span class="n">spike</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        v &gt;= 30.</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span> 
-    <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        v = c</span>
-<span class="s2">        u += d</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">functions</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        nmda(v, t, s) = ((v-t)/(s))^2 / (1.0 + ((v-t)/(s))^2)</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Regular-spiking Izhikevich&quot;</span><span class="p">,</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Regular-spiking Izhikevich neuron, with AMPA/NMDA exponentially decreasing synapses.&quot;</span>
-<span class="p">)</span>
-
-<span class="c1"># Input population</span>
-<span class="n">inp</span> <span class="o">=</span> <span class="n">PoissonPopulation</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">rates</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Poisson input&quot;</span><span class="p">)</span>
-
-<span class="c1"># RS neuron without homeostatic mechanism</span>
-<span class="n">pop1</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">RSNeuron</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;RS neuron without homeostasis&quot;</span><span class="p">)</span>
-<span class="n">pop1</span><span class="o">.</span><span class="n">compute_firing_rate</span><span class="p">(</span><span class="mf">5000.</span><span class="p">)</span>
-
-<span class="c1"># RS neuron with homeostatic mechanism</span>
-<span class="n">pop2</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">RSNeuron</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;RS neuron with homeostasis&quot;</span><span class="p">)</span>
-<span class="n">pop2</span><span class="o">.</span><span class="n">compute_firing_rate</span><span class="p">(</span><span class="mf">5000.</span><span class="p">)</span>
-
-<span class="c1"># Nearest Neighbour STDP</span>
-<span class="n">nearest_neighbour_stdp</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
-    <span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        tau_plus = 20. : projection</span>
-<span class="s2">        tau_minus = 60. : projection</span>
-<span class="s2">        A_plus = 0.0002 : projection</span>
-<span class="s2">        A_minus = 0.000066 : projection</span>
-<span class="s2">        w_max = 0.03 : projection</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        # Traces</span>
-<span class="s2">        tau_plus  * dltp/dt = -ltp : exponential</span>
-<span class="s2">        tau_minus * dltd/dt = -ltd : exponential</span>
-<span class="s2">        # Nearest-neighbour</span>
-<span class="s2">        w += if t_post &gt;= t_pre: ltp else: - ltd : min=0.0, max=w_max</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">pre_spike</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        g_target += w</span>
-<span class="s2">        ltp = A_plus</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>         
-    <span class="n">post_spike</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        ltd = A_minus </span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Nearest-neighbour STDP&quot;</span><span class="p">,</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Nearest-neighbour STDP synaptic plasticity. Each synapse updates two traces (ltp and ltd) and updates continuously its weight.&quot;</span>
-<span class="p">)</span>
-
-<span class="c1"># STDP with homeostatic regulation</span>
-<span class="n">homeo_stdp</span> <span class="o">=</span> <span class="n">Synapse</span><span class="p">(</span>
-    <span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        # STDP</span>
-<span class="s2">        tau_plus = 20. : projection</span>
-<span class="s2">        tau_minus = 60. : projection</span>
-<span class="s2">        A_plus = 0.0002 : projection</span>
-<span class="s2">        A_minus = 0.000066 : projection</span>
-<span class="s2">        w_min = 0.0 : projection</span>
-<span class="s2">        w_max = 0.03 : projection</span>
-
-<span class="s2">        # Homeostatic regulation</span>
-<span class="s2">        alpha = 0.1 : projection</span>
-<span class="s2">        beta = 1.0 : projection</span>
-<span class="s2">        gamma = 50. : projection</span>
-<span class="s2">        Rtarget = 35. : projection</span>
-<span class="s2">        T = 5000. : projection</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        # Traces</span>
-<span class="s2">        tau_plus  * dltp/dt = -ltp : exponential</span>
-<span class="s2">        tau_minus * dltd/dt = -ltd : exponential</span>
-<span class="s2">        # Homeostatic values</span>
-<span class="s2">        R = post.r : postsynaptic</span>
-<span class="s2">        K = R/(T*(1.+fabs(1. - R/Rtarget) * gamma)) : postsynaptic</span>
-<span class="s2">        # Nearest-neighbour</span>
-<span class="s2">        stdp = if t_post &gt;= t_pre: ltp else: - ltd </span>
-<span class="s2">        w += (alpha * w * (1- R/Rtarget) + beta * stdp ) * K : min=w_min, max=w_max</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
-    <span class="n">pre_spike</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        g_target += w</span>
-<span class="s2">        ltp = A_plus</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>         
-    <span class="n">post_spike</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        ltd = A_minus </span>
-<span class="s2">    &quot;&quot;&quot;</span> <span class="p">,</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Nearest-neighbour STDP with homeostasis&quot;</span><span class="p">,</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Nearest-neighbour STDP synaptic plasticity with an additional homeostatic term. &quot;</span>
-<span class="p">)</span>
-
-<span class="c1"># Projection without homeostatic mechanism</span>
-<span class="n">proj1</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">pop1</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ampa&#39;</span><span class="p">,</span> <span class="s1">&#39;nmda&#39;</span><span class="p">],</span> <span class="n">synapse</span><span class="o">=</span><span class="n">nearest_neighbour_stdp</span><span class="p">)</span>
-<span class="n">proj1</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span><span class="n">Uniform</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">))</span>
-
-<span class="c1"># Projection with homeostatic mechanism</span>
-<span class="n">proj2</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">pop2</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ampa&#39;</span><span class="p">,</span> <span class="s1">&#39;nmda&#39;</span><span class="p">],</span> <span class="n">synapse</span><span class="o">=</span><span class="n">homeo_stdp</span><span class="p">)</span>
-<span class="n">proj2</span><span class="o">.</span><span class="n">connect_all_to_all</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">Uniform</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">))</span>
-
-
-<span class="c1"># Record</span>
-<span class="n">m1</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">m2</span> <span class="o">=</span> <span class="n">Monitor</span><span class="p">(</span><span class="n">pop2</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-
-<span class="n">report</span><span class="p">(</span><span class="s1">&#39;ramp.md&#39;</span><span class="p">,</span> 
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Biologically plausible models of homeostasis and STDP; Stability and learning in spiking neural networks&quot;</span><span class="p">,</span> 
-        <span class="n">author</span><span class="o">=</span><span class="s2">&quot;Carlson, Richert, Dutt and Krichmar&quot;</span><span class="p">,</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">&quot;Neural Networks (IJCNN) 2013&quot;</span><span class="p">)</span>
-</code></pre></div>
+</section>
+<section id="example" class="level2">
+<h2 class="anchored" data-anchor-id="example">Example</h2>
+<p>Let’s take the homeostatic STDP ramp example provided in <code>examples/homeostatic_stdp/Ramp.py</code> and add names/descriptions to the objects:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Izhikevich RS neuron</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>RSNeuron <span class="op">=</span> ann.Neuron(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="st">        a = 0.02 : population</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="st">        b = 0.2 : population</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="st">        c = -65. : population</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="st">        d = 8. : population</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_ampa = 5. : population</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_nmda = 150. : population</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="st">        vrev = 0.0 : population</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span> ,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    equations<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="st">        # Inputs</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="st">        I = g_ampa * (vrev - v) + g_nmda * nmda(v, -80.0, 60.0) * (vrev -v)  </span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="st">        # Midpoint scheme      </span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="st">        dv/dt = (0.04 * v + 5.0) * v + 140.0 - u + I : init=-65., midpoint</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="st">        du/dt = a * (b*v - u) : init=-13., midpoint</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="st">        # Izhikevich scheme</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="st">        # new_v = v + 0.5*(0.04 * v^2 + 5.0 * v + 140.0 - u + I) : init=-65.</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="st">        # v = new_v + 0.5*(0.04 * new_v^2 + 5.0 * new_v + 140.0 - u + I) : init=-65.</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="st">        # u += a * (b*v - u) : init=-13.</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="st">        # Conductances</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_ampa * dg_ampa/dt = -g_ampa : exponential</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_nmda * dg_nmda/dt = -g_nmda : exponential</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span> , </span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    spike <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="st">        v &gt;= 30.</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>, </span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    reset <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="st">        v = c</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="st">        u += d</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    functions <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="st">        nmda(v, t, s) = ((v-t)/(s))^2 / (1.0 + ((v-t)/(s))^2)</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">"Regular-spiking Izhikevich"</span>,</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    description <span class="op">=</span> <span class="st">"Regular-spiking Izhikevich neuron, with AMPA/NMDA exponentially decreasing synapses."</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Input population</span></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.PoissonPopulation(<span class="dv">100</span>, rates<span class="op">=</span>np.linspace(<span class="fl">0.2</span>, <span class="fl">20.</span>, <span class="dv">100</span>), name<span class="op">=</span><span class="st">"Poisson input"</span>)</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="co"># RS neuron without homeostatic mechanism</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> ann.Population(<span class="dv">1</span>, RSNeuron, name<span class="op">=</span><span class="st">"RS neuron without homeostasis"</span>)</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>pop1.compute_firing_rate(<span class="fl">5000.</span>)</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a><span class="co"># RS neuron with homeostatic mechanism</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> ann.Population(<span class="dv">1</span>, RSNeuron, name<span class="op">=</span><span class="st">"RS neuron with homeostasis"</span>)</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>pop2.compute_firing_rate(<span class="fl">5000.</span>)</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Nearest Neighbour STDP</span></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>nearest_neighbour_stdp <span class="op">=</span> ann.Synapse(</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_plus = 20. : projection</span></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_minus = 60. : projection</span></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a><span class="st">        A_plus = 0.0002 : projection</span></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a><span class="st">        A_minus = 0.000066 : projection</span></span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a><span class="st">        w_max = 0.03 : projection</span></span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a><span class="st">        # Traces</span></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_plus  * dltp/dt = -ltp : exponential</span></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_minus * dltd/dt = -ltd : exponential</span></span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a><span class="st">        # Nearest-neighbour</span></span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a><span class="st">        w += if t_post &gt;= t_pre: ltp else: - ltd : min=0.0, max=w_max</span></span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>    pre_spike<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a><span class="st">        g_target += w</span></span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a><span class="st">        ltp = A_plus</span></span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,         </span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>    post_spike<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a><span class="st">        ltd = A_minus </span></span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">"Nearest-neighbour STDP"</span>,</span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>    description <span class="op">=</span> <span class="st">"Nearest-neighbour STDP synaptic plasticity. Each synapse updates two traces (ltp and ltd) and updates continuously its weight."</span></span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a><span class="co"># STDP with homeostatic regulation</span></span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a>homeo_stdp <span class="op">=</span> ann.Synapse(</span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a><span class="st">        # STDP</span></span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_plus = 20. : projection</span></span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_minus = 60. : projection</span></span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a><span class="st">        A_plus = 0.0002 : projection</span></span>
+<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a><span class="st">        A_minus = 0.000066 : projection</span></span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a><span class="st">        w_min = 0.0 : projection</span></span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a><span class="st">        w_max = 0.03 : projection</span></span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a><span class="st">        # Homeostatic regulation</span></span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a><span class="st">        alpha = 0.1 : projection</span></span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a><span class="st">        beta = 1.0 : projection</span></span>
+<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a><span class="st">        gamma = 50. : projection</span></span>
+<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a><span class="st">        Rtarget = 35. : projection</span></span>
+<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a><span class="st">        T = 5000. : projection</span></span>
+<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a><span class="st">        # Traces</span></span>
+<span id="cb13-101"><a href="#cb13-101" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_plus  * dltp/dt = -ltp : exponential</span></span>
+<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_minus * dltd/dt = -ltd : exponential</span></span>
+<span id="cb13-103"><a href="#cb13-103" aria-hidden="true" tabindex="-1"></a><span class="st">        # Homeostatic values</span></span>
+<span id="cb13-104"><a href="#cb13-104" aria-hidden="true" tabindex="-1"></a><span class="st">        R = post.r : postsynaptic</span></span>
+<span id="cb13-105"><a href="#cb13-105" aria-hidden="true" tabindex="-1"></a><span class="st">        K = R/(T*(1.+fabs(1. - R/Rtarget) * gamma)) : postsynaptic</span></span>
+<span id="cb13-106"><a href="#cb13-106" aria-hidden="true" tabindex="-1"></a><span class="st">        # Nearest-neighbour</span></span>
+<span id="cb13-107"><a href="#cb13-107" aria-hidden="true" tabindex="-1"></a><span class="st">        stdp = if t_post &gt;= t_pre: ltp else: - ltd </span></span>
+<span id="cb13-108"><a href="#cb13-108" aria-hidden="true" tabindex="-1"></a><span class="st">        w += (alpha * w * (1- R/Rtarget) + beta * stdp ) * K : min=w_min, max=w_max</span></span>
+<span id="cb13-109"><a href="#cb13-109" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb13-110"><a href="#cb13-110" aria-hidden="true" tabindex="-1"></a>    pre_spike<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb13-111"><a href="#cb13-111" aria-hidden="true" tabindex="-1"></a><span class="st">        g_target += w</span></span>
+<span id="cb13-112"><a href="#cb13-112" aria-hidden="true" tabindex="-1"></a><span class="st">        ltp = A_plus</span></span>
+<span id="cb13-113"><a href="#cb13-113" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,         </span>
+<span id="cb13-114"><a href="#cb13-114" aria-hidden="true" tabindex="-1"></a>    post_spike<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb13-115"><a href="#cb13-115" aria-hidden="true" tabindex="-1"></a><span class="st">        ltd = A_minus </span></span>
+<span id="cb13-116"><a href="#cb13-116" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span> ,</span>
+<span id="cb13-117"><a href="#cb13-117" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">"Nearest-neighbour STDP with homeostasis"</span>,</span>
+<span id="cb13-118"><a href="#cb13-118" aria-hidden="true" tabindex="-1"></a>    description <span class="op">=</span> <span class="st">"Nearest-neighbour STDP synaptic plasticity with an additional homeostatic term. "</span></span>
+<span id="cb13-119"><a href="#cb13-119" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-120"><a href="#cb13-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-121"><a href="#cb13-121" aria-hidden="true" tabindex="-1"></a><span class="co"># Projection without homeostatic mechanism</span></span>
+<span id="cb13-122"><a href="#cb13-122" aria-hidden="true" tabindex="-1"></a>proj1 <span class="op">=</span> ann.Projection(inp, pop1, [<span class="st">'ampa'</span>, <span class="st">'nmda'</span>], synapse<span class="op">=</span>nearest_neighbour_stdp)</span>
+<span id="cb13-123"><a href="#cb13-123" aria-hidden="true" tabindex="-1"></a>proj1.connect_all_to_all(Uniform(<span class="fl">0.01</span>, <span class="fl">0.03</span>))</span>
+<span id="cb13-124"><a href="#cb13-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-125"><a href="#cb13-125" aria-hidden="true" tabindex="-1"></a><span class="co"># Projection with homeostatic mechanism</span></span>
+<span id="cb13-126"><a href="#cb13-126" aria-hidden="true" tabindex="-1"></a>proj2 <span class="op">=</span> ann.Projection(inp, pop2, [<span class="st">'ampa'</span>, <span class="st">'nmda'</span>], synapse<span class="op">=</span>homeo_stdp)</span>
+<span id="cb13-127"><a href="#cb13-127" aria-hidden="true" tabindex="-1"></a>proj2.connect_all_to_all(weights<span class="op">=</span>Uniform(<span class="fl">0.01</span>, <span class="fl">0.03</span>))</span>
+<span id="cb13-128"><a href="#cb13-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-129"><a href="#cb13-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-130"><a href="#cb13-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Record</span></span>
+<span id="cb13-131"><a href="#cb13-131" aria-hidden="true" tabindex="-1"></a>m1 <span class="op">=</span> ann.Monitor(pop1, <span class="st">'r'</span>)</span>
+<span id="cb13-132"><a href="#cb13-132" aria-hidden="true" tabindex="-1"></a>m2 <span class="op">=</span> ann.Monitor(pop2, <span class="st">'r'</span>)</span>
+<span id="cb13-133"><a href="#cb13-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-134"><a href="#cb13-134" aria-hidden="true" tabindex="-1"></a>ann.report(<span class="st">'ramp.qmd'</span>, </span>
+<span id="cb13-135"><a href="#cb13-135" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Biologically plausible models of homeostasis and STDP; Stability and learning in spiking neural networks"</span>, </span>
+<span id="cb13-136"><a href="#cb13-136" aria-hidden="true" tabindex="-1"></a>        author<span class="op">=</span><span class="st">"Carlson, Richert, Dutt and Krichmar"</span>,</span>
+<span id="cb13-137"><a href="#cb13-137" aria-hidden="true" tabindex="-1"></a>        date<span class="op">=</span><span class="st">"Neural Networks (IJCNN) 2013"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This generates the following Markdown file:</p>
-<div class="highlight"><pre><span></span><code>---
-title: Biologically plausible models of homeostasis and STDP; Stability and learning in spiking neural networks
-author: Carlson, Richert, Dutt and Krichmar
-<span class="gu">date: Neural Networks (IJCNN) 2013</span>
-<span class="gu">---</span>
-
-<span class="gh"># Structure of the network</span>
-
-<span class="k">*</span><span class="w"> </span>ANNarchy 4.6.2b using the default backend.
-<span class="k">*</span><span class="w"> </span>Numerical step size: 1.0 ms.
-
-<span class="gu">## Populations</span>
-
-| <span class="gs">**Population**</span>                | <span class="gs">**Size**</span> | <span class="gs">**Neuron type**</span>            | 
-| ----------------------------- | -------- | -------------------------- | 
-| Poisson input                 | 100      | Poisson                    | 
-| RS neuron without homeostasis | 1        | Regular-spiking Izhikevich | 
-| RS neuron with homeostasis    | 1        | Regular-spiking Izhikevich | 
-
-
-<span class="gu">## Projections</span>
-
-| <span class="gs">**Source**</span>    | <span class="gs">**Destination**</span>               | <span class="gs">**Target**</span>  | <span class="gs">**Synapse type**</span>                        | <span class="gs">**Pattern**</span>                                               | 
-| ------------- | ----------------------------- | ----------- | --------------------------------------- | --------------------------------------------------------- | 
-| Poisson input | RS neuron without homeostasis | ampa / nmda | Nearest-neighbour STDP                  | All-to-All, weights $\mathcal{U}$(0.01, 0.03), delays 0.0 | 
-| Poisson input | RS neuron with homeostasis    | ampa / nmda | Nearest-neighbour STDP with homeostasis | All-to-All, weights $\mathcal{U}$(0.01, 0.03), delays 0.0 | 
-
-
-<span class="gu">## Monitors</span>
-
-| <span class="gs">**Object**</span>                    | <span class="gs">**Variables**</span> | <span class="gs">**Period**</span> | 
-| ----------------------------- | ------------- | ---------- | 
-| RS neuron without homeostasis | r             | 1.0        | 
-| RS neuron with homeostasis    | r             | 1.0        | 
-
-
-<span class="gh"># Neuron models</span>
-
-<span class="gu">## Regular-spiking Izhikevich</span>
-
-Regular-spiking Izhikevich neuron, with AMPA/NMDA exponentially decreasing synapses.
-
-<span class="gs">**Parameters:**</span>
-
-| <span class="gs">**Name**</span>             | <span class="gs">**Default value**</span> | <span class="gs">**Locality**</span>   | <span class="gs">**Type**</span> | 
-| -------------------- | ----------------- | -------------- | -------- | 
-| $a$                  | 0.02              | per population | double   | 
-| $b$                  | 0.2               | per population | double   | 
-| $c$                  | -65.0             | per population | double   | 
-| $d$                  | 8.0               | per population | double   | 
-| $\tau_{\text{ampa}}$ | 5.0               | per population | double   | 
-| $\tau_{\text{nmda}}$ | 150.0             | per population | double   | 
-| ${\text{vrev}}$      | 0.0               | per population | double   | 
-
-<span class="gs">**Equations:**</span>
-
-<span class="k">*</span><span class="w"> </span>Variable $I$ : per neuron, initial value: 0.0
-
-$$
-{I}(t) = {g_{\text{ampa}}}(t) \cdot \left({\text{vrev}} - {v}(t)\right) + {g_{\text{nmda}}}(t) \cdot \left({\text{vrev}} - {v}(t)\right) \cdot \operatorname{nmda}{\left ({v}(t),-80.0,60.0 \right )}
-$$
-
-<span class="k">*</span><span class="w"> </span>Variable $v$ : per neuron, initial value: -65.0, midpoint numerical method
-
-$$
-\frac{d{v}(t)}{dt} = {I}(t) - {u}(t) + {v}(t) \cdot \left(0.04 \cdot {v}(t) + 5.0\right) + 140.0
-$$
-
-<span class="k">*</span><span class="w"> </span>Variable $u$ : per neuron, initial value: -13.0, midpoint numerical method
-
-$$
-\frac{d{u}(t)}{dt} = a \cdot \left(b \cdot {v}(t) - {u}(t)\right)
-$$
-
-<span class="k">*</span><span class="w"> </span>Variable $g_{\text{ampa}}$ : per neuron, initial value: 0.0, exponential numerical method
-
-$$
-\frac{d{g_{\text{ampa}}}(t)}{dt} \cdot \tau_{\text{ampa}} = - {g_{\text{ampa}}}(t)
-$$
-
-<span class="k">*</span><span class="w"> </span>Variable $g_{\text{nmda}}$ : per neuron, initial value: 0.0, exponential numerical method
-
-$$
-\frac{d{g_{\text{nmda}}}(t)}{dt} \cdot \tau_{\text{nmda}} = - {g_{\text{nmda}}}(t)
-$$
-
-<span class="gs">**Spike emission:**</span>
-
-if ${v}(t) \geq 30.0$ :
-
-<span class="k">*</span><span class="w"> </span>Emit a spike a time $t$.
-<span class="k">*</span><span class="w"> </span>${v}(t) = c$
-<span class="k">*</span><span class="w"> </span>${u}(t) \mathrel{+}= d$
-
-
-<span class="gs">**Functions**</span>
-
-$${\text{nmda}}(v, t, s) = \frac{\left(- t + v\right)^{2}}{s^{2} \cdot \left(1.0 + \frac{1}{s^{2}} \cdot \left(- t + v\right)^{2}\right)}$$
-
-
-<span class="gu">## Poisson</span>
-
-Spiking neuron with spikes emitted according to a Poisson distribution.
-
-<span class="gs">**Parameters:**</span>
-
-| <span class="gs">**Name**</span>         | <span class="gs">**Default value**</span> | <span class="gs">**Locality**</span> | <span class="gs">**Type**</span> | 
-| ---------------- | ----------------- | ------------ | -------- | 
-| ${\text{rates}}$ | 10.0              | per neuron   | double   | 
-
-<span class="gs">**Equations:**</span>
-
-<span class="k">*</span><span class="w"> </span>Variable $p$ : per neuron, initial value: 0.0
-
-$$
-{p}(t) = \frac{1000.0}{\Delta t} \cdot \mathcal{U}{\left (0.0,1.0 \right )}
-$$
-
-<span class="gs">**Spike emission:**</span>
-
-if ${p}(t) &lt; {\text{rates}}$ :
-
-<span class="k">*</span><span class="w"> </span>Emit a spike a time $t$.
-
-<span class="gh"># Synapse models</span>
-
-<span class="gu">## Nearest-neighbour STDP</span>
-
-Nearest-neighbour STDP synaptic plasticity. Each synapse updates two traces (ltp and ltd) and updates continuously its weight.
-
-<span class="gs">**Parameters:**</span>
-
-| <span class="gs">**Name**</span>              | <span class="gs">**Default value**</span> | <span class="gs">**Locality**</span>   | <span class="gs">**Type**</span> | 
-| --------------------- | ----------------- | -------------- | -------- | 
-| $\tau_{\text{plus}}$  | 20.0              | per projection | double   | 
-| $\tau_{\text{minus}}$ | 60.0              | per projection | double   | 
-| $A_{\text{plus}}$     | 0.0002            | per projection | double   | 
-| $A_{\text{minus}}$    | 6.6e-05           | per projection | double   | 
-| $w_{\text{max}}$      | 0.03              | per projection | double   | 
-
-<span class="gs">**Equations:**</span>
-
-<span class="k">*</span><span class="w"> </span>Variable ${\text{ltp}}$ : per synapse, initial value: 0.0, exponential numerical method
-
-$$
-\frac{d{{\text{ltp}}}(t)}{dt} \cdot \tau_{\text{plus}} = - {{\text{ltp}}}(t)
-$$
-
-<span class="k">*</span><span class="w"> </span>Variable ${\text{ltd}}$ : per synapse, initial value: 0.0, exponential numerical method
-
-$$
-\frac{d{{\text{ltd}}}(t)}{dt} \cdot \tau_{\text{minus}} = - {{\text{ltd}}}(t)
-$$
-
-<span class="k">*</span><span class="w"> </span>Variable $w$ : per synapse, initial value: 0.0, minimum: 0.0, maximum: w_max
-
-$$
-{w}(t) \mathrel{+}= \begin{cases}{{\text{ltp}}}(t)\qquad \text{if} \quad t<span class="ge">_{\text{pos}} \geq t_</span>{\text{pre}}\\ - {{\text{ltd}}}(t) \qquad \text{otherwise.} \end{cases}
-$$
-
-<span class="gs">**Pre-synaptic event at $t_\text{pre} + d$:**</span>
-$$g_{\text{target}(t)} \mathrel{+}= {w}(t)$$
-$${{\text{ltp}}}(t) = A_{\text{plus}}$$
-
-<span class="gs">**Post-synaptic event at $t_\text{post}$:**</span>
-$${{\text{ltd}}}(t) = A_{\text{minus}}$$
-
-<span class="gu">## Nearest-neighbour STDP with homeostasis</span>
-
-Nearest-neighbour STDP synaptic plasticity with an additional homeostatic term. 
-
-<span class="gs">**Parameters:**</span>
-
-| <span class="gs">**Name**</span>              | <span class="gs">**Default value**</span> | <span class="gs">**Locality**</span>   | <span class="gs">**Type**</span> | 
-| --------------------- | ----------------- | -------------- | -------- | 
-| $\tau_{\text{plus}}$  | 20.0              | per projection | double   | 
-| $\tau_{\text{minus}}$ | 60.0              | per projection | double   | 
-| $A_{\text{plus}}$     | 0.0002            | per projection | double   | 
-| $A_{\text{minus}}$    | 6.6e-05           | per projection | double   | 
-| $w_{\text{min}}$      | 0.0               | per projection | double   | 
-| $w_{\text{max}}$      | 0.03              | per projection | double   | 
-| $\alpha$              | 0.1               | per projection | double   | 
-| $\beta$               | 1.0               | per projection | double   | 
-| $\gamma$              | 50.0              | per projection | double   | 
-| ${\text{Rtarget}}$    | 35.0              | per projection | double   | 
-| $T$                   | 5000.0            | per projection | double   | 
-
-<span class="gs">**Equations:**</span>
-
-<span class="k">*</span><span class="w"> </span>Variable ${\text{ltp}}$ : per synapse, initial value: 0.0, exponential numerical method
-
-$$
-\frac{d{{\text{ltp}}}(t)}{dt} \cdot \tau_{\text{plus}} = - {{\text{ltp}}}(t)
-$$
-
-<span class="k">*</span><span class="w"> </span>Variable ${\text{ltd}}$ : per synapse, initial value: 0.0, exponential numerical method
-
-$$
-\frac{d{{\text{ltd}}}(t)}{dt} \cdot \tau_{\text{minus}} = - {{\text{ltd}}}(t)
-$$
-
-<span class="k">*</span><span class="w"> </span>Variable $R$ : per post-synaptic neuron, initial value: 0.0
-
-$$
-{R}(t) = {r}^{\text{post}}(t)
-$$
-
-<span class="k">*</span><span class="w"> </span>Variable $K$ : per post-synaptic neuron, initial value: 0.0
-
-$$
-{K}(t) = \frac{{R}(t)}{T \cdot \left(\gamma \cdot \left|{f}\right|{\left (- \frac{{R}(t)}{{\text{Rtarget}}} + 1.0 \right )} + 1.0\right)}
-$$
-
-<span class="k">*</span><span class="w"> </span>Variable ${\text{stdp}}$ : per synapse, initial value: 0.0
-
-$$
-{{\text{stdp}}}(t) = \begin{cases}{{\text{ltp}}}(t)\qquad \text{if} \quad t<span class="ge">_{\text{pos}} \geq t_</span>{\text{pre}}\\ - {{\text{ltd}}}(t) \qquad \text{otherwise.} \end{cases}
-$$
-
-<span class="k">*</span><span class="w"> </span>Variable $w$ : per synapse, initial value: 0.0, minimum: w<span class="ge">_min, maximum: w_</span>max
-
-$$
-{w}(t) \mathrel{+}= {K}(t) \cdot \left(\alpha \cdot {w}(t) \cdot \left(- \frac{{R}(t)}{{\text{Rtarget}}} + 1\right) + \beta \cdot {{\text{stdp}}}(t)\right)
-$$
-
-<span class="gs">**Pre-synaptic event at $t_\text{pre} + d$:**</span>
-$$g_{\text{target}(t)} \mathrel{+}= {w}(t)$$
-$${{\text{ltp}}}(t) = A_{\text{plus}}$$
-
-<span class="gs">**Post-synaptic event at $t_\text{post}$:**</span>
-$${{\text{ltd}}}(t) = A_{\text{minus}}$$
-
-<span class="gh"># Parameters</span>
-
-<span class="gu">## Population parameters</span>
-
-| <span class="gs">**Population**</span>                | <span class="gs">**Neuron type**</span>            | <span class="gs">**Name**</span>             | <span class="gs">**Value**</span>     | 
-| ----------------------------- | -------------------------- | -------------------- | ------------- | 
-| Poisson input                 | Poisson                    | ${\text{rates}}$     | $[0.2, 20.0]$ | 
-| RS neuron without homeostasis | Regular-spiking Izhikevich | $a$                  | 0.02          | 
-|                               |                            | $b$                  | 0.2           | 
-|                               |                            | $c$                  | -65.0         | 
-|                               |                            | $d$                  | 8.0           | 
-|                               |                            | $\tau_{\text{ampa}}$ | 5.0           | 
-|                               |                            | $\tau_{\text{nmda}}$ | 150.0         | 
-|                               |                            | ${\text{vrev}}$      | 0.0           | 
-| RS neuron with homeostasis    | Regular-spiking Izhikevich | $a$                  | 0.02          | 
-|                               |                            | $b$                  | 0.2           | 
-|                               |                            | $c$                  | -65.0         | 
-|                               |                            | $d$                  | 8.0           | 
-|                               |                            | $\tau_{\text{ampa}}$ | 5.0           | 
-|                               |                            | $\tau_{\text{nmda}}$ | 150.0         | 
-|                               |                            | ${\text{vrev}}$      | 0.0           | 
-
-
-<span class="gu">## Projection parameters</span>
-
-| <span class="gs">**Projection**</span>                                                                     | <span class="gs">**Synapse type**</span>                        | <span class="gs">**Name**</span>              | <span class="gs">**Value**</span> | 
-| ---------------------------------------------------------------------------------- | --------------------------------------- | --------------------- | --------- | 
-| Poisson input  $\rightarrow$ RS neuron without homeostasis with target ampa / nmda | Nearest-neighbour STDP                  | $\tau_{\text{plus}}$  | 20.0      | 
-|                                                                                    |                                         | $\tau_{\text{minus}}$ | 60.0      | 
-|                                                                                    |                                         | $A_{\text{plus}}$     | 0.0002    | 
-|                                                                                    |                                         | $A_{\text{minus}}$    | 6.6e-05   | 
-|                                                                                    |                                         | $w_{\text{max}}$      | 0.03      | 
-| Poisson input  $\rightarrow$ RS neuron with homeostasis with target ampa / nmda    | Nearest-neighbour STDP with homeostasis | $\tau_{\text{plus}}$  | 20.0      | 
-|                                                                                    |                                         | $\tau_{\text{minus}}$ | 60.0      | 
-|                                                                                    |                                         | $A_{\text{plus}}$     | 0.0002    | 
-|                                                                                    |                                         | $A_{\text{minus}}$    | 6.6e-05   | 
-|                                                                                    |                                         | $w_{\text{min}}$      | 0.0       | 
-|                                                                                    |                                         | $w_{\text{max}}$      | 0.03      | 
-|                                                                                    |                                         | $\alpha$              | 0.1       | 
-|                                                                                    |                                         | $\beta$               | 1.0       | 
-|                                                                                    |                                         | $\gamma$              | 50.0      | 
-|                                                                                    |                                         | ${\text{Rtarget}}$    | 35.0      | 
-|                                                                                    |                                         | $T$                   | 5000.0    | 
-</code></pre></div>
-
-
-
-
-
-
-
-
-
-
-
-
-                
-              </article>
-            </div>
-          
-          
-<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
-        </div>
-        
-      </main>
-      
-        <footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-    <div class="md-copyright__highlight">
-      Copyright &copy; Julien Vitay, Helge Ülo Dinkelbach, Fred H. Hamker
-    </div>
-  
-  
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
-    </a>
-  
+<div class="sourceCode" id="cb14"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Biologically plausible models of homeostasis and STDP; Stability and learning in spiking neural networks</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> Carlson, Richert, Dutt and Krichmar</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> Neural Networks (IJCNN) 2013</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu"># Structure of the network</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>ANNarchy 4.8.0 using the default backend.</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Numerical step size: 1.0 ms.</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Populations</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>| **Population**                | **Size** | **Neuron type**            | </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>| ----------------------------- | -------- | -------------------------- | </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>| Poisson input                 | 100      | Poisson                    | </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>| RS neuron without homeostasis | 1        | Regular-spiking Izhikevich | </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>| RS neuron with homeostasis    | 1        | Regular-spiking Izhikevich | </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Projections</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>| **Source**    | **Destination**               | **Target**  | **Synapse type**                        | **Pattern**                                               | </span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>| ------------- | ----------------------------- | ----------- | --------------------------------------- | --------------------------------------------------------- | </span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>| Poisson input | RS neuron without homeostasis | ampa / nmda | Nearest-neighbour STDP                  | All-to-All, weights $\mathcal{U}$(0.01, 0.03), delays 0.0 | </span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>| Poisson input | RS neuron with homeostasis    | ampa / nmda | Nearest-neighbour STDP with homeostasis | All-to-All, weights $\mathcal{U}$(0.01, 0.03), delays 0.0 | </span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monitors</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>| **Object**                    | **Variables** | **Period** | </span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>| ----------------------------- | ------------- | ---------- | </span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>| RS neuron without homeostasis | r             | 1.0        | </span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>| RS neuron with homeostasis    | r             | 1.0        | </span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="fu"># Neuron models</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Regular-spiking Izhikevich</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>Regular-spiking Izhikevich neuron, with AMPA/NMDA exponentially decreasing synapses.</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>**Parameters:**</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>| **Name**             | **Default value** | **Locality**   | **Type** | </span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>| -------------------- | ----------------- | -------------- | -------- | </span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>| $a$                  | 0.02              | per population | double   | </span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>| $b$                  | 0.2               | per population | double   | </span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>| $c$                  | -65.0             | per population | double   | </span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>| $d$                  | 8.0               | per population | double   | </span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>| $\tau_{\text{ampa}}$ | 5.0               | per population | double   | </span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>| $\tau_{\text{nmda}}$ | 150.0             | per population | double   | </span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>| ${\text{vrev}}$      | 0.0               | per population | double   | </span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>**Equations:**</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable $I$ : per neuron, initial value: 0.0</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>{I}(t) = {g_{\text{ampa}}}(t) \cdot \left({\text{vrev}} - {v}(t)\right) + {g_{\text{nmda}}}(t) \cdot \left({\text{vrev}} - {v}(t)\right) \cdot \operatorname{nmda}{\left ({v}(t),-80.0,60.0 \right )}</span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable $v$ : per neuron, initial value: -65.0, midpoint numerical method</span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>\frac{d{v}(t)}{dt} = {I}(t) - {u}(t) + {v}(t) \cdot \left(0.04 \cdot {v}(t) + 5.0\right) + 140.0</span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable $u$ : per neuron, initial value: -13.0, midpoint numerical method</span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>\frac{d{u}(t)}{dt} = a \cdot \left(b \cdot {v}(t) - {u}(t)\right)</span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable $g_{\text{ampa}}$ : per neuron, initial value: 0.0, exponential numerical method</span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>\frac{d{g_{\text{ampa}}}(t)}{dt} \cdot \tau_{\text{ampa}} = - {g_{\text{ampa}}}(t)</span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable $g_{\text{nmda}}$ : per neuron, initial value: 0.0, exponential numerical method</span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a>\frac{d{g_{\text{nmda}}}(t)}{dt} \cdot \tau_{\text{nmda}} = - {g_{\text{nmda}}}(t)</span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a>**Spike emission:**</span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a>if ${v}(t) \geq 30.0$ :</span>
+<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Emit a spike a time $t$.</span>
+<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>${v}(t) = c$</span>
+<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>${u}(t) \mathrel{+}= d$</span>
+<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a>**Functions**</span>
+<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a>$${\text{nmda}}(v, t, s) = \frac{\left(- t + v\right)^{2}}{s^{2} \cdot \left(1.0 + \frac{1}{s^{2}} \cdot \left(- t + v\right)^{2}\right)}$$</span>
+<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a><span class="fu">## Poisson</span></span>
+<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-103"><a href="#cb14-103" aria-hidden="true" tabindex="-1"></a>Spiking neuron with spikes emitted according to a Poisson distribution.</span>
+<span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a>**Parameters:**</span>
+<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-107"><a href="#cb14-107" aria-hidden="true" tabindex="-1"></a>| **Name**         | **Default value** | **Locality** | **Type** | </span>
+<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a>| ---------------- | ----------------- | ------------ | -------- | </span>
+<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a>| ${\text{rates}}$ | 10.0              | per neuron   | double   | </span>
+<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a>**Equations:**</span>
+<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable $p$ : per neuron, initial value: 0.0</span>
+<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a>{p}(t) = \frac{1000.0}{\Delta t} \cdot \mathcal{U}{\left (0.0,1.0 \right )}</span>
+<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a>**Spike emission:**</span>
+<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a>if ${p}(t) &lt; {\text{rates}}$ :</span>
+<span id="cb14-122"><a href="#cb14-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-123"><a href="#cb14-123" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Emit a spike a time $t$.</span>
+<span id="cb14-124"><a href="#cb14-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-125"><a href="#cb14-125" aria-hidden="true" tabindex="-1"></a><span class="fu"># Synapse models</span></span>
+<span id="cb14-126"><a href="#cb14-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-127"><a href="#cb14-127" aria-hidden="true" tabindex="-1"></a><span class="fu">## Nearest-neighbour STDP</span></span>
+<span id="cb14-128"><a href="#cb14-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-129"><a href="#cb14-129" aria-hidden="true" tabindex="-1"></a>Nearest-neighbour STDP synaptic plasticity. Each synapse updates two traces (ltp and ltd) and updates continuously its weight.</span>
+<span id="cb14-130"><a href="#cb14-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-131"><a href="#cb14-131" aria-hidden="true" tabindex="-1"></a>**Parameters:**</span>
+<span id="cb14-132"><a href="#cb14-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-133"><a href="#cb14-133" aria-hidden="true" tabindex="-1"></a>| **Name**              | **Default value** | **Locality**   | **Type** | </span>
+<span id="cb14-134"><a href="#cb14-134" aria-hidden="true" tabindex="-1"></a>| --------------------- | ----------------- | -------------- | -------- | </span>
+<span id="cb14-135"><a href="#cb14-135" aria-hidden="true" tabindex="-1"></a>| $\tau_{\text{plus}}$  | 20.0              | per projection | double   | </span>
+<span id="cb14-136"><a href="#cb14-136" aria-hidden="true" tabindex="-1"></a>| $\tau_{\text{minus}}$ | 60.0              | per projection | double   | </span>
+<span id="cb14-137"><a href="#cb14-137" aria-hidden="true" tabindex="-1"></a>| $A_{\text{plus}}$     | 0.0002            | per projection | double   | </span>
+<span id="cb14-138"><a href="#cb14-138" aria-hidden="true" tabindex="-1"></a>| $A_{\text{minus}}$    | 6.6e-05           | per projection | double   | </span>
+<span id="cb14-139"><a href="#cb14-139" aria-hidden="true" tabindex="-1"></a>| $w_{\text{max}}$      | 0.03              | per projection | double   | </span>
+<span id="cb14-140"><a href="#cb14-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-141"><a href="#cb14-141" aria-hidden="true" tabindex="-1"></a>**Equations:**</span>
+<span id="cb14-142"><a href="#cb14-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-143"><a href="#cb14-143" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable ${\text{ltp}}$ : per synapse, initial value: 0.0, exponential numerical method</span>
+<span id="cb14-144"><a href="#cb14-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-145"><a href="#cb14-145" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-146"><a href="#cb14-146" aria-hidden="true" tabindex="-1"></a>\frac{d{{\text{ltp}}}(t)}{dt} \cdot \tau_{\text{plus}} = - {{\text{ltp}}}(t)</span>
+<span id="cb14-147"><a href="#cb14-147" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-148"><a href="#cb14-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-149"><a href="#cb14-149" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable ${\text{ltd}}$ : per synapse, initial value: 0.0, exponential numerical method</span>
+<span id="cb14-150"><a href="#cb14-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-151"><a href="#cb14-151" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-152"><a href="#cb14-152" aria-hidden="true" tabindex="-1"></a>\frac{d{{\text{ltd}}}(t)}{dt} \cdot \tau_{\text{minus}} = - {{\text{ltd}}}(t)</span>
+<span id="cb14-153"><a href="#cb14-153" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-154"><a href="#cb14-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-155"><a href="#cb14-155" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable $w$ : per synapse, initial value: 0.0, minimum: 0.0, maximum: w_max</span>
+<span id="cb14-156"><a href="#cb14-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-157"><a href="#cb14-157" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-158"><a href="#cb14-158" aria-hidden="true" tabindex="-1"></a>{w}(t) \mathrel{+}= \begin{cases}{{\text{ltp}}}(t)\qquad \text{if} \quad t_{\text{pos}} \geq t_{\text{pre}}<span class="sc">\\</span> - {{\text{ltd}}}(t) \qquad \text{otherwise.} \end{cases}</span>
+<span id="cb14-159"><a href="#cb14-159" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-160"><a href="#cb14-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-161"><a href="#cb14-161" aria-hidden="true" tabindex="-1"></a>**Pre-synaptic event at $t_\text{pre} + d$:**</span>
+<span id="cb14-162"><a href="#cb14-162" aria-hidden="true" tabindex="-1"></a>$$g_{\text{target}(t)} \mathrel{+}= {w}(t)$$</span>
+<span id="cb14-163"><a href="#cb14-163" aria-hidden="true" tabindex="-1"></a>$${{\text{ltp}}}(t) = A_{\text{plus}}$$</span>
+<span id="cb14-164"><a href="#cb14-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-165"><a href="#cb14-165" aria-hidden="true" tabindex="-1"></a>**Post-synaptic event at $t_\text{post}$:**</span>
+<span id="cb14-166"><a href="#cb14-166" aria-hidden="true" tabindex="-1"></a>$${{\text{ltd}}}(t) = A_{\text{minus}}$$</span>
+<span id="cb14-167"><a href="#cb14-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-168"><a href="#cb14-168" aria-hidden="true" tabindex="-1"></a><span class="fu">## Nearest-neighbour STDP with homeostasis</span></span>
+<span id="cb14-169"><a href="#cb14-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-170"><a href="#cb14-170" aria-hidden="true" tabindex="-1"></a>Nearest-neighbour STDP synaptic plasticity with an additional homeostatic term. </span>
+<span id="cb14-171"><a href="#cb14-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-172"><a href="#cb14-172" aria-hidden="true" tabindex="-1"></a>**Parameters:**</span>
+<span id="cb14-173"><a href="#cb14-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-174"><a href="#cb14-174" aria-hidden="true" tabindex="-1"></a>| **Name**              | **Default value** | **Locality**   | **Type** | </span>
+<span id="cb14-175"><a href="#cb14-175" aria-hidden="true" tabindex="-1"></a>| --------------------- | ----------------- | -------------- | -------- | </span>
+<span id="cb14-176"><a href="#cb14-176" aria-hidden="true" tabindex="-1"></a>| $\tau_{\text{plus}}$  | 20.0              | per projection | double   | </span>
+<span id="cb14-177"><a href="#cb14-177" aria-hidden="true" tabindex="-1"></a>| $\tau_{\text{minus}}$ | 60.0              | per projection | double   | </span>
+<span id="cb14-178"><a href="#cb14-178" aria-hidden="true" tabindex="-1"></a>| $A_{\text{plus}}$     | 0.0002            | per projection | double   | </span>
+<span id="cb14-179"><a href="#cb14-179" aria-hidden="true" tabindex="-1"></a>| $A_{\text{minus}}$    | 6.6e-05           | per projection | double   | </span>
+<span id="cb14-180"><a href="#cb14-180" aria-hidden="true" tabindex="-1"></a>| $w_{\text{min}}$      | 0.0               | per projection | double   | </span>
+<span id="cb14-181"><a href="#cb14-181" aria-hidden="true" tabindex="-1"></a>| $w_{\text{max}}$      | 0.03              | per projection | double   | </span>
+<span id="cb14-182"><a href="#cb14-182" aria-hidden="true" tabindex="-1"></a>| $\alpha$              | 0.1               | per projection | double   | </span>
+<span id="cb14-183"><a href="#cb14-183" aria-hidden="true" tabindex="-1"></a>| $\beta$               | 1.0               | per projection | double   | </span>
+<span id="cb14-184"><a href="#cb14-184" aria-hidden="true" tabindex="-1"></a>| $\gamma$              | 50.0              | per projection | double   | </span>
+<span id="cb14-185"><a href="#cb14-185" aria-hidden="true" tabindex="-1"></a>| ${\text{Rtarget}}$    | 35.0              | per projection | double   | </span>
+<span id="cb14-186"><a href="#cb14-186" aria-hidden="true" tabindex="-1"></a>| $T$                   | 5000.0            | per projection | double   | </span>
+<span id="cb14-187"><a href="#cb14-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-188"><a href="#cb14-188" aria-hidden="true" tabindex="-1"></a>**Equations:**</span>
+<span id="cb14-189"><a href="#cb14-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-190"><a href="#cb14-190" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable ${\text{ltp}}$ : per synapse, initial value: 0.0, exponential numerical method</span>
+<span id="cb14-191"><a href="#cb14-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-192"><a href="#cb14-192" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-193"><a href="#cb14-193" aria-hidden="true" tabindex="-1"></a>\frac{d{{\text{ltp}}}(t)}{dt} \cdot \tau_{\text{plus}} = - {{\text{ltp}}}(t)</span>
+<span id="cb14-194"><a href="#cb14-194" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-195"><a href="#cb14-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-196"><a href="#cb14-196" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable ${\text{ltd}}$ : per synapse, initial value: 0.0, exponential numerical method</span>
+<span id="cb14-197"><a href="#cb14-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-198"><a href="#cb14-198" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-199"><a href="#cb14-199" aria-hidden="true" tabindex="-1"></a>\frac{d{{\text{ltd}}}(t)}{dt} \cdot \tau_{\text{minus}} = - {{\text{ltd}}}(t)</span>
+<span id="cb14-200"><a href="#cb14-200" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-201"><a href="#cb14-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-202"><a href="#cb14-202" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable $R$ : per post-synaptic neuron, initial value: 0.0</span>
+<span id="cb14-203"><a href="#cb14-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-204"><a href="#cb14-204" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-205"><a href="#cb14-205" aria-hidden="true" tabindex="-1"></a>{R}(t) = {r}^{\text{post}}(t)</span>
+<span id="cb14-206"><a href="#cb14-206" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-207"><a href="#cb14-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-208"><a href="#cb14-208" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable $K$ : per post-synaptic neuron, initial value: 0.0</span>
+<span id="cb14-209"><a href="#cb14-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-210"><a href="#cb14-210" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-211"><a href="#cb14-211" aria-hidden="true" tabindex="-1"></a>{K}(t) = \frac{{R}(t)}{T \cdot \left(\gamma \cdot \left|{f}\right|{\left (- \frac{{R}(t)}{{\text{Rtarget}}} + 1.0 \right )} + 1.0\right)}</span>
+<span id="cb14-212"><a href="#cb14-212" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-213"><a href="#cb14-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-214"><a href="#cb14-214" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable ${\text{stdp}}$ : per synapse, initial value: 0.0</span>
+<span id="cb14-215"><a href="#cb14-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-216"><a href="#cb14-216" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-217"><a href="#cb14-217" aria-hidden="true" tabindex="-1"></a>{{\text{stdp}}}(t) = \begin{cases}{{\text{ltp}}}(t)\qquad \text{if} \quad t_{\text{pos}} \geq t_{\text{pre}}<span class="sc">\\</span> - {{\text{ltd}}}(t) \qquad \text{otherwise.} \end{cases}</span>
+<span id="cb14-218"><a href="#cb14-218" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-219"><a href="#cb14-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-220"><a href="#cb14-220" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Variable $w$ : per synapse, initial value: 0.0, minimum: w_min, maximum: w_max</span>
+<span id="cb14-221"><a href="#cb14-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-222"><a href="#cb14-222" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-223"><a href="#cb14-223" aria-hidden="true" tabindex="-1"></a>{w}(t) \mathrel{+}= {K}(t) \cdot \left(\alpha \cdot {w}(t) \cdot \left(- \frac{{R}(t)}{{\text{Rtarget}}} + 1\right) + \beta \cdot {{\text{stdp}}}(t)\right)</span>
+<span id="cb14-224"><a href="#cb14-224" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb14-225"><a href="#cb14-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-226"><a href="#cb14-226" aria-hidden="true" tabindex="-1"></a>**Pre-synaptic event at $t_\text{pre} + d$:**</span>
+<span id="cb14-227"><a href="#cb14-227" aria-hidden="true" tabindex="-1"></a>$$g_{\text{target}(t)} \mathrel{+}= {w}(t)$$</span>
+<span id="cb14-228"><a href="#cb14-228" aria-hidden="true" tabindex="-1"></a>$${{\text{ltp}}}(t) = A_{\text{plus}}$$</span>
+<span id="cb14-229"><a href="#cb14-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-230"><a href="#cb14-230" aria-hidden="true" tabindex="-1"></a>**Post-synaptic event at $t_\text{post}$:**</span>
+<span id="cb14-231"><a href="#cb14-231" aria-hidden="true" tabindex="-1"></a>$${{\text{ltd}}}(t) = A_{\text{minus}}$$</span>
+<span id="cb14-232"><a href="#cb14-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-233"><a href="#cb14-233" aria-hidden="true" tabindex="-1"></a><span class="fu"># Parameters</span></span>
+<span id="cb14-234"><a href="#cb14-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-235"><a href="#cb14-235" aria-hidden="true" tabindex="-1"></a><span class="fu">## Population parameters</span></span>
+<span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a>| **Population**                | **Neuron type**            | **Name**             | **Value**     | </span>
+<span id="cb14-238"><a href="#cb14-238" aria-hidden="true" tabindex="-1"></a>| ----------------------------- | -------------------------- | -------------------- | ------------- | </span>
+<span id="cb14-239"><a href="#cb14-239" aria-hidden="true" tabindex="-1"></a>| Poisson input                 | Poisson                    | ${\text{rates}}$     | $<span class="co">[</span><span class="ot">0.2, 20.0</span><span class="co">]</span>$ | </span>
+<span id="cb14-240"><a href="#cb14-240" aria-hidden="true" tabindex="-1"></a>| RS neuron without homeostasis | Regular-spiking Izhikevich | $a$                  | 0.02          | </span>
+<span id="cb14-241"><a href="#cb14-241" aria-hidden="true" tabindex="-1"></a>|                               |                            | $b$                  | 0.2           | </span>
+<span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a>|                               |                            | $c$                  | -65.0         | </span>
+<span id="cb14-243"><a href="#cb14-243" aria-hidden="true" tabindex="-1"></a>|                               |                            | $d$                  | 8.0           | </span>
+<span id="cb14-244"><a href="#cb14-244" aria-hidden="true" tabindex="-1"></a>|                               |                            | $\tau_{\text{ampa}}$ | 5.0           | </span>
+<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a>|                               |                            | $\tau_{\text{nmda}}$ | 150.0         | </span>
+<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a>|                               |                            | ${\text{vrev}}$      | 0.0           | </span>
+<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a>| RS neuron with homeostasis    | Regular-spiking Izhikevich | $a$                  | 0.02          | </span>
+<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a>|                               |                            | $b$                  | 0.2           | </span>
+<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a>|                               |                            | $c$                  | -65.0         | </span>
+<span id="cb14-250"><a href="#cb14-250" aria-hidden="true" tabindex="-1"></a>|                               |                            | $d$                  | 8.0           | </span>
+<span id="cb14-251"><a href="#cb14-251" aria-hidden="true" tabindex="-1"></a>|                               |                            | $\tau_{\text{ampa}}$ | 5.0           | </span>
+<span id="cb14-252"><a href="#cb14-252" aria-hidden="true" tabindex="-1"></a>|                               |                            | $\tau_{\text{nmda}}$ | 150.0         | </span>
+<span id="cb14-253"><a href="#cb14-253" aria-hidden="true" tabindex="-1"></a>|                               |                            | ${\text{vrev}}$      | 0.0           | </span>
+<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-256"><a href="#cb14-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a><span class="fu">## Projection parameters</span></span>
+<span id="cb14-258"><a href="#cb14-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a>| **Projection**                                                                     | **Synapse type**                        | **Name**              | **Value** | </span>
+<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a>| ---------------------------------------------------------------------------------- | --------------------------------------- | --------------------- | --------- | </span>
+<span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a>| Poisson input  $\rightarrow$ RS neuron without homeostasis with target ampa / nmda | Nearest-neighbour STDP                  | $\tau_{\text{plus}}$  | 20.0      | </span>
+<span id="cb14-262"><a href="#cb14-262" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $\tau_{\text{minus}}$ | 60.0      | </span>
+<span id="cb14-263"><a href="#cb14-263" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $A_{\text{plus}}$     | 0.0002    | </span>
+<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $A_{\text{minus}}$    | 6.6e-05   | </span>
+<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $w_{\text{max}}$      | 0.03      | </span>
+<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a>| Poisson input  $\rightarrow$ RS neuron with homeostasis with target ampa / nmda    | Nearest-neighbour STDP with homeostasis | $\tau_{\text{plus}}$  | 20.0      | </span>
+<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $\tau_{\text{minus}}$ | 60.0      | </span>
+<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $A_{\text{plus}}$     | 0.0002    | </span>
+<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $A_{\text{minus}}$    | 6.6e-05   | </span>
+<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $w_{\text{min}}$      | 0.0       | </span>
+<span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $w_{\text{max}}$      | 0.03      | </span>
+<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $\alpha$              | 0.1       | </span>
+<span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $\beta$               | 1.0       | </span>
+<span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $\gamma$              | 50.0      | </span>
+<span id="cb14-275"><a href="#cb14-275" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | ${\text{Rtarget}}$    | 35.0      | </span>
+<span id="cb14-276"><a href="#cb14-276" aria-hidden="true" tabindex="-1"></a>|                                                                                    |                                         | $T$                   | 5000.0    | </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../manual/Notebooks.html" class="pagination-link" aria-label="Jupyter / IPython Notebooks">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Jupyter / IPython Notebooks</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../manual/Logging.html" class="pagination-link" aria-label="Logging with tensorboard">
+        <span class="nav-page-text">Logging with tensorboard</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright Julien Vitay, Helge Ülo Dinkelbach, Fred Hamker</p>
 </div>
-      
+    <div class="nav-footer-right">
+      &nbsp;
     </div>
   </div>
 </footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    
-    
-    <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-    
-    
-      <script src="../assets/javascripts/bundle.c8d2eff1.min.js"></script>
-      
-        <script src="../javascripts/config.js"></script>
-      
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      
-        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-      
-    
-  </body>
-</html>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

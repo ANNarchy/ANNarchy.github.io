@@ -1,2277 +1,1042 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-      
-        <link rel="prev" href="StructuralPlasticity.html">
-      
-      
-        <link rel="next" href="Notebooks.html">
-      
-      
-      <link rel="icon" href="../_static/logo.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
-    
-    
-      
-        <title>Convolution and pooling - ANNarchy 4.7.3</title>
-      
-    
-    
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
-      
-        
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
-      
-      
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-    
-    
-      
-    
-    
-      
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
-    
-    
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
-    
-      <link rel="stylesheet" href="../css/ansi-colours.css">
-    
-      <link rel="stylesheet" href="../css/jupyter-cells.css">
-    
-      <link rel="stylesheet" href="../css/pandas-dataframe.css">
-    
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-    
-      
+<title>ANNarchy 4.7.3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
 
-    
-    
-    
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
-  
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#convolution-and-pooling" class="md-skip">
-          Skip to content
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-    
-      
 
-  
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../manual/Notebooks.html" rel="next">
+<link href="../manual/StructuralPlasticity.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
-<header class="md-header md-header--shadow" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../index.html" title="ANNarchy 4.7.3" class="md-header__button md-logo" aria-label="ANNarchy 4.7.3" data-md-component="logo">
-      
-  <img src="../_static/logowhite.svg" alt="logo">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            ANNarchy 4.7.3
-          </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
-            
-              Convolution and pooling
-            
-          </span>
-        </div>
-      </div>
-    </div>
-    
-      
-    
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ANNarchy 4.7.3</span>
+    </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">ANNarchy</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Installation.html"> 
+<span class="menu-text">Installation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tutorial/index.html"> 
+<span class="menu-text">Tutorial</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../manual/Structure.html" aria-current="page"> 
+<span class="menu-text">Manual</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/index.html"> 
+<span class="menu-text">Notebooks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../reference/index.html"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ANNarchy/ANNarchy"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
 </div>
-    
-    
-      <div class="md-header__source">
-        <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    GitHub
-  </div>
-</a>
-      </div>
-    
-  </nav>
-  
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-          
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="ANNarchy 4.7.3" class="md-nav__button md-logo" aria-label="ANNarchy 4.7.3" data-md-component="logo">
-      
-  <img src="../_static/logowhite.svg" alt="logo">
-
-    </a>
-    ANNarchy 4.7.3
-  </label>
-  
-    <div class="md-nav__source">
-      <a href="https://github.com/ANNarchy/ANNarchy" title="Go to repository" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    GitHub
-  </div>
-</a>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <a class="flex-grow-1 no-decor" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+          <h1 class="quarto-secondary-nav-title"></h1>
+        </a>     
     </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../index.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Home
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../Installation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Installation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Manual
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Manual
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Structure.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    General structure
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Parser.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parser
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="RateNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Rate-coded neurons
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="SpikeNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Spiking neurons
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="RateSynapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Rate-coded synapses
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="SpikeSynapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Spiking synapses
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Populations.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Populations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Projections.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Projections
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Connector.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Connectivity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Inputs.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Setting inputs
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Simulation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Simulation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Configuration.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Configuration
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="NumericalMethods.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Equations and numerical methods
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Recording.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Recording with Monitors
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Saving.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Saving and loading a network
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Network.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parallel simulations and networks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Hybrid.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hybrid networks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="StructuralPlasticity.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Structural plasticity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Convolution and pooling
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="ConvolutionalNetworks.html" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    Convolution and pooling
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#simple-convolutions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Simple convolutions
-    </span>
-  </a>
-  
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text"><strong>Model structure</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Structure of an ANNarchy model</span></a>
+  </div>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#non-linear-convolutions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Non-linear convolutions
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Parser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parser</span></a>
+  </div>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#layer-wise-convolutions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Layer-wise convolutions
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/RateNeuron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rate-coded neurons</span></a>
+  </div>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#bank-of-filters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Bank of filters
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/SpikeNeuron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spiking neurons</span></a>
+  </div>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#pooling" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pooling
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Populations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Populations</span></a>
+  </div>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#sharing-weights-with-another-projection" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sharing weights with another projection
-    </span>
-  </a>
-  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/RateSynapse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rate-coded synapses</span></a>
+  </div>
 </li>
-      
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/SpikeSynapse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spiking synapses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projections</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Connector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Connectivity</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text"><strong>Simulation</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Inputs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setting inputs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Configuration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Configuration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/NumericalMethods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Equations and numerical methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Recording.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Recording with Monitors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Saving.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Saving and loading a network</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parallel simulations and networks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text"><strong>Extensions</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hybrid networks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/StructuralPlasticity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Structural plasticity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/ConvolutionalNetworks.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Convolution and pooling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Notebooks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Jupyter / IPython Notebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reporting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../manual/Logging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logging with tensorboard</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
-  
+    </div>
 </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Notebooks.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Notebooks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Reporting.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Reporting
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Logging.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    API
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            API
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    core
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_1">
-            <span class="md-nav__icon md-icon"></span>
-            core
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/ANNarchy.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Top-level methods
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Neuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Neuron
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificNeuron.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Built-in neuron types
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Synapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Synapse
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificSynapse.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Built-in synapse types
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Population.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Population
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificPopulation.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specific Populations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Projection.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Projection
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/SpecificProjection.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Specific Projections
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Dendrite.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Dendrite
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Monitor.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/RandomDistribution.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Random Distributions
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Network.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Network
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/IO.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Saving / Loading
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Utilities.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Reporting
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    extensions
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            extensions
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Convolution.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Convolution and Pooling
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/Logging.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/BOLD.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    BOLD monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API/ANNtoSNN.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ANN-to-SNN conversion
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Examples
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            Examples
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/List.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    List of notebooks
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/NeuralField.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Neural Field
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BarLearning.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Bar Learning
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/StructuralPlasticity.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Structural plasticity
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Izhikevich.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Izhikevich
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/GapJunctions.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Gap junctions
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/HodgkinHuxley.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hodgkin-Huxley
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/COBA.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    COBA
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/STP.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    STP
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/SimpleSTDP.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    STDP
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Ramp.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Ramp
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Hybrid.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hybrid
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Image.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Image
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/Webcam.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Webcam
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/MultipleNetworks.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Parallel simulations
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BayesianOptimization.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Bayesian optimization
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BasalGanglia.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Logging with tensorboard
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/BoldMonitoring.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    BOLD monitoring
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/ANN2SNN.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ANN to SNN Conversion
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../License.html" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    License
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#convolution-and-pooling" id="toc-convolution-and-pooling" class="nav-link active" data-scroll-target="#convolution-and-pooling">Convolution and pooling</a>
+  <ul class="collapse">
+  <li><a href="#simple-convolutions" id="toc-simple-convolutions" class="nav-link" data-scroll-target="#simple-convolutions">Simple convolutions</a></li>
+  <li><a href="#non-linear-convolutions" id="toc-non-linear-convolutions" class="nav-link" data-scroll-target="#non-linear-convolutions">Non-linear convolutions</a></li>
+  <li><a href="#layer-wise-convolutions" id="toc-layer-wise-convolutions" class="nav-link" data-scroll-target="#layer-wise-convolutions">Layer-wise convolutions</a></li>
+  <li><a href="#bank-of-filters" id="toc-bank-of-filters" class="nav-link" data-scroll-target="#bank-of-filters">Bank of filters</a></li>
+  <li><a href="#pooling" id="toc-pooling" class="nav-link" data-scroll-target="#pooling">Pooling</a></li>
+  <li><a href="#sharing-weights-with-another-projection" id="toc-sharing-weights-with-another-projection" class="nav-link" data-scroll-target="#sharing-weights-with-another-projection">Sharing weights with another projection</a></li>
+  </ul></li>
   </ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#simple-convolutions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Simple convolutions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#non-linear-convolutions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Non-linear convolutions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#layer-wise-convolutions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Layer-wise convolutions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bank-of-filters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Bank of filters
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pooling" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pooling
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sharing-weights-with-another-projection" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sharing weights with another projection
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          
-            <div class="md-content" data-md-component="content">
-              <article class="md-content__inner md-typeset">
-                
-                  
-
-  
-  
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
 
 
-<h1 id="convolution-and-pooling">Convolution and pooling<a class="headerlink" href="#convolution-and-pooling" title="Permanent link">#</a></h1>
-<p>Projections use by default a set of weights per post-synaptic neuron.
-Some networks, including convolutional networks, define a single
-operation (convolution or pooling) to be applied systematically on all
-pre-synaptic neurons. In such cases, it would be a waste of resources to
-allocate weights for each post-synaptic neuron. The extension
-<code>convolution</code> (see its <a href="../API/Convolution.html">API</a>)
-allows to implement such specific projections. It has to be imported
-explicitly at the beginning of the script:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ANNarchy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">ANNarchy.extensions.convolution</span> <span class="kn">import</span> <span class="o">*</span>
-</code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Shared weights are only implemented for rate-coded networks. The only
-possible backend is currently OpenMP, CUDA will be implemented later.</p>
+
+
+<section id="convolution-and-pooling" class="level1">
+<h1>Convolution and pooling</h1>
+<p>Projections use by default a set of weights per post-synaptic neuron. Some networks, including convolutional networks, define a single operation (convolution or pooling) to be applied systematically on all pre-synaptic neurons. In such cases, it would be a waste of resources to allocate weights for each post-synaptic neuron.</p>
+<p>The extension <code>convolution</code> (see its <a href="../reference/Convolution.html">API</a>) allows to implement such specific projections. It has to be imported explicitly at the beginning of the script:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ANNarchy.extensions.convolution <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<h2 id="simple-convolutions">Simple convolutions<a class="headerlink" href="#simple-convolutions" title="Permanent link">#</a></h2>
-<p>The simplest case of convolution is when the pre- and post-synaptic
-population have the same number of dimensions, for example:</p>
-<div class="highlight"><pre><span></span><code><span class="n">pre</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> 
-        <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;r = 0.0&quot;</span><span class="p">))</span>
-<span class="n">post</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> 
-        <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r = sum(exc)&quot;</span><span class="p">))</span>
-</code></pre></div>
-<p>Contrary to normal projections, the geometry of the populations (number
-of dimensions and neurons in each dimension) has a great influence on
-the operation to be performed. In particular the number of dimensions
-will define how the convolution will be applied.</p>
-<p>If for example the pre-synaptic population represents an 2D image, you
-may want to apply a vertical edge detector to it and get the result in
-the post-synaptic population. Such a filter can be defined by the
-following Numpy array:</p>
-<div class="highlight"><pre><span></span><code><span class="n">vertical_filter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]</span>
-    <span class="p">]</span>
-<span class="p">)</span>
-</code></pre></div>
-<p>With 2 dimensions, the convolution operation (or more exactly,
-<strong>cross-correlation</strong>) with a 3*3 filter is defined for all neurons in
-the post-synaptic population by:</p>
-<div class="arithmatex">\[\text{post}[i, j] = \sum_{c_i=-1}^1 \sum_{c_j=-1}^1 \text{filter}[c_i][c_j] \cdot \text{pre}[i + c_i, j + c_j]\]</div>
-<p>Such a convolution is achieved by creating a <code>Convolution</code> object and
-using the <code>connect_filter()</code> method to create the connection pattern:</p>
-<div class="highlight"><pre><span></span><code><span class="n">proj</span> <span class="o">=</span> <span class="n">Convolution</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;exc&#39;</span><span class="p">)</span>
-<span class="n">proj</span><span class="o">.</span><span class="n">connect_filter</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">vertical_filter</span><span class="p">)</span>
-</code></pre></div>
-<p>Each neuron of the post-synaptic population will then receive in
-<code>sum('exc')</code> (or whatever target name is used) the convolution between
-the kernel and a sub-region of the pre-syanptic population. ANNarchy
-defines the convolution operation for populations having 1, 2, 3, or 4
-dimensions.</p>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Shared weights are only implemented for rate-coded networks. The only possible backend is currently OpenMP, CUDA will be implemented later.</p>
+</div>
+</div>
+<section id="simple-convolutions" class="level2">
+<h2 class="anchored" data-anchor-id="simple-convolutions">Simple convolutions</h2>
+<p>The simplest case of convolution is when the pre- and post-synaptic population have the same number of dimensions, for example:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pre <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        neuron<span class="op">=</span>ann.Neuron(parameters<span class="op">=</span><span class="st">"r = 0.0"</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        neuron<span class="op">=</span>ann.Neuron(equations<span class="op">=</span><span class="st">"r = sum(exc)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Contrary to normal projections, the geometry of the populations (number of dimensions and neurons in each dimension) has a great influence on the operation to be performed. In particular the number of dimensions will define how the convolution will be applied.</p>
+<p>If for example the pre-synaptic population represents an 2D image, you may want to apply a vertical edge detector to it and get the result in the post-synaptic population. Such a filter can be defined by the following Numpy array:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>vertical_filter <span class="op">=</span> np.array(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="op">-</span><span class="fl">1.0</span>],</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="op">-</span><span class="fl">1.0</span>],</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="op">-</span><span class="fl">1.0</span>]</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With 2 dimensions, the convolution operation (or more exactly, <strong>cross-correlation</strong>) with a 3*3 filter is defined for all neurons in the post-synaptic population by:</p>
+<p><span class="math display">
+\text{post}[i, j] = \sum_{c_i=-1}^1 \sum_{c_j=-1}^1 \text{filter}[c_i][c_j] \cdot \text{pre}[i + c_i, j + c_j]
+</span></p>
+<p>Such a convolution is achieved by creating a <code>Convolution</code> object and using the <code>connect_filter()</code> method to create the connection pattern:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Convolution(pre<span class="op">=</span>pre, post<span class="op">=</span>post, target<span class="op">=</span><span class="st">'exc'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>proj.connect_filter(weights<span class="op">=</span>vertical_filter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each neuron of the post-synaptic population will then receive in <code>sum('exc')</code> (or whatever target name is used) the convolution between the kernel and a sub-region of the pre-syanptic population. ANNarchy defines the convolution operation for populations having 1, 2, 3, or 4 dimensions.</p>
 <p>Several options can be passed to the <code>convolve()</code> method:</p>
 <ul>
-<li><code>padding</code> defines the value of the pre-synaptic firing rates which
-    will be used when the coordinates are out-of-bounds. By default
-    zero-padding is used, but you can specify another value with this
-    argument. You can also use the <code>'border'</code> value to repeat the firing
-    rate of the neurons on the border (for example, if the filter tries
-    to reach a neuron of coordinates (-1, -1), the firing rate of the
-    neuron (0, 0) will be used instead).</li>
-<li><code>subsampling</code>. In convolutional networks, the convolution operation
-    is often coupled with a reduction in the number of neurons in each
-    dimension. In the example above, the post-synaptic population could
-    be defined with a geometry (50, 50). For each post-synaptic neuron,
-    the coordinates of the center of the applied kernel would be
-    automatically shifted from two pre-synaptic neurons compared to the
-    previous one. However, if the number of neurons in one dimension of
-    the pre-synaptic population is not exactly a multiple of the number
-    of post-synaptic neurons in the same dimension, ANNarchy can not
-    guess what the correct correspondance should be. In this case, you
-    have to specify this mapping by providing to the <code>subsampling</code>
-    argument a list of pre-synaptic coordinates defining the position of
-    the center of the kernel for each post-synaptic neuron. The list is
-    indexed by the rank of the post-synaptic neurons (use the
-    <code>rank_from_coordinates()</code> method) and must have the same size as the
-    population. Each element should be a list of coordinates in the
-    pre-synaptic population's geometry (with as many elements as
-    dimensions). It is possible to provide a Numpy array instead of a
-    list of lists.</li>
+<li><code>padding</code> defines the value of the pre-synaptic firing rates which will be used when the coordinates are out-of-bounds. By default zero-padding is used, but you can specify another value with this argument. You can also use the <code>'border'</code> value to repeat the firing rate of the neurons on the border (for example, if the filter tries to reach a neuron of coordinates (-1, -1), the firing rate of the neuron (0, 0) will be used instead).</li>
+<li><code>subsampling</code>. In convolutional networks, the convolution operation is often coupled with a reduction in the number of neurons in each dimension. In the example above, the post-synaptic population could be defined with a geometry (50, 50). For each post-synaptic neuron, the coordinates of the center of the applied kernel would be automatically shifted from two pre-synaptic neurons compared to the previous one. However, if the number of neurons in one dimension of the pre-synaptic population is not exactly a multiple of the number of post-synaptic neurons in the same dimension, ANNarchy can not guess what the correct correspondance should be. In this case, you have to specify this mapping by providing to the <code>subsampling</code> argument a list of pre-synaptic coordinates defining the position of the center of the kernel for each post-synaptic neuron. The list is indexed by the rank of the post-synaptic neurons (use the <code>rank_from_coordinates()</code> method) and must have the same size as the population. Each element should be a list of coordinates in the pre-synaptic population’s geometry (with as many elements as dimensions). It is possible to provide a Numpy array instead of a list of lists.</li>
 </ul>
-<p>One can access the coordinates in the pre-synaptic geometry of the
-center of the filter corresponding to a particular post-synaptic neuron
-by calling the <code>center()</code> method of <code>Convolution</code> with the rank or
-coordinates of the post neuron:</p>
-<div class="highlight"><pre><span></span><code><span class="n">pre</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">neuron</span> <span class="o">=</span> <span class="n">Whatever</span><span class="p">)</span>
-<span class="n">post</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">neuron</span> <span class="o">=</span> <span class="n">Whatever</span><span class="p">)</span>
-
-<span class="n">proj</span> <span class="o">=</span> <span class="n">Convolution</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;exc&#39;</span><span class="p">)</span>
-<span class="n">proj</span><span class="o">.</span><span class="n">connect_filter</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">vertical_filter</span><span class="p">)</span>
-
-<span class="n">pre_coordinates</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="c1"># returns (20, 20)</span>
-</code></pre></div>
-<p>In some cases, the post-synaptic population can have less dimensions
-than the pre-synaptic one. An example would be when the pre-synaptic
-population has three dimensions (e.g. (100, 100, 3)), the last
-representing the R, G and B components of an image. A 3D filter, with 3
-components in the last dimension, would result in a (100, 100, 1)
-post-synaptic population (or any subsampling of it). ANNarchy accepts in
-this case the use of a 2D population (100, 100), but it will be checked
-that the number of elements in the last dimension of the filter equals
-the number of pre-synaptic neurons in the last dimension:</p>
-<div class="highlight"><pre><span></span><code><span class="n">pre</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;r = 0.0&quot;</span><span class="p">))</span>
-<span class="n">post</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r = sum(exc)&quot;</span><span class="p">))</span>
-
-<span class="n">red_filter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="p">[</span>
-            <span class="p">[</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]</span>
-        <span class="p">]</span>
-    <span class="p">]</span>
-<span class="p">)</span>
-
-<span class="n">proj</span> <span class="o">=</span> <span class="n">Convolution</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;exc&#39;</span><span class="p">)</span>
-<span class="n">proj</span><span class="o">.</span><span class="n">connect_filter</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">red_filter</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="non-linear-convolutions">Non-linear convolutions<a class="headerlink" href="#non-linear-convolutions" title="Permanent link">#</a></h2>
-<p><code>Convolution</code> uses by default a regular cross-correlation, summing
-<code>w * pre.r</code> over the extent of the kernel. As for regular synapses, you
-can change this behavior when creating the projection:</p>
+<p>One can access the coordinates in the pre-synaptic geometry of the center of the filter corresponding to a particular post-synaptic neuron by calling the <code>center()</code> method of <code>Convolution</code> with the rank or coordinates of the post neuron:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pre <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), neuron <span class="op">=</span> Whatever)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">50</span>, <span class="dv">50</span>), neuron <span class="op">=</span> Whatever)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Convolution(pre<span class="op">=</span>pre, post<span class="op">=</span>post, target<span class="op">=</span><span class="st">'exc'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>proj.connect_filter(weights<span class="op">=</span>vertical_filter)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>pre_coordinates <span class="op">=</span> proj.center(<span class="dv">10</span>, <span class="dv">10</span>) <span class="co"># returns (20, 20)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In some cases, the post-synaptic population can have less dimensions than the pre-synaptic one. An example would be when the pre-synaptic population has three dimensions (e.g.&nbsp;(100, 100, 3)), the last representing the R, G and B components of an image. A 3D filter, with 3 components in the last dimension, would result in a (100, 100, 1) post-synaptic population (or any subsampling of it). ANNarchy accepts in this case the use of a 2D population (100, 100), but it will be checked that the number of elements in the last dimension of the filter equals the number of pre-synaptic neurons in the last dimension:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pre <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">3</span>), neuron<span class="op">=</span>ann.Neuron(parameters<span class="op">=</span><span class="st">"r = 0.0"</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), neuron<span class="op">=</span>ann.Neuron(equations<span class="op">=</span><span class="st">"r = sum(exc)"</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>red_filter <span class="op">=</span> np.array(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">2.0</span>, <span class="op">-</span><span class="fl">1.0</span>, <span class="op">-</span><span class="fl">1.0</span>]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Convolution(pre<span class="op">=</span>pre, post<span class="op">=</span>post, target<span class="op">=</span><span class="st">'exc'</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>proj.connect_filter(weights<span class="op">=</span>red_filter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="non-linear-convolutions" class="level2">
+<h2 class="anchored" data-anchor-id="non-linear-convolutions">Non-linear convolutions</h2>
+<p><code>Convolution</code> uses by default a regular cross-correlation, summing <code>w * pre.r</code> over the extent of the kernel. As for regular synapses, you can change this behavior when creating the projection:</p>
 <ul>
-<li>
-<p>the <code>psp</code> argument defines what will be summed. It is <code>w*pre.r</code> by
-    default but can be changed to any combination of <code>w</code> and <code>pre.r</code>,
-    such as <code>w * log(1+pre.r)</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">proj</span> <span class="o">=</span> <span class="n">Convolution</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;exc&#39;</span><span class="p">,</span> <span class="n">psp</span><span class="o">=</span><span class="s1">&#39;w*log(1+pre.r)&#39;</span><span class="p">)</span>
-</code></pre></div>
-</li>
-<li>
-<p>the <code>operation</code> argument allows to change the summation operation.
-    You can set it to 'max' (the maximum value of <code>w*pre.r</code> over the
-    extent of the filter will be returned), 'min' (minimum) or
-    'mean' (same as 'sum', but normalized by the number of elements
-    in the filter). The default is 'sum':</p>
-<div class="highlight"><pre><span></span><code><span class="n">proj</span> <span class="o">=</span> <span class="n">Convolution</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;exc&#39;</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">)</span>
-</code></pre></div>
-</li>
+<li><p>the <code>psp</code> argument defines what will be summed. It is <code>w*pre.r</code> by default but can be changed to any combination of <code>w</code> and <code>pre.r</code>,such as <code>w * log(1+pre.r)</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Convolution(pre<span class="op">=</span>pre, post<span class="op">=</span>post, target<span class="op">=</span><span class="st">'exc'</span>, psp<span class="op">=</span><span class="st">'w*log(1+pre.r)'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>the <code>operation</code> argument allows to change the summation operation. You can set it to ‘max’ (the maximum value of <code>w*pre.r</code> over the extent of the filter will be returned), ‘min’ (minimum) or ‘mean’ (same as ‘sum’, but normalized by the number of elements in the filter). The default is ‘sum’:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Convolution(pre<span class="op">=</span>pre, post<span class="op">=</span>post, target<span class="op">=</span><span class="st">'exc'</span>, operation<span class="op">=</span><span class="st">'max'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
-<h2 id="layer-wise-convolutions">Layer-wise convolutions<a class="headerlink" href="#layer-wise-convolutions" title="Permanent link">#</a></h2>
-<p>It is possible to define kernels with less dimensions than the
-pre-synaptic population. A 2D filter can for example be applied on each
-color component independently:</p>
-<div class="highlight"><pre><span></span><code><span class="n">pre</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;r = 0.0&quot;</span><span class="p">))</span>
-<span class="n">post</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r = sum(exc)&quot;</span><span class="p">))</span>
-
-<span class="n">vertical_filter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]</span>
-    <span class="p">]</span>
-<span class="p">)</span>
-
-<span class="n">proj</span> <span class="o">=</span> <span class="n">Convolution</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;exc&#39;</span><span class="p">)</span>
-<span class="n">proj</span><span class="o">.</span><span class="n">connect_filter</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">vertical_filter</span><span class="p">,</span> <span class="n">keep_last_dimension</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</code></pre></div>
-<p>The important parameter in this case is <code>keep_last_dimension</code> which
-tells the code generator that the last dimension of the input should not
-be used for convolution. The important constraint is that the
-post-synaptic population <strong>must</strong> have the same number of neurons in the
-last dimension than the pre-synaptic one (no subsampling is possible by
-definition).</p>
-<h2 id="bank-of-filters">Bank of filters<a class="headerlink" href="#bank-of-filters" title="Permanent link">#</a></h2>
-<p>Convolutional networks often use banks of filters to perform different
-operations (such as edge detection with various orientations). It is
-possible to specify this mode of functioning by using the
-<code>connect_filters()</code> method:</p>
-<div class="highlight"><pre><span></span><code><span class="n">pre</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;r = 0.0&quot;</span><span class="p">))</span>
-<span class="n">post</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r = sum(exc)&quot;</span><span class="p">))</span>
-
-<span class="n">bank_filters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]</span>
-    <span class="p">],</span>
-    <span class="p">[</span>
-        <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
-        <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
-        <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
-    <span class="p">],</span>
-    <span class="p">[</span>
-        <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span>
-        <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">],</span>
-        <span class="p">[</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">]</span>
-    <span class="p">],</span>
-    <span class="p">[</span>
-        <span class="p">[</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">],</span>
-        <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">],</span>
-        <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]</span>
-    <span class="p">]</span>
-<span class="p">)</span>
-
-<span class="n">proj</span> <span class="o">=</span> <span class="n">Convolution</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;exc&#39;</span><span class="p">)</span>
-<span class="n">proj</span><span class="o">.</span><span class="n">connect_filters</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">bank_filters</span><span class="p">)</span>
-</code></pre></div>
-<p>Here the filter has three dimensions. The first one <strong>must</strong> correspond
-to each filter. The last dimension of the post-synaptic population
-<strong>must</strong> correspond to the total number of filters. It cannot be
-combined with <code>keep_last_dimension</code>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><strong>Current limitation</strong>: Each filter must have the same size, it is not
-possible yet to convolve over multiple scales.</p>
+</section>
+<section id="layer-wise-convolutions" class="level2">
+<h2 class="anchored" data-anchor-id="layer-wise-convolutions">Layer-wise convolutions</h2>
+<p>It is possible to define kernels with less dimensions than the pre-synaptic population. A 2D filter can for example be applied on each color component independently:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pre <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">3</span>), neuron<span class="op">=</span>ann.Neuron(parameters<span class="op">=</span><span class="st">"r = 0.0"</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">3</span>), neuron<span class="op">=</span>ann.Neuron(equations<span class="op">=</span><span class="st">"r = sum(exc)"</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>vertical_filter <span class="op">=</span> np.array(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="op">-</span><span class="fl">1.0</span>],</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="op">-</span><span class="fl">1.0</span>],</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="op">-</span><span class="fl">1.0</span>]</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Convolution(pre<span class="op">=</span>pre, post<span class="op">=</span>post, target<span class="op">=</span><span class="st">'exc'</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>proj.connect_filter(weights<span class="op">=</span>vertical_filter, keep_last_dimension<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The important parameter in this case is <code>keep_last_dimension</code> which tells the code generator that the last dimension of the input should not be used for convolution. The important constraint is that the post-synaptic population <strong>must</strong> have the same number of neurons in the last dimension than the pre-synaptic one (no subsampling is possible by definition).</p>
+</section>
+<section id="bank-of-filters" class="level2">
+<h2 class="anchored" data-anchor-id="bank-of-filters">Bank of filters</h2>
+<p>Convolutional networks often use banks of filters to perform different operations (such as edge detection with various orientations). It is possible to specify this mode of functioning by using the <code>connect_filters()</code> method:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pre <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), neuron<span class="op">=</span>ann.Neuron(parameters<span class="op">=</span><span class="st">"r = 0.0"</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">4</span>), neuron<span class="op">=</span>ann.Neuron(equations<span class="op">=</span><span class="st">"r = sum(exc)"</span>))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>bank_filters <span class="op">=</span> np.array(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="op">-</span><span class="fl">1.0</span>],</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="op">-</span><span class="fl">1.0</span>],</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="op">-</span><span class="fl">1.0</span>]</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="fl">1.0</span>],</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="fl">1.0</span>],</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="fl">1.0</span>]</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">1.0</span>, <span class="op">-</span><span class="fl">1.0</span>, <span class="op">-</span><span class="fl">1.0</span>],</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>        [ <span class="fl">0.0</span>,  <span class="fl">0.0</span>,  <span class="fl">0.0</span>],</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>        [ <span class="fl">1.0</span>,  <span class="fl">1.0</span>,  <span class="fl">1.0</span>]</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>        [ <span class="fl">1.0</span>,  <span class="fl">1.0</span>,  <span class="fl">1.0</span>],</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        [ <span class="fl">0.0</span>,  <span class="fl">0.0</span>,  <span class="fl">0.0</span>],</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">1.0</span>, <span class="op">-</span><span class="fl">1.0</span>, <span class="op">-</span><span class="fl">1.0</span>]</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Convolution(pre<span class="op">=</span>pre, post<span class="op">=</span>post, target<span class="op">=</span><span class="st">'exc'</span>)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>proj.connect_filters(weights<span class="op">=</span>bank_filters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here the filter has three dimensions. The first one <strong>must</strong> correspond to each filter. The last dimension of the post-synaptic population <strong>must</strong> correspond to the total number of filters. It cannot be combined with <code>keep_last_dimension</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<h2 id="pooling">Pooling<a class="headerlink" href="#pooling" title="Permanent link">#</a></h2>
-<p>Another form of atypical projection for a neural network is the pooling
-operation. In max-pooling, each post-synaptic neuron is associated to a
-region of the pre-synaptic population and responds like the maximum
-firing rate in this region. This is already possible by defining the
-<code>operation</code> argument of the synapse type, but it would use instantiated
-synapses, what would be a waste of memory.</p>
-<p>The <code>Pooling</code> class allows to define such an operation without defining
-any synapse:</p>
-<div class="highlight"><pre><span></span><code><span class="n">pre</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;r = 0.0&quot;</span><span class="p">))</span>
-<span class="n">post</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r = sum(exc)&quot;</span><span class="p">))</span>
-
-<span class="n">proj</span> <span class="o">=</span> <span class="n">Pooling</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;exc&#39;</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">)</span>
-<span class="n">proj</span><span class="o">.</span><span class="n">connect_pooling</span><span class="p">()</span>
-</code></pre></div>
-<p>The pooling region of a post-synaptic region is automatically determined
-by comparing the dimensions of the two populations: here each
-post-synaptic neuron will cover an area of 2*2 neurons.</p>
-<p>If the number of dimensions do not match, you have to specify the
-<code>extent</code> argument to <code>pooling()</code>. For example, you can pool completely
-over one dimension of the pre-synaptic population:</p>
-<div class="highlight"><pre><span></span><code><span class="n">pre</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="s2">&quot;r = 0.0&quot;</span><span class="p">))</span>
-<span class="n">post</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r = sum(exc)&quot;</span><span class="p">))</span>
-
-<span class="n">proj</span> <span class="o">=</span> <span class="n">Pooling</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;exc&#39;</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">)</span>
-<span class="n">proj</span><span class="o">.</span><span class="n">connect_pooling</span><span class="p">(</span><span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-</code></pre></div>
-<h2 id="sharing-weights-with-another-projection">Sharing weights with another projection<a class="headerlink" href="#sharing-weights-with-another-projection" title="Permanent link">#</a></h2>
-<p>A different possibility to share weights is between two projections. If
-your network is composed of populations of the same size, and the
-projection patterns are identical, it could save some memory to
-"share" the weights of one projection with another, so they are
-created only once.</p>
-<p>To this end, you can use the <code>Copy</code> class and pass it an existing
-projection:</p>
-<div class="highlight"><pre><span></span><code><span class="n">pop1</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r = sum(exc)&quot;</span><span class="p">))</span>
-<span class="n">pop2</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r = sum(exc)&quot;</span><span class="p">))</span>
-<span class="n">pop3</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">neuron</span><span class="o">=</span><span class="n">Neuron</span><span class="p">(</span><span class="n">equations</span><span class="o">=</span><span class="s2">&quot;r = sum(exc)&quot;</span><span class="p">))</span>
-
-
-<span class="n">proj1</span> <span class="o">=</span> <span class="n">Projection</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
-<span class="n">proj1</span><span class="o">.</span><span class="n">connect_gaussian</span><span class="p">(</span><span class="n">amp</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">delays</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
-
-<span class="n">proj2</span> <span class="o">=</span> <span class="n">Copy</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop3</span><span class="p">,</span> <span class="s1">&#39;exc&#39;</span><span class="p">)</span>
-<span class="n">proj2</span><span class="o">.</span><span class="n">connect_copy</span><span class="p">(</span><span class="n">proj1</span><span class="p">)</span>
-</code></pre></div>
-<p>This only works when the pre- and post-populations of each projection
-have the same geometry, but they can be different, of course. If the
-original projection is learnable, the copied projection will see the
-changes. However, it is not possible for the shared projection to learn
-on its own. <code>Copy</code> only accepts <code>psp</code> and <code>operation</code> as parameters,
-which can be different from the original projection.</p>
-<p>It is only possible to copy regular projections, not other shared
-projections. The transmission delays will be identical between the two
-projections.</p>
-
-
-
-
-
-
-
-
-
-
-
-
-                
-              </article>
-            </div>
-          
-          
-<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
-        </div>
-        
-      </main>
-      
-        <footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-    <div class="md-copyright__highlight">
-      Copyright &copy; Julien Vitay, Helge Ülo Dinkelbach, Fred H. Hamker
-    </div>
-  
-  
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
-    </a>
-  
+<div class="callout-title-container flex-fill">
+Note
 </div>
-      
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Current limitation</strong>: Each filter must have the same size, it is not possible yet to convolve over multiple scales.</p>
+</div>
+</div>
+</section>
+<section id="pooling" class="level2">
+<h2 class="anchored" data-anchor-id="pooling">Pooling</h2>
+<p>Another form of atypical projection for a neural network is the pooling operation. In max-pooling, each post-synaptic neuron is associated to a region of the pre-synaptic population and responds like the maximum firing rate in this region. This is already possible by defining the <code>operation</code> argument of the synapse type, but it would use instantiated synapses, what would be a waste of memory.</p>
+<p>The <code>Pooling</code> class allows to define such an operation without defining any synapse:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pre <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), neuron<span class="op">=</span>ann.Neuron(parameters<span class="op">=</span><span class="st">"r = 0.0"</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">50</span>, <span class="dv">50</span>), neuron<span class="op">=</span>ann.Neuron(equations<span class="op">=</span><span class="st">"r = sum(exc)"</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Pooling(pre<span class="op">=</span>pre, post<span class="op">=</span>post, target<span class="op">=</span><span class="st">'exc'</span>, operation<span class="op">=</span><span class="st">'max'</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>proj.connect_pooling()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The pooling region of a post-synaptic region is automatically determined by comparing the dimensions of the two populations: here each post-synaptic neuron will cover an area of 2*2 neurons.</p>
+<p>If the number of dimensions do not match, you have to specify the <code>extent</code> argument to <code>pooling()</code>. For example, you can pool completely over one dimension of the pre-synaptic population:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pre <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">10</span>), neuron<span class="op">=</span>ann.Neuron(parameters<span class="op">=</span><span class="st">"r = 0.0"</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">50</span>, <span class="dv">50</span>), neuron<span class="op">=</span>ann.Neuron(equations<span class="op">=</span><span class="st">"r = sum(exc)"</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Pooling(pre<span class="op">=</span>pre, post<span class="op">=</span>post, target<span class="op">=</span><span class="st">'exc'</span>, operation<span class="op">=</span><span class="st">'max'</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>proj.connect_pooling(extent<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="sharing-weights-with-another-projection" class="level2">
+<h2 class="anchored" data-anchor-id="sharing-weights-with-another-projection">Sharing weights with another projection</h2>
+<p>A different possibility to share weights is between two projections. If your network is composed of populations of the same size, and the projection patterns are identical, it could save some memory to “share” the weights of one projection with another, so they are created only once.</p>
+<p>To this end, you can use the <code>Copy</code> class and pass it an existing projection:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">30</span>, <span class="dv">30</span>), neuron<span class="op">=</span>ann.Neuron(equations<span class="op">=</span><span class="st">"r = sum(exc)"</span>))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">20</span>), neuron<span class="op">=</span>ann.Neuron(equations<span class="op">=</span><span class="st">"r = sum(exc)"</span>))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>pop3 <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">20</span>), neuron<span class="op">=</span>ann.Neuron(equations<span class="op">=</span><span class="st">"r = sum(exc)"</span>))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>proj1 <span class="op">=</span> ann.Projection(pop1, pop2, <span class="st">'exc'</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>proj1.connect_gaussian(amp <span class="op">=</span> <span class="fl">1.0</span>, sigma<span class="op">=</span><span class="fl">0.3</span>, delays<span class="op">=</span><span class="fl">2.0</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>proj2 <span class="op">=</span> Copy(pop1, pop3, <span class="st">'exc'</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>proj2.connect_copy(proj1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This only works when the pre- and post-populations of each projection have the same geometry, but they can be different, of course. If the original projection is learnable, the copied projection will see the changes. However, it is not possible for the shared projection to learn on its own. <code>Copy</code> only accepts <code>psp</code> and <code>operation</code> as parameters, which can be different from the original projection.</p>
+<p>It is only possible to copy regular projections, not other shared projections. The transmission delays will be identical between the two projections.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../manual/StructuralPlasticity.html" class="pagination-link" aria-label="Structural plasticity">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Structural plasticity</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../manual/Notebooks.html" class="pagination-link" aria-label="Jupyter / IPython Notebooks">
+        <span class="nav-page-text">Jupyter / IPython Notebooks</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright Julien Vitay, Helge Ülo Dinkelbach, Fred Hamker</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
     </div>
   </div>
 </footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    
-    
-    <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-    
-    
-      <script src="../assets/javascripts/bundle.c8d2eff1.min.js"></script>
-      
-        <script src="../javascripts/config.js"></script>
-      
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      
-        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-      
-    
-  </body>
-</html>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
