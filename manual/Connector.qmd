@@ -252,15 +252,15 @@ def probabilistic_pattern(pre, post, weight, probability):
     # Create a LIL structure for the connectivity matrix
     synapses = ann.LILConnectivity()
     # For all neurons in the post-synaptic population
-    for post_rank in xrange(post.size):
+    for post_rank in range(post.size):
         # Decide which pre-synaptic neurons should form synapses
         ranks = []
-        for pre_rank in xrange(pre.size):
+        for pre_rank in range(pre.size):
             if random.random() < probability:
                 ranks.append(pre_rank)
         # Create weights and delays arrays of the same size
-        values = [weight for i in xrange(len(ranks)) ]
-        delays = [0 for i in xrange(len(ranks)) ]
+        values = [weight for i in range(len(ranks)) ]
+        delays = [0 for i in range(len(ranks)) ]
         # Add this information to the LIL matrix
         synapses.add(post_rank, ranks, values, delays)
 
@@ -321,15 +321,15 @@ def probabilistic_pattern(pre, post, weight, probability):
     # Create a LILConnectivity structure for the connectivity matrix
     synapses = Connector.LILConnectivity()
     # For all neurons in the post-synaptic population
-    for post_rank in xrange(post.size):
+    for post_rank in range(post.size):
         # Decide which pre-synaptic neurons should form synapses
         ranks = []
-        for pre_rank in xrange(pre.size):
+        for pre_rank in range(pre.size):
             if random.random() < probability:
                 ranks.append(pre_rank)
         # Create weights and delays arrays of the same size
-        values = [weight for i in xrange(len(ranks)) ]
-        delays = [0 for i in xrange(len(ranks)) ]
+        values = [weight for i in range(len(ranks)) ]
+        delays = [0 for i in range(len(ranks)) ]
         # Add this information to the LILConnectivity matrix
         synapses.add(post_rank, ranks, values, delays)
 
