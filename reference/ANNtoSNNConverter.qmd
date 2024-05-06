@@ -1,14 +1,39 @@
 # ANNtoSNNConverter { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter }
 
-`extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter(self, input_encoding='poisson', hidden_neuron='IaF', read_out='spike_count', **kwargs)`
+`extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter(self, input_encoding='CPN', hidden_neuron='IaF', read_out='spike_count', **kwargs)`
 
-Converts a pre-trained Keras model into a spiking neural network. 
+Converts a pre-trained Keras model `.keras` into an ANNarchy spiking neural network. 
 
 The implementation of the present module is inspired by the SNNToolbox (Rueckauer et al. 2017), and is largely based on the work of Diehl et al. (2015). We provide several input encodings, as suggested in the work of Park et al. (2019) and Auge et al. (2021).
 
+**Constraints on the ANN**
+
+It is not possible to convert any keras model into an ANNarchy SNN: some constraints ahve to be respected.
+
+* The only allowed layers in the ANN are:
+    * `Dense`
+    * `Conv2D`
+    * `MaxPooling2D``
+    * as well as non-neural layers such as Dropout, Activation, BatchNorm, etc.
+
+* The layers must **not** contain any bias, even the conv layers:
+
+```python
+x = tf.keras.layers.Dense(128, use_bias=False, activation='relu')(x)
+x = tf.keras.layers.Conv2D(64, kernel_size=(5,5), activation='relu', padding = 'same', use_bias=False)(x)
+```
+
+* The first layer of the network must be an `Input`:
+
+```python
+inputs = tf.keras.Input(shape = (28, 28, 1))
+```
+
+Please be aware that the module is very experimental and the conversion may not work for many different reasons. Feel free to submit issues.
+
 **Processing Queue**
 
-The pre-trained ANN model to be converted should be saved in keras as an h5py file (extension `.h5`). The saved model is transformed layer by layer into a feed-forward ANNarchy spiking network. The structure of the network remains the same as in the original ANN, while the weights are normalised. Please note that the current implementation focuses primarily on the correctness of the conversion. Computational performance, especially of the converted CNNs, will be improved in future releases.
+The pre-trained ANN model to be converted should be saved in keras (extension `.keras`). The saved model is transformed layer by layer into a feed-forward ANNarchy spiking network. The structure of the network remains the same as in the original ANN, while the weights are normalised. Please note that the current implementation focuses primarily on the correctness of the conversion. Computational performance, especially of the converted CNNs, will be improved in future releases.
 
 :::callout-note
 
@@ -17,11 +42,13 @@ While the neurons are conceptually spiking neurons, there is one specialty: next
 
 **Input Encoding**
 
-In the following we provide brief descriptions of the available input encodings. The abbreviations in brackets denote the name provided to the conversion tool constructor.
+* Poisson ("CPN")
+
+This encoding uses a Poisson distribution where the pixel values of the image will be used as probability for each individual neuron.
 
 * Intrinsically Bursting ("IB")
 
-This encoding bases on the Izhikevich (2003) model that comprises two ODEs:
+This encoding is based on the Izhikevich (2003) model that comprises two ODEs:
 
 $$
 \begin{cases}
@@ -33,9 +60,6 @@ $$
 
 The parameters for $a$ - $d$ are selected accordingly to Izhikevich (2003). The provided input images will be set as $I$.
 
-* Poisson ("CPN")
-
-This encoding uses a Poisson distribution where the pixel values of the image will be used as probability for each individual neuron.
 
 * Phase Shift Oscillation ("PSO")
 
@@ -83,7 +107,7 @@ In a classification task, the neuron with the highest activity corresponds corre
 
 | Name             | Type   | Description                                                                                                                 | Default         |
 |------------------|--------|-----------------------------------------------------------------------------------------------------------------------------|-----------------|
-| `input_encoding` | str    | a string representing which input encoding should be used: custom poisson, PSO, IB or CH.                                   | `'poisson'`     |
+| `input_encoding` | str    | a string representing which input encoding should be used: 'CPN', 'IB' or 'PSO'.                                            | `'CPN'`         |
 | `hidden_neuron`  | str    | neuron model used in the hidden layers. Either the default integrate-and-fire ('IaF') or an ANNarchy Neuron object.         | `'IaF'`         |
 | `read_out`       | str    | a string which of the following read-out method should be used: `spike_count`, `time_to_first_spike`, `membrane_potential`. | `'spike_count'` |
 
@@ -92,8 +116,8 @@ In a classification task, the neuron with the highest activity corresponds corre
 | Name | Description |
 | --- | --- |
 | [get_annarchy_network](#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network) | Returns the ANNarchy.Network instance. |
-| [init_from_keras_model](#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.init_from_keras_model) | Loads the pre-trained model provided as a .h5 file. |
-| [predict](#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict) | Performs the prediction for a given input series. |
+| [load_keras_model](#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model) | Loads the pre-trained model provided as a .keras file. |
+| [predict](#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict) | Performs the prediction for a given input array. |
 
 ### get_annarchy_network { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network }
 
@@ -101,23 +125,23 @@ In a classification task, the neuron with the highest activity corresponds corre
 
 Returns the ANNarchy.Network instance.
 
-### init_from_keras_model { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.init_from_keras_model }
+### load_keras_model { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model }
 
-`extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.init_from_keras_model(filename, directory='annarchy', scale_factor=None, show_info=True)`
+`extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model(filename, directory='annarchy', scale_factor=None, show_info=True)`
 
-Loads the pre-trained model provided as a .h5 file.
+Loads the pre-trained model provided as a .keras file.
 
 In tf.keras, the weights can be saved using:
 
 ```python
-model.save("model.h5")
+model.save("model.keras")
 ```
 
 #### Parameters
 
 | Name           | Type   | Description                                                                                                                                                                                                                                                                     | Default      |
 |----------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| `filename`     | str    | stored model as a .h5 file.                                                                                                                                                                                                                                                     | _required_   |
+| `filename`     | str    | path to the `.keras` file.                                                                                                                                                                                                                                                      | _required_   |
 | `directory`    | str    | sub-directory where the generated code should be stored (default: "annarchy")                                                                                                                                                                                                   | `'annarchy'` |
 | `scale_factor` | float  | allows a fine-grained control of the weight scale factor. By default (None), with each layer-depth the factor increases by one. If a scalar value is provided the same value is used for each layer. Otherwise a list can be provided to assign the scale factors individually. | `None`       |
 | `show_info`    | bool   | whether the network structure should be printed on console (default: True)                                                                                                                                                                                                      | `True`       |
@@ -130,11 +154,9 @@ model.save("model.h5")
 
 ### predict { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict }
 
-`extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict(samples, duration_per_sample=1000, measure_time=False)`
+`extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict(samples, duration_per_sample=1000, multiple=False)`
 
-Performs the prediction for a given input series.
-
-Parameters:
+Performs the prediction for a given input array.
 
 #### Parameters
 
@@ -142,10 +164,10 @@ Parameters:
 |-----------------------|--------|----------------------------------------------------------------------------------------------------------------|------------|
 | `samples`             |        | set of inputs to present to the network. The function expects a 2-dimensional array (num_samples, input_size). | _required_ |
 | `duration_per_sample` |        | the number of simulation steps for one input sample (default: 1000, 1 second biological time)                  | `1000`     |
-| `measure_time`        |        | print out the computation time spent for one input sample (default: False)                                     | `False`    |
+| `multiple`            |        | if several output neurons reach the criteria, return the full list instead of randomly chosing one.            | `False`    |
 
 #### Returns
 
-| Type        | Description                                                                                                       |
-|-------------|-------------------------------------------------------------------------------------------------------------------|
-| list\[int\] | A list of predicted class indices. If multiple neurons fulfill the condition, all candidate indices are returned. |
+| Type        | Description                                        |
+|-------------|----------------------------------------------------|
+| list\[int\] | A list of predicted class indices for each sample. |
