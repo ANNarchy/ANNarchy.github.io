@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ANNarchy 4.8.0 - ANN-to-SNN conversion</title>
+<title>ANNarchy 4.8.0 - ANN-to-SNN conversion - MLP</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../notebooks/ANN2SNN2.html" rel="next">
 <link href="../notebooks/BoldMonitoring2.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -170,7 +171,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <a class="flex-grow-1 no-decor" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-          <h1 class="quarto-secondary-nav-title">ANN-to-SNN conversion</h1>
+          <h1 class="quarto-secondary-nav-title">ANN-to-SNN conversion - MLP</h1>
         </a>     
     </div>
   </nav>
@@ -376,7 +377,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebooks/ANN2SNN.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">ANN to SNN</span></a>
+ <span class="menu-text">ANN to SNN I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/ANN2SNN2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANN to SNN II</span></a>
   </div>
 </li>
       </ul>
@@ -401,7 +408,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">ANN-to-SNN conversion</h1>
+<h1 class="title d-none d-lg-block">ANN-to-SNN conversion - MLP</h1>
 </div>
 
 
@@ -419,8 +426,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p><a href="https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/ANN2SNN.ipynb"><img src="https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&amp;logo=Jupyter.png" class="img-fluid" alt="Download JupyterNotebook"></a> <a href="https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/ANN2SNN.ipynb"><img src="https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&amp;logo=Jupyter.png" class="img-fluid" alt="Download JupyterNotebook"></a></p>
-<p>This notebook demonstrates how to transform a neural network trained using tensorflow/keras into an SNN network usable in ANNarchy.</p>
-<p>The models are adapted from the original models used in:</p>
+<p>This notebook demonstrates how to transform a fully-connected neural network trained using tensorflow/keras into an SNN network usable in ANNarchy.</p>
+<p>The methods are adapted from the original models used in:</p>
 <blockquote class="blockquote">
 <p>Diehl et al.&nbsp;(2015) “Fast-classifying, high-accuracy spiking deep networks through weight and threshold balancing” Proceedings of IJCNN. doi: 10.1109/IJCNN.2015.7280696</p>
 </blockquote>
@@ -452,7 +459,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="training-an-ann-in-tensorflowkeras" class="level2">
 <h2 class="anchored" data-anchor-id="training-an-ann-in-tensorflowkeras">Training an ANN in tensorflow/keras</h2>
-<p>The <code>tensorflow</code> networks are build using the functional API.</p>
+<p>The <code>tensorflow.keras</code> network is build using the functional API.</p>
 <p>The fully-connected network has two fully connected layers with ReLU, <strong>no bias</strong>, dropout at 0.5, and a softmax output layer with 10 neurons. We use the standard SGD optimizer and the categorical crossentropy loss for classification.</p>
 <div id="cell-8" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_mlp():</span>
@@ -492,13 +499,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    validation_split<span class="op">=</span><span class="fl">0.1</span>,   <span class="co"># Percentage of training data used for validation</span></span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>model.save(<span class="st">"runs/mlp.h5"</span>)</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>model.save(<span class="st">"runs/mlp.keras"</span>)</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Test model</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>predictions_keras <span class="op">=</span> model.predict(X_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model.evaluate(X_test, T_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>model.save(<span class="st">"runs/mlp.keras"</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Test model</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>predictions_keras <span class="op">=</span> model.predict(X_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model.evaluate(X_test, T_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "functional_1"</span>
 </pre>
@@ -536,67 +542,64 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>None
 Epoch 1/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.4446 - loss: 1.5870 - val_accuracy: 0.9097 - val_loss: 0.3542
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.4558 - loss: 1.5702 - val_accuracy: 0.9108 - val_loss: 0.3474
 Epoch 2/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.8117 - loss: 0.6094 - val_accuracy: 0.9318 - val_loss: 0.2393
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.8064 - loss: 0.6315 - val_accuracy: 0.9287 - val_loss: 0.2542
 Epoch 3/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.8576 - loss: 0.4769 - val_accuracy: 0.9413 - val_loss: 0.2007
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.8512 - loss: 0.4924 - val_accuracy: 0.9387 - val_loss: 0.2140
 Epoch 4/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.8783 - loss: 0.4121 - val_accuracy: 0.9487 - val_loss: 0.1776
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.8748 - loss: 0.4246 - val_accuracy: 0.9462 - val_loss: 0.1855
 Epoch 5/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.8891 - loss: 0.3789 - val_accuracy: 0.9550 - val_loss: 0.1568
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.8889 - loss: 0.3883 - val_accuracy: 0.9515 - val_loss: 0.1709
 Epoch 6/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.8991 - loss: 0.3450 - val_accuracy: 0.9598 - val_loss: 0.1478
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.8950 - loss: 0.3540 - val_accuracy: 0.9548 - val_loss: 0.1637
 Epoch 7/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9090 - loss: 0.3174 - val_accuracy: 0.9620 - val_loss: 0.1364
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9043 - loss: 0.3299 - val_accuracy: 0.9605 - val_loss: 0.1446
 Epoch 8/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9101 - loss: 0.3075 - val_accuracy: 0.9647 - val_loss: 0.1295
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9098 - loss: 0.3119 - val_accuracy: 0.9637 - val_loss: 0.1363
 Epoch 9/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9163 - loss: 0.2880 - val_accuracy: 0.9663 - val_loss: 0.1226
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9132 - loss: 0.2959 - val_accuracy: 0.9662 - val_loss: 0.1268
 Epoch 10/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9222 - loss: 0.2746 - val_accuracy: 0.9677 - val_loss: 0.1168
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9210 - loss: 0.2771 - val_accuracy: 0.9660 - val_loss: 0.1277
 Epoch 11/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9264 - loss: 0.2599 - val_accuracy: 0.9682 - val_loss: 0.1146
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9220 - loss: 0.2705 - val_accuracy: 0.9677 - val_loss: 0.1166
 Epoch 12/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9257 - loss: 0.2593 - val_accuracy: 0.9717 - val_loss: 0.1098
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9275 - loss: 0.2473 - val_accuracy: 0.9692 - val_loss: 0.1137
 Epoch 13/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9285 - loss: 0.2480 - val_accuracy: 0.9708 - val_loss: 0.1062
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9254 - loss: 0.2484 - val_accuracy: 0.9700 - val_loss: 0.1105
 Epoch 14/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9291 - loss: 0.2432 - val_accuracy: 0.9722 - val_loss: 0.1008
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9274 - loss: 0.2421 - val_accuracy: 0.9702 - val_loss: 0.1052
 Epoch 15/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9339 - loss: 0.2290 - val_accuracy: 0.9715 - val_loss: 0.1006
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9304 - loss: 0.2388 - val_accuracy: 0.9710 - val_loss: 0.1045
 Epoch 16/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9347 - loss: 0.2282 - val_accuracy: 0.9727 - val_loss: 0.0959
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9350 - loss: 0.2257 - val_accuracy: 0.9713 - val_loss: 0.1031
 Epoch 17/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9381 - loss: 0.2159 - val_accuracy: 0.9723 - val_loss: 0.0951
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9361 - loss: 0.2263 - val_accuracy: 0.9722 - val_loss: 0.0966
 Epoch 18/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9357 - loss: 0.2198 - val_accuracy: 0.9738 - val_loss: 0.0941
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9371 - loss: 0.2191 - val_accuracy: 0.9722 - val_loss: 0.0961
 Epoch 19/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9413 - loss: 0.2051 - val_accuracy: 0.9728 - val_loss: 0.0938
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9374 - loss: 0.2134 - val_accuracy: 0.9715 - val_loss: 0.0973
 Epoch 20/20
-422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9428 - loss: 0.2012 - val_accuracy: 0.9712 - val_loss: 0.0938
-Test accuracy: 0.9652000069618225</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>WARNING:absl:You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. </code></pre>
+422/422 ━━━━━━━━━━━━━━━━━━━━ 1s 1ms/step - accuracy: 0.9403 - loss: 0.2053 - val_accuracy: 0.9722 - val_loss: 0.0941
+Test accuracy: 0.9653000235557556</code></pre>
 </div>
 </div>
 <div id="cell-11" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">121</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'loss'</span>], <span class="st">'-r'</span>, label<span class="op">=</span><span class="st">"Training"</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'val_loss'</span>], <span class="st">'-b'</span>, label<span class="op">=</span><span class="st">"Validation"</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Epoch #'</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Loss'</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">122</span>)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'accuracy'</span>], <span class="st">'-r'</span>, label<span class="op">=</span><span class="st">"Training"</span>)</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'val_accuracy'</span>], <span class="st">'-b'</span>, label<span class="op">=</span><span class="st">"Validation"</span>)</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Epoch #'</span>)</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Accuracy'</span>)</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">121</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'loss'</span>], <span class="st">'-r'</span>, label<span class="op">=</span><span class="st">"Training"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'val_loss'</span>], <span class="st">'-b'</span>, label<span class="op">=</span><span class="st">"Validation"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Epoch #'</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Loss'</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">122</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'accuracy'</span>], <span class="st">'-r'</span>, label<span class="op">=</span><span class="st">"Training"</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'val_accuracy'</span>], <span class="st">'-b'</span>, label<span class="op">=</span><span class="st">"Validation"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Epoch #'</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Accuracy'</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -611,109 +614,98 @@ Test accuracy: 0.9652000069618225</code></pre>
 <p>We first create an instance of the ANN-to-SNN conversion object. The function receives the <em>input_encoding</em> parameter, which is the type of input encoding we want to use.</p>
 <p>By default, there are <em>intrinsically bursting</em> (<code>IB</code>), <em>phase shift oscillation</em> (<code>PSO</code>) and <em>Poisson</em> (<code>poisson</code>) available.</p>
 <div id="cell-13" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ANNarchy.extensions.ann_to_snn_conversion <span class="im">import</span> ANNtoSNNConverter</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>snn_converter <span class="op">=</span> ANNtoSNNConverter(</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    input_encoding<span class="op">=</span><span class="st">'IB'</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    hidden_neuron<span class="op">=</span><span class="st">'IaF'</span>, </span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    read_out<span class="op">=</span><span class="st">'spike_count'</span>,</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ANNarchy.extensions.ann_to_snn_conversion <span class="im">import</span> ANNtoSNNConverter</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>snn_converter <span class="op">=</span> ANNtoSNNConverter(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    input_encoding<span class="op">=</span><span class="st">'IB'</span>, </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    hidden_neuron<span class="op">=</span><span class="st">'IaF'</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    read_out<span class="op">=</span><span class="st">'spike_count'</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ANNarchy 4.8 (4.8.0) on darwin (posix).</code></pre>
 </div>
 </div>
-<p>After that, we provide the TensorFlow model stored as h5py file to the conversion tool. The print-out of the network structure of the imported network is suppressed when <em>show_info</em>=False is provided to <em>init_from_keras_model</em>.</p>
+<p>After that, we provide the TensorFlow model stored as a <code>.keras</code> file to the conversion tool. The print-out of the network structure of the imported network is suppressed when <code>show_info=False</code> is provided to <code>load_keras_model</code>.</p>
 <div id="cell-15" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> snn_converter.init_from_keras_model(<span class="st">"runs/mlp.h5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>KeyError: 'batch_input_shape'</code></pre>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> snn_converter.load_keras_model(<span class="st">"runs/mlp.keras"</span>, show_info<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>WARNING: Dense representation is an experimental feature for spiking models, we greatly appreciate bug reports. 
+* Input layer: input_layer, (784,)
+* InputLayer skipped.
+* Dense layer: dense, 128 
+    weights: (128, 784)
+    mean -0.003718075342476368, std 0.05280976742506027
+    min -0.36859092116355896, max 0.2209455817937851
+* Dropout skipped.
+* Dense layer: dense_1, 128 
+    weights: (128, 128)
+    mean 0.0038691868539899588, std 0.10207421332597733
+    min -0.2871132493019104, max 0.39444321393966675
+* Dropout skipped.
+* Dense layer: dense_2, 10 
+    weights: (10, 128)
+    mean -0.0005171002121642232, std 0.2159355878829956
+    min -0.5239163041114807, max 0.4920918643474579
+</code></pre>
 </div>
 </div>
-<p>When the network has been built successfully, we can perform a test using all MNIST training samples. Using <code>duration_per_sample</code>, the number of steps simulated for each image can be specified.</p>
-<div id="cell-17" class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>predictions_snn <span class="op">=</span> snn_converter.predict(X_test, duration_per_sample<span class="op">=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When the network has been built successfully, we can perform a test using all MNIST training samples. Using <code>duration_per_sample</code>, the duration simulated for each image can be specified. Here, 200 ms seem to be enough.</p>
+<div id="cell-17" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>predictions_snn <span class="op">=</span> snn_converter.predict(X_test, duration_per_sample<span class="op">=</span><span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>9900/10000</code></pre>
 </div>
 </div>
-<p>Depending on the selected read-out method, it can happen that multiple neurons/classes are selected as a winner for an example. For example, if <code>duration_per_sample</code> is too low, several output neurons might output the same number of spikes.</p>
-<p>In the following cell, we force the predictions to keep only one of the winning neurons by using <code>np.random.choice</code>.</p>
-<div id="cell-19" class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>predictions_snn <span class="op">=</span> [ [np.random.choice(p)] <span class="cf">for</span> p <span class="kw">in</span> predictions_snn ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>Using the recorded predictions, we can now compute the accuracy using scikit-learn for all presented samples.</p>
-<div id="cell-21" class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> classification_report, accuracy_score</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(t_test, predictions_snn))</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test accuracy of the SNN:"</span>, accuracy_score(t_test, predictions_snn))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-19" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> classification_report, accuracy_score</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(t_test, predictions_snn))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test accuracy of the SNN:"</span>, accuracy_score(t_test, predictions_snn))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              precision    recall  f1-score   support
 
-           0       0.96      0.99      0.97       980
+           0       0.97      0.99      0.98       980
            1       0.99      0.99      0.99      1135
-           2       0.96      0.96      0.96      1032
-           3       0.91      0.97      0.94      1010
-           4       0.96      0.94      0.95       982
-           5       0.96      0.93      0.95       892
-           6       0.95      0.97      0.96       958
-           7       0.98      0.95      0.96      1028
-           8       0.97      0.92      0.94       974
-           9       0.93      0.95      0.94      1009
+           2       0.97      0.95      0.96      1032
+           3       0.95      0.96      0.96      1010
+           4       0.97      0.94      0.96       982
+           5       0.96      0.96      0.96       892
+           6       0.97      0.97      0.97       958
+           7       0.96      0.96      0.96      1028
+           8       0.95      0.95      0.95       974
+           9       0.95      0.95      0.95      1009
 
     accuracy                           0.96     10000
    macro avg       0.96      0.96      0.96     10000
 weighted avg       0.96      0.96      0.96     10000
 
-Test accuracy of the SNN: 0.9568</code></pre>
+Test accuracy of the SNN: 0.9625</code></pre>
 </div>
 </div>
-<p>For comparison, here is the performance of the original SNN:</p>
-<div id="cell-23" class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(t_test, predictions_keras.argmax(axis<span class="op">=</span><span class="dv">1</span>)))</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test accuracy of the ANN:"</span>, accuracy_score(t_test, predictions_keras.argmax(axis<span class="op">=</span><span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For comparison, here is the performance of the original ANN in keras:</p>
+<div id="cell-21" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(t_test, predictions_keras.argmax(axis<span class="op">=</span><span class="dv">1</span>)))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test accuracy of the ANN:"</span>, accuracy_score(t_test, predictions_keras.argmax(axis<span class="op">=</span><span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              precision    recall  f1-score   support
 
            0       0.97      0.99      0.98       980
-           1       0.98      0.99      0.98      1135
-           2       0.96      0.97      0.97      1032
-           3       0.94      0.98      0.96      1010
-           4       0.97      0.97      0.97       982
-           5       0.97      0.96      0.97       892
-           6       0.97      0.97      0.97       958
-           7       0.98      0.96      0.97      1028
-           8       0.98      0.95      0.96       974
-           9       0.97      0.96      0.96      1009
+           1       0.98      0.99      0.99      1135
+           2       0.97      0.95      0.96      1032
+           3       0.96      0.96      0.96      1010
+           4       0.96      0.96      0.96       982
+           5       0.96      0.96      0.96       892
+           6       0.96      0.97      0.97       958
+           7       0.96      0.97      0.96      1028
+           8       0.96      0.95      0.95       974
+           9       0.96      0.95      0.96      1009
 
     accuracy                           0.97     10000
-   macro avg       0.97      0.97      0.97     10000
+   macro avg       0.96      0.96      0.96     10000
 weighted avg       0.97      0.97      0.97     10000
 
-Test accuracy of the ANN: 0.9696</code></pre>
-</div>
-</div>
-<p>A comparison of the predictions made by the ANN and the SNN on each class may reveal different behavior:</p>
-<div id="cell-25" class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(predictions_keras.argmax(axis<span class="op">=</span><span class="dv">1</span>), predictions_snn))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>              precision    recall  f1-score   support
-
-           0       0.99      0.99      0.99      1001
-           1       1.00      0.99      0.99      1142
-           2       0.98      0.97      0.97      1037
-           3       0.95      0.98      0.96      1049
-           4       0.97      0.96      0.97       983
-           5       0.97      0.96      0.97       879
-           6       0.97      0.98      0.97       957
-           7       0.99      0.97      0.98      1007
-           8       0.98      0.95      0.97       948
-           9       0.95      0.98      0.96       997
-
-    accuracy                           0.97     10000
-   macro avg       0.97      0.97      0.97     10000
-weighted avg       0.97      0.97      0.97     10000
-</code></pre>
+Test accuracy of the ANN: 0.9653</code></pre>
 </div>
 </div>
 
@@ -1137,6 +1129,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../notebooks/ANN2SNN2.html" class="pagination-link" aria-label="ANN to SNN II">
+        <span class="nav-page-text">ANN to SNN II</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

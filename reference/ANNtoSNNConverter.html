@@ -983,7 +983,7 @@ window.Quarto = {
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
   <ul class="collapse">
   <li><a href="#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network" id="toc-ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network" class="nav-link" data-scroll-target="#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network">get_annarchy_network</a></li>
-  <li><a href="#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.init_from_keras_model" id="toc-ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.init_from_keras_model" class="nav-link" data-scroll-target="#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.init_from_keras_model">init_from_keras_model</a></li>
+  <li><a href="#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model" id="toc-ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model" class="nav-link" data-scroll-target="#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model">load_keras_model</a></li>
   <li><a href="#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict" id="toc-ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict" class="nav-link" data-scroll-target="#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict">predict</a></li>
   </ul></li>
   </ul></li>
@@ -998,11 +998,30 @@ window.Quarto = {
 
 <section id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter" class="level1">
 <h1>ANNtoSNNConverter</h1>
-<p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter(self, input_encoding='poisson', hidden_neuron='IaF', read_out='spike_count', **kwargs)</code></p>
-<p>Converts a pre-trained Keras model into a spiking neural network.</p>
+<p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter(self, input_encoding='CPN', hidden_neuron='IaF', read_out='spike_count', **kwargs)</code></p>
+<p>Converts a pre-trained Keras model <code>.keras</code> into an ANNarchy spiking neural network.</p>
 <p>The implementation of the present module is inspired by the SNNToolbox (Rueckauer et al.&nbsp;2017), and is largely based on the work of Diehl et al.&nbsp;(2015). We provide several input encodings, as suggested in the work of Park et al.&nbsp;(2019) and Auge et al.&nbsp;(2021).</p>
+<p><strong>Constraints on the ANN</strong></p>
+<p>It is not possible to convert any keras model into an ANNarchy SNN: some constraints ahve to be respected.</p>
+<ul>
+<li>The only allowed layers in the ANN are:
+<ul>
+<li><code>Dense</code></li>
+<li><code>Conv2D</code></li>
+<li>`MaxPooling2D``</li>
+<li>as well as non-neural layers such as Dropout, Activation, BatchNorm, etc.</li>
+</ul></li>
+<li>The layers must <strong>not</strong> contain any bias, even the conv layers:</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.layers.Dense(<span class="dv">128</span>, use_bias<span class="op">=</span><span class="va">False</span>, activation<span class="op">=</span><span class="st">'relu'</span>)(x)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.layers.Conv2D(<span class="dv">64</span>, kernel_size<span class="op">=</span>(<span class="dv">5</span>,<span class="dv">5</span>), activation<span class="op">=</span><span class="st">'relu'</span>, padding <span class="op">=</span> <span class="st">'same'</span>, use_bias<span class="op">=</span><span class="va">False</span>)(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>The first layer of the network must be an <code>Input</code>:</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tf.keras.Input(shape <span class="op">=</span> (<span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Please be aware that the module is very experimental and the conversion may not work for many different reasons. Feel free to submit issues.</p>
 <p><strong>Processing Queue</strong></p>
-<p>The pre-trained ANN model to be converted should be saved in keras as an h5py file (extension <code>.h5</code>). The saved model is transformed layer by layer into a feed-forward ANNarchy spiking network. The structure of the network remains the same as in the original ANN, while the weights are normalised. Please note that the current implementation focuses primarily on the correctness of the conversion. Computational performance, especially of the converted CNNs, will be improved in future releases.</p>
+<p>The pre-trained ANN model to be converted should be saved in keras (extension <code>.keras</code>). The saved model is transformed layer by layer into a feed-forward ANNarchy spiking network. The structure of the network remains the same as in the original ANN, while the weights are normalised. Please note that the current implementation focuses primarily on the correctness of the conversion. Computational performance, especially of the converted CNNs, will be improved in future releases.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1017,11 +1036,14 @@ Note
 </div>
 </div>
 <p><strong>Input Encoding</strong></p>
-<p>In the following we provide brief descriptions of the available input encodings. The abbreviations in brackets denote the name provided to the conversion tool constructor.</p>
+<ul>
+<li>Poisson (“CPN”)</li>
+</ul>
+<p>This encoding uses a Poisson distribution where the pixel values of the image will be used as probability for each individual neuron.</p>
 <ul>
 <li>Intrinsically Bursting (“IB”)</li>
 </ul>
-<p>This encoding bases on the Izhikevich (2003) model that comprises two ODEs:</p>
+<p>This encoding is based on the Izhikevich (2003) model that comprises two ODEs:</p>
 <p><span class="math display">
 \begin{cases}
 \frac{dv}{dt} = 0.04 \cdot v^2 + 5.0 \cdot v + 140.0 - u + I \\
@@ -1030,10 +1052,6 @@ Note
 \end{cases}
 </span></p>
 <p>The parameters for <span class="math inline">a</span> - <span class="math inline">d</span> are selected accordingly to Izhikevich (2003). The provided input images will be set as <span class="math inline">I</span>.</p>
-<ul>
-<li>Poisson (“CPN”)</li>
-</ul>
-<p>This encoding uses a Poisson distribution where the pixel values of the image will be used as probability for each individual neuron.</p>
 <ul>
 <li>Phase Shift Oscillation (“PSO”)</li>
 </ul>
@@ -1099,8 +1117,8 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 <tr class="odd">
 <td><code>input_encoding</code></td>
 <td>str</td>
-<td>a string representing which input encoding should be used: custom poisson, PSO, IB or CH.</td>
-<td><code>'poisson'</code></td>
+<td>a string representing which input encoding should be used: ‘CPN’, ‘IB’ or ‘PSO’.</td>
+<td><code>'CPN'</code></td>
 </tr>
 <tr class="even">
 <td><code>hidden_neuron</code></td>
@@ -1132,12 +1150,12 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 <td>Returns the ANNarchy.Network instance.</td>
 </tr>
 <tr class="even">
-<td><a href="#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.init_from_keras_model">init_from_keras_model</a></td>
-<td>Loads the pre-trained model provided as a .h5 file.</td>
+<td><a href="#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model">load_keras_model</a></td>
+<td>Loads the pre-trained model provided as a .keras file.</td>
 </tr>
 <tr class="odd">
 <td><a href="#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict">predict</a></td>
-<td>Performs the prediction for a given input series.</td>
+<td>Performs the prediction for a given input array.</td>
 </tr>
 </tbody>
 </table>
@@ -1146,12 +1164,12 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 <p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network()</code></p>
 <p>Returns the ANNarchy.Network instance.</p>
 </section>
-<section id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.init_from_keras_model" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.init_from_keras_model">init_from_keras_model</h3>
-<p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.init_from_keras_model(filename, directory='annarchy', scale_factor=None, show_info=True)</code></p>
-<p>Loads the pre-trained model provided as a .h5 file.</p>
+<section id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model">load_keras_model</h3>
+<p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model(filename, directory='annarchy', scale_factor=None, show_info=True)</code></p>
+<p>Loads the pre-trained model provided as a .keras file.</p>
 <p>In tf.keras, the weights can be saved using:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model.save(<span class="st">"model.h5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model.save(<span class="st">"model.keras"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="parameters-1" class="level4">
 <h4 class="anchored" data-anchor-id="parameters-1">Parameters</h4>
 <table class="table">
@@ -1173,7 +1191,7 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 <tr class="odd">
 <td><code>filename</code></td>
 <td>str</td>
-<td>stored model as a .h5 file.</td>
+<td>path to the <code>.keras</code> file.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
@@ -1217,9 +1235,8 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 </section>
 <section id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict">predict</h3>
-<p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict(samples, duration_per_sample=1000, measure_time=False)</code></p>
-<p>Performs the prediction for a given input series.</p>
-<p>Parameters:</p>
+<p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict(samples, duration_per_sample=1000, multiple=False)</code></p>
+<p>Performs the prediction for a given input array.</p>
 <section id="parameters-2" class="level4">
 <h4 class="anchored" data-anchor-id="parameters-2">Parameters</h4>
 <table class="table">
@@ -1251,9 +1268,9 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 <td><code>1000</code></td>
 </tr>
 <tr class="odd">
-<td><code>measure_time</code></td>
+<td><code>multiple</code></td>
 <td></td>
-<td>print out the computation time spent for one input sample (default: False)</td>
+<td>if several output neurons reach the criteria, return the full list instead of randomly chosing one.</td>
 <td><code>False</code></td>
 </tr>
 </tbody>
@@ -1262,10 +1279,6 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 <section id="returns-1" class="level4">
 <h4 class="anchored" data-anchor-id="returns-1">Returns</h4>
 <table class="table">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 89%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Type</th>
@@ -1275,7 +1288,7 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 <tbody>
 <tr class="odd">
 <td>list[int]</td>
-<td>A list of predicted class indices. If multiple neurons fulfill the condition, all candidate indices are returned.</td>
+<td>A list of predicted class indices for each sample.</td>
 </tr>
 </tbody>
 </table>
