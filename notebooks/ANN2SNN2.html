@@ -672,44 +672,36 @@ Test accuracy: 0.9873999953269958</code></pre>
 </div>
 </div>
 <div id="cell-13" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>predictions_snn <span class="op">=</span> snn_converter.predict(X_test[:<span class="dv">200</span>], duration_per_sample<span class="op">=</span><span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>predictions_snn <span class="op">=</span> snn_converter.predict(X_test[:<span class="dv">300</span>], duration_per_sample<span class="op">=</span><span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>100/200</code></pre>
+<pre><code>300/300</code></pre>
 </div>
 </div>
 <p>Using the recorded predictions, we can now compute the accuracy using scikit-learn for all presented samples.</p>
 <div id="cell-15" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> classification_report, accuracy_score</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(t_test[:<span class="dv">200</span>], predictions_snn))</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test accuracy of the SNN:"</span>, accuracy_score(t_test[:<span class="dv">200</span>], predictions_snn))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(t_test[:<span class="dv">300</span>], predictions_snn))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test accuracy of the SNN:"</span>, accuracy_score(t_test[:<span class="dv">300</span>], predictions_snn))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              precision    recall  f1-score   support
 
-           0       0.00      0.00      0.00        17
-           1       0.71      0.36      0.48        28
-           2       0.16      1.00      0.28        16
-           3       0.57      0.25      0.35        16
-           4       0.92      0.43      0.59        28
-           5       0.57      0.85      0.68        20
-           6       1.00      0.05      0.10        20
-           7       0.63      0.92      0.75        24
-           8       0.00      0.00      0.00        10
-           9       0.00      0.00      0.00        21
+           0       1.00      1.00      1.00        24
+           1       1.00      0.95      0.97        41
+           2       0.97      1.00      0.98        32
+           3       1.00      1.00      1.00        24
+           4       1.00      0.95      0.97        37
+           5       1.00      1.00      1.00        29
+           6       1.00      1.00      1.00        24
+           7       1.00      1.00      1.00        34
+           8       0.91      1.00      0.95        21
+           9       0.97      1.00      0.99        34
 
-    accuracy                           0.41       200
-   macro avg       0.46      0.39      0.32       200
-weighted avg       0.52      0.41      0.37       200
+    accuracy                           0.99       300
+   macro avg       0.99      0.99      0.99       300
+weighted avg       0.99      0.99      0.99       300
 
-Test accuracy of the SNN: 0.41</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/Users/vitay/.virtualenvs/base/lib/python3.12/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
-/Users/vitay/.virtualenvs/base/lib/python3.12/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
-/Users/vitay/.virtualenvs/base/lib/python3.12/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))</code></pre>
+Test accuracy of the SNN: 0.9866666666666667</code></pre>
 </div>
 </div>
 

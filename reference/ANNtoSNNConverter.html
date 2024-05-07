@@ -1008,17 +1008,21 @@ window.Quarto = {
 <ul>
 <li><code>Dense</code></li>
 <li><code>Conv2D</code></li>
-<li>`MaxPooling2D``</li>
+<li><code>MaxPooling2D</code></li>
+<li><code>AveragePooling2D</code></li>
 <li>as well as non-neural layers such as Dropout, Activation, BatchNorm, etc.</li>
 </ul></li>
 <li>The layers must <strong>not</strong> contain any bias, even the conv layers:</li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.layers.Dense(<span class="dv">128</span>, use_bias<span class="op">=</span><span class="va">False</span>, activation<span class="op">=</span><span class="st">'relu'</span>)(x)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.layers.Conv2D(<span class="dv">64</span>, kernel_size<span class="op">=</span>(<span class="dv">5</span>,<span class="dv">5</span>), activation<span class="op">=</span><span class="st">'relu'</span>, padding <span class="op">=</span> <span class="st">'same'</span>, use_bias<span class="op">=</span><span class="va">False</span>)(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.layers.Conv2D(<span class="dv">64</span>, kernel_size<span class="op">=</span>(<span class="dv">5</span>,<span class="dv">5</span>), activation<span class="op">=</span><span class="st">'relu'</span>, padding<span class="op">=</span><span class="st">'same'</span>, use_bias<span class="op">=</span><span class="va">False</span>)(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>The first layer of the network must be an <code>Input</code>:</li>
 </ul>
 <div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tf.keras.Input(shape <span class="op">=</span> (<span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Pooling must explicitly be done by <code>MaxPooling2D</code>/<code>AveragePooling2D</code>, strides are ignored.</li>
+</ul>
 <p>Please be aware that the module is very experimental and the conversion may not work for many different reasons. Feel free to submit issues.</p>
 <p><strong>Processing Queue</strong></p>
 <p>The pre-trained ANN model to be converted should be saved in keras (extension <code>.keras</code>). The saved model is transformed layer by layer into a feed-forward ANNarchy spiking network. The structure of the network remains the same as in the original ANN, while the weights are normalised. Please note that the current implementation focuses primarily on the correctness of the conversion. Computational performance, especially of the converted CNNs, will be improved in future releases.</p>
@@ -1032,7 +1036,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>While the neurons are conceptually spiking neurons, there is one specialty: next to the spike event (stored automatically in ANNarchy), each event will be stored in an additional <em>mask</em> array. This <em>mask</em> value decays in absence of further spike events exponentially. The decay can be controlled by the <em>mask_tau</em> parameter of the population. The projections (either dense or convolution) will use this mask as pre-synaptic input, not the generated list of spike events.</p>
+<pre><code>While the neurons are conceptually spiking neurons, there is one specialty: next to the spike event (stored automatically in ANNarchy), each event will be stored in an additional *mask* array. This *mask* value decays in absence of further spike events exponentially. The decay can be controlled by the *mask_tau* parameter of the population. The projections (either dense or convolution) will use this mask as pre-synaptic input, not the generated list of spike events.</code></pre>
 </div>
 </div>
 <p><strong>Input Encoding</strong></p>
@@ -1169,7 +1173,7 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 <p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model(filename, directory='annarchy', scale_factor=None, show_info=True)</code></p>
 <p>Loads the pre-trained model provided as a .keras file.</p>
 <p>In tf.keras, the weights can be saved using:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model.save(<span class="st">"model.keras"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model.save(<span class="st">"model.keras"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="parameters-1" class="level4">
 <h4 class="anchored" data-anchor-id="parameters-1">Parameters</h4>
 <table class="table">
