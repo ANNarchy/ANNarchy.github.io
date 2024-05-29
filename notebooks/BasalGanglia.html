@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -103,9 +103,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -478,7 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>cx_str <span class="op">=</span> ann.Projection(cortex, striatum, <span class="st">"exc"</span>, corticostriatal)</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>cx_str.connect_all_to_all(weights<span class="op">=</span>ann.Uniform(<span class="fl">0.0</span>, <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x13a670920&gt;</code></pre>
+<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x12730b9e0&gt;</code></pre>
 </div>
 </div>
 <p>Some lateral competition between the striatal neurons:</p>
@@ -486,7 +483,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>str_str <span class="op">=</span> ann.Projection(striatum, striatum, <span class="st">"inh"</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>str_str.connect_all_to_all(weights<span class="op">=</span><span class="fl">0.6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x107d9b290&gt;</code></pre>
+<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x127359070&gt;</code></pre>
 </div>
 </div>
 <p>One half of the striatal population is connected to the left GPi neuron, the other half to the right neuron:</p>
@@ -640,32 +637,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>        plt.legend()</span>
 <span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>        logger.add_figure(<span class="st">"Activity/GPi"</span>, fig, trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Logging in runs/Apr26_12-09-15_Juliens-MBP</code></pre>
+<pre><code>Logging in runs/May29_14-02-54_Juliens-MBP</code></pre>
 </div>
 </div>
 <p>You can now visualize the logged information by running tensorboard in a separate terminal and opening the corresponding page:</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tensorboard</span> <span class="at">--logdir</span> runs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>or directly in the notebook if you have the <code>tensorboard</code> extension installed:</p>
-<div id="cell-27" class="cell" data-execution_count="14">
+<div id="cell-27" class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext tensorboard</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>tensorboard <span class="op">--</span>logdir runs <span class="op">--</span>samples_per_plugin images<span class="op">=</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-
-      <iframe id="tensorboard-frame-8e3eeac24dca9e84" width="100%" height="800" frameborder="0">
-      </iframe>
-      <script>
-        (function() {
-          const frame = document.getElementById("tensorboard-frame-8e3eeac24dca9e84");
-          const url = new URL("/", window.location);
-          const port = 6006;
-          if (port) {
-            url.port = port;
-          }
-          frame.src = url;
-        })();
-      </script>
-    
-</div>
 </div>
 <p>You should see a tensorboard page with four tabs Scalars, Images, Distributions and Histograms:</p>
 <div class="quarto-figure quarto-figure-center">

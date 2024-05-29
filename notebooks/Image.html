@@ -452,7 +452,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>pool_proj <span class="op">=</span> Pooling(pre<span class="op">=</span>image, post<span class="op">=</span>pooled, target<span class="op">=</span><span class="st">'exc'</span>, operation<span class="op">=</span><span class="st">'mean'</span>)</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>pool_proj.connect_pooling()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>&lt;ANNarchy.extensions.convolution.Pooling.Pooling at 0x11f5a9520&gt;</code></pre>
+<pre><code>&lt;ANNarchy.extensions.convolution.Pooling.Pooling at 0x1269bda00&gt;</code></pre>
 </div>
 </div>
 <p>The <code>pooled</code> population reduces the size of the image by a factor ten (defined by the size of the population) by averaging the pixels values over 10x10 regions (<code>operation</code> is set to <code>'mean'</code>, but one could use <code>'max'</code> or <code>'min'</code>). The <code>connect_pooling()</code> connector creates the “fake” connection pattern (as no weights are involved).</p>
@@ -466,7 +466,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>smooth_proj <span class="op">=</span> Convolution(pre<span class="op">=</span>pooled, post<span class="op">=</span>smoothed, target<span class="op">=</span><span class="st">'exc'</span>)</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>smooth_proj.connect_filter(weights<span class="op">=</span>box_filter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>&lt;ANNarchy.extensions.convolution.Convolve.Convolution at 0x107b4df40&gt;</code></pre>
+<pre><code>&lt;ANNarchy.extensions.convolution.Convolve.Convolution at 0x126b68170&gt;</code></pre>
 </div>
 </div>
 <p>To perform a convolution operation on the population (or more precisely a cross-correlation), we call the <code>connect_filter()</code> connector method of the <code>Convolution</code> projection. It requires to define a kernel (<code>weights</code>) that will be convolved over the input population. Here we use a simple box filter, but any filter can be used.</p>
@@ -485,7 +485,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>filter_proj <span class="op">=</span> Convolution(pre<span class="op">=</span>smoothed, post<span class="op">=</span>filtered, target<span class="op">=</span><span class="st">'exc'</span>)</span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>filter_proj.connect_filters(weights<span class="op">=</span>filter_bank)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>&lt;ANNarchy.extensions.convolution.Convolve.Convolution at 0x11975b4d0&gt;</code></pre>
+<pre><code>&lt;ANNarchy.extensions.convolution.Convolve.Convolution at 0x10fa34230&gt;</code></pre>
 </div>
 </div>
 <p>Each of the three filter has the shape (1, 1, 3). The result of each convolution would then be (48, 64), but as there are three filters, the output population is (48, 64, 3). The last dimension does not correspond to the number of color channels, but to the number of filters in the bank: if you add a filter, the population will have to be (48, 64, 4).</p>
@@ -510,7 +510,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="cell-18" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">4.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-19" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="12">
+<div id="cell-19" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">20</span>))</span>
