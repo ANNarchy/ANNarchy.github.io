@@ -13,14 +13,14 @@ To modify this behavior, a `Synapse` object can be provided.
 
 ## Parameters
 
-| Name          | Type                                       | Description                                                                                                                                                                                            | Default    |
-|---------------|--------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `pre`         | str \| ANNarchy.core.Population.Population | Pre-synaptic population (either its name or a ``Population`` object).                                                                                                                                  | _required_ |
-| `post`        | str \| ANNarchy.core.Population.Population | Post-synaptic population (either its name or a ``Population`` object).                                                                                                                                 | _required_ |
-| `target`      | str                                        | Type of the connection.                                                                                                                                                                                | _required_ |
-| `synapse`     | ANNarchy.core.Synapse.Synapse              | A `Synapse` instance.                                                                                                                                                                                  | `None`     |
-| `name`        | str                                        | Unique name of the projection (optional, it defaults to ``proj0``, ``proj1``, etc).                                                                                                                    | `None`     |
-| `disable_omp` | bool                                       | Especially for small- and mid-scale sparse spiking networks, the parallelization of spike propagation is not scalable and disabled by default. It can be enabled by setting this parameter to `False`. | `True`     |
+| Name          | Type              | Description                                                                                                                                                                                            | Default    |
+|---------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `pre`         | str \| Population | Pre-synaptic population (either its name or a ``Population`` object).                                                                                                                                  | _required_ |
+| `post`        | str \| Population | Post-synaptic population (either its name or a ``Population`` object).                                                                                                                                 | _required_ |
+| `target`      | str               | Type of the connection.                                                                                                                                                                                | _required_ |
+| `synapse`     | Synapse           | A `Synapse` instance.                                                                                                                                                                                  | `None`     |
+| `name`        | str               | Unique name of the projection (optional, it defaults to ``proj0``, ``proj1``, etc).                                                                                                                    | `None`     |
+| `disable_omp` | bool              | Especially for small- and mid-scale sparse spiking networks, the parallelization of spike propagation is not scalable and disabled by default. It can be enabled by setting this parameter to `False`. | `True`     |
 
 ## Attributes
 
@@ -78,12 +78,12 @@ all-to-all (fully-connected) connection pattern.
 
 #### Parameters
 
-| Name                     | Type                                             | Description                                                                                                                                                                                                                                               | Default    |
-|--------------------------|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `weights`                | float \| ANNarchy.core.Random.RandomDistribution | Synaptic values, either a single value or a random distribution object.                                                                                                                                                                                   | _required_ |
-| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Synaptic delays, either a single value or a random distribution object (default=dt).                                                                                                                                                                      | `0.0`      |
-| `allow_self_connections` | bool                                             | If True, self-connections between a neuron and itself are allowed (default = False if the pre- and post-populations are identical, True otherwise).                                                                                                       | `False`    |
-| `force_multiple_weights` | bool                                             | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
+| Name                     | Type                        | Description                                                                                                                                                                                                                                               | Default    |
+|--------------------------|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `weights`                | float \| RandomDistribution | Synaptic values, either a single value or a random distribution object.                                                                                                                                                                                   | _required_ |
+| `delays`                 | float \| RandomDistribution | Synaptic delays, either a single value or a random distribution object (default=dt).                                                                                                                                                                      | `0.0`      |
+| `allow_self_connections` | bool                        | If True, self-connections between a neuron and itself are allowed (default = False if the pre- and post-populations are identical, True otherwise).                                                                                                       | `False`    |
+| `force_multiple_weights` | bool                        | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
 
 ### connect_dog { #ANNarchy.core.Projection.Projection.connect_dog }
 
@@ -95,15 +95,15 @@ Each neuron in the postsynaptic population is connected to a region of the presy
 
 #### Parameters
 
-| Name                     | Type                                             | Description                                                                         | Default    |
-|--------------------------|--------------------------------------------------|-------------------------------------------------------------------------------------|------------|
-| `amp_pos`                | float                                            | Amplitude of the positive Gaussian function                                         | _required_ |
-| `sigma_pos`              | float                                            | Width of the positive Gaussian function                                             | _required_ |
-| `amp_neg`                | float                                            | Amplitude of the negative Gaussian function                                         | _required_ |
-| `sigma_neg`              | float                                            | Width of the negative Gaussian function                                             | _required_ |
-| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Synaptic delay, either a single value or a random distribution object (default=dt). | `0.0`      |
-| `limit`                  | float                                            | Proportion of *amp* below which synapses are not created (default: 0.01)            | `0.01`     |
-| `allow_self_connections` | bool                                             | Allows connections between a neuron and itself.                                     | `False`    |
+| Name                     | Type                        | Description                                                                         | Default    |
+|--------------------------|-----------------------------|-------------------------------------------------------------------------------------|------------|
+| `amp_pos`                | float                       | Amplitude of the positive Gaussian function                                         | _required_ |
+| `sigma_pos`              | float                       | Width of the positive Gaussian function                                             | _required_ |
+| `amp_neg`                | float                       | Amplitude of the negative Gaussian function                                         | _required_ |
+| `sigma_neg`              | float                       | Width of the negative Gaussian function                                             | _required_ |
+| `delays`                 | float \| RandomDistribution | Synaptic delay, either a single value or a random distribution object (default=dt). | `0.0`      |
+| `limit`                  | float                       | Proportion of *amp* below which synapses are not created (default: 0.01)            | `0.01`     |
+| `allow_self_connections` | bool                        | Allows connections between a neuron and itself.                                     | `False`    |
 
 ### connect_fixed_number_post { #ANNarchy.core.Projection.Projection.connect_fixed_number_post }
 
@@ -113,13 +113,13 @@ Each pre-synaptic neuron randomly sends a fixed number of connections to the pos
 
 #### Parameters
 
-| Name                     | Type                                             | Description                                                                                                                                                                                                                                               | Default    |
-|--------------------------|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `number`                 | int                                              | Number of synapses per pre-synaptic neuron.                                                                                                                                                                                                               | _required_ |
-| `weights`                | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object.                                                                                                                                                                                    | `1.0`      |
-| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object (default = dt)                                                                                                                                                                      | `0.0`      |
-| `allow_self_connections` | bool                                             | Defines if self-connections are allowed (default=False)                                                                                                                                                                                                   | `False`    |
-| `force_multiple_weights` | bool                                             | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
+| Name                     | Type                        | Description                                                                                                                                                                                                                                               | Default    |
+|--------------------------|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `number`                 | int                         | Number of synapses per pre-synaptic neuron.                                                                                                                                                                                                               | _required_ |
+| `weights`                | float \| RandomDistribution | Either a single value for all synapses or a RandomDistribution object.                                                                                                                                                                                    | `1.0`      |
+| `delays`                 | float \| RandomDistribution | Either a single value for all synapses or a RandomDistribution object (default = dt)                                                                                                                                                                      | `0.0`      |
+| `allow_self_connections` | bool                        | Defines if self-connections are allowed (default=False)                                                                                                                                                                                                   | `False`    |
+| `force_multiple_weights` | bool                        | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
 
 ### connect_fixed_number_pre { #ANNarchy.core.Projection.Projection.connect_fixed_number_pre }
 
@@ -129,13 +129,13 @@ Connection pattern where each post-synaptic neuron receives a fixed number of pr
 
 #### Parameters
 
-| Name                     | Type                                             | Description                                                                                                                                                                                                                                               | Default    |
-|--------------------------|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `number`                 | int                                              | Number of synapses per postsynaptic neuron.                                                                                                                                                                                                               | _required_ |
-| `weights`                | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object.                                                                                                                                                                                    | _required_ |
-| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object (default = dt)                                                                                                                                                                      | `0.0`      |
-| `allow_self_connections` | bool                                             | Defines if self-connections are allowed (default=False).                                                                                                                                                                                                  | `False`    |
-| `force_multiple_weights` | bool                                             | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
+| Name                     | Type                        | Description                                                                                                                                                                                                                                               | Default    |
+|--------------------------|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `number`                 | int                         | Number of synapses per postsynaptic neuron.                                                                                                                                                                                                               | _required_ |
+| `weights`                | float \| RandomDistribution | Either a single value for all synapses or a RandomDistribution object.                                                                                                                                                                                    | _required_ |
+| `delays`                 | float \| RandomDistribution | Either a single value for all synapses or a RandomDistribution object (default = dt)                                                                                                                                                                      | `0.0`      |
+| `allow_self_connections` | bool                        | Defines if self-connections are allowed (default=False).                                                                                                                                                                                                  | `False`    |
+| `force_multiple_weights` | bool                        | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
 
 ### connect_fixed_probability { #ANNarchy.core.Projection.Projection.connect_fixed_probability }
 
@@ -147,13 +147,13 @@ Each neuron in the postsynaptic population is connected to neurons of the presyn
 
 #### Parameters
 
-| Name                     | Type                                             | Description                                                                                                                                                                                                                                           | Default    |
-|--------------------------|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `probability`            | float                                            | Probability that a synapse is created.                                                                                                                                                                                                                | _required_ |
-| `weights`                | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object.                                                                                                                                                                                | _required_ |
-| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Either a single value for all synapses or a RandomDistribution object (default = dt)                                                                                                                                                                  | `0.0`      |
-| `allow_self_connections` | bool                                             | Defines if self-connections are allowed (default=False).                                                                                                                                                                                              | `False`    |
-| `force_multiple_weights` | bool                                             | If a single value is provided for `weights` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting `force_multiple_weights` to True ensures that a value per synapse will be used. | `False`    |
+| Name                     | Type                        | Description                                                                                                                                                                                                                                           | Default    |
+|--------------------------|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `probability`            | float                       | Probability that a synapse is created.                                                                                                                                                                                                                | _required_ |
+| `weights`                | float \| RandomDistribution | Either a single value for all synapses or a RandomDistribution object.                                                                                                                                                                                | _required_ |
+| `delays`                 | float \| RandomDistribution | Either a single value for all synapses or a RandomDistribution object (default = dt)                                                                                                                                                                  | `0.0`      |
+| `allow_self_connections` | bool                        | Defines if self-connections are allowed (default=False).                                                                                                                                                                                              | `False`    |
+| `force_multiple_weights` | bool                        | If a single value is provided for `weights` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting `force_multiple_weights` to True ensures that a value per synapse will be used. | `False`    |
 
 ### connect_from_file { #ANNarchy.core.Projection.Projection.connect_from_file }
 
@@ -183,11 +183,11 @@ If a synapse should not be created, the weight value should be None.
 
 #### Parameters
 
-| Name       | Type              | Description                                                                                                                                                                           | Default    |
-|------------|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `weights`  | numpy.numpy.array | Numpy array (or list of lists of equal size) representing the weights. If a value is None, the corresponding synapse will not be created.                                             | _required_ |
-| `delays`   |                   | Numpy array representing the delays. Must represent the same synapses as the `weights` argument. If omitted, the delays are considered 0.                                             | `0.0`      |
-| `pre_post` |                   | States which index is first. By default, the first dimension is related to the post-synaptic population. If ``pre_post`` is True, the first dimension is the pre-synaptic population. | `False`    |
+| Name       | Type     | Description                                                                                                                                                                           | Default    |
+|------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `weights`  | np.array | Numpy array (or list of lists of equal size) representing the weights. If a value is None, the corresponding synapse will not be created.                                             | _required_ |
+| `delays`   |          | Numpy array representing the delays. Must represent the same synapses as the `weights` argument. If omitted, the delays are considered 0.                                             | `0.0`      |
+| `pre_post` |          | States which index is first. By default, the first dimension is related to the post-synaptic population. If ``pre_post`` is True, the first dimension is the pre-synaptic population. | `False`    |
 
 ### connect_from_matrix_market { #ANNarchy.core.Projection.Projection.connect_from_matrix_market }
 
@@ -211,10 +211,10 @@ Warning: a sparse matrix has pre-synaptic ranks as first dimension.
 
 #### Parameters
 
-| Name      | Type                                       | Description                                                                     | Default    |
-|-----------|--------------------------------------------|---------------------------------------------------------------------------------|------------|
-| `weights` | scipy.scipy.sparse.scipy.sparse.lil_matrix | a sparse lil_matrix object created from scipy.                                  | _required_ |
-| `delays`  | int \| float                               | the value of the constant delay (default: dt). Variable delays are not allowed. | `0.0`      |
+| Name      | Type                    | Description                                                                     | Default    |
+|-----------|-------------------------|---------------------------------------------------------------------------------|------------|
+| `weights` | scipy.sparse.lil_matrix | a sparse lil_matrix object created from scipy.                                  | _required_ |
+| `delays`  | int \| float            | the value of the constant delay (default: dt). Variable delays are not allowed. | `0.0`      |
 
 ### connect_gaussian { #ANNarchy.core.Projection.Projection.connect_gaussian }
 
@@ -226,13 +226,13 @@ Each neuron in the postsynaptic population is connected to a region of the presy
 
 #### Parameters
 
-| Name                     | Type                                             | Description                                                                         | Default    |
-|--------------------------|--------------------------------------------------|-------------------------------------------------------------------------------------|------------|
-| `amp`                    | float                                            | Amplitude of the Gaussian function                                                  | _required_ |
-| `sigma`                  | float                                            | Width of the Gaussian function                                                      | _required_ |
-| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Synaptic delay, either a single value or a random distribution object (default=dt). | `0.0`      |
-| `limit`                  | float                                            | Proportion of `amp` below which synapses are not created                            | `0.01`     |
-| `allow_self_connections` | bool                                             | Allows connections between a neuron and itself.                                     | `False`    |
+| Name                     | Type                        | Description                                                                         | Default    |
+|--------------------------|-----------------------------|-------------------------------------------------------------------------------------|------------|
+| `amp`                    | float                       | Amplitude of the Gaussian function                                                  | _required_ |
+| `sigma`                  | float                       | Width of the Gaussian function                                                      | _required_ |
+| `delays`                 | float \| RandomDistribution | Synaptic delay, either a single value or a random distribution object (default=dt). | `0.0`      |
+| `limit`                  | float                       | Proportion of `amp` below which synapses are not created                            | `0.01`     |
+| `allow_self_connections` | bool                        | Allows connections between a neuron and itself.                                     | `False`    |
 
 ### connect_one_to_one { #ANNarchy.core.Projection.Projection.connect_one_to_one }
 
@@ -242,11 +242,11 @@ one-to-one connection pattern.
 
 #### Parameters
 
-| Name                     | Type                                             | Description                                                                                                                                                                                                                                               | Default   |
-|--------------------------|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| `weights`                | float \| ANNarchy.core.Random.RandomDistribution | Initial synaptic values, either a single value (float) or a random distribution object.                                                                                                                                                                   | `1.0`     |
-| `delays`                 | float \| ANNarchy.core.Random.RandomDistribution | Synaptic delays, either a single value or a random distribution object (default=dt).                                                                                                                                                                      | `0.0`     |
-| `force_multiple_weights` | bool                                             | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`   |
+| Name                     | Type                        | Description                                                                                                                                                                                                                                               | Default   |
+|--------------------------|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `weights`                | float \| RandomDistribution | Initial synaptic values, either a single value (float) or a random distribution object.                                                                                                                                                                   | `1.0`     |
+| `delays`                 | float \| RandomDistribution | Synaptic delays, either a single value or a random distribution object (default=dt).                                                                                                                                                                      | `0.0`     |
+| `force_multiple_weights` | bool                        | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`   |
 
 ### connect_with_func { #ANNarchy.core.Projection.Projection.connect_with_func }
 

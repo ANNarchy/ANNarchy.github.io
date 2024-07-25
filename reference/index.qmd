@@ -25,7 +25,7 @@ Configuration and compilation of the network.
 | [compile](compile.qmd#ANNarchy.generator.compile) | This method uses the network architecture to generate optimized C++ code and compile a shared library that will perform the simulation. |
 | [clear](clear.qmd#ANNarchy.core.Global.clear) | Clears all variables (erasing already defined populations, projections, monitors and constants), as if you had just imported ANNarchy. |
 | [reset](reset.qmd#ANNarchy.core.Global.reset) | Reinitialises the network to its state before the call to compile. The network time will be set to 0ms. |
-| [set_seed](set_seed.qmd#ANNarchy.core.Global.set_seed) | Sets the seed of the random number generators, both in numpy.random and in the C++ library when it is created. |
+| [set_seed](set_seed.qmd#ANNarchy.core.Global.set_seed) | Sets the seed of the random number generators, both in ANNarchy.RandomDistributions and in the C++ library when it is created. |
 | [get_population](get_population.qmd#ANNarchy.core.Global.get_population) | Returns the population with the given name. |
 | [get_projection](get_projection.qmd#ANNarchy.core.Global.get_projection) | Returns the projection with the given name. |
 | [populations](populations.qmd#ANNarchy.core.Global.populations) | Returns a list of all declared populations. |
@@ -39,7 +39,7 @@ Methods to control the simulation.
 | --- | --- |
 | [simulate](simulate.qmd#ANNarchy.core.Simulate.simulate) | Simulates the network for the given duration in milliseconds.  |
 | [simulate_until](simulate_until.qmd#ANNarchy.core.Simulate.simulate_until) | Runs the network for the maximal duration in milliseconds. If the ``stop_condition`` defined in the population becomes true during the simulation, it is stopped. |
-| [step](step.qmd#ANNarchy.core.Simulate.step) | Performs a single simulation step (duration = ``dt``). |
+| [step](step.qmd#ANNarchy.core.Simulate.step) | Performs a single simulation step (duration = `dt`). |
 | [parallel_run](parallel_run.qmd#ANNarchy.core.Network.parallel_run) | Allows to run multiple networks in parallel using multiprocessing. |
 | [enable_learning](enable_learning.qmd#ANNarchy.core.Global.enable_learning) | Enables learning for all projections. Optionally *period* and *offset* can be changed for all projections. |
 | [disable_learning](disable_learning.qmd#ANNarchy.core.Global.disable_learning) | Disables learning for all projections. |
@@ -136,8 +136,7 @@ Functions and constants declared at the global level.
 | [add_function](add_function.qmd#ANNarchy.core.Global.add_function) | Defines a global function which can be used by all neurons and synapses. |
 | [functions](functions.qmd#ANNarchy.core.Global.functions) | Allows to access a global function declared with ``add_function`` and use it from Python using arrays **after compilation**. |
 | [Constant](Constant.qmd#ANNarchy.core.Constant.Constant) | Constant parameter that can be used by all neurons and synapses. |
-| [list_constants](list_constants.qmd#ANNarchy.core.Global.list_constants) | Returns a list of all constants declared with ``Constant(name, value)``. |
-| [get_constant](get_constant.qmd#ANNarchy.core.Global.get_constant) | Returns the ``Constant`` object with the given name, ``None`` otherwise. |
+| [get_constant](get_constant.qmd#ANNarchy.core.Constant.get_constant) | Returns the Constant object with the given name, None otherwise. |
 
 ## **Plotting**
 
