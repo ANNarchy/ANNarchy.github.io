@@ -1,6 +1,14 @@
 # ANNtoSNNConverter { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter }
 
-`extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter(self, input_encoding='CPN', hidden_neuron='IaF', read_out='spike_count', **kwargs)`
+```python
+extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter(
+    self,
+    input_encoding='CPN',
+    hidden_neuron='IaF',
+    read_out='spike_count',
+    **kwargs,
+)
+```
 
 Converts a pre-trained Keras model `.keras` into an ANNarchy spiking neural network. 
 
@@ -106,13 +114,13 @@ In a classification task, the neuron with the highest activity corresponds corre
 
 > Auge D, Hille J, Mueller E et al. (2021) A Survey of Encoding Techniques for Signal Processing in Spiking Neural Networks. Neural Processing Letters. 2021; 53:4963-4710. doi:10.1007/s11063-021-10562-2
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-| Name             | Type   | Description                                                                                                                 | Default         |
-|------------------|--------|-----------------------------------------------------------------------------------------------------------------------------|-----------------|
-| `input_encoding` | str    | a string representing which input encoding should be used: 'CPN', 'IB' or 'PSO'.                                            | `'CPN'`         |
-| `hidden_neuron`  | str    | neuron model used in the hidden layers. Either the default integrate-and-fire ('IaF') or an ANNarchy Neuron object.         | `'IaF'`         |
-| `read_out`       | str    | a string which of the following read-out method should be used: `spike_count`, `time_to_first_spike`, `membrane_potential`. | `'spike_count'` |
+| Name           | Type   | Description                                                                                                                 | Default         |
+|----------------|--------|-----------------------------------------------------------------------------------------------------------------------------|-----------------|
+| input_encoding | str    | a string representing which input encoding should be used: 'CPN', 'IB' or 'PSO'.                                            | `'CPN'`         |
+| hidden_neuron  | str    | neuron model used in the hidden layers. Either the default integrate-and-fire ('IaF') or an ANNarchy Neuron object.         | `'IaF'`         |
+| read_out       | str    | a string which of the following read-out method should be used: `spike_count`, `time_to_first_spike`, `membrane_potential`. | `'spike_count'` |
 
 ## Methods
 
@@ -124,13 +132,23 @@ In a classification task, the neuron with the highest activity corresponds corre
 
 ### get_annarchy_network { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network }
 
-`extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network()`
+```python
+extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network(
+)
+```
 
 Returns the ANNarchy.Network instance.
 
 ### load_keras_model { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model }
 
-`extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model(filename, directory='annarchy', scale_factor=None, show_info=True)`
+```python
+extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model(
+    filename,
+    directory='annarchy',
+    scale_factor=None,
+    show_info=True,
+)
+```
 
 Loads the pre-trained model provided as a .keras file.
 
@@ -140,37 +158,43 @@ In tf.keras, the weights can be saved using:
 model.save("model.keras")
 ```
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name           | Type   | Description                                                                                                                                                                                                                                                                     | Default      |
-|----------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| `filename`     | str    | path to the `.keras` file.                                                                                                                                                                                                                                                      | _required_   |
-| `directory`    | str    | sub-directory where the generated code should be stored (default: "annarchy")                                                                                                                                                                                                   | `'annarchy'` |
-| `scale_factor` | float  | allows a fine-grained control of the weight scale factor. By default (None), with each layer-depth the factor increases by one. If a scalar value is provided the same value is used for each layer. Otherwise a list can be provided to assign the scale factors individually. | `None`       |
-| `show_info`    | bool   | whether the network structure should be printed on console (default: True)                                                                                                                                                                                                      | `True`       |
+| Name         | Type   | Description                                                                                                                                                                                                                                                                     | Default      |
+|--------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
+| filename     | str    | path to the `.keras` file.                                                                                                                                                                                                                                                      | _required_   |
+| directory    | str    | sub-directory where the generated code should be stored (default: "annarchy")                                                                                                                                                                                                   | `'annarchy'` |
+| scale_factor | float  | allows a fine-grained control of the weight scale factor. By default (None), with each layer-depth the factor increases by one. If a scalar value is provided the same value is used for each layer. Otherwise a list can be provided to assign the scale factors individually. | `None`       |
+| show_info    | bool   | whether the network structure should be printed on console (default: True)                                                                                                                                                                                                      | `True`       |
 
-#### Returns
+#### Returns {.doc-section .doc-section-returns}
 
-| Type    | Description                     |
-|---------|---------------------------------|
-| Network | An `ANNarchy.Network` instance. |
+| Name   | Type    | Description                     |
+|--------|---------|---------------------------------|
+|        | Network | An `ANNarchy.Network` instance. |
 
 ### predict { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict }
 
-`extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict(samples, duration_per_sample=1000, multiple=False)`
+```python
+extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict(
+    samples,
+    duration_per_sample=1000,
+    multiple=False,
+)
+```
 
 Performs the prediction for a given input array.
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name                  | Type   | Description                                                                                                    | Default    |
-|-----------------------|--------|----------------------------------------------------------------------------------------------------------------|------------|
-| `samples`             |        | set of inputs to present to the network. The function expects a 2-dimensional array (num_samples, input_size). | _required_ |
-| `duration_per_sample` |        | the number of simulation steps for one input sample (default: 1000, 1 second biological time)                  | `1000`     |
-| `multiple`            |        | if several output neurons reach the criteria, return the full list instead of randomly chosing one.            | `False`    |
+| Name                | Type   | Description                                                                                                    | Default    |
+|---------------------|--------|----------------------------------------------------------------------------------------------------------------|------------|
+| samples             |        | set of inputs to present to the network. The function expects a 2-dimensional array (num_samples, input_size). | _required_ |
+| duration_per_sample |        | the number of simulation steps for one input sample (default: 1000, 1 second biological time)                  | `1000`     |
+| multiple            |        | if several output neurons reach the criteria, return the full list instead of randomly chosing one.            | `False`    |
 
-#### Returns
+#### Returns {.doc-section .doc-section-returns}
 
-| Type        | Description                                        |
-|-------------|----------------------------------------------------|
-| list\[int\] | A list of predicted class indices for each sample. |
+| Name   | Type        | Description                                        |
+|--------|-------------|----------------------------------------------------|
+|        | list\[int\] | A list of predicted class indices for each sample. |

@@ -1,6 +1,8 @@
 # Logger { #ANNarchy.extensions.tensorboard.Logger.Logger }
 
-`extensions.tensorboard.Logger.Logger(self, logdir='runs/', experiment=None)`
+```python
+extensions.tensorboard.Logger.Logger(self, logdir='runs/', experiment=None)
+```
 
 Logger class to use tensorboard to visualize ANNarchy simulations. Requires the `tensorboardX` package (pip install tensorboardX). 
 
@@ -52,12 +54,12 @@ TensorboardX enqueues the data in memory before writing to disk. You can force f
 logger.flush()
 ```
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-| Name         | Type   | Description                                                                                                                                                                                                | Default   |
-|--------------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| `logdir`     | str    | path (absolute or relative) to the logging directory. Subfolders will be created for each individual run. The default is "runs/"                                                                           | `'runs/'` |
-| `experiment` | str    | name of the subfolder for the current run. By default, it is a combination of the current time and the hostname (e.g. Apr22_12-11-22_machine). If you reuse an experiment name, the data will be appended. | `None`    |
+| Name       | Type   | Description                                                                                                                                                                                                | Default   |
+|------------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| logdir     | str    | path (absolute or relative) to the logging directory. Subfolders will be created for each individual run. The default is "runs/"                                                                           | `'runs/'` |
+| experiment | str    | name of the subfolder for the current run. By default, it is a combination of the current time and the hostname (e.g. Apr22_12-11-22_machine). If you reuse an experiment name, the data will be appended. | `None`    |
 
 ## Methods
 
@@ -75,7 +77,14 @@ logger.flush()
 
 ### add_figure { #ANNarchy.extensions.tensorboard.Logger.Logger.add_figure }
 
-`extensions.tensorboard.Logger.Logger.add_figure(tag, figure, step=None, close=True)`
+```python
+extensions.tensorboard.Logger.Logger.add_figure(
+    tag,
+    figure,
+    step=None,
+    close=True,
+)
+```
 
 Logs a Matplotlib figure.
 
@@ -90,18 +99,20 @@ with Logger() as logger:
         logger.add_figure("Activity", fig, trial)
 ```
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name     | Type               | Description                                                         | Default    |
-|----------|--------------------|---------------------------------------------------------------------|------------|
-| `tag`    | str                | name of the image in tensorboard.                                   | _required_ |
-| `figure` | list \| np.ndarray | a list or 1D numpy array of values.                                 | _required_ |
-| `step`   | int                | time index.                                                         | `None`     |
-| `close`  | bool               | whether the logger will close the figure when done (default: True). | `True`     |
+| Name   | Type               | Description                                                         | Default    |
+|--------|--------------------|---------------------------------------------------------------------|------------|
+| tag    | str                | name of the image in tensorboard.                                   | _required_ |
+| figure | list \| np.ndarray | a list or 1D numpy array of values.                                 | _required_ |
+| step   | int                | time index.                                                         | `None`     |
+| close  | bool               | whether the logger will close the figure when done (default: True). | `True`     |
 
 ### add_histogram { #ANNarchy.extensions.tensorboard.Logger.Logger.add_histogram }
 
-`extensions.tensorboard.Logger.Logger.add_histogram(tag, hist, step=None)`
+```python
+extensions.tensorboard.Logger.Logger.add_histogram(tag, hist, step=None)
+```
 
 Logs an histogram.
 
@@ -115,17 +126,24 @@ with Logger() as logger:
         logger.add_histogram("Weight distribution", weights, trial)
 ```
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
 | Name   | Type               | Description                         | Default    |
 |--------|--------------------|-------------------------------------|------------|
-| `tag`  | str                | name of the figure in tensorboard.  | _required_ |
-| `hist` | list \| np.ndarray | a list or 1D numpy array of values. | _required_ |
-| `step` | int                | time index.                         | `None`     |
+| tag    | str                | name of the figure in tensorboard.  | _required_ |
+| hist   | list \| np.ndarray | a list or 1D numpy array of values. | _required_ |
+| step   | int                | time index.                         | `None`     |
 
 ### add_image { #ANNarchy.extensions.tensorboard.Logger.Logger.add_image }
 
-`extensions.tensorboard.Logger.Logger.add_image(tag, img, step=None, equalize=False)`
+```python
+extensions.tensorboard.Logger.Logger.add_image(
+    tag,
+    img,
+    step=None,
+    equalize=False,
+)
+```
 
 Logs an image.
 
@@ -141,18 +159,26 @@ with Logger() as logger:
         logger.add_image("Population / Firing rate", img, trial, equalize=True)
 ```
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name       | Type       | Description                                                                    | Default    |
-|------------|------------|--------------------------------------------------------------------------------|------------|
-| `tag`      | str        | name of the figure in tensorboard.                                             | _required_ |
-| `img`      | np.ndarray | array for the image.                                                           | _required_ |
-| `step`     | int        | time index.                                                                    | `None`     |
-| `equalize` | bool       | rescales the pixels between 0 and 1 using the min and max values of the array. | `False`    |
+| Name     | Type       | Description                                                                    | Default    |
+|----------|------------|--------------------------------------------------------------------------------|------------|
+| tag      | str        | name of the figure in tensorboard.                                             | _required_ |
+| img      | np.ndarray | array for the image.                                                           | _required_ |
+| step     | int        | time index.                                                                    | `None`     |
+| equalize | bool       | rescales the pixels between 0 and 1 using the min and max values of the array. | `False`    |
 
 ### add_images { #ANNarchy.extensions.tensorboard.Logger.Logger.add_images }
 
-`extensions.tensorboard.Logger.Logger.add_images(tag, img, step=None, equalize=False, equalize_per_image=False)`
+```python
+extensions.tensorboard.Logger.Logger.add_images(
+    tag,
+    img,
+    step=None,
+    equalize=False,
+    equalize_per_image=False,
+)
+```
 
 Logs a set of images (e.g. receptive fields).
 
@@ -168,19 +194,21 @@ with Logger() as logger:
         logger.add_images("Projection/Receptive fields", weights, trial, equalize=True)
 ```
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name                 | Type     | Description                                                                                                                     | Default    |
-|----------------------|----------|---------------------------------------------------------------------------------------------------------------------------------|------------|
-| `tag`                | str      | name of the figure in tensorboard.                                                                                              | _required_ |
-| `img`                | np.array | array for the images.                                                                                                           | _required_ |
-| `step`               | int      | time index.                                                                                                                     | `None`     |
-| `equalize`           | bool     | rescales the pixels between 0 and 1 using the min and max values of the array.                                                  | `False`    |
-| `equalize_per_image` | bool     | whether the rescaling should be using the global min/max values of the array, or per image. Has no effect if equalize of False. | `False`    |
+| Name               | Type     | Description                                                                                                                     | Default    |
+|--------------------|----------|---------------------------------------------------------------------------------------------------------------------------------|------------|
+| tag                | str      | name of the figure in tensorboard.                                                                                              | _required_ |
+| img                | np.array | array for the images.                                                                                                           | _required_ |
+| step               | int      | time index.                                                                                                                     | `None`     |
+| equalize           | bool     | rescales the pixels between 0 and 1 using the min and max values of the array.                                                  | `False`    |
+| equalize_per_image | bool     | whether the rescaling should be using the global min/max values of the array, or per image. Has no effect if equalize of False. | `False`    |
 
 ### add_parameters { #ANNarchy.extensions.tensorboard.Logger.Logger.add_parameters }
 
-`extensions.tensorboard.Logger.Logger.add_parameters(params, metrics)`
+```python
+extensions.tensorboard.Logger.Logger.add_parameters(params, metrics)
+```
 
 Logs parameters of a simulation.
 
@@ -197,16 +225,18 @@ with Logger() as logger:
     logger.add_parameters({'learning_rate': lr, 'tau': tau}, {'accuracy': accuracy})
 ```
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name      | Type   | Description               | Default    |
-|-----------|--------|---------------------------|------------|
-| `params`  | dict   | dictionary of parameters. | _required_ |
-| `metrics` | dict   | dictionary of metrics.    | _required_ |
+| Name    | Type   | Description               | Default    |
+|---------|--------|---------------------------|------------|
+| params  | dict   | dictionary of parameters. | _required_ |
+| metrics | dict   | dictionary of metrics.    | _required_ |
 
 ### add_scalar { #ANNarchy.extensions.tensorboard.Logger.Logger.add_scalar }
 
-`extensions.tensorboard.Logger.Logger.add_scalar(tag, value, step=None)`
+```python
+extensions.tensorboard.Logger.Logger.add_scalar(tag, value, step=None)
+```
 
 Logs a single scalar value, e.g. a success rate at various stages of learning.
 
@@ -220,17 +250,19 @@ with Logger() as logger:
         logger.add_scalar("Accuracy", accuracy, trial)
 ```
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name    | Type   | Description                        | Default    |
-|---------|--------|------------------------------------|------------|
-| `tag`   | str    | name of the figure in tensorboard. | _required_ |
-| `value` | float  | value.                             | _required_ |
-| `step`  | int    | time index.                        | `None`     |
+| Name   | Type   | Description                        | Default    |
+|--------|--------|------------------------------------|------------|
+| tag    | str    | name of the figure in tensorboard. | _required_ |
+| value  | float  | value.                             | _required_ |
+| step   | int    | time index.                        | `None`     |
 
 ### add_scalars { #ANNarchy.extensions.tensorboard.Logger.Logger.add_scalars }
 
-`extensions.tensorboard.Logger.Logger.add_scalars(tag, value, step=None)`
+```python
+extensions.tensorboard.Logger.Logger.add_scalars(tag, value, step=None)
+```
 
 Logs multiple scalar values to be displayed in the same figure, e.g. several metrics or neural activities.
 
@@ -248,22 +280,26 @@ with Logger() as logger:
             trial)
 ```
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name    | Type   | Description                        | Default    |
-|---------|--------|------------------------------------|------------|
-| `tag`   | str    | name of the figure in tensorboard. | _required_ |
-| `value` | dict   | dictionary of values.              | _required_ |
-| `step`  | int    | time index.                        | `None`     |
+| Name   | Type   | Description                        | Default    |
+|--------|--------|------------------------------------|------------|
+| tag    | str    | name of the figure in tensorboard. | _required_ |
+| value  | dict   | dictionary of values.              | _required_ |
+| step   | int    | time index.                        | `None`     |
 
 ### close { #ANNarchy.extensions.tensorboard.Logger.Logger.close }
 
-`extensions.tensorboard.Logger.Logger.close()`
+```python
+extensions.tensorboard.Logger.Logger.close()
+```
 
 Closes the logger.
 
 ### flush { #ANNarchy.extensions.tensorboard.Logger.Logger.flush }
 
-`extensions.tensorboard.Logger.Logger.flush()`
+```python
+extensions.tensorboard.Logger.Logger.flush()
+```
 
 Forces the logged data to be flushed to disk.

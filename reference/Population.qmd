@@ -1,6 +1,16 @@
 # Population { #ANNarchy.core.Population.Population }
 
-`core.Population.Population(self, geometry, neuron, name=None, stop_condition=None, storage_order='post_to_pre', copied=False)`
+```python
+core.Population.Population(
+    self,
+    geometry,
+    neuron,
+    name=None,
+    stop_condition=None,
+    storage_order='post_to_pre',
+    copied=False,
+)
+```
 
 Structure for a population of homogeneous neurons.
 
@@ -10,14 +20,14 @@ Example:
 pop = ann.Population(100, neuron=ann.Izhikevich, name="Excitatory population")
 ```
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-| Name             | Type         | Description                                                                                | Default    |
-|------------------|--------------|--------------------------------------------------------------------------------------------|------------|
-| `geometry`       | tuple \| int | population geometry as tuple. If an integer is given, it is the size of the population.    | _required_ |
-| `neuron`         | Neuron       | `Neuron`instance. It can be user-defined or a built-in model.                              | _required_ |
-| `name`           | str          | unique name of the population (optional, it defaults to `pop0`, `pop1`, etc).              | `None`     |
-| `stop_condition` | str          | a single condition on a neural variable which can stop the simulation whenever it is true. | `None`     |
+| Name           | Type         | Description                                                                                | Default    |
+|----------------|--------------|--------------------------------------------------------------------------------------------|------------|
+| geometry       | tuple \| int | population geometry as tuple. If an integer is given, it is the size of the population.    | _required_ |
+| neuron         | Neuron       | `Neuron`instance. It can be user-defined or a built-in model.                              | _required_ |
+| name           | str          | unique name of the population (optional, it defaults to `pop0`, `pop1`, etc).              | `None`     |
+| stop_condition | str          | a single condition on a neural variable which can stop the simulation whenever it is true. | `None`     |
 
 ## Attributes
 
@@ -61,7 +71,9 @@ pop = ann.Population(100, neuron=ann.Izhikevich, name="Excitatory population")
 
 ### clear { #ANNarchy.core.Population.Population.clear }
 
-`core.Population.Population.clear()`
+```python
+core.Population.Population.clear()
+```
 
 Clears all spiking events previously emitted (history of spikes, delayed spikes).
 
@@ -71,7 +83,9 @@ Note: does nothing for rate-coded networks.
 
 ### compute_firing_rate { #ANNarchy.core.Population.Population.compute_firing_rate }
 
-`core.Population.Population.compute_firing_rate(window)`
+```python
+core.Population.Population.compute_firing_rate(window)
+```
 
 Tells spiking neurons in the population to compute their mean firing rate over the given window and store the values in the variable `r`.
 
@@ -79,33 +93,37 @@ This method has an effect on spiking neurons only.
 
 If this method is not called, `r` will always be 0.0. `r` can of course be accessed and recorded as any other variable.
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name     | Type   | Description                                         | Default    |
-|----------|--------|-----------------------------------------------------|------------|
-| `window` | float  | window in ms over which the spikes will be counted. | _required_ |
+| Name   | Type   | Description                                         | Default    |
+|--------|--------|-----------------------------------------------------|------------|
+| window | float  | window in ms over which the spikes will be counted. | _required_ |
 
 ### coordinates_from_rank { #ANNarchy.core.Population.Population.coordinates_from_rank }
 
-`core.Population.Population.coordinates_from_rank(rank)`
+```python
+core.Population.Population.coordinates_from_rank(rank)
+```
 
 Returns the coordinates of a neuron based on its rank.
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
 | Name   | Type   | Description         | Default    |
 |--------|--------|---------------------|------------|
-| `rank` | int    | Rank of the neuron. | _required_ |
+| rank   | int    | Rank of the neuron. | _required_ |
 
-#### Returns
+#### Returns {.doc-section .doc-section-returns}
 
-| Type   | Description   |
-|--------|---------------|
-| tuple  | Coordinates.  |
+| Name   | Type   | Description   |
+|--------|--------|---------------|
+|        | tuple  | Coordinates.  |
 
 ### disable { #ANNarchy.core.Population.Population.disable }
 
-`core.Population.Population.disable()`
+```python
+core.Population.Population.disable()
+```
 
 Temporarily disables computations in this population (including the projections leading to it).
 
@@ -113,7 +131,9 @@ You can re-enable it with the `enable()` method.
 
 ### enable { #ANNarchy.core.Population.Population.enable }
 
-`core.Population.Population.enable()`
+```python
+core.Population.Population.enable()
+```
 
 (Re)-enables computations in this population, after they were disabled by the `disable()` method.
 
@@ -121,19 +141,23 @@ The status of the population is accessible through the `enabled` flag.
 
 ### get { #ANNarchy.core.Population.Population.get }
 
-`core.Population.Population.get(name)`
+```python
+core.Population.Population.get(name)
+```
 
 Returns the value of neural variables and parameters.
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
 | Name   | Type   | Description                 | Default    |
 |--------|--------|-----------------------------|------------|
-| `name` | str    | attribute name as a string. | _required_ |
+| name   | str    | attribute name as a string. | _required_ |
 
 ### load { #ANNarchy.core.Population.Population.load }
 
-`core.Population.Population.load(filename, pickle_encoding=None)`
+```python
+core.Population.Population.load(filename, pickle_encoding=None)
+```
 
 Load the saved state of the population by `Population.save()`.
 
@@ -147,77 +171,87 @@ pop.load('pop1.txt')
 pop.load('pop1.txt.gz')
 ```
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name       | Type   | Description                                  | Default    |
-|------------|--------|----------------------------------------------|------------|
-| `filename` |        | the filename with relative or absolute path. | _required_ |
+| Name     | Type   | Description                                  | Default    |
+|----------|--------|----------------------------------------------|------------|
+| filename |        | the filename with relative or absolute path. | _required_ |
 
 ### neuron { #ANNarchy.core.Population.Population.neuron }
 
-`core.Population.Population.neuron(*coord)`
+```python
+core.Population.Population.neuron(*coord)
+```
 
 Returns an ``IndividualNeuron`` object wrapping the neuron with the provided rank or coordinates.
 
-#### Returns
+#### Returns {.doc-section .doc-section-returns}
 
-| Type             | Description                |
-|------------------|----------------------------|
-| IndividualNeuron | IndividualNeuron instance. |
+| Name   | Type             | Description                |
+|--------|------------------|----------------------------|
+|        | IndividualNeuron | IndividualNeuron instance. |
 
 ### normalized_coordinates_from_rank { #ANNarchy.core.Population.Population.normalized_coordinates_from_rank }
 
-`core.Population.Population.normalized_coordinates_from_rank(rank, norm=1.0)`
+```python
+core.Population.Population.normalized_coordinates_from_rank(rank, norm=1.0)
+```
 
 Returns normalized coordinates of a neuron based on its rank. 
 The geometry of the population is mapped to the hypercube $[0, 1]^d$
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
 | Name   | Type   | Description                      | Default    |
 |--------|--------|----------------------------------|------------|
-| `rank` | int    | Rank of the neuron               | _required_ |
-| `norm` | float  | Norm of the cube (default = 1.0) | `1.0`      |
+| rank   | int    | Rank of the neuron               | _required_ |
+| norm   | float  | Norm of the cube (default = 1.0) | `1.0`      |
 
-#### Returns
+#### Returns {.doc-section .doc-section-returns}
 
-| Type   | Description   |
-|--------|---------------|
-| tuple  | Coordinates.  |
+| Name   | Type   | Description   |
+|--------|--------|---------------|
+|        | tuple  | Coordinates.  |
 
 ### rank_from_coordinates { #ANNarchy.core.Population.Population.rank_from_coordinates }
 
-`core.Population.Population.rank_from_coordinates(coord)`
+```python
+core.Population.Population.rank_from_coordinates(coord)
+```
 
 Returns the rank of a neuron based on coordinates.
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name    | Type   | Description                                | Default    |
-|---------|--------|--------------------------------------------|------------|
-| `coord` | tuple  | Coordinate tuple, can be multidimensional. | _required_ |
+| Name   | Type   | Description                                | Default    |
+|--------|--------|--------------------------------------------|------------|
+| coord  | tuple  | Coordinate tuple, can be multidimensional. | _required_ |
 
-#### Returns
+#### Returns {.doc-section .doc-section-returns}
 
-| Type   | Description   |
-|--------|---------------|
-| int    | Rank.         |
+| Name   | Type   | Description   |
+|--------|--------|---------------|
+|        | int    | Rank.         |
 
 ### reset { #ANNarchy.core.Population.Population.reset }
 
-`core.Population.Population.reset(attributes=None)`
+```python
+core.Population.Population.reset(attributes=None)
+```
 
 Resets all parameters and variables of the population to the value they had before the call to compile().
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name         | Type   | Description                                                                                        | Default   |
-|--------------|--------|----------------------------------------------------------------------------------------------------|-----------|
-| `attributes` | list   | list of attributes (parameter or variable) which should be reinitialized. Default: all attributes. | `None`    |
+| Name       | Type   | Description                                                                                        | Default   |
+|------------|--------|----------------------------------------------------------------------------------------------------|-----------|
+| attributes | list   | list of attributes (parameter or variable) which should be reinitialized. Default: all attributes. | `None`    |
 
 ### save { #ANNarchy.core.Population.Population.save }
 
-`core.Population.Population.save(filename)`
+```python
+core.Population.Population.save(filename)
+```
 
 Saves all information about the population (structure, current value of parameters and variables) into a file.
 
@@ -240,15 +274,17 @@ pop.save('pop1.txt.gz')
 pop.save('pop1.mat')
 ```
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name       | Type   | Description                                      | Default    |
-|------------|--------|--------------------------------------------------|------------|
-| `filename` | str    | Filename, may contain relative or absolute path. | _required_ |
+| Name     | Type   | Description                                      | Default    |
+|----------|--------|--------------------------------------------------|------------|
+| filename | str    | Filename, may contain relative or absolute path. | _required_ |
 
 ### set { #ANNarchy.core.Population.Population.set }
 
-`core.Population.Population.set(values)`
+```python
+core.Population.Population.set(values)
+```
 
 Sets the value of neural variables and parameters.
 
@@ -258,27 +294,31 @@ Example:
 pop.set({'tau': 20.0, 'r': np.random.rand((8,8)) } )
 ```
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name     | Type   | Description                             | Default    |
-|----------|--------|-----------------------------------------|------------|
-| `values` | dict   | dictionary of attributes to be updated. | _required_ |
+| Name   | Type   | Description                             | Default    |
+|--------|--------|-----------------------------------------|------------|
+| values | dict   | dictionary of attributes to be updated. | _required_ |
 
 ### size_in_bytes { #ANNarchy.core.Population.Population.size_in_bytes }
 
-`core.Population.Population.size_in_bytes()`
+```python
+core.Population.Population.size_in_bytes()
+```
 
 Returns the size of allocated memory on the C++ side. Please note that this does not contain monitored data and works only if compile() has been invoked.
 
-#### Returns
+#### Returns {.doc-section .doc-section-returns}
 
-| Type   | Description   |
-|--------|---------------|
-| int    | Size.         |
+| Name   | Type   | Description   |
+|--------|--------|---------------|
+|        | int    | Size.         |
 
 ### sum { #ANNarchy.core.Population.Population.sum }
 
-`core.Population.Population.sum(target)`
+```python
+core.Population.Population.sum(target)
+```
 
 Returns the array of weighted sums corresponding to the target:
 
@@ -296,8 +336,8 @@ If no incoming projection has the given target, the method returns zeros.
 
 **Note:** it is not possible to distinguish the original population when the same target is used.
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name     | Type   | Description                    | Default    |
-|----------|--------|--------------------------------|------------|
-| `target` | str    | the desired projection target. | _required_ |
+| Name   | Type   | Description                    | Default    |
+|--------|--------|--------------------------------|------------|
+| target | str    | the desired projection target. | _required_ |

@@ -1,6 +1,23 @@
 # compile { #ANNarchy.generator.compile }
 
-`generator.compile(directory='annarchy', clean=False, populations=None, projections=None, compiler='default', compiler_flags='default', add_sources='', extra_libs='', cuda_config={'device': 0}, annarchy_json='', silent=False, debug_build=False, profile_enabled=False, net_id=0)`
+```python
+generator.compile(
+    directory='annarchy',
+    clean=False,
+    populations=None,
+    projections=None,
+    compiler='default',
+    compiler_flags='default',
+    add_sources='',
+    extra_libs='',
+    cuda_config={'device': 0},
+    annarchy_json='',
+    silent=False,
+    debug_build=False,
+    profile_enabled=False,
+    net_id=0,
+)
+```
 
 This method uses the network architecture to generate optimized C++ code and compile a shared library that will perform the simulation.
 
@@ -11,16 +28,16 @@ The following arguments are for internal development use only:
 * **debug_build**: creates a debug version of ANNarchy, which logs the creation of objects and some other data (default: False).
 * **profile_enabled**: creates a profilable version of ANNarchy, which logs several computation timings (default: False).
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-| Name             | Type   | Description                                                                                                                                                                       | Default         |
-|------------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| `directory`      |        | name of the subdirectory where the code will be generated and compiled. Must be a relative path. Default: "annarchy/".                                                            | `'annarchy'`    |
-| `clean`          |        | boolean to specifying if the library should be recompiled entirely or only the changes since last compilation (default: False).                                                   | `False`         |
-| `populations`    |        | list of populations which should be compiled. If set to None, all available populations will be used.                                                                             | `None`          |
-| `projections`    |        | list of projection which should be compiled. If set to None, all available projections will be used.                                                                              | `None`          |
-| `compiler`       |        | C++ compiler to use. Default: g++ on GNU/Linux, clang++ on OS X. Valid compilers are [g++, clang++].                                                                              | `'default'`     |
-| `compiler_flags` |        | platform-specific flags to pass to the compiler. Default: "-march=native -O2". Warning: -O3 often generates slower code and can cause linking problems, so it is not recommended. | `'default'`     |
-| `cuda_config`    |        | dictionary defining the CUDA configuration for each population and projection.                                                                                                    | `{'device': 0}` |
-| `annarchy_json`  |        | compiler flags etc can be stored in a .json file normally placed in the home directory (see comment below). With this flag one can directly assign a file location.               | `''`            |
-| `silent`         |        | defines if status message like "Compiling... OK" should be printed.                                                                                                               | `False`         |
+| Name           | Type   | Description                                                                                                                                                                       | Default         |
+|----------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
+| directory      |        | name of the subdirectory where the code will be generated and compiled. Must be a relative path. Default: "annarchy/".                                                            | `'annarchy'`    |
+| clean          |        | boolean to specifying if the library should be recompiled entirely or only the changes since last compilation (default: False).                                                   | `False`         |
+| populations    |        | list of populations which should be compiled. If set to None, all available populations will be used.                                                                             | `None`          |
+| projections    |        | list of projection which should be compiled. If set to None, all available projections will be used.                                                                              | `None`          |
+| compiler       |        | C++ compiler to use. Default: g++ on GNU/Linux, clang++ on OS X. Valid compilers are [g++, clang++].                                                                              | `'default'`     |
+| compiler_flags |        | platform-specific flags to pass to the compiler. Default: "-march=native -O2". Warning: -O3 often generates slower code and can cause linking problems, so it is not recommended. | `'default'`     |
+| cuda_config    |        | dictionary defining the CUDA configuration for each population and projection.                                                                                                    | `{'device': 0}` |
+| annarchy_json  |        | compiler flags etc can be stored in a .json file normally placed in the home directory (see comment below). With this flag one can directly assign a file location.               | `''`            |
+| silent         |        | defines if status message like "Compiling... OK" should be printed.                                                                                                               | `False`         |

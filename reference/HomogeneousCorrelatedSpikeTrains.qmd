@@ -1,6 +1,19 @@
 # HomogeneousCorrelatedSpikeTrains { #ANNarchy.inputs.SpikeTrains.HomogeneousCorrelatedSpikeTrains }
 
-`inputs.SpikeTrains.HomogeneousCorrelatedSpikeTrains(self, geometry, rates, corr, tau, schedule=None, period=-1.0, name=None, refractory=None, copied=False)`
+```python
+inputs.SpikeTrains.HomogeneousCorrelatedSpikeTrains(
+    self,
+    geometry,
+    rates,
+    corr,
+    tau,
+    schedule=None,
+    period=-1.0,
+    name=None,
+    refractory=None,
+    copied=False,
+)
+```
 
 Population of spiking neurons following a homogeneous distribution with correlated spike trains.
 
@@ -57,15 +70,15 @@ ann.simulate(2000.)
 
 Even when using a schedule, ``corr`` accepts a single constant value. The first value of ``schedule`` must be 0. ``period`` specifies when the schedule "loops" back to its initial value. 
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-| Name         | Type                   | Description                                                                                                      | Default    |
-|--------------|------------------------|------------------------------------------------------------------------------------------------------------------|------------|
-| `geometry`   | int \| tuple\[int\]    | population geometry as tuple.                                                                                    | _required_ |
-| `rates`      | float \| list\[float\] | rate in Hz of the population (must be a positive float or a list)                                                | _required_ |
-| `corr`       | float \| list\[float\] | total correlation strength (float in [0, 1], or a list)                                                          | _required_ |
-| `tau`        | float                  | correlation time constant in ms.                                                                                 | _required_ |
-| `schedule`   | list\[float\]          | list of times where new values of ``rates``and ``corr``will be used to computre mu and sigma.                    | `None`     |
-| `period`     | float                  | time when the array will be reset and start again, allowing cycling over the schedule. Default: no cycling (-1.) | `-1.0`     |
-| `name`       | str                    | unique name of the population (optional).                                                                        | `None`     |
-| `refractory` | float                  | refractory period in ms (careful: may break the correlation)                                                     | `None`     |
+| Name       | Type                   | Description                                                                                                      | Default    |
+|------------|------------------------|------------------------------------------------------------------------------------------------------------------|------------|
+| geometry   | int \| tuple\[int\]    | population geometry as tuple.                                                                                    | _required_ |
+| rates      | float \| list\[float\] | rate in Hz of the population (must be a positive float or a list)                                                | _required_ |
+| corr       | float \| list\[float\] | total correlation strength (float in [0, 1], or a list)                                                          | _required_ |
+| tau        | float                  | correlation time constant in ms.                                                                                 | _required_ |
+| schedule   | list\[float\]          | list of times where new values of ``rates``and ``corr``will be used to computre mu and sigma.                    | `None`     |
+| period     | float                  | time when the array will be reset and start again, allowing cycling over the schedule. Default: no cycling (-1.) | `-1.0`     |
+| name       | str                    | unique name of the population (optional).                                                                        | `None`     |
+| refractory | float                  | refractory period in ms (careful: may break the correlation)                                                     | `None`     |

@@ -1,6 +1,8 @@
 # PopulationView { #ANNarchy.core.PopulationView.PopulationView }
 
-`core.PopulationView.PopulationView(self, population, ranks, geometry=None)`
+```python
+core.PopulationView.PopulationView(self, population, ranks, geometry=None)
+```
 
 Container representing a subset of neurons of a Population.
 
@@ -8,15 +10,15 @@ Container representing a subset of neurons of a Population.
 
 | Name | Description |
 | --- | --- |
-| [attributes](#ANNarchy.core.PopulationView.PopulationView.attributes) | List of attributes. |
-| [geometry](#ANNarchy.core.PopulationView.PopulationView.geometry) | Geometry of the population. |
-| [name](#ANNarchy.core.PopulationView.PopulationView.name) | Name of the population. |
-| [parameters](#ANNarchy.core.PopulationView.PopulationView.parameters) | List of parameter names. |
+| [attributes](#ANNarchy.core.PopulationView.PopulationView.attributes) | Returns a list of attributes of the original population. |
+| [geometry](#ANNarchy.core.PopulationView.PopulationView.geometry) | Geometry of the PopulationView (optional). |
+| [name](#ANNarchy.core.PopulationView.PopulationView.name) | Returns the name of the original population. |
+| [parameters](#ANNarchy.core.PopulationView.PopulationView.parameters) | Returns a list of constants of the original population. |
 | [population](#ANNarchy.core.PopulationView.PopulationView.population) | Original (full) population. |
 | [ranks](#ANNarchy.core.PopulationView.PopulationView.ranks) | Array of ranks in the PopulationView. |
-| [size](#ANNarchy.core.PopulationView.PopulationView.size) | Size of the population. |
+| [size](#ANNarchy.core.PopulationView.PopulationView.size) | Size of the PopulationView. |
 | [targets](#ANNarchy.core.PopulationView.PopulationView.targets) | List of targets connected to the population. |
-| [variables](#ANNarchy.core.PopulationView.PopulationView.variables) | List of variable names. |
+| [variables](#ANNarchy.core.PopulationView.PopulationView.variables) | Returns a list of variables of the original population. |
 
 ## Methods
 
@@ -30,7 +32,9 @@ Container representing a subset of neurons of a Population.
 
 ### coordinates_from_rank { #ANNarchy.core.PopulationView.PopulationView.coordinates_from_rank }
 
-`core.PopulationView.PopulationView.coordinates_from_rank(rank, local=False)`
+```python
+core.PopulationView.PopulationView.coordinates_from_rank(rank, local=False)
+```
 
 Returns the coordinates of a neuron based on its rank.
 
@@ -40,28 +44,32 @@ When local is True, the coordinates are interpreted relative to the geometry of 
 
 The rank is relative to the original population. Iterate over len(pop) otherwise.
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name    | Type   | Description                                                                      | Default    |
-|---------|--------|----------------------------------------------------------------------------------|------------|
-| `rank`  |        | rank of the neuron in the original population                                    | _required_ |
-| `local` |        | whether the coordinates are local to the PopulationView or not (default: False). | `False`    |
+| Name   | Type   | Description                                                                      | Default    |
+|--------|--------|----------------------------------------------------------------------------------|------------|
+| rank   |        | rank of the neuron in the original population                                    | _required_ |
+| local  |        | whether the coordinates are local to the PopulationView or not (default: False). | `False`    |
 
 ### get { #ANNarchy.core.PopulationView.PopulationView.get }
 
-`core.PopulationView.PopulationView.get(name)`
+```python
+core.PopulationView.PopulationView.get(name)
+```
 
 Returns current variable/parameter value.
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
 | Name   | Type   | Description                     | Default    |
 |--------|--------|---------------------------------|------------|
-| `name` |        | name of the parameter/variable. | _required_ |
+| name   |        | name of the parameter/variable. | _required_ |
 
 ### rank_from_coordinates { #ANNarchy.core.PopulationView.PopulationView.rank_from_coordinates }
 
-`core.PopulationView.PopulationView.rank_from_coordinates(coord, local=False)`
+```python
+core.PopulationView.PopulationView.rank_from_coordinates(coord, local=False)
+```
 
 Returns the rank of a neuron based on coordinates.
 
@@ -71,28 +79,32 @@ When local is True, the coordinates are interpreted relative to the geometry of 
 
 The rank is relative to the original population. Iterate over len(pop) otherwise.
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name    | Type   | Description                                                                     | Default    |
-|---------|--------|---------------------------------------------------------------------------------|------------|
-| `coord` |        | coordinate tuple, can be multidimensional.                                      | _required_ |
-| `local` |        | whther the coordinates are local to the PopulationView or not (default: False). | `False`    |
+| Name   | Type   | Description                                                                     | Default    |
+|--------|--------|---------------------------------------------------------------------------------|------------|
+| coord  |        | coordinate tuple, can be multidimensional.                                      | _required_ |
+| local  |        | whther the coordinates are local to the PopulationView or not (default: False). | `False`    |
 
 ### set { #ANNarchy.core.PopulationView.PopulationView.set }
 
-`core.PopulationView.PopulationView.set(value)`
+```python
+core.PopulationView.PopulationView.set(value)
+```
 
 Updates the neurons' variable/parameter values.
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name    | Type   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                | Default    |
-|---------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `value` | dict   | dictionary of parameters/variables to be updated for the corresponding subset of neurons. It can be a single value or a list/1D array of the same size as the PopulationView.  .. code-block:: python  >>> subpop = pop[0:5] >>> subpop.set( {'tau' : 20, 'r'= np.random.rand(subpop.size) } )  .. warning::  If you modify the value of a global parameter, this will be the case for ALL neurons of the population, not only the subset. | _required_ |
+| Name   | Type   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                | Default    |
+|--------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| value  | dict   | dictionary of parameters/variables to be updated for the corresponding subset of neurons. It can be a single value or a list/1D array of the same size as the PopulationView.  .. code-block:: python  >>> subpop = pop[0:5] >>> subpop.set( {'tau' : 20, 'r'= np.random.rand(subpop.size) } )  .. warning::  If you modify the value of a global parameter, this will be the case for ALL neurons of the population, not only the subset. | _required_ |
 
 ### sum { #ANNarchy.core.PopulationView.PopulationView.sum }
 
-`core.PopulationView.PopulationView.sum(target)`
+```python
+core.PopulationView.PopulationView.sum(target)
+```
 
 Returns the array of weighted sums corresponding to the target::
 
@@ -104,8 +116,8 @@ For spiking networks, this is equivalent to accessing the conductances directly:
 
 If no incoming projection has the given target, the method returns zeros.
 
-#### Parameters
+#### Parameters {.doc-section .doc-section-parameters}
 
-| Name     | Type   | Description                                                                                                                       | Default    |
-|----------|--------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
-| `target` |        | the desired projection target.  **Note:** it is not possible to distinguish the original population when the same target is used. | _required_ |
+| Name   | Type   | Description                                                                                                                       | Default    |
+|--------|--------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
+| target |        | the desired projection target.  **Note:** it is not possible to distinguish the original population when the same target is used. | _required_ |

@@ -1,6 +1,19 @@
 # parallel_run { #ANNarchy.core.Network.parallel_run }
 
-`core.Network.parallel_run(method, networks=None, number=0, max_processes=-1, measure_time=False, sequential=False, same_seed=False, annarchy_json='', visible_cores=[], **args)`
+```python
+core.Network.parallel_run(
+    method,
+    networks=None,
+    number=0,
+    max_processes=-1,
+    measure_time=False,
+    sequential=False,
+    same_seed=False,
+    annarchy_json='',
+    visible_cores=[],
+    **args,
+)
+```
 
 Allows to run multiple networks in parallel using multiprocessing.
 
@@ -33,23 +46,23 @@ t2, n2 = results[1]
 t3, n3 = results[2]
 ```
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-| Name            | Type   | Description                                                                                                                                                                                                                                                                                                   | Default    |
-|-----------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `method`        |        | a Python method which will be executed for each network. This function must accept an integer as first argument (id of the simulation) and a Network object as second argument.                                                                                                                               | _required_ |
-| `networks`      | list   | a list of networks to simulate in parallel.                                                                                                                                                                                                                                                                   | `None`     |
-| `number`        | int    | the number of identical networks to run in parallel.                                                                                                                                                                                                                                                          | `0`        |
-| `max_processes` | int    | maximal number of processes to start concurrently (default: the available number of cores on the machine).                                                                                                                                                                                                    | `-1`       |
-| `measure_time`  | bool   | if the total simulation time should be printed out.                                                                                                                                                                                                                                                           | `False`    |
-| `sequential`    | bool   | if True, runs the simulations sequentially instead of in parallel (default: False).                                                                                                                                                                                                                           | `False`    |
-| `same_seed`     | bool   | if True, all networks will use the same seed. If not, the seed will be randomly initialized with time(0) for each network (default). It has no influence when the ``networks`` argument is set (the seed has to be set individually for each network using ``net.set_seed()``), only when ``number`` is used. | `False`    |
-| `annarchy_json` | str    | path to a different configuration file if needed (default "").                                                                                                                                                                                                                                                | `''`       |
-| `visible_cores` | list   | a list of CPU core ids to simulate on (must have max_processes entries and max_processes must be != -1)                                                                                                                                                                                                       | `[]`       |
-| `args`          |        | other named arguments you want to pass to the simulation method.                                                                                                                                                                                                                                              | `{}`       |
+| Name          | Type   | Description                                                                                                                                                                                                                                                                                                   | Default    |
+|---------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| method        |        | a Python method which will be executed for each network. This function must accept an integer as first argument (id of the simulation) and a Network object as second argument.                                                                                                                               | _required_ |
+| networks      | list   | a list of networks to simulate in parallel.                                                                                                                                                                                                                                                                   | `None`     |
+| number        | int    | the number of identical networks to run in parallel.                                                                                                                                                                                                                                                          | `0`        |
+| max_processes | int    | maximal number of processes to start concurrently (default: the available number of cores on the machine).                                                                                                                                                                                                    | `-1`       |
+| measure_time  | bool   | if the total simulation time should be printed out.                                                                                                                                                                                                                                                           | `False`    |
+| sequential    | bool   | if True, runs the simulations sequentially instead of in parallel (default: False).                                                                                                                                                                                                                           | `False`    |
+| same_seed     | bool   | if True, all networks will use the same seed. If not, the seed will be randomly initialized with time(0) for each network (default). It has no influence when the ``networks`` argument is set (the seed has to be set individually for each network using ``net.set_seed()``), only when ``number`` is used. | `False`    |
+| annarchy_json | str    | path to a different configuration file if needed (default "").                                                                                                                                                                                                                                                | `''`       |
+| visible_cores | list   | a list of CPU core ids to simulate on (must have max_processes entries and max_processes must be != -1)                                                                                                                                                                                                       | `[]`       |
+| args          |        | other named arguments you want to pass to the simulation method.                                                                                                                                                                                                                                              | `{}`       |
 
-## Returns
+## Returns {.doc-section .doc-section-returns}
 
-| Type   | Description                                             |
-|--------|---------------------------------------------------------|
-| list   | a list of the values returned by each call to `method`. |
+| Name   | Type   | Description                                             |
+|--------|--------|---------------------------------------------------------|
+|        | list   | a list of the values returned by each call to `method`. |
