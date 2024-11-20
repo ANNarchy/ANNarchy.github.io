@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>boldmonitor – ANNarchy 4.8.1</title>
+<title>boldmonitor – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -950,11 +950,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor" class="level1">
 <h1>BoldMonitor</h1>
-<p><code>extensions.bold.BoldMonitor.BoldMonitor(self, populations=None, bold_model=balloon_RN, mapping={'I_CBF': 'r'}, scale_factor=None, normalize_input=None, recorded_variables=None, start=False, net_id=0, copied=False)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>extensions.bold.BoldMonitor.BoldMonitor(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    populations<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    bold_model<span class="op">=</span>balloon_RN,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    mapping<span class="op">=</span>{<span class="st">'I_CBF'</span>: <span class="st">'r'</span>},</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    scale_factor<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    normalize_input<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    recorded_variables<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    start<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    net_id<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    copied<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Monitors the BOLD signal for several populations using a computational model.</p>
 <p>The BOLD monitor transforms one or two input population variables (such as the mean firing rate) into a recordable BOLD signal according to a computational model (for example a variation of the Balloon model).</p>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 5%">
@@ -972,43 +983,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>populations</code></td>
+<td>populations</td>
 <td>list</td>
 <td>list of recorded populations.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>bold_model</code></td>
+<td>bold_model</td>
 <td>BoldModel</td>
 <td>computational model for BOLD signal defined as a BoldModel object. Default is <code>balloon_RN</code>.</td>
 <td><code>balloon_RN</code></td>
 </tr>
 <tr class="odd">
-<td><code>mapping</code></td>
+<td>mapping</td>
 <td>dict</td>
 <td>mapping dictionary between the inputs of the BOLD model (<code>I_CBF</code> for single inputs, <code>I_CBF</code> and <code>I_CMRO2</code> for double inputs in the provided examples) and the variables of the input populations. By default, <code>{'I_CBF': 'r'}</code> maps the firing rate <code>r</code> of the input population(s) to the variable <code>I_CBF</code> of the BOLD model.</td>
 <td><code>{'I_CBF': 'r'}</code></td>
 </tr>
 <tr class="even">
-<td><code>scale_factor</code></td>
+<td>scale_factor</td>
 <td>list[float]</td>
 <td>list of float values to allow a weighting of signals between populations. By default, the input signal is weighted by the ratio of the population size to all populations within the recorded region.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="odd">
-<td><code>normalize_input</code></td>
+<td>normalize_input</td>
 <td>list[int]</td>
 <td>list of integer values which represent a optional baseline per population. The input signals will require an additional normalization using a baseline value. A value different from 0 represents the time period for determing this baseline in milliseconds (biological time).</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>recorded_variables</code></td>
+<td>recorded_variables</td>
 <td>list[str]</td>
 <td>which variables of the BOLD model should be recorded? (by default, the output variable of the BOLD model is added, e.g.&nbsp;[“BOLD”] for the provided examples).</td>
 <td><code>None</code></td>
 </tr>
 <tr class="odd">
-<td><code>start</code></td>
+<td>start</td>
 <td>bool</td>
 <td>whether to start recording directly.</td>
 <td><code>False</code></td>
@@ -1042,17 +1053,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.get" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.get">get</h3>
-<p><code>extensions.bold.BoldMonitor.BoldMonitor.get(variable)</code></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>extensions.bold.BoldMonitor.BoldMonitor.get(variable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Retrieves recordings as in <code>ANNarchy.core.Monitor.get()</code>.</p>
 </section>
 <section id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.start" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.start">start</h3>
-<p><code>extensions.bold.BoldMonitor.BoldMonitor.start()</code></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>extensions.bold.BoldMonitor.BoldMonitor.start()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Starts recording as in <code>ANNarchy.core.Monitor.start()</code>.</p>
 </section>
 <section id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.stop" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.stop">stop</h3>
-<p><code>extensions.bold.BoldMonitor.BoldMonitor.stop()</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>extensions.bold.BoldMonitor.BoldMonitor.stop()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Stops recording as in `ANNarchy.core.Monitor.stop().</p>
 
 

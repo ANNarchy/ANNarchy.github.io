@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>currentinjection – ANNarchy 4.8.1</title>
+<title>currentinjection – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -944,20 +944,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.inputs.CurrentInjection.CurrentInjection" class="level1">
 <h1>CurrentInjection</h1>
-<p><code>inputs.CurrentInjection.CurrentInjection(self, pre, post, target, name=None, copied=False)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inputs.CurrentInjection.CurrentInjection(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    pre,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    post,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    target,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    copied<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Inject current from a rate-coded population into a spiking population.</p>
 <p>The pre-synaptic population must be be rate-coded, the post-synaptic one must be spiking, both must have the same size and no plasticity is allowed.</p>
 <p>For each post-synaptic neuron, the current <code>g_target</code> will be set at each time step to the firing rate <code>r</code> of the pre-synaptic neuron with the same rank.</p>
 <p>The projection must be connected with <code>connect_current()</code>, which takes no parameter and does not accept delays. It is equivalent to <code>connect_one_to_one(weights=1)</code>.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.Population(<span class="dv">100</span>, ann.Neuron(equations<span class="op">=</span><span class="st">"r = sin(t)"</span>))</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">100</span>, Izhikevich)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> ann.CurrentInjection(inp, pop, <span class="st">'exc'</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>proj.connect_current()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.Population(<span class="dv">100</span>, ann.Neuron(equations<span class="op">=</span><span class="st">"r = sin(t)"</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">100</span>, Izhikevich)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> ann.CurrentInjection(inp, pop, <span class="st">'exc'</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>proj.connect_current()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -969,25 +976,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>pre</code></td>
+<td>pre</td>
 <td>Population</td>
 <td>pre-synaptic population.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>post</code></td>
+<td>post</td>
 <td>Population</td>
 <td>post-synaptic population.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>target</code></td>
+<td>target</td>
 <td>str</td>
 <td>type of the connection.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>name</code></td>
+<td>name</td>
 <td>str</td>
 <td>optional name.</td>
 <td><code>None</code></td>

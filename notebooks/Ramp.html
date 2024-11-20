@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Homeostatic STDP – ANNarchy 4.8.1</title>
+<title>Homeostatic STDP – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -161,7 +161,7 @@ window.Quarto = {
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -469,17 +469,17 @@ window.Quarto = {
 <p>It is based on the corresponding Carlsim tutorial:</p>
 <p>http://www.socsci.uci.edu/~jkrichma/CARLsim/doc/tut3_plasticity.html</p>
 <p>This notebook focuses on the simple “Ramp” experiment, but the principle is similar for the self-organizing receptive fields (SORF) in the next notebook.</p>
-<div id="cell-4" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="2">
+<div id="cell-4" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ann.clear()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ANNarchy 4.8 (4.8.1) on darwin (posix).</code></pre>
+<pre><code>ANNarchy 4.8 (4.8.2) on darwin (posix).</code></pre>
 </div>
 </div>
 <p>The network uses regular-spiking Izhikevich neurons (see the <code>Izhikevich</code> notebook), but using exponentially-decaying conductances and NMDA synapses:</p>
-<div id="cell-6" class="cell" data-execution_count="3">
+<div id="cell-6" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>RSNeuron <span class="op">=</span> ann.Neuron(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">        a = 0.02 : population</span></span>
@@ -535,12 +535,12 @@ window.Quarto = {
 </span></p>
 <p>Another thing to notice in this neuron model is that the differential equations for the membrane potential and recovery variable are solved concurrently using the midpoint numerical method for stability: the semi-implicit method initially proposed by Izhikevich would fail.</p>
 <p>The input of the network is a population of 100 Poisson neurons, whose firing rate vary linearly from 0.2 to 20 Hz:</p>
-<div id="cell-9" class="cell" data-execution_count="4">
+<div id="cell-9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Input population</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.PoissonPopulation(<span class="dv">100</span>, rates<span class="op">=</span>np.linspace(<span class="fl">0.2</span>, <span class="fl">20.</span>, <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will consider two RS neurons, one learning inputs from the Poisson population using the regular STDP, the other learning using the proposed homeostatic STDP:</p>
-<div id="cell-11" class="cell" data-execution_count="5">
+<div id="cell-11" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RS neuron without homeostatic mechanism</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> ann.Population(<span class="dv">1</span>, RSNeuron)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -554,7 +554,7 @@ window.Quarto = {
 <li>In a pre-post interval, weight changes follow the LTD trace.</li>
 </ul>
 <p>The weights are clipped between 0 and <span class="math inline">w_\text{max}</span>.</p>
-<div id="cell-13" class="cell" data-execution_count="6">
+<div id="cell-13" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nearest_neighbour_stdp <span class="op">=</span> ann.Synapse(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span><span class="st">"""</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="st">        tau_plus = 20. : projection</span></span>
@@ -590,7 +590,7 @@ window.Quarto = {
     K =  \frac{R}{ T \, (1 + |1 - \gamma \, \frac{R}{R_\text{target}}|})
 </span></p>
 <p>with <span class="math inline">T</span> being the window over which the mean firing rate is computed (5 seconds) and <span class="math inline">\alpha</span>, <span class="math inline">\beta</span>, <span class="math inline">\gamma</span> are parameters.</p>
-<div id="cell-15" class="cell" data-execution_count="7">
+<div id="cell-15" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>homeo_stdp <span class="op">=</span> ann.Synapse(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span><span class="st">"""</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">        # STDP</span></span>
@@ -629,12 +629,12 @@ window.Quarto = {
 <span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This rule necessitates that the post-synaptic neurons compute their average firing rate over a 5 seconds window. This has to be explicitely enabled, as it would be computationally too expensive to allow it by default:</p>
-<div id="cell-17" class="cell" data-execution_count="8">
+<div id="cell-17" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pop1.compute_firing_rate(<span class="fl">5000.</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>pop2.compute_firing_rate(<span class="fl">5000.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now fully connect the input population to the two neurons with random weights:</p>
-<div id="cell-19" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
+<div id="cell-19" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Projection without homeostatic mechanism</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>proj1 <span class="op">=</span> ann.Projection(inp, pop1, [<span class="st">'ampa'</span>, <span class="st">'nmda'</span>], synapse<span class="op">=</span>nearest_neighbour_stdp)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>proj1.connect_all_to_all(ann.Uniform(<span class="fl">0.01</span>, <span class="fl">0.03</span>))</span>
@@ -642,19 +642,19 @@ window.Quarto = {
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Projection with homeostatic mechanism</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>proj2 <span class="op">=</span> ann.Projection(inp, pop2, [<span class="st">'ampa'</span>, <span class="st">'nmda'</span>], synapse<span class="op">=</span>homeo_stdp)</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>proj2.connect_all_to_all(weights<span class="op">=</span>ann.Uniform(<span class="fl">0.01</span>, <span class="fl">0.03</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x127472840&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x10f1ea850&gt;</code></pre>
 </div>
 </div>
 <p>Note that the same weights will target both AMPA and NMDA conductances in the post-synaptic neurons. By default, the argument <code>target</code> of Projection should be a string, but you can also pass a list of strings to reach several conductances with the same weights.</p>
 <p>We can now compile and simulate for 1000 seconds while recording the relevat information:</p>
-<div id="cell-22" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="10">
+<div id="cell-22" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Compiling ...  OK </code></pre>
 </div>
 </div>
-<div id="cell-23" class="cell" data-execution_count="11">
+<div id="cell-23" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Record</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="op">=</span> ann.Monitor(pop1, <span class="st">'r'</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>m2 <span class="op">=</span> ann.Monitor(pop2, <span class="st">'r'</span>)</span>
@@ -674,12 +674,12 @@ window.Quarto = {
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Mean Firing Rate without homeostasis:'</span>, np.mean(data1[:, <span class="dv">0</span>]))</span>
 <span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Mean Firing Rate with homeostasis:'</span>, np.mean(data2[:, <span class="dv">0</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Simulating 1000.0 seconds of the network took 1.0483589172363281 seconds. 
-Mean Firing Rate without homeostasis: 55.69971160000001
-Mean Firing Rate with homeostasis: 35.217367599999996</code></pre>
+<pre><code>Simulating 1000.0 seconds of the network took 1.0502750873565674 seconds. 
+Mean Firing Rate without homeostasis: 55.75053480000002
+Mean Firing Rate with homeostasis: 35.2554836</code></pre>
 </div>
 </div>
-<div id="cell-24" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="12">
+<div id="cell-24" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>))</span>

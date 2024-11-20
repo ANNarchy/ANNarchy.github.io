@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>convolution – ANNarchy 4.8.1</title>
+<title>convolution – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -161,7 +161,7 @@ window.Quarto = {
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -997,21 +997,30 @@ window.Quarto = {
 
 <section id="ANNarchy.extensions.convolution.Convolve.Convolution" class="level1">
 <h1>Convolution</h1>
-<p><code>extensions.convolution.Convolve.Convolution(self, pre, post, target, psp='pre.r * w', operation='sum', name=None, copied=False)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Convolve.Convolution(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    pre,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    post,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    target,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    psp<span class="op">=</span><span class="st">'pre.r * w'</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    operation<span class="op">=</span><span class="st">'sum'</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    copied<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Performs a convolution of a weight kernel on the pre-synaptic population.</p>
 <p>Despite its name, the operation performed is actually a cross-correlation, as is usual in computer vision and convolutional neural networks:</p>
 <p><span class="math display">g(x) = \sum_{k=-n}^n h(k) \, f(x + k)</span></p>
 <p>The convolution operation benefits from giving a multi-dimensional geometry to the populations and filters, for example in 2D:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), neuron<span class="op">=</span>ann.Neuron(parameters<span class="op">=</span><span class="st">"r = 0.0"</span>))</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), neuron<span class="op">=</span>ann.Neuron(equations<span class="op">=</span><span class="st">"r = sum(exc)"</span>))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Convolution(inp, pop, <span class="st">'exc'</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>proj.connect_filter(</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    [</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">1.</span>, <span class="fl">0.</span>, <span class="fl">1.</span>],</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">1.</span>, <span class="fl">0.</span>, <span class="fl">1.</span>],</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">1.</span>, <span class="fl">0.</span>, <span class="fl">1.</span>]</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), neuron<span class="op">=</span>ann.Neuron(parameters<span class="op">=</span><span class="st">"r = 0.0"</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), neuron<span class="op">=</span>ann.Neuron(equations<span class="op">=</span><span class="st">"r = sum(exc)"</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> Convolution(inp, pop, <span class="st">'exc'</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>proj.connect_filter(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">1.</span>, <span class="fl">0.</span>, <span class="fl">1.</span>],</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">1.</span>, <span class="fl">0.</span>, <span class="fl">1.</span>],</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        [<span class="op">-</span><span class="fl">1.</span>, <span class="fl">0.</span>, <span class="fl">1.</span>]</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The maximum number of dimensions for populations and filters is 4, an error is thrown otherwise.</p>
 <p>Depending on the number of dimensions of the pre- and post-synaptic populations, as well as of the kernel, the convolution is implemented differentely.</p>
 <p><strong>Method connect_filter()</strong></p>
@@ -1032,13 +1041,13 @@ window.Quarto = {
 <p>Sub-sampling will be automatically performed according to the populations’ geometry. If these geometries do not match, an error will be thrown. Example:</p>
 <pre><code>(100, 100) * (3, 3) -&gt; (50, 50)</code></pre>
 <p>You can redefine the sub-sampling by providing a list <code>subsampling</code> as argument, defining for each post-synaptic neuron the coordinates of the pre-synaptic neuron which will be the center of the filter/kernel.</p>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 8%">
+<col style="width: 7%">
 <col style="width: 5%">
-<col style="width: 75%">
+<col style="width: 76%">
 <col style="width: 10%">
 </colgroup>
 <thead>
@@ -1051,31 +1060,31 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>pre</code></td>
+<td>pre</td>
 <td></td>
 <td>pre-synaptic population (either its name or a <code>Population</code> object).</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>post</code></td>
+<td>post</td>
 <td></td>
 <td>post-synaptic population (either its name or a <code>Population</code> object).</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>target</code></td>
+<td>target</td>
 <td></td>
 <td>type of the connection</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>psp</code></td>
+<td>psp</td>
 <td></td>
 <td>continuous influence of a single synapse on the post-synaptic neuron (default for rate-coded: <code>w*pre.r</code>).</td>
 <td><code>'pre.r * w'</code></td>
 </tr>
 <tr class="odd">
-<td><code>operation</code></td>
+<td>operation</td>
 <td></td>
 <td>operation (sum, max, min, mean) performed by the kernel (default: sum).</td>
 <td><code>'sum'</code></td>
@@ -1125,10 +1134,16 @@ window.Quarto = {
 </table>
 <section id="ANNarchy.extensions.convolution.Convolve.Convolution.connect_filter" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Convolve.Convolution.connect_filter">connect_filter</h3>
-<p><code>extensions.convolution.Convolve.Convolution.connect_filter(weights, delays=0.0, keep_last_dimension=False, padding=0.0, subsampling=None)</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Convolve.Convolution.connect_filter(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    weights,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    delays<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    keep_last_dimension<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    padding<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    subsampling<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Applies a single filter on the pre-synaptic population.</p>
-<section id="parameters-1" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-1">Parameters</h4>
+<section id="parameters-1" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 6%">
@@ -1146,31 +1161,31 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>weights</code></td>
+<td>weights</td>
 <td></td>
 <td>numpy array or list of lists representing the matrix of weights for the filter.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>delays</code></td>
+<td>delays</td>
 <td></td>
 <td>delay in synaptic transmission (default: dt). Can only be the same value for all neurons.</td>
 <td><code>0.0</code></td>
 </tr>
 <tr class="odd">
-<td><code>keep_last_dimension</code></td>
+<td>keep_last_dimension</td>
 <td></td>
 <td>defines if the last dimension of the pre- and post-synaptic will be convolved in parallel. The weights matrix must have one dimension less than the pre-synaptic population, and the number of neurons in the last dimension of the pre- and post-synaptic populations must match. Default: False.</td>
 <td><code>False</code></td>
 </tr>
 <tr class="even">
-<td><code>padding</code></td>
+<td>padding</td>
 <td></td>
 <td>value to be used for the rates outside the pre-synaptic population. If it is a floating value, the pre-synaptic population is virtually extended with this value above its boundaries. If it is equal to ‘border’, the values on the boundaries are repeated. Default: 0.0.</td>
 <td><code>0.0</code></td>
 </tr>
 <tr class="odd">
-<td><code>subsampling</code></td>
+<td>subsampling</td>
 <td></td>
 <td>list for each post-synaptic neuron of coordinates in the pre-synaptic population defining the center of the kernel/filter. Default: None.</td>
 <td><code>None</code></td>
@@ -1181,11 +1196,17 @@ window.Quarto = {
 </section>
 <section id="ANNarchy.extensions.convolution.Convolve.Convolution.connect_filters" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Convolve.Convolution.connect_filters">connect_filters</h3>
-<p><code>extensions.convolution.Convolve.Convolution.connect_filters(weights, delays=0.0, keep_last_dimension=False, padding=0.0, subsampling=None)</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Convolve.Convolution.connect_filters(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    weights,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    delays<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    keep_last_dimension<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    padding<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    subsampling<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Applies a set of different filters on the pre-synaptic population.</p>
 <p>The weights matrix must have one dimension more than the pre-synaptic populations, and the number of neurons in the last dimension of the post-synaptic population must be equal to the number of filters.</p>
-<section id="parameters-2" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-2">Parameters</h4>
+<section id="parameters-2" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 6%">
@@ -1203,31 +1224,31 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>weights</code></td>
+<td>weights</td>
 <td></td>
 <td>numpy array or list of lists representing the matrix of weights for the filter.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>delays</code></td>
+<td>delays</td>
 <td></td>
 <td>delay in synaptic transmission (default: dt). Can only be the same value for all neurons.</td>
 <td><code>0.0</code></td>
 </tr>
 <tr class="odd">
-<td><code>keep_last_dimension</code></td>
+<td>keep_last_dimension</td>
 <td></td>
 <td>defines if the last dimension of the pre- and post-synaptic will be convolved in parallel. The weights matrix must have one dimension less than the pre-synaptic population, and the number of neurons in the last dimension of the pre- and post-synaptic populations must match. Default: False.</td>
 <td><code>False</code></td>
 </tr>
 <tr class="even">
-<td><code>padding</code></td>
+<td>padding</td>
 <td></td>
 <td>value to be used for the rates outside the pre-synaptic population. If it is a floating value, the pre-synaptic population is virtually extended with this value above its boundaries. If it is equal to ‘border’, the values on the boundaries are repeated. Default: 0.0.</td>
 <td><code>0.0</code></td>
 </tr>
 <tr class="odd">
-<td><code>subsampling</code></td>
+<td>subsampling</td>
 <td></td>
 <td>list for each post-synaptic neuron of coordinates in the pre-synaptic population defining the center of the kernel/filter. Default: None.</td>
 <td><code>None</code></td>
@@ -1238,27 +1259,30 @@ window.Quarto = {
 </section>
 <section id="ANNarchy.extensions.convolution.Convolve.Convolution.connectivity_matrix" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Convolve.Convolution.connectivity_matrix">connectivity_matrix</h3>
-<p><code>extensions.convolution.Convolve.Convolution.connectivity_matrix(fill=0.0)</code></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Convolve.Convolution.connectivity_matrix(fill<span class="op">=</span><span class="fl">0.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Not available.</p>
 </section>
 <section id="ANNarchy.extensions.convolution.Convolve.Convolution.load" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Convolve.Convolution.load">load</h3>
-<p><code>extensions.convolution.Convolve.Convolution.load(filename)</code></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Convolve.Convolution.load(filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Not available.</p>
 </section>
 <section id="ANNarchy.extensions.convolution.Convolve.Convolution.receptive_fields" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Convolve.Convolution.receptive_fields">receptive_fields</h3>
-<p><code>extensions.convolution.Convolve.Convolution.receptive_fields(variable='w', in_post_geometry=True)</code></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Convolve.Convolution.receptive_fields(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    variable<span class="op">=</span><span class="st">'w'</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    in_post_geometry<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Not available.</p>
 </section>
 <section id="ANNarchy.extensions.convolution.Convolve.Convolution.save" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Convolve.Convolution.save">save</h3>
-<p><code>extensions.convolution.Convolve.Convolution.save(filename)</code></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Convolve.Convolution.save(filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Not available.</p>
 </section>
 <section id="ANNarchy.extensions.convolution.Convolve.Convolution.save_connectivity" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Convolve.Convolution.save_connectivity">save_connectivity</h3>
-<p><code>extensions.convolution.Convolve.Convolution.save_connectivity(filename)</code></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Convolve.Convolution.save_connectivity(filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Not available.</p>
 
 

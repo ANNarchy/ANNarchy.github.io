@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>boldmodel – ANNarchy 4.8.1</title>
+<title>boldmodel – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -161,7 +161,7 @@ window.Quarto = {
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -987,21 +987,29 @@ window.Quarto = {
 
 <section id="ANNarchy.extensions.bold.BoldModel.BoldModel" class="level1">
 <h1>BoldModel</h1>
-<p><code>extensions.bold.BoldModel.BoldModel(self, parameters, equations, inputs, output=['BOLD'], name='Custom BOLD model', description='')</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>extensions.bold.BoldModel.BoldModel(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    parameters,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    equations,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    inputs,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    output<span class="op">=</span>[<span class="st">'BOLD'</span>],</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">'Custom BOLD model'</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Base class to define a BOLD model to be used in a BOLD monitor.</p>
 <p>A BOLD model is quite similar to a regular rate-coded neuron. It gets a weighted sum of inputs with a specific target (e.g.&nbsp;I_CBF) and compute a single output variable (called <code>BOLD</code> in the predefined models, but it could be anything).</p>
 <p>The main difference is that a BOLD model should also declare which targets are used for the input signal:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>bold_model <span class="op">=</span> BoldModel(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="st">        tau = 1000.</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">        I_CBF = sum(I_CBF)</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="st">        # ...</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="st">        tau * dBOLD/dt = I_CBF - BOLD</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    inputs <span class="op">=</span> <span class="st">"I_CBF"</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bold_model <span class="op">=</span> BoldModel(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">        tau = 1000.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">        I_CBF = sum(I_CBF)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">        # ...</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">        tau * dBOLD/dt = I_CBF - BOLD</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    inputs <span class="op">=</span> <span class="st">"I_CBF"</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The provided BOLD models follow the Balloon model (Buxton et al., 1998) with the different variations studied in (Stephan et al., 2007). Those models all compute the vascular response to neural activity through a dampened oscillator:</p>
 <p><span class="math display">
     \frac{ds}{dt} = \phi \, I_\text{CBF} - \kappa \, s - \gamma \, (f_{in} - 1)
@@ -1069,14 +1077,14 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>Maith et al.&nbsp;(2022) BOLD monitoring in the neural simulator ANNarchy. Frontiers in Neuroinformatics 16. doi:10.3389/fninf.2022.790966.</p>
 </blockquote>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 11%">
+<col style="width: 10%">
 <col style="width: 6%">
-<col style="width: 64%">
-<col style="width: 17%">
+<col style="width: 65%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1088,37 +1096,37 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>parameters</code></td>
+<td>parameters</td>
 <td></td>
 <td>parameters of the model and their initial value.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>equations</code></td>
+<td>equations</td>
 <td></td>
 <td>equations defining the temporal evolution of variables.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>inputs</code></td>
+<td>inputs</td>
 <td></td>
 <td>single variable or list of input signals (e.g.&nbsp;‘I_CBF’ or [‘I_CBF’, ‘I_CMRO2’]).</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>output</code></td>
+<td>output</td>
 <td></td>
 <td>output variable of the model (default is ‘BOLD’).</td>
 <td><code>['BOLD']</code></td>
 </tr>
 <tr class="odd">
-<td><code>name</code></td>
+<td>name</td>
 <td></td>
 <td>optional model name.</td>
 <td><code>'Custom BOLD model'</code></td>
 </tr>
 <tr class="even">
-<td><code>description</code></td>
+<td>description</td>
 <td></td>
 <td>optional model description.</td>
 <td><code>''</code></td>

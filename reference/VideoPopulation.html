@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>videopopulation – ANNarchy 4.8.1</title>
+<title>videopopulation – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -950,22 +950,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.extensions.image.ImagePopulation.VideoPopulation" class="level1">
 <h1>VideoPopulation</h1>
-<p><code>extensions.image.ImagePopulation.VideoPopulation(self, geometry, opencv_version='4', name=None, copied=False)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>extensions.image.ImagePopulation.VideoPopulation(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    geometry,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    opencv_version<span class="op">=</span><span class="st">'4'</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    copied<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Rate-coded Population allowing to feed a webcam input into the firing rate of a population (each neuron represents one pixel).</p>
 <p>This extension requires the C++ library OpenCV &gt;= 4.0 (apt-get/yum install opencv). <code>pkg-config opencv4 --cflags --libs</code> should not return an error. <code>vtk</code> might additionally have to be installed.</p>
 <p>The extensions has to be explicitly imported:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ANNarchy.extensions.image <span class="im">import</span> VideoPopulation</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> VideoPopulation(geometry<span class="op">=</span>(<span class="dv">480</span>, <span class="dv">640</span>))</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">compile</span>()</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>pop.start_camera(<span class="dv">0</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(<span class="va">True</span>):</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    pop.grab_image()</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    simulate(<span class="fl">10.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ANNarchy.extensions.image <span class="im">import</span> VideoPopulation</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> VideoPopulation(geometry<span class="op">=</span>(<span class="dv">480</span>, <span class="dv">640</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">compile</span>()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>pop.start_camera(<span class="dv">0</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(<span class="va">True</span>):</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    pop.grab_image()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    simulate(<span class="fl">10.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>About the geometry:</p>
 <ul>
 <li>If the geometry is 2D, it corresponds to the (height, width) of the image. Only the luminance of the pixels will be represented (grayscale image).</li>
@@ -973,13 +979,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>If the third dimension is 3, each will correspond to the RGB values of the pixels.</p>
 <p><strong>Warning:</strong> due to the indexing system of Numpy, a 640*480 image should be fed into a (480, 640) or (480, 640, 3) population.</p>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 9%">
+<col style="width: 8%">
 <col style="width: 4%">
-<col style="width: 79%">
+<col style="width: 80%">
 <col style="width: 6%">
 </colgroup>
 <thead>
@@ -992,19 +998,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>geometry</code></td>
+<td>geometry</td>
 <td>tuple</td>
 <td>population geometry as tuple. It must be fixed through the whole simulation. If the camera provides images of a different size, it will be resized.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>opencv_version</code></td>
+<td>opencv_version</td>
 <td>str</td>
 <td>OpenCV version (default=4).</td>
 <td><code>'4'</code></td>
 </tr>
 <tr class="odd">
-<td><code>name</code></td>
+<td>name</td>
 <td>str</td>
 <td>unique name of the population (optional).</td>
 <td><code>None</code></td>
@@ -1038,20 +1044,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="ANNarchy.extensions.image.ImagePopulation.VideoPopulation.grab_image" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.image.ImagePopulation.VideoPopulation.grab_image">grab_image</h3>
-<p><code>extensions.image.ImagePopulation.VideoPopulation.grab_image()</code></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>extensions.image.ImagePopulation.VideoPopulation.grab_image()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Grabs one image from the camera and feeds it into the population.</p>
 <p>The camera must be first started with:</p>
 <pre><code>pop.start_camera(0)</code></pre>
 </section>
 <section id="ANNarchy.extensions.image.ImagePopulation.VideoPopulation.release" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.image.ImagePopulation.VideoPopulation.release">release</h3>
-<p><code>extensions.image.ImagePopulation.VideoPopulation.release()</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>extensions.image.ImagePopulation.VideoPopulation.release()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Releases the camera:</p>
 <pre><code>pop.release()</code></pre>
 </section>
 <section id="ANNarchy.extensions.image.ImagePopulation.VideoPopulation.start_camera" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.image.ImagePopulation.VideoPopulation.start_camera">start_camera</h3>
-<p><code>extensions.image.ImagePopulation.VideoPopulation.start_camera(camera_port=0)</code></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>extensions.image.ImagePopulation.VideoPopulation.start_camera(camera_port<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Starts the webcam with the corresponding device (default = 0).</p>
 <p>On linux, the camera port corresponds to the number in /dev/video0, /dev/video1, etc.</p>
 

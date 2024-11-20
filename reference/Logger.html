@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>logger – ANNarchy 4.8.1</title>
+<title>logger – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -956,28 +956,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.extensions.tensorboard.Logger.Logger" class="level1">
 <h1>Logger</h1>
-<p><code>extensions.tensorboard.Logger.Logger(self, logdir='runs/', experiment=None)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>extensions.tensorboard.Logger.Logger(<span class="va">self</span>, logdir<span class="op">=</span><span class="st">'runs/'</span>, experiment<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Logger class to use tensorboard to visualize ANNarchy simulations. Requires the <code>tensorboardX</code> package (pip install tensorboardX).</p>
 <p>The Logger class is a thin wrapper around tensorboardX.SummaryWriter, which you could also use directly. The doc is available at <a href="https://tensorboardx.readthedocs.io/" class="uri">https://tensorboardx.readthedocs.io/</a>. Tensorboard can read any logging data, as long as they are saved in the right format (tfevents), so it is not limited to tensorflow. TensorboardX has been developed to allow the use of tensorboard with pytorch.</p>
 <p>The extension has to be imported explictly:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ANNarchy.extensions.tensorboard <span class="im">import</span> Logger</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ANNarchy.extensions.tensorboard <span class="im">import</span> Logger</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>Logger</code> class has to be closed properly at the end of the script, so it is advised to use a context:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    logger.add_scalar(<span class="st">"Accuracy"</span>, acc, trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    logger.add_scalar(<span class="st">"Accuracy"</span>, acc, trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can also make sure to close it:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>logger <span class="op">=</span> Logger()</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>logger.add_scalar(<span class="st">"Accuracy"</span>, acc, trial)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>logger.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>logger <span class="op">=</span> Logger()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>logger.add_scalar(<span class="st">"Accuracy"</span>, acc, trial)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>logger.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>By default, the logs will be written in a subfolder of <code>./runs/</code> (which will be created in the current directory). The subfolder is a combination of the current datetime and of the hostname, e.g.&nbsp;<code>./runs/Apr22_12-11-22_machine</code>. You can control these two elements by passing arguments to <code>Logger()</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger(logdir<span class="op">=</span><span class="st">"/tmp/annarchy"</span>, experiment<span class="op">=</span><span class="st">"trial1"</span>): <span class="co"># logs in /tmp/annarchy/trial1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger(logdir<span class="op">=</span><span class="st">"/tmp/annarchy"</span>, experiment<span class="op">=</span><span class="st">"trial1"</span>): <span class="co"># logs in /tmp/annarchy/trial1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>add_*</code> methods allow you to log various structures, such as scalars, images, histograms, figures, etc.</p>
 <p>A tag should be given to each plot. In the example above, the figure with the accuracy will be labelled “Accuracy” in tensorboard. You can also group plots together with tags such as “Global performance/Accuracy”, “Global performance/Error rate”, “Neural activity/Population 1”, etc.</p>
 <p>After (or while) logging data within your simulation, run <code>tensorboard</code> in the terminal by specifying the log directory:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tensorboard</span> <span class="at">--logdir</span> runs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tensorboard</span> <span class="at">--logdir</span> runs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>TensorboardX enqueues the data in memory before writing to disk. You can force flushing with:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>logger.flush()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>logger.flush()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 5%">
@@ -995,13 +995,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>logdir</code></td>
+<td>logdir</td>
 <td>str</td>
 <td>path (absolute or relative) to the logging directory. Subfolders will be created for each individual run. The default is “runs/”</td>
 <td><code>'runs/'</code></td>
 </tr>
 <tr class="even">
-<td><code>experiment</code></td>
+<td>experiment</td>
 <td>str</td>
 <td>name of the subfolder for the current run. By default, it is a combination of the current time and the hostname (e.g.&nbsp;Apr22_12-11-22_machine). If you reuse an experiment name, the data will be appended.</td>
 <td><code>None</code></td>
@@ -1059,23 +1059,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="ANNarchy.extensions.tensorboard.Logger.Logger.add_figure" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.tensorboard.Logger.Logger.add_figure">add_figure</h3>
-<p><code>extensions.tensorboard.Logger.Logger.add_figure(tag, figure, step=None, close=True)</code></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>extensions.tensorboard.Logger.Logger.add_figure(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    tag,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    figure,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    step<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    close<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Logs a Matplotlib figure.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> plt.figure()</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        plt.plot(pop.r)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        logger.add_figure(<span class="st">"Activity"</span>, fig, trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-1" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-1">Parameters</h4>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> plt.figure()</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        plt.plot(pop.r)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        logger.add_figure(<span class="st">"Activity"</span>, fig, trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-1" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 9%">
+<col style="width: 7%">
 <col style="width: 18%">
-<col style="width: 62%">
-<col style="width: 10%">
+<col style="width: 63%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1087,25 +1092,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>tag</code></td>
+<td>tag</td>
 <td>str</td>
 <td>name of the image in tensorboard.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>figure</code></td>
+<td>figure</td>
 <td>list | np.ndarray</td>
 <td>a list or 1D numpy array of values.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>step</code></td>
+<td>step</td>
 <td>int</td>
 <td>time index.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>close</code></td>
+<td>close</td>
 <td>bool</td>
 <td>whether the logger will close the figure when done (default: True).</td>
 <td><code>True</code></td>
@@ -1116,16 +1121,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.extensions.tensorboard.Logger.Logger.add_histogram" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.tensorboard.Logger.Logger.add_histogram">add_histogram</h3>
-<p><code>extensions.tensorboard.Logger.Logger.add_histogram(tag, hist, step=None)</code></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>extensions.tensorboard.Logger.Logger.add_histogram(tag, hist, step<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Logs an histogram.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        weights<span class="op">=</span> proj.w.flatten()</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        logger.add_histogram(<span class="st">"Weight distribution"</span>, weights, trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-2" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-2">Parameters</h4>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        weights<span class="op">=</span> proj.w.flatten()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        logger.add_histogram(<span class="st">"Weight distribution"</span>, weights, trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-2" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 10%">
@@ -1143,19 +1148,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>tag</code></td>
+<td>tag</td>
 <td>str</td>
 <td>name of the figure in tensorboard.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>hist</code></td>
+<td>hist</td>
 <td>list | np.ndarray</td>
 <td>a list or 1D numpy array of values.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>step</code></td>
+<td>step</td>
 <td>int</td>
 <td>time index.</td>
 <td><code>None</code></td>
@@ -1166,22 +1171,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.extensions.tensorboard.Logger.Logger.add_image" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.tensorboard.Logger.Logger.add_image">add_image</h3>
-<p><code>extensions.tensorboard.Logger.Logger.add_image(tag, img, step=None, equalize=False)</code></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>extensions.tensorboard.Logger.Logger.add_image(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    tag,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    img,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    step<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    equalize<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Logs an image.</p>
 <p>The image must be a numpy array of size (height, width) for monochrome images or (height, width, 3) for colored images. The values should either be integers between 0 and 255 or floats between 0 and 1. The parameter <code>equalize</code> forces the values to be between 0 and 1 by equalizing using the min/max values.</p>
 <p>Example::</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        img <span class="op">=</span> pop.r.reshape((<span class="dv">10</span>, <span class="dv">10</span>))</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        logger.add_image(<span class="st">"Population / Firing rate"</span>, img, trial, equalize<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-3" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-3">Parameters</h4>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        img <span class="op">=</span> pop.r.reshape((<span class="dv">10</span>, <span class="dv">10</span>))</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        logger.add_image(<span class="st">"Population / Firing rate"</span>, img, trial, equalize<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-3" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
+<col style="width: 8%">
 <col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 68%">
+<col style="width: 70%">
 <col style="width: 10%">
 </colgroup>
 <thead>
@@ -1194,25 +1204,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>tag</code></td>
+<td>tag</td>
 <td>str</td>
 <td>name of the figure in tensorboard.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>img</code></td>
+<td>img</td>
 <td>np.ndarray</td>
 <td>array for the image.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>step</code></td>
+<td>step</td>
 <td>int</td>
 <td>time index.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>equalize</code></td>
+<td>equalize</td>
 <td>bool</td>
 <td>rescales the pixels between 0 and 1 using the min and max values of the array.</td>
 <td><code>False</code></td>
@@ -1223,23 +1233,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.extensions.tensorboard.Logger.Logger.add_images" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.tensorboard.Logger.Logger.add_images">add_images</h3>
-<p><code>extensions.tensorboard.Logger.Logger.add_images(tag, img, step=None, equalize=False, equalize_per_image=False)</code></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>extensions.tensorboard.Logger.Logger.add_images(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    tag,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    img,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    step<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    equalize<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    equalize_per_image<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Logs a set of images (e.g.&nbsp;receptive fields).</p>
 <p>The numpy array must be of size (number, height, width) for monochrome images or (number, height, width, 3) for colored images. The values should either be integers between 0 and 255 or floats between 0 and 1. The parameter <code>equalize</code> forces the values to be between 0 and 1 by equalizing using the min/max values.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        weights<span class="op">=</span> proj.w.reshape(<span class="dv">100</span>, <span class="dv">10</span>, <span class="dv">10</span>) <span class="co"># 100 post neurons, 10*10 pre neurons</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        logger.add_images(<span class="st">"Projection/Receptive fields"</span>, weights, trial, equalize<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-4" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-4">Parameters</h4>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        weights<span class="op">=</span> proj.w.reshape(<span class="dv">100</span>, <span class="dv">10</span>, <span class="dv">10</span>) <span class="co"># 100 post neurons, 10*10 pre neurons</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        logger.add_images(<span class="st">"Projection/Receptive fields"</span>, weights, trial, equalize<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-4" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-4">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 12%">
+<col style="width: 11%">
 <col style="width: 5%">
-<col style="width: 74%">
-<col style="width: 6%">
+<col style="width: 75%">
+<col style="width: 7%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1251,31 +1267,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>tag</code></td>
+<td>tag</td>
 <td>str</td>
 <td>name of the figure in tensorboard.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>img</code></td>
+<td>img</td>
 <td>np.array</td>
 <td>array for the images.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>step</code></td>
+<td>step</td>
 <td>int</td>
 <td>time index.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>equalize</code></td>
+<td>equalize</td>
 <td>bool</td>
 <td>rescales the pixels between 0 and 1 using the min and max values of the array.</td>
 <td><code>False</code></td>
 </tr>
 <tr class="odd">
-<td><code>equalize_per_image</code></td>
+<td>equalize_per_image</td>
 <td>bool</td>
 <td>whether the rescaling should be using the global min/max values of the array, or per image. Has no effect if equalize of False.</td>
 <td><code>False</code></td>
@@ -1286,15 +1302,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.extensions.tensorboard.Logger.Logger.add_parameters" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.tensorboard.Logger.Logger.add_parameters">add_parameters</h3>
-<p><code>extensions.tensorboard.Logger.Logger.add_parameters(params, metrics)</code></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>extensions.tensorboard.Logger.Logger.add_parameters(params, metrics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Logs parameters of a simulation.</p>
 <p>This should be run only once per simulation, generally at the end. This allows to compare different runs of the same network using different parameter values and study how they influence the global output metrics, such as accuracy, error rate, reaction speed, etc.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    logger.add_parameters({<span class="st">'learning_rate'</span>: lr, <span class="st">'tau'</span>: tau}, {<span class="st">'accuracy'</span>: accuracy})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-5" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-5">Parameters</h4>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    logger.add_parameters({<span class="st">'learning_rate'</span>: lr, <span class="st">'tau'</span>: tau}, {<span class="st">'accuracy'</span>: accuracy})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-5" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-5">Parameters</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1306,13 +1322,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>params</code></td>
+<td>params</td>
 <td>dict</td>
 <td>dictionary of parameters.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>metrics</code></td>
+<td>metrics</td>
 <td>dict</td>
 <td>dictionary of metrics.</td>
 <td><em>required</em></td>
@@ -1323,16 +1339,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.extensions.tensorboard.Logger.Logger.add_scalar" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.tensorboard.Logger.Logger.add_scalar">add_scalar</h3>
-<p><code>extensions.tensorboard.Logger.Logger.add_scalar(tag, value, step=None)</code></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>extensions.tensorboard.Logger.Logger.add_scalar(tag, value, step<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Logs a single scalar value, e.g.&nbsp;a success rate at various stages of learning.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        accuracy <span class="op">=</span> ...</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        logger.add_scalar(<span class="st">"Accuracy"</span>, accuracy, trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-6" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-6">Parameters</h4>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        accuracy <span class="op">=</span> ...</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        logger.add_scalar(<span class="st">"Accuracy"</span>, accuracy, trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-6" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-6">Parameters</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1344,19 +1360,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>tag</code></td>
+<td>tag</td>
 <td>str</td>
 <td>name of the figure in tensorboard.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>value</code></td>
+<td>value</td>
 <td>float</td>
 <td>value.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>step</code></td>
+<td>step</td>
 <td>int</td>
 <td>time index.</td>
 <td><code>None</code></td>
@@ -1367,20 +1383,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.extensions.tensorboard.Logger.Logger.add_scalars" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.tensorboard.Logger.Logger.add_scalars">add_scalars</h3>
-<p><code>extensions.tensorboard.Logger.Logger.add_scalars(tag, value, step=None)</code></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>extensions.tensorboard.Logger.Logger.add_scalars(tag, value, step<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Logs multiple scalar values to be displayed in the same figure, e.g.&nbsp;several metrics or neural activities.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        act1 <span class="op">=</span> pop.r[<span class="dv">0</span>]</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        act2 <span class="op">=</span> pop.r[<span class="dv">1</span>]</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        logger.add_scalars(</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Accuracy"</span>, </span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>            {<span class="st">'First neuron'</span>: act1, <span class="st">'Second neuron'</span>: act2}, </span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>            trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-7" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-7">Parameters</h4>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> Logger() <span class="im">as</span> logger:</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        simulate(<span class="fl">1000.0</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        act1 <span class="op">=</span> pop.r[<span class="dv">0</span>]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        act2 <span class="op">=</span> pop.r[<span class="dv">1</span>]</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>        logger.add_scalars(</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Accuracy"</span>, </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>            {<span class="st">'First neuron'</span>: act1, <span class="st">'Second neuron'</span>: act2}, </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>            trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-7" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-7">Parameters</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1392,19 +1408,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>tag</code></td>
+<td>tag</td>
 <td>str</td>
 <td>name of the figure in tensorboard.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>value</code></td>
+<td>value</td>
 <td>dict</td>
 <td>dictionary of values.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>step</code></td>
+<td>step</td>
 <td>int</td>
 <td>time index.</td>
 <td><code>None</code></td>
@@ -1415,12 +1431,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.extensions.tensorboard.Logger.Logger.close" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.tensorboard.Logger.Logger.close">close</h3>
-<p><code>extensions.tensorboard.Logger.Logger.close()</code></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>extensions.tensorboard.Logger.Logger.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Closes the logger.</p>
 </section>
 <section id="ANNarchy.extensions.tensorboard.Logger.Logger.flush" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.tensorboard.Logger.Logger.flush">flush</h3>
-<p><code>extensions.tensorboard.Logger.Logger.flush()</code></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>extensions.tensorboard.Logger.Logger.flush()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Forces the logged data to be flushed to disk.</p>
 
 

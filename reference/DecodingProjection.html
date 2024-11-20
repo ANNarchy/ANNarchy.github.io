@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>decodingprojection – ANNarchy 4.8.1</title>
+<title>decodingprojection – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -944,7 +944,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.inputs.DecodingProjection.DecodingProjection" class="level1">
 <h1>DecodingProjection</h1>
-<p><code>inputs.DecodingProjection.DecodingProjection(self, pre, post, target, window=0.0, name=None, copied=False)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inputs.DecodingProjection.DecodingProjection(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    pre,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    post,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    target,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    window<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    copied<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Decoding projection to transform spike trains into firing rates.</p>
 <p>The pre-synaptic population must be a spiking population, while the post-synaptic one must be rate-coded.</p>
 <p>Pre-synaptic spikes are accumulated for each post-synaptic neuron. A sliding window can be used to smoothen the results with the <code>window</code> parameter.</p>
@@ -952,17 +960,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The projection can be connected using any method available in <code>Projection</code> (although all-to-all or many-to-one makes mostly sense). Delays are ignored.</p>
 <p>The weight value allows to scale the firing rate: if you want a pre-synaptic firing rate of 100 Hz to correspond to a post-synaptic rate of 1.0, use <code>w = 1./100.</code>.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> ann.PoissonPopulation(<span class="dv">1000</span>, rates<span class="op">=</span><span class="fl">100.</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> ann.Population(<span class="dv">1</span>, ann.Neuron(equations<span class="op">=</span><span class="st">"r=sum(exc)"</span>))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> DecodingProjection(pop1, pop2, <span class="st">'exc'</span>, window<span class="op">=</span><span class="fl">10.0</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>proj.connect_all_to_all(<span class="fl">1.0</span>, force_multiple_weights<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> ann.PoissonPopulation(<span class="dv">1000</span>, rates<span class="op">=</span><span class="fl">100.</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> ann.Population(<span class="dv">1</span>, ann.Neuron(equations<span class="op">=</span><span class="st">"r=sum(exc)"</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> DecodingProjection(pop1, pop2, <span class="st">'exc'</span>, window<span class="op">=</span><span class="fl">10.0</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>proj.connect_all_to_all(<span class="fl">1.0</span>, force_multiple_weights<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 10%">
+<col style="width: 8%">
 <col style="width: 12%">
-<col style="width: 64%">
+<col style="width: 65%">
 <col style="width: 12%">
 </colgroup>
 <thead>
@@ -975,25 +983,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>pre</code></td>
+<td>pre</td>
 <td>Population</td>
 <td>pre-synaptic population.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>post</code></td>
+<td>post</td>
 <td>Population</td>
 <td>post-synaptic population.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>target</code></td>
+<td>target</td>
 <td>str</td>
 <td>type of the connection.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>window</code></td>
+<td>window</td>
 <td>float</td>
 <td>duration of the time window to collect spikes (default: dt).</td>
 <td><code>0.0</code></td>

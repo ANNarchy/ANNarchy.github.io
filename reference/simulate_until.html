@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>simulate_until – ANNarchy 4.8.1</title>
+<title>simulate_until – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -945,20 +945,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.core.Simulate.simulate_until" class="level1">
 <h1>simulate_until</h1>
-<p><code>core.Simulate.simulate_until(max_duration, population, operator='and', measure_time=False, net_id=0)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>core.Simulate.simulate_until(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    max_duration,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    population,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    operator<span class="op">=</span><span class="st">'and'</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    measure_time<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    net_id<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Runs the network for the maximal duration in milliseconds. If the <code>stop_condition</code> defined in the population becomes true during the simulation, it is stopped.</p>
 <p>One can specify several populations. If the stop condition is true for any of the populations, the simulation will stop (‘or’ function).</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> Population( ..., stop_condition <span class="op">=</span> <span class="st">"r &gt; 1.0 : any"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">compile</span>()</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>simulate_until(max_duration<span class="op">=</span><span class="fl">1000.0</span>, population<span class="op">=</span>pop1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> Population( ..., stop_condition <span class="op">=</span> <span class="st">"r &gt; 1.0 : any"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">compile</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>simulate_until(max_duration<span class="op">=</span><span class="fl">1000.0</span>, population<span class="op">=</span>pop1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 10%">
-<col style="width: 21%">
-<col style="width: 60%">
+<col style="width: 9%">
+<col style="width: 22%">
+<col style="width: 61%">
 <col style="width: 7%">
 </colgroup>
 <thead>
@@ -971,25 +977,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>max_duration</code></td>
+<td>max_duration</td>
 <td>float</td>
 <td>Maximum duration of the simulation in milliseconds.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>population</code></td>
+<td>population</td>
 <td>Population | list[Population]</td>
 <td>(list of) population(s) whose <code>stop_condition</code> should be checked to stop the simulation.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>operator</code></td>
+<td>operator</td>
 <td></td>
 <td>Operator to be used (‘and’ or ‘or’) when multiple populations are provided (default: ‘and’).</td>
 <td><code>'and'</code></td>
 </tr>
 <tr class="even">
-<td><code>measure_time</code></td>
+<td>measure_time</td>
 <td>bool</td>
 <td>Defines whether the simulation time should be printed (default=False).</td>
 <td><code>False</code></td>
@@ -997,17 +1003,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="returns" class="level2">
-<h2 class="anchored" data-anchor-id="returns">Returns</h2>
+<section id="returns" class="level2 doc-section doc-section-returns">
+<h2 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 77%">
+</colgroup>
 <thead>
 <tr class="header">
+<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td></td>
 <td></td>
 <td>the actual duration of the simulation in milliseconds.</td>
 </tr>

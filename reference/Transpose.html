@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>transpose – ANNarchy 4.8.1</title>
+<title>transpose – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -952,23 +952,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.extensions.convolution.Transpose.Transpose" class="level1">
 <h1>Transpose</h1>
-<p><code>extensions.convolution.Transpose.Transpose(self, proj, target)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Transpose.Transpose(<span class="va">self</span>, proj, target)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Transposed projection reusing the weights of an already-defined rate-coded projection.</p>
 <p>Even though the original projection can be learnable, this one can not. The computed post-synaptic potential is the default case for rate-coded projections: “w * pre.r”</p>
 <p>The proposed <code>target</code> can differ from the target of the forward projection.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>proj_ff <span class="op">=</span> ann.Projection( <span class="bu">input</span>, output, target<span class="op">=</span><span class="st">"exc"</span> )</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>proj_ff.connect_all_to_all(weights<span class="op">=</span>Uniform(<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>proj_fb <span class="op">=</span> Transpose(proj_ff, target<span class="op">=</span><span class="st">"inh"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>proj_fb.<span class="ex">connect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>proj_ff <span class="op">=</span> ann.Projection( <span class="bu">input</span>, output, target<span class="op">=</span><span class="st">"exc"</span> )</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>proj_ff.connect_all_to_all(weights<span class="op">=</span>Uniform(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>proj_fb <span class="op">=</span> Transpose(proj_ff, target<span class="op">=</span><span class="st">"inh"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>proj_fb.<span class="ex">connect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 11%">
-<col style="width: 8%">
-<col style="width: 66%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 68%">
 <col style="width: 13%">
 </colgroup>
 <thead>
@@ -981,13 +981,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>proj</code></td>
+<td>proj</td>
 <td></td>
 <td>original projection.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>target</code></td>
+<td>target</td>
 <td></td>
 <td>type of the connection (can differ from the original one).</td>
 <td><em>required</em></td>
@@ -1029,27 +1029,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="ANNarchy.extensions.convolution.Transpose.Transpose.connectivity_matrix" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Transpose.Transpose.connectivity_matrix">connectivity_matrix</h3>
-<p><code>extensions.convolution.Transpose.Transpose.connectivity_matrix(fill=0.0)</code></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Transpose.Transpose.connectivity_matrix(fill<span class="op">=</span><span class="fl">0.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Not available.</p>
 </section>
 <section id="ANNarchy.extensions.convolution.Transpose.Transpose.load" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Transpose.Transpose.load">load</h3>
-<p><code>extensions.convolution.Transpose.Transpose.load(filename)</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Transpose.Transpose.load(filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Not available.</p>
 </section>
 <section id="ANNarchy.extensions.convolution.Transpose.Transpose.receptive_fields" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Transpose.Transpose.receptive_fields">receptive_fields</h3>
-<p><code>extensions.convolution.Transpose.Transpose.receptive_fields(variable='w', in_post_geometry=True)</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Transpose.Transpose.receptive_fields(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    variable<span class="op">=</span><span class="st">'w'</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    in_post_geometry<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Not available.</p>
 </section>
 <section id="ANNarchy.extensions.convolution.Transpose.Transpose.save" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Transpose.Transpose.save">save</h3>
-<p><code>extensions.convolution.Transpose.Transpose.save(filename)</code></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Transpose.Transpose.save(filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Not available.</p>
 </section>
 <section id="ANNarchy.extensions.convolution.Transpose.Transpose.save_connectivity" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.convolution.Transpose.Transpose.save_connectivity">save_connectivity</h3>
-<p><code>extensions.convolution.Transpose.Transpose.save_connectivity(filename)</code></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>extensions.convolution.Transpose.Transpose.save_connectivity(filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Not available.</p>
 
 

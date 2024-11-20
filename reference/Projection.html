@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>projection – ANNarchy 4.8.1</title>
+<title>projection – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -980,7 +980,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.core.Projection.Projection" class="level1">
 <h1>Projection</h1>
-<p><code>core.Projection.Projection(self, pre, post, target, synapse=None, name=None, disable_omp=True, copied=False)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    pre,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    post,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    target,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    synapse<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    disable_omp<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    copied<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Structure holding all synapses of the same type between two populations.</p>
 <p>By default, the synapse only ensures linear synaptic transmission:</p>
 <ul>
@@ -988,11 +997,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>For spiking populations: <code>g_target += w</code></li>
 </ul>
 <p>To modify this behavior, a <code>Synapse</code> object can be provided.</p>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 6%">
+<col style="width: 5%">
 <col style="width: 7%">
 <col style="width: 81%">
 <col style="width: 4%">
@@ -1007,37 +1016,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>pre</code></td>
+<td>pre</td>
 <td>str | Population</td>
 <td>Pre-synaptic population (either its name or a <code>Population</code> object).</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>post</code></td>
+<td>post</td>
 <td>str | Population</td>
 <td>Post-synaptic population (either its name or a <code>Population</code> object).</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>target</code></td>
+<td>target</td>
 <td>str</td>
 <td>Type of the connection.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>synapse</code></td>
+<td>synapse</td>
 <td>Synapse</td>
 <td>A <code>Synapse</code> instance.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="odd">
-<td><code>name</code></td>
+<td>name</td>
 <td>str</td>
 <td>Unique name of the projection (optional, it defaults to <code>proj0</code>, <code>proj1</code>, etc).</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>disable_omp</code></td>
+<td>disable_omp</td>
 <td>bool</td>
 <td>Especially for small- and mid-scale sparse spiking networks, the parallelization of spike propagation is not scalable and disabled by default. It can be enabled by setting this parameter to <code>False</code>.</td>
 <td><code>True</code></td>
@@ -1224,509 +1233,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="ANNarchy.core.Projection.Projection.connect_all_to_all" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_all_to_all">connect_all_to_all</h3>
-<p><code>core.Projection.Projection.connect_all_to_all(self, weights, delays=0.0, allow_self_connections=False, force_multiple_weights=False, storage_format=None, storage_order=None)</code></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_all_to_all(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    weights,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    delays<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    allow_self_connections<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    force_multiple_weights<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    storage_order<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>all-to-all (fully-connected) connection pattern.</p>
-<section id="parameters-1" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-1">Parameters</h4>
+<section id="parameters-1" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 8%">
-<col style="width: 9%">
-<col style="width: 78%">
-<col style="width: 3%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>weights</code></td>
-<td>float | RandomDistribution</td>
-<td>Synaptic values, either a single value or a random distribution object.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>delays</code></td>
-<td>float | RandomDistribution</td>
-<td>Synaptic delays, either a single value or a random distribution object (default=dt).</td>
-<td><code>0.0</code></td>
-</tr>
-<tr class="odd">
-<td><code>allow_self_connections</code></td>
-<td>bool</td>
-<td>If True, self-connections between a neuron and itself are allowed (default = False if the pre- and post-populations are identical, True otherwise).</td>
-<td><code>False</code></td>
-</tr>
-<tr class="even">
-<td><code>force_multiple_weights</code></td>
-<td>bool</td>
-<td>If a single value is provided for <code>weights</code> and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting <code>force_multiple_weights</code> to True ensures that a value per synapse will be used.</td>
-<td><code>False</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.connect_dog" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_dog">connect_dog</h3>
-<p><code>core.Projection.Projection.connect_dog(self, amp_pos, sigma_pos, amp_neg, sigma_neg, delays=0.0, limit=0.01, allow_self_connections=False, storage_format=None)</code></p>
-<p>Difference-Of-Gaussians connection pattern.</p>
-<p>Each neuron in the postsynaptic population is connected to a region of the presynaptic population centered around the neuron with the same normalized coordinates using a Difference-Of-Gaussians profile.</p>
-<section id="parameters-2" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-2">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 17%">
-<col style="width: 19%">
-<col style="width: 55%">
 <col style="width: 7%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>amp_pos</code></td>
-<td>float</td>
-<td>Amplitude of the positive Gaussian function</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>sigma_pos</code></td>
-<td>float</td>
-<td>Width of the positive Gaussian function</td>
-<td><em>required</em></td>
-</tr>
-<tr class="odd">
-<td><code>amp_neg</code></td>
-<td>float</td>
-<td>Amplitude of the negative Gaussian function</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>sigma_neg</code></td>
-<td>float</td>
-<td>Width of the negative Gaussian function</td>
-<td><em>required</em></td>
-</tr>
-<tr class="odd">
-<td><code>delays</code></td>
-<td>float | RandomDistribution</td>
-<td>Synaptic delay, either a single value or a random distribution object (default=dt).</td>
-<td><code>0.0</code></td>
-</tr>
-<tr class="even">
-<td><code>limit</code></td>
-<td>float</td>
-<td>Proportion of <em>amp</em> below which synapses are not created (default: 0.01)</td>
-<td><code>0.01</code></td>
-</tr>
-<tr class="odd">
-<td><code>allow_self_connections</code></td>
-<td>bool</td>
-<td>Allows connections between a neuron and itself.</td>
-<td><code>False</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.connect_fixed_number_post" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_fixed_number_post">connect_fixed_number_post</h3>
-<p><code>core.Projection.Projection.connect_fixed_number_post(self, number, weights=1.0, delays=0.0, allow_self_connections=False, force_multiple_weights=False, storage_format=None, storage_order=None)</code></p>
-<p>Each pre-synaptic neuron randomly sends a fixed number of connections to the post-synaptic neurons.</p>
-<section id="parameters-3" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-3">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 8%">
-<col style="width: 9%">
-<col style="width: 78%">
-<col style="width: 3%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>number</code></td>
-<td>int</td>
-<td>Number of synapses per pre-synaptic neuron.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>weights</code></td>
-<td>float | RandomDistribution</td>
-<td>Either a single value for all synapses or a RandomDistribution object.</td>
-<td><code>1.0</code></td>
-</tr>
-<tr class="odd">
-<td><code>delays</code></td>
-<td>float | RandomDistribution</td>
-<td>Either a single value for all synapses or a RandomDistribution object (default = dt)</td>
-<td><code>0.0</code></td>
-</tr>
-<tr class="even">
-<td><code>allow_self_connections</code></td>
-<td>bool</td>
-<td>Defines if self-connections are allowed (default=False)</td>
-<td><code>False</code></td>
-</tr>
-<tr class="odd">
-<td><code>force_multiple_weights</code></td>
-<td>bool</td>
-<td>If a single value is provided for <code>weights</code> and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting <code>force_multiple_weights</code> to True ensures that a value per synapse will be used.</td>
-<td><code>False</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.connect_fixed_number_pre" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_fixed_number_pre">connect_fixed_number_pre</h3>
-<p><code>core.Projection.Projection.connect_fixed_number_pre(self, number, weights, delays=0.0, allow_self_connections=False, force_multiple_weights=False, storage_format=None, storage_order=None)</code></p>
-<p>Connection pattern where each post-synaptic neuron receives a fixed number of pre-synaptic neurons.</p>
-<section id="parameters-4" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-4">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 8%">
-<col style="width: 9%">
-<col style="width: 78%">
-<col style="width: 3%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>number</code></td>
-<td>int</td>
-<td>Number of synapses per postsynaptic neuron.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>weights</code></td>
-<td>float | RandomDistribution</td>
-<td>Either a single value for all synapses or a RandomDistribution object.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="odd">
-<td><code>delays</code></td>
-<td>float | RandomDistribution</td>
-<td>Either a single value for all synapses or a RandomDistribution object (default = dt)</td>
-<td><code>0.0</code></td>
-</tr>
-<tr class="even">
-<td><code>allow_self_connections</code></td>
-<td>bool</td>
-<td>Defines if self-connections are allowed (default=False).</td>
-<td><code>False</code></td>
-</tr>
-<tr class="odd">
-<td><code>force_multiple_weights</code></td>
-<td>bool</td>
-<td>If a single value is provided for <code>weights</code> and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting <code>force_multiple_weights</code> to True ensures that a value per synapse will be used.</td>
-<td><code>False</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.connect_fixed_probability" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_fixed_probability">connect_fixed_probability</h3>
-<p><code>core.Projection.Projection.connect_fixed_probability(self, probability, weights, delays=0.0, allow_self_connections=False, force_multiple_weights=False, storage_format=None, storage_order=None)</code></p>
-<p>Probabilistic sparse connection pattern.</p>
-<p>Each neuron in the postsynaptic population is connected to neurons of the presynaptic population with the given probability. Self-connections are avoided by default.</p>
-<section id="parameters-5" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-5">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 8%">
-<col style="width: 9%">
-<col style="width: 78%">
-<col style="width: 3%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>probability</code></td>
-<td>float</td>
-<td>Probability that a synapse is created.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>weights</code></td>
-<td>float | RandomDistribution</td>
-<td>Either a single value for all synapses or a RandomDistribution object.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="odd">
-<td><code>delays</code></td>
-<td>float | RandomDistribution</td>
-<td>Either a single value for all synapses or a RandomDistribution object (default = dt)</td>
-<td><code>0.0</code></td>
-</tr>
-<tr class="even">
-<td><code>allow_self_connections</code></td>
-<td>bool</td>
-<td>Defines if self-connections are allowed (default=False).</td>
-<td><code>False</code></td>
-</tr>
-<tr class="odd">
-<td><code>force_multiple_weights</code></td>
-<td>bool</td>
-<td>If a single value is provided for <code>weights</code> and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting <code>force_multiple_weights</code> to True ensures that a value per synapse will be used.</td>
-<td><code>False</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.connect_from_file" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_from_file">connect_from_file</h3>
-<p><code>core.Projection.Projection.connect_from_file(self, filename, pickle_encoding=None, storage_format=None, storage_order=None)</code></p>
-<p>Builds the connectivity matrix using data saved using <code>Projection.save_connectivity()</code> (not <code>save()</code>!).</p>
-<p>Admissible file formats are compressed Numpy files (.npz), gunzipped binary text files (.gz) or binary text files.</p>
-<p>Note: Only the ranks, weights and delays are loaded, not the other variables.</p>
-<section id="parameters-6" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-6">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 16%">
-<col style="width: 11%">
-<col style="width: 55%">
-<col style="width: 16%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>filename</code></td>
-<td>str</td>
-<td>file where the connections were saved.</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.connect_from_matrix" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_from_matrix">connect_from_matrix</h3>
-<p><code>core.Projection.Projection.connect_from_matrix(self, weights, delays=0.0, pre_post=False, storage_format=None, storage_order=None)</code></p>
-<p>Builds a connection pattern according to a dense connectivity matrix.</p>
-<p>The matrix must be N*M, where N is the number of neurons in the post-synaptic population and M in the pre-synaptic one. Lists of lists must have the same size.</p>
-<p>If a synapse should not be created, the weight value should be None.</p>
-<section id="parameters-7" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-7">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 5%">
-<col style="width: 4%">
-<col style="width: 84%">
-<col style="width: 5%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>weights</code></td>
-<td>np.array</td>
-<td>Numpy array (or list of lists of equal size) representing the weights. If a value is None, the corresponding synapse will not be created.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>delays</code></td>
-<td></td>
-<td>Numpy array representing the delays. Must represent the same synapses as the <code>weights</code> argument. If omitted, the delays are considered 0.</td>
-<td><code>0.0</code></td>
-</tr>
-<tr class="odd">
-<td><code>pre_post</code></td>
-<td></td>
-<td>States which index is first. By default, the first dimension is related to the post-synaptic population. If <code>pre_post</code> is True, the first dimension is the pre-synaptic population.</td>
-<td><code>False</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.connect_from_matrix_market" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_from_matrix_market">connect_from_matrix_market</h3>
-<p><code>core.Projection.Projection.connect_from_matrix_market(self, filename, storage_format=None, storage_order=None)</code></p>
-<p>Loads a weight matrix encoded in the Matrix Market format. This connector is intended for benchmarking purposes.</p>
-<section id="parameters-8" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-8">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 15%">
-<col style="width: 10%">
-<col style="width: 57%">
-<col style="width: 15%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>filename</code></td>
-<td>str</td>
-<td>Filename of the Matrix Market (.mtx) file.</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.connect_from_sparse" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_from_sparse">connect_from_sparse</h3>
-<p><code>core.Projection.Projection.connect_from_sparse(self, weights, delays=0.0, storage_format=None, storage_order=None)</code></p>
-<p>Builds a connectivity pattern using a Scipy sparse matrix for the weights and (optionally) delays.</p>
-<p>Warning: a sparse matrix has pre-synaptic ranks as first dimension.</p>
-<section id="parameters-9" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-9">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 8%">
-<col style="width: 19%">
-<col style="width: 62%">
-<col style="width: 9%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>weights</code></td>
-<td>scipy.sparse.lil_matrix</td>
-<td>a sparse lil_matrix object created from scipy.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>delays</code></td>
-<td>int | float</td>
-<td>the value of the constant delay (default: dt). Variable delays are not allowed.</td>
-<td><code>0.0</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.connect_gaussian" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_gaussian">connect_gaussian</h3>
-<p><code>core.Projection.Projection.connect_gaussian(self, amp, sigma, delays=0.0, limit=0.01, allow_self_connections=False, storage_format=None)</code></p>
-<p>Gaussian connection pattern.</p>
-<p>Each neuron in the postsynaptic population is connected to a region of the presynaptic population centered around the neuron with the same normalized coordinates using a Gaussian profile.</p>
-<section id="parameters-10" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-10">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 17%">
-<col style="width: 19%">
-<col style="width: 55%">
-<col style="width: 7%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>amp</code></td>
-<td>float</td>
-<td>Amplitude of the Gaussian function</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>sigma</code></td>
-<td>float</td>
-<td>Width of the Gaussian function</td>
-<td><em>required</em></td>
-</tr>
-<tr class="odd">
-<td><code>delays</code></td>
-<td>float | RandomDistribution</td>
-<td>Synaptic delay, either a single value or a random distribution object (default=dt).</td>
-<td><code>0.0</code></td>
-</tr>
-<tr class="even">
-<td><code>limit</code></td>
-<td>float</td>
-<td>Proportion of <code>amp</code> below which synapses are not created</td>
-<td><code>0.01</code></td>
-</tr>
-<tr class="odd">
-<td><code>allow_self_connections</code></td>
-<td>bool</td>
-<td>Allows connections between a neuron and itself.</td>
-<td><code>False</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.connect_one_to_one" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_one_to_one">connect_one_to_one</h3>
-<p><code>core.Projection.Projection.connect_one_to_one(self, weights=1.0, delays=0.0, force_multiple_weights=False, storage_format=None, storage_order=None)</code></p>
-<p>one-to-one connection pattern.</p>
-<section id="parameters-11" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-11">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 8%">
 <col style="width: 9%">
 <col style="width: 79%">
 <col style="width: 3%">
@@ -1741,19 +1262,591 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>weights</code></td>
+<td>weights</td>
 <td>float | RandomDistribution</td>
-<td>Initial synaptic values, either a single value (float) or a random distribution object.</td>
-<td><code>1.0</code></td>
+<td>Synaptic values, either a single value or a random distribution object.</td>
+<td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>delays</code></td>
+<td>delays</td>
 <td>float | RandomDistribution</td>
 <td>Synaptic delays, either a single value or a random distribution object (default=dt).</td>
 <td><code>0.0</code></td>
 </tr>
 <tr class="odd">
-<td><code>force_multiple_weights</code></td>
+<td>allow_self_connections</td>
+<td>bool</td>
+<td>If True, self-connections between a neuron and itself are allowed (default = False if the pre- and post-populations are identical, True otherwise).</td>
+<td><code>False</code></td>
+</tr>
+<tr class="even">
+<td>force_multiple_weights</td>
+<td>bool</td>
+<td>If a single value is provided for <code>weights</code> and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting <code>force_multiple_weights</code> to True ensures that a value per synapse will be used.</td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.connect_dog" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_dog">connect_dog</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_dog(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    amp_pos,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    sigma_pos,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    amp_neg,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    sigma_neg,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    delays<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">=</span><span class="fl">0.01</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    allow_self_connections<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Difference-Of-Gaussians connection pattern.</p>
+<p>Each neuron in the postsynaptic population is connected to a region of the presynaptic population centered around the neuron with the same normalized coordinates using a Difference-Of-Gaussians profile.</p>
+<section id="parameters-2" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 19%">
+<col style="width: 56%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>amp_pos</td>
+<td>float</td>
+<td>Amplitude of the positive Gaussian function</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td>sigma_pos</td>
+<td>float</td>
+<td>Width of the positive Gaussian function</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
+<td>amp_neg</td>
+<td>float</td>
+<td>Amplitude of the negative Gaussian function</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td>sigma_neg</td>
+<td>float</td>
+<td>Width of the negative Gaussian function</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
+<td>delays</td>
+<td>float | RandomDistribution</td>
+<td>Synaptic delay, either a single value or a random distribution object (default=dt).</td>
+<td><code>0.0</code></td>
+</tr>
+<tr class="even">
+<td>limit</td>
+<td>float</td>
+<td>Proportion of <em>amp</em> below which synapses are not created (default: 0.01)</td>
+<td><code>0.01</code></td>
+</tr>
+<tr class="odd">
+<td>allow_self_connections</td>
+<td>bool</td>
+<td>Allows connections between a neuron and itself.</td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.connect_fixed_number_post" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_fixed_number_post">connect_fixed_number_post</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_fixed_number_post(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    number,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    weights<span class="op">=</span><span class="fl">1.0</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    delays<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    allow_self_connections<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    force_multiple_weights<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    storage_order<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each pre-synaptic neuron randomly sends a fixed number of connections to the post-synaptic neurons.</p>
+<section id="parameters-3" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 79%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>number</td>
+<td>int</td>
+<td>Number of synapses per pre-synaptic neuron.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td>weights</td>
+<td>float | RandomDistribution</td>
+<td>Either a single value for all synapses or a RandomDistribution object.</td>
+<td><code>1.0</code></td>
+</tr>
+<tr class="odd">
+<td>delays</td>
+<td>float | RandomDistribution</td>
+<td>Either a single value for all synapses or a RandomDistribution object (default = dt)</td>
+<td><code>0.0</code></td>
+</tr>
+<tr class="even">
+<td>allow_self_connections</td>
+<td>bool</td>
+<td>Defines if self-connections are allowed (default=False)</td>
+<td><code>False</code></td>
+</tr>
+<tr class="odd">
+<td>force_multiple_weights</td>
+<td>bool</td>
+<td>If a single value is provided for <code>weights</code> and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting <code>force_multiple_weights</code> to True ensures that a value per synapse will be used.</td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.connect_fixed_number_pre" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_fixed_number_pre">connect_fixed_number_pre</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_fixed_number_pre(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    number,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    weights,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    delays<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    allow_self_connections<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    force_multiple_weights<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    storage_order<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Connection pattern where each post-synaptic neuron receives a fixed number of pre-synaptic neurons.</p>
+<section id="parameters-4" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-4">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 79%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>number</td>
+<td>int</td>
+<td>Number of synapses per postsynaptic neuron.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td>weights</td>
+<td>float | RandomDistribution</td>
+<td>Either a single value for all synapses or a RandomDistribution object.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
+<td>delays</td>
+<td>float | RandomDistribution</td>
+<td>Either a single value for all synapses or a RandomDistribution object (default = dt)</td>
+<td><code>0.0</code></td>
+</tr>
+<tr class="even">
+<td>allow_self_connections</td>
+<td>bool</td>
+<td>Defines if self-connections are allowed (default=False).</td>
+<td><code>False</code></td>
+</tr>
+<tr class="odd">
+<td>force_multiple_weights</td>
+<td>bool</td>
+<td>If a single value is provided for <code>weights</code> and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting <code>force_multiple_weights</code> to True ensures that a value per synapse will be used.</td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.connect_fixed_probability" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_fixed_probability">connect_fixed_probability</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_fixed_probability(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    probability,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    weights,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    delays<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    allow_self_connections<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    force_multiple_weights<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    storage_order<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Probabilistic sparse connection pattern.</p>
+<p>Each neuron in the postsynaptic population is connected to neurons of the presynaptic population with the given probability. Self-connections are avoided by default.</p>
+<section id="parameters-5" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-5">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 79%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>probability</td>
+<td>float</td>
+<td>Probability that a synapse is created.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td>weights</td>
+<td>float | RandomDistribution</td>
+<td>Either a single value for all synapses or a RandomDistribution object.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
+<td>delays</td>
+<td>float | RandomDistribution</td>
+<td>Either a single value for all synapses or a RandomDistribution object (default = dt)</td>
+<td><code>0.0</code></td>
+</tr>
+<tr class="even">
+<td>allow_self_connections</td>
+<td>bool</td>
+<td>Defines if self-connections are allowed (default=False).</td>
+<td><code>False</code></td>
+</tr>
+<tr class="odd">
+<td>force_multiple_weights</td>
+<td>bool</td>
+<td>If a single value is provided for <code>weights</code> and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting <code>force_multiple_weights</code> to True ensures that a value per synapse will be used.</td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.connect_from_file" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_from_file">connect_from_file</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_from_file(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    filename,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    pickle_encoding<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    storage_order<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Builds the connectivity matrix using data saved using <code>Projection.save_connectivity()</code> (not <code>save()</code>!).</p>
+<p>Admissible file formats are compressed Numpy files (.npz), gunzipped binary text files (.gz) or binary text files.</p>
+<p>Note: Only the ranks, weights and delays are loaded, not the other variables.</p>
+<section id="parameters-6" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-6">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 57%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>filename</td>
+<td>str</td>
+<td>file where the connections were saved.</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.connect_from_matrix" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_from_matrix">connect_from_matrix</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_from_matrix(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    weights,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    delays<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    pre_post<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    storage_order<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Builds a connection pattern according to a dense connectivity matrix.</p>
+<p>The matrix must be N*M, where N is the number of neurons in the post-synaptic population and M in the pre-synaptic one. Lists of lists must have the same size.</p>
+<p>If a synapse should not be created, the weight value should be None.</p>
+<section id="parameters-7" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-7">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 85%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>weights</td>
+<td>np.array</td>
+<td>Numpy array (or list of lists of equal size) representing the weights. If a value is None, the corresponding synapse will not be created.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td>delays</td>
+<td></td>
+<td>Numpy array representing the delays. Must represent the same synapses as the <code>weights</code> argument. If omitted, the delays are considered 0.</td>
+<td><code>0.0</code></td>
+</tr>
+<tr class="odd">
+<td>pre_post</td>
+<td></td>
+<td>States which index is first. By default, the first dimension is related to the post-synaptic population. If <code>pre_post</code> is True, the first dimension is the pre-synaptic population.</td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.connect_from_matrix_market" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_from_matrix_market">connect_from_matrix_market</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_from_matrix_market(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    filename,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    storage_order<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Loads a weight matrix encoded in the Matrix Market format. This connector is intended for benchmarking purposes.</p>
+<section id="parameters-8" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-8">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 59%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>filename</td>
+<td>str</td>
+<td>Filename of the Matrix Market (.mtx) file.</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.connect_from_sparse" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_from_sparse">connect_from_sparse</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_from_sparse(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    weights,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    delays<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    storage_order<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Builds a connectivity pattern using a Scipy sparse matrix for the weights and (optionally) delays.</p>
+<p>Warning: a sparse matrix has pre-synaptic ranks as first dimension.</p>
+<section id="parameters-9" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-9">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 19%">
+<col style="width: 63%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>weights</td>
+<td>scipy.sparse.lil_matrix</td>
+<td>a sparse lil_matrix object created from scipy.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td>delays</td>
+<td>int | float</td>
+<td>the value of the constant delay (default: dt). Variable delays are not allowed.</td>
+<td><code>0.0</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.connect_gaussian" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_gaussian">connect_gaussian</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_gaussian(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    amp,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    sigma,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    delays<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">=</span><span class="fl">0.01</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    allow_self_connections<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Gaussian connection pattern.</p>
+<p>Each neuron in the postsynaptic population is connected to a region of the presynaptic population centered around the neuron with the same normalized coordinates using a Gaussian profile.</p>
+<section id="parameters-10" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-10">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 19%">
+<col style="width: 56%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>amp</td>
+<td>float</td>
+<td>Amplitude of the Gaussian function</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td>sigma</td>
+<td>float</td>
+<td>Width of the Gaussian function</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
+<td>delays</td>
+<td>float | RandomDistribution</td>
+<td>Synaptic delay, either a single value or a random distribution object (default=dt).</td>
+<td><code>0.0</code></td>
+</tr>
+<tr class="even">
+<td>limit</td>
+<td>float</td>
+<td>Proportion of <code>amp</code> below which synapses are not created</td>
+<td><code>0.01</code></td>
+</tr>
+<tr class="odd">
+<td>allow_self_connections</td>
+<td>bool</td>
+<td>Allows connections between a neuron and itself.</td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.connect_one_to_one" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_one_to_one">connect_one_to_one</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_one_to_one(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    weights<span class="op">=</span><span class="fl">1.0</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    delays<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    force_multiple_weights<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    storage_order<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>one-to-one connection pattern.</p>
+<section id="parameters-11" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-11">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 79%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>weights</td>
+<td>float | RandomDistribution</td>
+<td>Initial synaptic values, either a single value (float) or a random distribution object.</td>
+<td><code>1.0</code></td>
+</tr>
+<tr class="even">
+<td>delays</td>
+<td>float | RandomDistribution</td>
+<td>Synaptic delays, either a single value or a random distribution object (default=dt).</td>
+<td><code>0.0</code></td>
+</tr>
+<tr class="odd">
+<td>force_multiple_weights</td>
 <td>bool</td>
 <td>If a single value is provided for <code>weights</code> and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting <code>force_multiple_weights</code> to True ensures that a value per synapse will be used.</td>
 <td><code>False</code></td>
@@ -1764,42 +1857,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.connect_with_func" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connect_with_func">connect_with_func</h3>
-<p><code>core.Projection.Projection.connect_with_func(self, method, storage_format=None, storage_order=None, **args)</code></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connect_with_func(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    method,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    storage_format<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    storage_order<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>args,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Connection pattern based on a user-defined function.</p>
 <p>The two first arguments of the function must be the pre and post populations. Additional arguments can be passed at creation time.</p>
 <p>The function must return a <code>ann.LILConnectivity</code> object.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> probabilistic_pattern(pre, post, weight, probability):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a LIL structure for the connectivity matrix</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    synapses <span class="op">=</span> ann.LILConnectivity()</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For all neurons in the post-synaptic population</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> post_rank <span class="kw">in</span> <span class="bu">xrange</span>(post.size):</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Decide which pre-synaptic neurons should form synapses</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        ranks <span class="op">=</span> []</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pre_rank <span class="kw">in</span> <span class="bu">xrange</span>(pre.size):</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> random.random() <span class="op">&lt;</span> probability:</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                ranks.append(pre_rank)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create weights and delays arrays of the same size</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        values <span class="op">=</span> [weight <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">xrange</span>(<span class="bu">len</span>(ranks)) ]</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        delays <span class="op">=</span> [<span class="dv">0</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">xrange</span>(<span class="bu">len</span>(ranks)) ]</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add this information to the LIL matrix</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        synapses.add(post_rank, ranks, values, delays)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> synapses</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> ann.Projection(pop1, pop2, target <span class="op">=</span> <span class="st">'inh'</span>)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>proj.connect_with_func(</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span>probabilistic_pattern, </span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    weight<span class="op">=</span><span class="fl">1.0</span>, </span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    probability<span class="op">=</span><span class="fl">0.3</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-12" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-12">Parameters</h4>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> probabilistic_pattern(pre, post, weight, probability):</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a LIL structure for the connectivity matrix</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    synapses <span class="op">=</span> ann.LILConnectivity()</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For all neurons in the post-synaptic population</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> post_rank <span class="kw">in</span> <span class="bu">xrange</span>(post.size):</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Decide which pre-synaptic neurons should form synapses</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        ranks <span class="op">=</span> []</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pre_rank <span class="kw">in</span> <span class="bu">xrange</span>(pre.size):</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> random.random() <span class="op">&lt;</span> probability:</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                ranks.append(pre_rank)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create weights and delays arrays of the same size</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>        values <span class="op">=</span> [weight <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">xrange</span>(<span class="bu">len</span>(ranks)) ]</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>        delays <span class="op">=</span> [<span class="dv">0</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">xrange</span>(<span class="bu">len</span>(ranks)) ]</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add this information to the LIL matrix</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>        synapses.add(post_rank, ranks, values, delays)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> synapses</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> ann.Projection(pop1, pop2, target <span class="op">=</span> <span class="st">'inh'</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>proj.connect_with_func(</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span>probabilistic_pattern, </span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    weight<span class="op">=</span><span class="fl">1.0</span>, </span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    probability<span class="op">=</span><span class="fl">0.3</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-12" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-12">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 10%">
 <col style="width: 8%">
-<col style="width: 70%">
+<col style="width: 8%">
+<col style="width: 71%">
 <col style="width: 12%">
 </colgroup>
 <thead>
@@ -1812,13 +1911,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>method</code></td>
+<td>method</td>
 <td></td>
 <td>Method to call. The method <strong>must</strong> return a LILConnectivity object.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>args</code></td>
+<td>args</td>
 <td></td>
 <td>List of additional arguments needed by the function.</td>
 <td><code>{}</code></td>
@@ -1829,12 +1928,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.connectivity_matrix" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.connectivity_matrix">connectivity_matrix</h3>
-<p><code>core.Projection.Projection.connectivity_matrix(fill=0.0)</code></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.connectivity_matrix(fill<span class="op">=</span><span class="fl">0.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns a dense connectivity matrix (2D Numpy array) representing the connections between the pre- and post-populations.</p>
 <p>The first index of the matrix represents post-synaptic neurons, the second the pre-synaptic ones.</p>
 <p>If PopulationViews were used for creating the projection, the matrix is expanded to the whole populations by default.</p>
-<section id="parameters-13" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-13">Parameters</h4>
+<section id="parameters-13" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-13">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 8%">
@@ -1852,7 +1951,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>fill</code></td>
+<td>fill</td>
 <td>float</td>
 <td>value to put in the matrix when there is no connection (default: 0.0).</td>
 <td><code>0.0</code></td>
@@ -1863,10 +1962,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.dendrite" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.dendrite">dendrite</h3>
-<p><code>core.Projection.Projection.dendrite(post)</code></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.dendrite(post)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the dendrite of a postsynaptic neuron according to its rank.</p>
-<section id="parameters-14" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-14">Parameters</h4>
+<section id="parameters-14" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-14">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 8%">
@@ -1884,7 +1983,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>post</code></td>
+<td>post</td>
 <td></td>
 <td>can be either the rank or the coordinates of the post-synaptic neuron.</td>
 <td><em>required</em></td>
@@ -1895,7 +1994,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.disable_learning" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.disable_learning">disable_learning</h3>
-<p><code>core.Projection.Projection.disable_learning(update=None)</code></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.disable_learning(update<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Disables learning for all synapses of this projection.</p>
 <p>The effect depends on the rate-coded or spiking nature of the projection:</p>
 <ul>
@@ -1906,18 +2005,174 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.enable_learning" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.enable_learning">enable_learning</h3>
-<p><code>core.Projection.Projection.enable_learning(period=None, offset=None)</code></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.enable_learning(period<span class="op">=</span><span class="va">None</span>, offset<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Enables learning for all the synapses of this projection.</p>
 <p>For example, providing the following parameters at time 10 ms:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>enable_learning(period<span class="op">=</span><span class="fl">10.</span>, offset<span class="op">=</span><span class="fl">5.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>enable_learning(period<span class="op">=</span><span class="fl">10.</span>, offset<span class="op">=</span><span class="fl">5.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>would call the updating methods at times 15, 25, 35, etc…</p>
 <p>The default behaviour is that the synaptic variables are updated at each time step. The parameters must be multiple of <code>dt</code>.</p>
-<section id="parameters-15" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-15">Parameters</h4>
+<section id="parameters-15" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-15">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 7%">
 <col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 78%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>period</td>
+<td></td>
+<td>determines how often the synaptic variables will be updated.</td>
+<td><code>None</code></td>
+</tr>
+<tr class="even">
+<td>offset</td>
+<td></td>
+<td>determines the offset at which the synaptic variables will be updated relative to the current time.</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.get" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.get">get</h3>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.get(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Returns a list of parameters/variables values for each dendrite in the projection.</p>
+<p>The list will have the same length as the number of actual dendrites (self.size), so it can be smaller than the size of the postsynaptic population. Use self.post_ranks to indice it.</p>
+<section id="parameters-16" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-16">Parameters</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>name</td>
+<td></td>
+<td>the name of the parameter or variable</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.load" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.load">load</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.load(filename, pickle_encoding<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Loads the saved state of the projection by <code>Projection.save()</code>.</p>
+<p>Warning: Matlab data can not be loaded.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>proj.load(<span class="st">'proj1.npz'</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>proj.load(<span class="st">'proj1.txt'</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>proj.load(<span class="st">'proj1.txt.gz'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-17" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-17">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 88%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>filename</td>
+<td>str</td>
+<td>the file name with relative or absolute path.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td>pickle_encoding</td>
+<td>str</td>
+<td>What encoding to use when reading Python 2 strings. Only useful when loading Python 2 generated pickled files in Python 3, which includes npy/npz files containing object arrays. Values other than <code>latin1</code>, <code>ASCII</code>, and <code>bytes</code> are not allowed, as they can corrupt numerical data.</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.nb_efferent_synapses" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.nb_efferent_synapses">nb_efferent_synapses</h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.nb_efferent_synapses()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Number of efferent connections. Intended only for spiking models.</p>
+</section>
+<section id="ANNarchy.core.Projection.Projection.nb_synapses_per_dendrite" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.nb_synapses_per_dendrite">nb_synapses_per_dendrite</h3>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.nb_synapses_per_dendrite()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Total number of synapses for each dendrite as a list.</p>
+</section>
+<section id="ANNarchy.core.Projection.Projection.receptive_fields" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.receptive_fields">receptive_fields</h3>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.receptive_fields(variable<span class="op">=</span><span class="st">'w'</span>, in_post_geometry<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Gathers all receptive fields within this projection.</p>
+<section id="parameters-18" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-18">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 8%">
+<col style="width: 58%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>variable</td>
+<td>str</td>
+<td>Name of the variable.</td>
+<td><code>'w'</code></td>
+</tr>
+<tr class="even">
+<td>in_post_geometry</td>
+<td>bool</td>
+<td>If False, the data will be plotted as square grid.</td>
+<td><code>True</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ANNarchy.core.Projection.Projection.reset" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.reset">reset</h3>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.reset(attributes<span class="op">=-</span><span class="dv">1</span>, synapses<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Resets all parameters and variables of the projection to their initial value (before the call to compile()).</p>
+<section id="parameters-19" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-19">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 5%">
 <col style="width: 77%">
 <col style="width: 8%">
 </colgroup>
@@ -1931,169 +2186,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>period</code></td>
-<td></td>
-<td>determines how often the synaptic variables will be updated.</td>
-<td><code>None</code></td>
-</tr>
-<tr class="even">
-<td><code>offset</code></td>
-<td></td>
-<td>determines the offset at which the synaptic variables will be updated relative to the current time.</td>
-<td><code>None</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.get" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.get">get</h3>
-<p><code>core.Projection.Projection.get(name)</code></p>
-<p>Returns a list of parameters/variables values for each dendrite in the projection.</p>
-<p>The list will have the same length as the number of actual dendrites (self.size), so it can be smaller than the size of the postsynaptic population. Use self.post_ranks to indice it.</p>
-<section id="parameters-16" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-16">Parameters</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>name</code></td>
-<td></td>
-<td>the name of the parameter or variable</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.load" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.load">load</h3>
-<p><code>core.Projection.Projection.load(filename, pickle_encoding=None)</code></p>
-<p>Loads the saved state of the projection by <code>Projection.save()</code>.</p>
-<p>Warning: Matlab data can not be loaded.</p>
-<p>Example:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>proj.load(<span class="st">'proj1.npz'</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>proj.load(<span class="st">'proj1.txt'</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>proj.load(<span class="st">'proj1.txt.gz'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-17" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-17">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 5%">
-<col style="width: 2%">
-<col style="width: 87%">
-<col style="width: 3%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>filename</code></td>
-<td>str</td>
-<td>the file name with relative or absolute path.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>pickle_encoding</code></td>
-<td>str</td>
-<td>What encoding to use when reading Python 2 strings. Only useful when loading Python 2 generated pickled files in Python 3, which includes npy/npz files containing object arrays. Values other than <code>latin1</code>, <code>ASCII</code>, and <code>bytes</code> are not allowed, as they can corrupt numerical data.</td>
-<td><code>None</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.nb_efferent_synapses" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.nb_efferent_synapses">nb_efferent_synapses</h3>
-<p><code>core.Projection.Projection.nb_efferent_synapses()</code></p>
-<p>Number of efferent connections. Intended only for spiking models.</p>
-</section>
-<section id="ANNarchy.core.Projection.Projection.nb_synapses_per_dendrite" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.nb_synapses_per_dendrite">nb_synapses_per_dendrite</h3>
-<p><code>core.Projection.Projection.nb_synapses_per_dendrite()</code></p>
-<p>Total number of synapses for each dendrite as a list.</p>
-</section>
-<section id="ANNarchy.core.Projection.Projection.receptive_fields" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.receptive_fields">receptive_fields</h3>
-<p><code>core.Projection.Projection.receptive_fields(variable='w', in_post_geometry=True)</code></p>
-<p>Gathers all receptive fields within this projection.</p>
-<section id="parameters-18" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-18">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 21%">
-<col style="width: 8%">
-<col style="width: 57%">
-<col style="width: 12%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>variable</code></td>
-<td>str</td>
-<td>Name of the variable.</td>
-<td><code>'w'</code></td>
-</tr>
-<tr class="even">
-<td><code>in_post_geometry</code></td>
-<td>bool</td>
-<td>If False, the data will be plotted as square grid.</td>
-<td><code>True</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="ANNarchy.core.Projection.Projection.reset" class="level3">
-<h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.reset">reset</h3>
-<p><code>core.Projection.Projection.reset(attributes=-1, synapses=False)</code></p>
-<p>Resets all parameters and variables of the projection to their initial value (before the call to compile()).</p>
-<section id="parameters-19" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-19">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 5%">
-<col style="width: 76%">
-<col style="width: 7%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>attributes</code></td>
+<td>attributes</td>
 <td></td>
 <td>list of attributes (parameter or variable) which should be reinitialized. Default: all attributes (-1).</td>
 <td><code>-1</code></td>
 </tr>
 <tr class="even">
-<td><code>synapses</code></td>
+<td>synapses</td>
 <td></td>
 <td>defines if the weights and delays should also be recreated. Default: False</td>
 <td><code>False</code></td>
@@ -2104,7 +2203,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.save" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.save">save</h3>
-<p><code>core.Projection.Projection.save(filename)</code></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.save(filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Saves all information about the projection (connectivity, current value of parameters and variables) into a file.</p>
 <ul>
 <li><p>If the file name is ‘.npz’, the data will be saved and compressed using <code>np.savez_compressed</code> (recommended).</p></li>
@@ -2114,17 +2213,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p><strong>Warning:</strong> the ‘.mat’ data will not be loadable by ANNarchy, it is only for external analysis purpose.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>proj.save(<span class="st">'proj1.npz'</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>proj.save(<span class="st">'proj1.txt'</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>proj.save(<span class="st">'proj1.txt.gz'</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>proj.save(<span class="st">'proj1.mat'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-20" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-20">Parameters</h4>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>proj.save(<span class="st">'proj1.npz'</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>proj.save(<span class="st">'proj1.txt'</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>proj.save(<span class="st">'proj1.txt.gz'</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>proj.save(<span class="st">'proj1.mat'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-20" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-20">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 14%">
+<col style="width: 12%">
 <col style="width: 9%">
-<col style="width: 61%">
+<col style="width: 62%">
 <col style="width: 14%">
 </colgroup>
 <thead>
@@ -2137,7 +2236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>filename</code></td>
+<td>filename</td>
 <td>str</td>
 <td>file name, may contain relative or absolute path.</td>
 <td><em>required</em></td>
@@ -2148,24 +2247,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.save_connectivity" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.save_connectivity">save_connectivity</h3>
-<p><code>core.Projection.Projection.save_connectivity(filename)</code></p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.save_connectivity(filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Saves the connectivity of the projection into a file.</p>
 <p>Only the connectivity matrix, the weights and delays are saved, not the other synaptic variables.</p>
 <p>The generated data can be used to create a projection in another network:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>proj.connect_from_file(filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>proj.connect_from_file(filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li><p>If the file name is ‘.npz’, the data will be saved and compressed using <code>np.savez_compressed</code> (recommended).</p></li>
 <li><p>If the file name ends with ‘.gz’, the data will be pickled into a binary file and compressed using gzip.</p></li>
 <li><p>If the file name is ‘.mat’, the data will be saved as a Matlab 7.2 file. Scipy must be installed.</p></li>
 <li><p>Otherwise, the data will be pickled into a simple binary text file using pickle.</p></li>
 </ul>
-<section id="parameters-21" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-21">Parameters</h4>
+<section id="parameters-21" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-21">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 14%">
+<col style="width: 12%">
 <col style="width: 9%">
-<col style="width: 61%">
+<col style="width: 62%">
 <col style="width: 14%">
 </colgroup>
 <thead>
@@ -2178,7 +2277,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>filename</code></td>
+<td>filename</td>
 <td></td>
 <td>file name, may contain relative or absolute path.</td>
 <td><em>required</em></td>
@@ -2189,7 +2288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.set" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.set">set</h3>
-<p><code>core.Projection.Projection.set(value)</code></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.<span class="bu">set</span>(value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Sets the parameters/variables values for each dendrite in the projection.</p>
 <p>For parameters, you can provide:</p>
 <ul>
@@ -2202,13 +2301,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>a list or 1D numpy array of the same length as the number of actual dendrites (self.size). The synapses of each postsynaptic neuron will take the same value.</p></li>
 </ul>
 <p><strong>Warning:</strong> it is not possible to set different values to each synapse using this method. One should iterate over the dendrites:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dendrite <span class="kw">in</span> proj.dendrites:</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    dendrite.w <span class="op">=</span> np.ones(dendrite.size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-22" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-22">Parameters</h4>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dendrite <span class="kw">in</span> proj.dendrites:</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    dendrite.w <span class="op">=</span> np.ones(dendrite.size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-22" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-22">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 9%">
+<col style="width: 8%">
 <col style="width: 8%">
 <col style="width: 68%">
 <col style="width: 13%">
@@ -2223,7 +2322,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>value</code></td>
+<td>value</td>
 <td></td>
 <td>a dictionary with the name of the parameter/variable as key.</td>
 <td><em>required</em></td>
@@ -2234,21 +2333,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.size_in_bytes" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.size_in_bytes">size_in_bytes</h3>
-<p><code>core.Projection.Projection.size_in_bytes()</code></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.size_in_bytes()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the size in bytes of the allocated memory on C++ side. Note that this does not reflect monitored data and that it only works after compile() was invoked.</p>
 </section>
 <section id="ANNarchy.core.Projection.Projection.start_creating" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.start_creating">start_creating</h3>
-<p><code>core.Projection.Projection.start_creating(period=None)</code></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.start_creating(period<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Starts creating the synapses in the projection if the synapse defines a ‘creating’ argument.</p>
 <p>‘structural_plasticity’ must be set to True in setup().</p>
-<section id="parameters-23" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-23">Parameters</h4>
+<section id="parameters-23" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-23">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 10%">
 <col style="width: 8%">
-<col style="width: 70%">
+<col style="width: 8%">
+<col style="width: 72%">
 <col style="width: 11%">
 </colgroup>
 <thead>
@@ -2261,7 +2360,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>period</code></td>
+<td>period</td>
 <td>float</td>
 <td>how often creating should be evaluated (default: dt, i.e.&nbsp;each step)</td>
 <td><code>None</code></td>
@@ -2272,16 +2371,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.start_pruning" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.start_pruning">start_pruning</h3>
-<p><code>core.Projection.Projection.start_pruning(period=None)</code></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.start_pruning(period<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Starts pruning the synapses in the projection if the synapse defines a ‘pruning’ argument.</p>
 <p>‘structural_plasticity’ must be set to True in setup().</p>
-<section id="parameters-24" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-24">Parameters</h4>
+<section id="parameters-24" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-24">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 10%">
 <col style="width: 8%">
-<col style="width: 70%">
+<col style="width: 8%">
+<col style="width: 71%">
 <col style="width: 11%">
 </colgroup>
 <thead>
@@ -2294,7 +2393,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>period</code></td>
+<td>period</td>
 <td>float</td>
 <td>how often pruning should be evaluated (default: dt, i.e.&nbsp;each step)</td>
 <td><code>None</code></td>
@@ -2305,22 +2404,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.stop_creating" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.stop_creating">stop_creating</h3>
-<p><code>core.Projection.Projection.stop_creating()</code></p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.stop_creating()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Stops creating the synapses in the projection if the synapse defines a ‘creating’ argument.</p>
 <p>‘structural_plasticity’ must be set to True in setup().</p>
 </section>
 <section id="ANNarchy.core.Projection.Projection.stop_pruning" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.stop_pruning">stop_pruning</h3>
-<p><code>core.Projection.Projection.stop_pruning()</code></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.stop_pruning()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Stops pruning the synapses in the projection if the synapse defines a ‘pruning’ argument.</p>
 <p>‘structural_plasticity’ must be set to True in <code>setup()</code>.</p>
 </section>
 <section id="ANNarchy.core.Projection.Projection.synapse" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.synapse">synapse</h3>
-<p><code>core.Projection.Projection.synapse(pre, post)</code></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.synapse(pre, post)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the synapse between a pre- and a post-synaptic neuron if it exists, None otherwise.</p>
-<section id="parameters-25" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-25">Parameters</h4>
+<section id="parameters-25" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-25">Parameters</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -2332,13 +2431,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>pre</code></td>
+<td>pre</td>
 <td></td>
 <td>rank of the pre-synaptic neuron.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>post</code></td>
+<td>post</td>
 <td></td>
 <td>rank of the post-synaptic neuron.</td>
 <td><em>required</em></td>
@@ -2349,15 +2448,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Projection.Projection.update_launch_config" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Projection.Projection.update_launch_config">update_launch_config</h3>
-<p><code>core.Projection.Projection.update_launch_config(nb_blocks=-1, threads_per_block=32)</code></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>core.Projection.Projection.update_launch_config(</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    nb_blocks<span class="op">=-</span><span class="dv">1</span>,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    threads_per_block<span class="op">=</span><span class="dv">32</span>,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Allows the adjustment of the CUDA launch config (since 4.7.2).</p>
-<section id="parameters-26" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-26">Parameters</h4>
+<section id="parameters-26" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-26">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 12%">
+<col style="width: 11%">
 <col style="width: 4%">
-<col style="width: 75%">
+<col style="width: 76%">
 <col style="width: 6%">
 </colgroup>
 <thead>
@@ -2370,13 +2472,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>nb_blocks</code></td>
+<td>nb_blocks</td>
 <td>int</td>
 <td>number of CUDA blocks which can be 65535 at maximum. If set to -1, the number of launched blocks is computed by ANNarchy.</td>
 <td><code>-1</code></td>
 </tr>
 <tr class="even">
-<td><code>threads_per_block</code></td>
+<td>threads_per_block</td>
 <td>int</td>
 <td>number of CUDA threads for one block which can be maximally 1024.</td>
 <td><code>32</code></td>

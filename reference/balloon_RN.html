@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>balloon_rn – ANNarchy 4.8.1</title>
+<title>balloon_rn – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -944,52 +944,65 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.extensions.bold.PredefinedModels.balloon_RN" class="level1">
 <h1>balloon_RN</h1>
-<p><code>extensions.bold.PredefinedModels.balloon_RN(self, phi=1.0, kappa=1 / 1.54, gamma=1 / 2.46, E_0=0.34, tau=0.98, alpha=0.33, V_0=0.02, v_0=40.3, TE=40 / 1000.0, epsilon=1.43, r_0=25)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>extensions.bold.PredefinedModels.balloon_RN(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    phi<span class="op">=</span><span class="fl">1.0</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    kappa<span class="op">=</span><span class="dv">1</span> <span class="op">/</span> <span class="fl">1.54</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    gamma<span class="op">=</span><span class="dv">1</span> <span class="op">/</span> <span class="fl">2.46</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    E_0<span class="op">=</span><span class="fl">0.34</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    tau<span class="op">=</span><span class="fl">0.98</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">0.33</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    V_0<span class="op">=</span><span class="fl">0.02</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    v_0<span class="op">=</span><span class="fl">40.3</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    TE<span class="op">=</span><span class="dv">40</span> <span class="op">/</span> <span class="fl">1000.0</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    epsilon<span class="op">=</span><span class="fl">1.43</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    r_0<span class="op">=</span><span class="dv">25</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A balloon model with revised coefficients and non-linear BOLD equation derived from Stephan et al.&nbsp;(2007).</p>
 <p>Equivalent code:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>balloon_RN <span class="op">=</span> BoldModel(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="st">        second    = 1000.0</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">        phi       = 1.0</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="st">        kappa     = 1/1.54</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">        gamma     = 1/2.46</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="st">        E_0       = 0.34</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="st">        tau       = 0.98</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="st">        alpha     = 0.33</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="st">        V_0       = 0.02</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="st">        v_0       = 40.3</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="st">        TE        = 40/1000.</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="st">        epsilon   = 1.43</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st">        r_0       = 25.</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">        # Single input</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="st">        I_CBF          = sum(I_CBF)                                                : init=0</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">        ds/dt          = (phi * I_CBF - kappa * s - gamma * (f_in - 1))/second     : init=0</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="st">        df_in/dt       = s / second                                                : init=1, min=0.01</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="st">        E              = 1 - (1 - E_0)**(1 / f_in)                                 : init=0.3424</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="st">        dq/dt          = (f_in * E / E_0 - (q / v) * f_out)/(tau*second)           : init=1, min=0.01</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="st">        dv/dt          = (f_in - f_out)/(tau*second)                               : init=1, min=0.01</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="st">        f_out          = v**(1 / alpha)                                            : init=1, min=0.01</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="st">        # Revised coefficients</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="st">        k_1            = 4.3 * v_0 * E_0 * TE</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="st">        k_2            = epsilon * r_0 * E_0 * TE</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="st">        k_3            = 1.0 - epsilon</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="st">        # Non-linear equation</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="st">        BOLD           = V_0 * (k_1 * (1 - q) + k_2 * (1 - (q / v)) + k_3 * (1 - v))  : init=0</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    inputs<span class="op">=</span><span class="st">"I_CBF"</span>,</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>balloon_RN <span class="op">=</span> BoldModel(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">        second    = 1000.0</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">        phi       = 1.0</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">        kappa     = 1/1.54</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">        gamma     = 1/2.46</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">        E_0       = 0.34</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">        tau       = 0.98</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">        alpha     = 0.33</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st">        V_0       = 0.02</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">        v_0       = 40.3</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="st">        TE        = 40/1000.</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="st">        epsilon   = 1.43</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="st">        r_0       = 25.</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="st">        # Single input</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="st">        I_CBF          = sum(I_CBF)                                                : init=0</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="st">        ds/dt          = (phi * I_CBF - kappa * s - gamma * (f_in - 1))/second     : init=0</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="st">        df_in/dt       = s / second                                                : init=1, min=0.01</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="st">        E              = 1 - (1 - E_0)**(1 / f_in)                                 : init=0.3424</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="st">        dq/dt          = (f_in * E / E_0 - (q / v) * f_out)/(tau*second)           : init=1, min=0.01</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="st">        dv/dt          = (f_in - f_out)/(tau*second)                               : init=1, min=0.01</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="st">        f_out          = v**(1 / alpha)                                            : init=1, min=0.01</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="st">        # Revised coefficients</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="st">        k_1            = 4.3 * v_0 * E_0 * TE</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="st">        k_2            = epsilon * r_0 * E_0 * TE</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="st">        k_3            = 1.0 - epsilon</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="st">        # Non-linear equation</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="st">        BOLD           = V_0 * (k_1 * (1 - q) + k_2 * (1 - (q / v)) + k_3 * (1 - v))  : init=0</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    inputs<span class="op">=</span><span class="st">"I_CBF"</span>,</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 8%">
+<col style="width: 6%">
 <col style="width: 5%">
-<col style="width: 75%">
+<col style="width: 76%">
 <col style="width: 11%">
 </colgroup>
 <thead>
@@ -1002,67 +1015,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>phi</code></td>
+<td>phi</td>
 <td></td>
 <td>input coefficient</td>
 <td><code>1.0</code></td>
 </tr>
 <tr class="even">
-<td><code>kappa</code></td>
+<td>kappa</td>
 <td></td>
 <td>signal decay</td>
 <td><code>1 / 1.54</code></td>
 </tr>
 <tr class="odd">
-<td><code>gamma</code></td>
+<td>gamma</td>
 <td></td>
 <td>feedback regulation</td>
 <td><code>1 / 2.46</code></td>
 </tr>
 <tr class="even">
-<td><code>E_0</code></td>
+<td>E_0</td>
 <td></td>
 <td>oxygen extraction fraction at rest</td>
 <td><code>0.34</code></td>
 </tr>
 <tr class="odd">
-<td><code>tau</code></td>
+<td>tau</td>
 <td></td>
 <td>time constant (in s!)</td>
 <td><code>0.98</code></td>
 </tr>
 <tr class="even">
-<td><code>alpha</code></td>
+<td>alpha</td>
 <td></td>
 <td>vessel stiffness</td>
 <td><code>0.33</code></td>
 </tr>
 <tr class="odd">
-<td><code>V_0</code></td>
+<td>V_0</td>
 <td></td>
 <td>resting venous blood volume fraction</td>
 <td><code>0.02</code></td>
 </tr>
 <tr class="even">
-<td><code>v_0</code></td>
+<td>v_0</td>
 <td></td>
 <td>frequency offset at the outer surface of the magnetized vessel for fully deoxygenated blood at 1.5 T</td>
 <td><code>40.3</code></td>
 </tr>
 <tr class="odd">
-<td><code>TE</code></td>
+<td>TE</td>
 <td></td>
 <td>echo time</td>
 <td><code>40 / 1000.0</code></td>
 </tr>
 <tr class="even">
-<td><code>epsilon</code></td>
+<td>epsilon</td>
 <td></td>
 <td>ratio of intra- and extravascular signal</td>
 <td><code>1.43</code></td>
 </tr>
 <tr class="odd">
-<td><code>r_0</code></td>
+<td>r_0</td>
 <td></td>
 <td>slope of the relation between the intravascular relaxation rate and oxygen saturation</td>
 <td><code>25</code></td>

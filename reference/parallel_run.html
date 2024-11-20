@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>parallel_run – ANNarchy 4.8.1</title>
+<title>parallel_run – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -945,35 +945,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.core.Network.parallel_run" class="level1">
 <h1>parallel_run</h1>
-<p><code>core.Network.parallel_run(method, networks=None, number=0, max_processes=-1, measure_time=False, sequential=False, same_seed=False, annarchy_json='', visible_cores=[], **args)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>core.Network.parallel_run(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    method,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    networks<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    number<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    max_processes<span class="op">=-</span><span class="dv">1</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    measure_time<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    sequential<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    same_seed<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    annarchy_json<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    visible_cores<span class="op">=</span>[],</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>args,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Allows to run multiple networks in parallel using multiprocessing.</p>
 <p>If the <code>networks</code> argument is provided as a list of Network objects, the given method will be executed for each of these networks.</p>
 <p>If <code>number</code> is given instead, the same number of networks will be created and the method is applied.</p>
 <p>If <code>number</code> is used, the created networks are not returned, you should return what you need to analyse.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> ann.PoissonPopulation(<span class="dv">100</span>, rates<span class="op">=</span><span class="fl">10.0</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> ann.Population(<span class="dv">100</span>, ann.Izhikevich)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> ann.Projection(pop1, pop2, <span class="st">'exc'</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>proj.connect_fixed_probability(weights<span class="op">=</span><span class="fl">5.0</span>, probability<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> ann.Monitor(pop2, <span class="st">'spike'</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulation(idx, net):</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    net.get(pop1).rates <span class="op">=</span> <span class="fl">10.</span> <span class="op">*</span> idx</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    net.simulate(<span class="fl">1000.</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> net.get(m).raster_plot()</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> ann.parallel_run(method<span class="op">=</span>simulation, number <span class="op">=</span> <span class="dv">3</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>t1, n1 <span class="op">=</span> results[<span class="dv">0</span>]</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>t2, n2 <span class="op">=</span> results[<span class="dv">1</span>]</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>t3, n3 <span class="op">=</span> results[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> ann.PoissonPopulation(<span class="dv">100</span>, rates<span class="op">=</span><span class="fl">10.0</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> ann.Population(<span class="dv">100</span>, ann.Izhikevich)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> ann.Projection(pop1, pop2, <span class="st">'exc'</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>proj.connect_fixed_probability(weights<span class="op">=</span><span class="fl">5.0</span>, probability<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> ann.Monitor(pop2, <span class="st">'spike'</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulation(idx, net):</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    net.get(pop1).rates <span class="op">=</span> <span class="fl">10.</span> <span class="op">*</span> idx</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    net.simulate(<span class="fl">1000.</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> net.get(m).raster_plot()</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> ann.parallel_run(method<span class="op">=</span>simulation, number <span class="op">=</span> <span class="dv">3</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>t1, n1 <span class="op">=</span> results[<span class="dv">0</span>]</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>t2, n2 <span class="op">=</span> results[<span class="dv">1</span>]</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>t3, n3 <span class="op">=</span> results[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 5%">
+<col style="width: 4%">
 <col style="width: 2%">
 <col style="width: 89%">
 <col style="width: 3%">
@@ -988,61 +999,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>method</code></td>
+<td>method</td>
 <td></td>
 <td>a Python method which will be executed for each network. This function must accept an integer as first argument (id of the simulation) and a Network object as second argument.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>networks</code></td>
+<td>networks</td>
 <td>list</td>
 <td>a list of networks to simulate in parallel.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="odd">
-<td><code>number</code></td>
+<td>number</td>
 <td>int</td>
 <td>the number of identical networks to run in parallel.</td>
 <td><code>0</code></td>
 </tr>
 <tr class="even">
-<td><code>max_processes</code></td>
+<td>max_processes</td>
 <td>int</td>
 <td>maximal number of processes to start concurrently (default: the available number of cores on the machine).</td>
 <td><code>-1</code></td>
 </tr>
 <tr class="odd">
-<td><code>measure_time</code></td>
+<td>measure_time</td>
 <td>bool</td>
 <td>if the total simulation time should be printed out.</td>
 <td><code>False</code></td>
 </tr>
 <tr class="even">
-<td><code>sequential</code></td>
+<td>sequential</td>
 <td>bool</td>
 <td>if True, runs the simulations sequentially instead of in parallel (default: False).</td>
 <td><code>False</code></td>
 </tr>
 <tr class="odd">
-<td><code>same_seed</code></td>
+<td>same_seed</td>
 <td>bool</td>
 <td>if True, all networks will use the same seed. If not, the seed will be randomly initialized with time(0) for each network (default). It has no influence when the <code>networks</code> argument is set (the seed has to be set individually for each network using <code>net.set_seed()</code>), only when <code>number</code> is used.</td>
 <td><code>False</code></td>
 </tr>
 <tr class="even">
-<td><code>annarchy_json</code></td>
+<td>annarchy_json</td>
 <td>str</td>
 <td>path to a different configuration file if needed (default ““).</td>
 <td><code>''</code></td>
 </tr>
 <tr class="odd">
-<td><code>visible_cores</code></td>
+<td>visible_cores</td>
 <td>list</td>
 <td>a list of CPU core ids to simulate on (must have max_processes entries and max_processes must be != -1)</td>
 <td><code>[]</code></td>
 </tr>
 <tr class="even">
-<td><code>args</code></td>
+<td>args</td>
 <td></td>
 <td>other named arguments you want to pass to the simulation method.</td>
 <td><code>{}</code></td>
@@ -1050,17 +1061,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="returns" class="level2">
-<h2 class="anchored" data-anchor-id="returns">Returns</h2>
+<section id="returns" class="level2 doc-section doc-section-returns">
+<h2 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 78%">
+</colgroup>
 <thead>
 <tr class="header">
+<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td></td>
 <td>list</td>
 <td>a list of the values returned by each call to <code>method</code>.</td>
 </tr>

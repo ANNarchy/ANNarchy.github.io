@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>populationview – ANNarchy 4.8.1</title>
+<title>populationview – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -952,7 +952,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.core.PopulationView.PopulationView" class="level1">
 <h1>PopulationView</h1>
-<p><code>core.PopulationView.PopulationView(self, population, ranks, geometry=None)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>core.PopulationView.PopulationView(<span class="va">self</span>, population, ranks, geometry<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Container representing a subset of neurons of a Population.</p>
 <section id="attributes" class="level2">
 <h2 class="anchored" data-anchor-id="attributes">Attributes</h2>
@@ -966,19 +966,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td><a href="#ANNarchy.core.PopulationView.PopulationView.attributes">attributes</a></td>
-<td>List of attributes.</td>
+<td>Returns a list of attributes of the original population.</td>
 </tr>
 <tr class="even">
 <td><a href="#ANNarchy.core.PopulationView.PopulationView.geometry">geometry</a></td>
-<td>Geometry of the population.</td>
+<td>Geometry of the PopulationView (optional).</td>
 </tr>
 <tr class="odd">
 <td><a href="#ANNarchy.core.PopulationView.PopulationView.name">name</a></td>
-<td>Name of the population.</td>
+<td>Returns the name of the original population.</td>
 </tr>
 <tr class="even">
 <td><a href="#ANNarchy.core.PopulationView.PopulationView.parameters">parameters</a></td>
-<td>List of parameter names.</td>
+<td>Returns a list of constants of the original population.</td>
 </tr>
 <tr class="odd">
 <td><a href="#ANNarchy.core.PopulationView.PopulationView.population">population</a></td>
@@ -990,7 +990,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td><a href="#ANNarchy.core.PopulationView.PopulationView.size">size</a></td>
-<td>Size of the population.</td>
+<td>Size of the PopulationView.</td>
 </tr>
 <tr class="even">
 <td><a href="#ANNarchy.core.PopulationView.PopulationView.targets">targets</a></td>
@@ -998,7 +998,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td><a href="#ANNarchy.core.PopulationView.PopulationView.variables">variables</a></td>
-<td>List of variable names.</td>
+<td>Returns a list of variables of the original population.</td>
 </tr>
 </tbody>
 </table>
@@ -1037,18 +1037,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="ANNarchy.core.PopulationView.PopulationView.coordinates_from_rank" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.PopulationView.PopulationView.coordinates_from_rank">coordinates_from_rank</h3>
-<p><code>core.PopulationView.PopulationView.coordinates_from_rank(rank, local=False)</code></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>core.PopulationView.PopulationView.coordinates_from_rank(rank, local<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the coordinates of a neuron based on its rank.</p>
 <p>When local is False (default), the coordinates are relative to the ORIGINAL population, not the PopulationView.</p>
 <p>When local is True, the coordinates are interpreted relative to the geometry of the PopulationView if available. When you add two population views, the geometry is lost and the method will return an error.</p>
 <p>The rank is relative to the original population. Iterate over len(pop) otherwise.</p>
-<section id="parameters" class="level4">
-<h4 class="anchored" data-anchor-id="parameters">Parameters</h4>
+<section id="parameters" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 8%">
 <col style="width: 7%">
-<col style="width: 73%">
+<col style="width: 7%">
+<col style="width: 74%">
 <col style="width: 10%">
 </colgroup>
 <thead>
@@ -1061,13 +1061,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>rank</code></td>
+<td>rank</td>
 <td></td>
 <td>rank of the neuron in the original population</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>local</code></td>
+<td>local</td>
 <td></td>
 <td>whether the coordinates are local to the PopulationView or not (default: False).</td>
 <td><code>False</code></td>
@@ -1078,10 +1078,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.PopulationView.PopulationView.get" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.PopulationView.PopulationView.get">get</h3>
-<p><code>core.PopulationView.PopulationView.get(name)</code></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>core.PopulationView.PopulationView.get(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns current variable/parameter value.</p>
-<section id="parameters-1" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-1">Parameters</h4>
+<section id="parameters-1" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1093,7 +1093,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>name</code></td>
+<td>name</td>
 <td></td>
 <td>name of the parameter/variable.</td>
 <td><em>required</em></td>
@@ -1104,19 +1104,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.PopulationView.PopulationView.rank_from_coordinates" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.PopulationView.PopulationView.rank_from_coordinates">rank_from_coordinates</h3>
-<p><code>core.PopulationView.PopulationView.rank_from_coordinates(coord, local=False)</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>core.PopulationView.PopulationView.rank_from_coordinates(coord, local<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the rank of a neuron based on coordinates.</p>
 <p>When local is False (default), the coordinates are relative to the ORIGINAL population, not the PopulationView.</p>
 <p>When local is True, the coordinates are interpreted relative to the geometry of the PopulationView if available. When you add two population views, the geometry is lost and the method will return an error.</p>
 <p>The rank is relative to the original population. Iterate over len(pop) otherwise.</p>
-<section id="parameters-2" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-2">Parameters</h4>
+<section id="parameters-2" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 8%">
 <col style="width: 7%">
-<col style="width: 73%">
-<col style="width: 10%">
+<col style="width: 7%">
+<col style="width: 74%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1128,13 +1128,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>coord</code></td>
+<td>coord</td>
 <td></td>
 <td>coordinate tuple, can be multidimensional.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>local</code></td>
+<td>local</td>
 <td></td>
 <td>whther the coordinates are local to the PopulationView or not (default: False).</td>
 <td><code>False</code></td>
@@ -1145,10 +1145,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.PopulationView.PopulationView.set" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.PopulationView.PopulationView.set">set</h3>
-<p><code>core.PopulationView.PopulationView.set(value)</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>core.PopulationView.PopulationView.<span class="bu">set</span>(value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Updates the neurons’ variable/parameter values.</p>
-<section id="parameters-3" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-3">Parameters</h4>
+<section id="parameters-3" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 1%">
@@ -1166,7 +1166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>value</code></td>
+<td>value</td>
 <td>dict</td>
 <td>dictionary of parameters/variables to be updated for the corresponding subset of neurons. It can be a single value or a list/1D array of the same size as the PopulationView. .. code-block:: python &gt;&gt;&gt; subpop = pop[0:5] &gt;&gt;&gt; subpop.set( {‘tau’ : 20, ‘r’= np.random.rand(subpop.size) } ) .. warning:: If you modify the value of a global parameter, this will be the case for ALL neurons of the population, not only the subset.</td>
 <td><em>required</em></td>
@@ -1177,19 +1177,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.PopulationView.PopulationView.sum" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.PopulationView.PopulationView.sum">sum</h3>
-<p><code>core.PopulationView.PopulationView.sum(target)</code></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>core.PopulationView.PopulationView.<span class="bu">sum</span>(target)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the array of weighted sums corresponding to the target::</p>
 <pre><code>excitatory = pop.sum('exc')</code></pre>
 <p>For spiking networks, this is equivalent to accessing the conductances directly::</p>
 <pre><code>excitatory = pop.g_exc</code></pre>
 <p>If no incoming projection has the given target, the method returns zeros.</p>
-<section id="parameters-4" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-4">Parameters</h4>
+<section id="parameters-4" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-4">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 6%">
-<col style="width: 4%">
-<col style="width: 81%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 82%">
 <col style="width: 7%">
 </colgroup>
 <thead>
@@ -1202,7 +1202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>target</code></td>
+<td>target</td>
 <td></td>
 <td>the desired projection target. <strong>Note:</strong> it is not possible to distinguish the original population when the same target is used.</td>
 <td><em>required</em></td>

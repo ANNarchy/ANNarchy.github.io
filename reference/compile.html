@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>compile – ANNarchy 4.8.1</title>
+<title>compile – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -944,7 +944,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.generator.compile" class="level1">
 <h1>compile</h1>
-<p><code>generator.compile(directory='annarchy', clean=False, populations=None, projections=None, compiler='default', compiler_flags='default', add_sources='', extra_libs='', cuda_config={'device': 0}, annarchy_json='', silent=False, debug_build=False, profile_enabled=False, net_id=0)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>generator.<span class="bu">compile</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    directory<span class="op">=</span><span class="st">'annarchy'</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    clean<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    populations<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    projections<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    compiler<span class="op">=</span><span class="st">'default'</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    compiler_flags<span class="op">=</span><span class="st">'default'</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    add_sources<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    extra_libs<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    cuda_config<span class="op">=</span>{<span class="st">'device'</span>: <span class="dv">0</span>},</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    annarchy_json<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    silent<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    debug_build<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    profile_enabled<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    net_id<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This method uses the network architecture to generate optimized C++ code and compile a shared library that will perform the simulation.</p>
 <p>The <code>compiler</code>, <code>compiler_flags</code> and part of <code>cuda_config</code> take their default value from the configuration file <code>~/.config/ANNarchy/annarchy.json</code>.</p>
 <p>The following arguments are for internal development use only:</p>
@@ -952,13 +967,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>debug_build</strong>: creates a debug version of ANNarchy, which logs the creation of objects and some other data (default: False).</li>
 <li><strong>profile_enabled</strong>: creates a profilable version of ANNarchy, which logs several computation timings (default: False).</li>
 </ul>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 8%">
+<col style="width: 7%">
 <col style="width: 3%">
-<col style="width: 80%">
+<col style="width: 81%">
 <col style="width: 7%">
 </colgroup>
 <thead>
@@ -971,55 +986,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>directory</code></td>
+<td>directory</td>
 <td></td>
 <td>name of the subdirectory where the code will be generated and compiled. Must be a relative path. Default: “annarchy/”.</td>
 <td><code>'annarchy'</code></td>
 </tr>
 <tr class="even">
-<td><code>clean</code></td>
+<td>clean</td>
 <td></td>
 <td>boolean to specifying if the library should be recompiled entirely or only the changes since last compilation (default: False).</td>
 <td><code>False</code></td>
 </tr>
 <tr class="odd">
-<td><code>populations</code></td>
+<td>populations</td>
 <td></td>
 <td>list of populations which should be compiled. If set to None, all available populations will be used.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>projections</code></td>
+<td>projections</td>
 <td></td>
 <td>list of projection which should be compiled. If set to None, all available projections will be used.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="odd">
-<td><code>compiler</code></td>
+<td>compiler</td>
 <td></td>
 <td>C++ compiler to use. Default: g++ on GNU/Linux, clang++ on OS X. Valid compilers are [g++, clang++].</td>
 <td><code>'default'</code></td>
 </tr>
 <tr class="even">
-<td><code>compiler_flags</code></td>
+<td>compiler_flags</td>
 <td></td>
 <td>platform-specific flags to pass to the compiler. Default: “-march=native -O2”. Warning: -O3 often generates slower code and can cause linking problems, so it is not recommended.</td>
 <td><code>'default'</code></td>
 </tr>
 <tr class="odd">
-<td><code>cuda_config</code></td>
+<td>cuda_config</td>
 <td></td>
 <td>dictionary defining the CUDA configuration for each population and projection.</td>
 <td><code>{'device': 0}</code></td>
 </tr>
 <tr class="even">
-<td><code>annarchy_json</code></td>
+<td>annarchy_json</td>
 <td></td>
 <td>compiler flags etc can be stored in a .json file normally placed in the home directory (see comment below). With this flag one can directly assign a file location.</td>
 <td><code>''</code></td>
 </tr>
 <tr class="odd">
-<td><code>silent</code></td>
+<td>silent</td>
 <td></td>
 <td>defines if status message like “Compiling… OK” should be printed.</td>
 <td><code>False</code></td>

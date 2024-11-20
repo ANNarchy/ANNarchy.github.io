@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Izhikevich’s pulse-coupled network – ANNarchy 4.8.1</title>
+<title>Izhikevich’s pulse-coupled network – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -161,7 +161,7 @@ window.Quarto = {
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -475,71 +475,91 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>Izhikevich, E.M. (2003). Simple Model of Spiking Neurons, <em>IEEE Transaction on Neural Networks, 14:6</em>.</p>
 </blockquote>
+<div id="cell-4" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ann.clear()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ANNarchy 4.8 (4.8.2) on darwin (posix).</code></pre>
+</div>
+</div>
 <p>The original Matlab code is provided below:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Created by Eugene M. Izhikevich, February 25, 2003</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">% Excitatory neurons Inhibitory neurons</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">Ne</span> <span class="op">=</span> <span class="fl">800</span><span class="op">;</span> <span class="va">Ni</span> <span class="op">=</span> <span class="fl">200</span><span class="op">;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="va">re</span> <span class="op">=</span> <span class="va">rand</span>(<span class="va">Ne</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span> <span class="va">ri</span> <span class="op">=</span> <span class="va">rand</span>(<span class="va">Ni</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="va">a</span> <span class="op">=</span> [<span class="fl">0.02</span><span class="op">*</span><span class="va">ones</span>(<span class="va">Ne</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span> <span class="fl">0.02</span><span class="op">+</span><span class="fl">0.08</span><span class="op">*</span><span class="va">ri</span>]<span class="op">;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> [<span class="fl">0.2</span><span class="op">*</span><span class="va">ones</span>(<span class="va">Ne</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span> <span class="fl">0.25</span><span class="op">-</span><span class="fl">0.05</span><span class="op">*</span><span class="va">ri</span>]<span class="op">;</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="va">c</span> <span class="op">=</span> [<span class="op">-</span><span class="fl">65</span><span class="op">+</span><span class="fl">15</span><span class="op">*</span><span class="va">re</span><span class="op">.^</span><span class="fl">2</span><span class="op">;</span> <span class="op">-</span><span class="fl">65</span><span class="op">*</span><span class="va">ones</span>(<span class="va">Ni</span><span class="op">,</span><span class="fl">1</span>)]<span class="op">;</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="va">d</span> <span class="op">=</span> [<span class="fl">8</span><span class="op">-</span><span class="fl">6</span><span class="op">*</span><span class="va">re</span><span class="op">.^</span><span class="fl">2</span><span class="op">;</span> <span class="fl">2</span><span class="op">*</span><span class="va">ones</span>(<span class="va">Ni</span><span class="op">,</span><span class="fl">1</span>)]<span class="op">;</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="va">S</span> <span class="op">=</span> [<span class="fl">0.5</span><span class="op">*</span><span class="va">rand</span>(<span class="va">Ne</span><span class="op">+</span><span class="va">Ni</span><span class="op">,</span><span class="va">Ne</span>)<span class="op">,</span> <span class="op">-</span><span class="va">rand</span>(<span class="va">Ne</span><span class="op">+</span><span class="va">Ni</span><span class="op">,</span><span class="va">Ni</span>)]<span class="op">;</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="va">v</span> <span class="op">=</span> <span class="op">-</span><span class="fl">65</span><span class="op">*</span><span class="va">ones</span>(<span class="va">Ne</span><span class="op">+</span><span class="va">Ni</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span> <span class="co">% Initial values of v</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="va">u</span> <span class="op">=</span> <span class="va">b</span><span class="op">.*</span><span class="va">v</span><span class="op">;</span> <span class="co">% Initial values of u</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="va">firings</span> <span class="op">=</span> []<span class="op">;</span> <span class="co">% spike timings</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">t</span><span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span> <span class="co">% simulation of 1000 ms</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">I</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">*</span><span class="va">randn</span>(<span class="va">Ne</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span><span class="fl">2</span><span class="op">*</span><span class="va">randn</span>(<span class="va">Ni</span><span class="op">,</span><span class="fl">1</span>)]<span class="op">;</span> <span class="co">% thalamic input</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">fired</span> <span class="op">=</span> <span class="va">find</span>(<span class="va">v</span><span class="op">&gt;=</span><span class="fl">30</span>)<span class="op">;</span> <span class="co">% indices of spikes</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">firings</span> <span class="op">=</span> [<span class="va">firings</span><span class="op">;</span> <span class="va">t</span><span class="op">+</span><span class="fl">0</span><span class="op">*</span><span class="va">fired</span><span class="op">,</span><span class="va">fired</span>]<span class="op">;</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">v</span>(<span class="va">fired</span>) <span class="op">=</span> <span class="va">c</span>(<span class="va">fired</span>)<span class="op">;</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="va">u</span>(<span class="va">fired</span>) <span class="op">=</span> <span class="va">u</span>(<span class="va">fired</span>) <span class="op">+</span> <span class="va">d</span>(<span class="va">fired</span>)<span class="op">;</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">I</span> <span class="op">=</span> <span class="va">I</span> <span class="op">+</span> <span class="va">sum</span>(<span class="va">S</span>(<span class="op">:,</span><span class="va">fired</span>)<span class="op">,</span><span class="fl">2</span>)<span class="op">;</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="va">v</span> <span class="op">=</span> <span class="va">v</span> <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span>(<span class="fl">0.04</span><span class="op">*</span><span class="va">v</span><span class="op">.^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">5</span><span class="op">*</span><span class="va">v</span> <span class="op">+</span> <span class="fl">140</span> <span class="op">-</span> <span class="va">u</span> <span class="op">+</span> <span class="va">I</span>)<span class="op">;</span> <span class="co">% step 0.5 ms</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="va">v</span> <span class="op">=</span> <span class="va">v</span> <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span>(<span class="fl">0.04</span><span class="op">*</span><span class="va">v</span><span class="op">.^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">5</span><span class="op">*</span><span class="va">v</span> <span class="op">+</span> <span class="fl">140</span><span class="op">-</span><span class="va">u</span> <span class="op">+</span> <span class="va">I</span>)<span class="op">;</span> <span class="co">% for numerical</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">u</span> <span class="op">=</span> <span class="va">u</span> <span class="op">+</span> <span class="va">a</span><span class="op">.*</span>(<span class="va">b</span><span class="op">.*</span><span class="va">v</span> <span class="op">-</span> <span class="va">u</span>)<span class="op">;</span> <span class="co">% stability</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span><span class="op">;</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="va">plot</span>(<span class="va">firings</span>(<span class="op">:,</span><span class="fl">1</span>)<span class="op">,</span><span class="va">firings</span>(<span class="op">:,</span><span class="fl">2</span>)<span class="op">,</span>’.’)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Created by Eugene M. Izhikevich, February 25, 2003</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">% Excitatory neurons Inhibitory neurons</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="va">Ne</span> <span class="op">=</span> <span class="fl">800</span><span class="op">;</span> <span class="va">Ni</span> <span class="op">=</span> <span class="fl">200</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="va">re</span> <span class="op">=</span> <span class="va">rand</span>(<span class="va">Ne</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span> <span class="va">ri</span> <span class="op">=</span> <span class="va">rand</span>(<span class="va">Ni</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="va">a</span> <span class="op">=</span> [<span class="fl">0.02</span><span class="op">*</span><span class="va">ones</span>(<span class="va">Ne</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span> <span class="fl">0.02</span><span class="op">+</span><span class="fl">0.08</span><span class="op">*</span><span class="va">ri</span>]<span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> [<span class="fl">0.2</span><span class="op">*</span><span class="va">ones</span>(<span class="va">Ne</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span> <span class="fl">0.25</span><span class="op">-</span><span class="fl">0.05</span><span class="op">*</span><span class="va">ri</span>]<span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="va">c</span> <span class="op">=</span> [<span class="op">-</span><span class="fl">65</span><span class="op">+</span><span class="fl">15</span><span class="op">*</span><span class="va">re</span><span class="op">.^</span><span class="fl">2</span><span class="op">;</span> <span class="op">-</span><span class="fl">65</span><span class="op">*</span><span class="va">ones</span>(<span class="va">Ni</span><span class="op">,</span><span class="fl">1</span>)]<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="va">d</span> <span class="op">=</span> [<span class="fl">8</span><span class="op">-</span><span class="fl">6</span><span class="op">*</span><span class="va">re</span><span class="op">.^</span><span class="fl">2</span><span class="op">;</span> <span class="fl">2</span><span class="op">*</span><span class="va">ones</span>(<span class="va">Ni</span><span class="op">,</span><span class="fl">1</span>)]<span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="va">S</span> <span class="op">=</span> [<span class="fl">0.5</span><span class="op">*</span><span class="va">rand</span>(<span class="va">Ne</span><span class="op">+</span><span class="va">Ni</span><span class="op">,</span><span class="va">Ne</span>)<span class="op">,</span> <span class="op">-</span><span class="va">rand</span>(<span class="va">Ne</span><span class="op">+</span><span class="va">Ni</span><span class="op">,</span><span class="va">Ni</span>)]<span class="op">;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="va">v</span> <span class="op">=</span> <span class="op">-</span><span class="fl">65</span><span class="op">*</span><span class="va">ones</span>(<span class="va">Ne</span><span class="op">+</span><span class="va">Ni</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span> <span class="co">% Initial values of v</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="va">u</span> <span class="op">=</span> <span class="va">b</span><span class="op">.*</span><span class="va">v</span><span class="op">;</span> <span class="co">% Initial values of u</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="va">firings</span> <span class="op">=</span> []<span class="op">;</span> <span class="co">% spike timings</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">t</span><span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span> <span class="co">% simulation of 1000 ms</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">I</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">*</span><span class="va">randn</span>(<span class="va">Ne</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span><span class="fl">2</span><span class="op">*</span><span class="va">randn</span>(<span class="va">Ni</span><span class="op">,</span><span class="fl">1</span>)]<span class="op">;</span> <span class="co">% thalamic input</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">fired</span> <span class="op">=</span> <span class="va">find</span>(<span class="va">v</span><span class="op">&gt;=</span><span class="fl">30</span>)<span class="op">;</span> <span class="co">% indices of spikes</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">firings</span> <span class="op">=</span> [<span class="va">firings</span><span class="op">;</span> <span class="va">t</span><span class="op">+</span><span class="fl">0</span><span class="op">*</span><span class="va">fired</span><span class="op">,</span><span class="va">fired</span>]<span class="op">;</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">v</span>(<span class="va">fired</span>) <span class="op">=</span> <span class="va">c</span>(<span class="va">fired</span>)<span class="op">;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="va">u</span>(<span class="va">fired</span>) <span class="op">=</span> <span class="va">u</span>(<span class="va">fired</span>) <span class="op">+</span> <span class="va">d</span>(<span class="va">fired</span>)<span class="op">;</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">I</span> <span class="op">=</span> <span class="va">I</span> <span class="op">+</span> <span class="va">sum</span>(<span class="va">S</span>(<span class="op">:,</span><span class="va">fired</span>)<span class="op">,</span><span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="va">v</span> <span class="op">=</span> <span class="va">v</span> <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span>(<span class="fl">0.04</span><span class="op">*</span><span class="va">v</span><span class="op">.^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">5</span><span class="op">*</span><span class="va">v</span> <span class="op">+</span> <span class="fl">140</span> <span class="op">-</span> <span class="va">u</span> <span class="op">+</span> <span class="va">I</span>)<span class="op">;</span> <span class="co">% step 0.5 ms</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="va">v</span> <span class="op">=</span> <span class="va">v</span> <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span>(<span class="fl">0.04</span><span class="op">*</span><span class="va">v</span><span class="op">.^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">5</span><span class="op">*</span><span class="va">v</span> <span class="op">+</span> <span class="fl">140</span><span class="op">-</span><span class="va">u</span> <span class="op">+</span> <span class="va">I</span>)<span class="op">;</span> <span class="co">% for numerical</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">u</span> <span class="op">=</span> <span class="va">u</span> <span class="op">+</span> <span class="va">a</span><span class="op">.*</span>(<span class="va">b</span><span class="op">.*</span><span class="va">v</span> <span class="op">-</span> <span class="va">u</span>)<span class="op">;</span> <span class="co">% stability</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span><span class="op">;</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="va">plot</span>(<span class="va">firings</span>(<span class="op">:,</span><span class="fl">1</span>)<span class="op">,</span><span class="va">firings</span>(<span class="op">:,</span><span class="fl">2</span>)<span class="op">,</span>’.’)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="neuron-type" class="level2">
 <h2 class="anchored" data-anchor-id="neuron-type">Neuron type</h2>
 <p>The network is composed of parameterized quadratic integrate-and-fire neurons, known as <em>Izhikevich</em> neurons. They are simply defined by the following equations:</p>
 <p><span class="math display">
-    \frac{dv}{dt} = 0.04 \, v^2 + 5 \, v + 140 - u + I
+    \frac{dv(t)}{dt} = 0.04 \, v^2(t) + 5 \, v(t) + 140 - u(t) + I(t)
 </span></p>
 <p><span class="math display">
-    \frac{du}{dt} = a \, (b \, v - u)
+    \frac{du(t)}{dt} = a \, (b \, v(t) - u)
 </span></p>
-<p>The spiking mechanism is defined by:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> v <span class="op">&gt;</span> <span class="fl">30.0</span>:</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    emit_spike()</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> c</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> u <span class="op">+</span> d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>v</code> is the membrane potential, <code>u</code> is the membrane recovery variable and <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code> are parameters allowing to reproduce many types of neural firing.</p>
-<p><code>I</code> is the input voltage to a neuron at each time <code>t</code>. For the desired network, it is the sum of a random value taken from a normal distribution with mean 0.0 and variance 1.0 (multiplied by a scaling factor) and the net effect of incoming spikes (excitatory and inhibitory).</p>
+<p>with <span class="math inline">v(t)</span> representing the membrane potential and <span class="math inline">u(t)</span> the recovery variable. The spiking mechanism is defined by a threshold on <span class="math inline">v(t)</span>, so that it emits a spike when it exceeds <span class="math inline">V_T = 30</span> mV. The membrane potential is reset to <span class="math inline">c</span> and the recovery variable is incremented from <span class="math inline">d</span></p>
+<p><span class="math display">
+    \text{if} \; v(t) &gt; V_T : \; \begin{cases}
+        \text{emit a spike} \\
+        v(t) \leftarrow c \\
+        u(t) \leftarrow u(t) + d \\
+    \end{cases}
+</span></p>
+<p><span class="math inline">a</span>, <span class="math inline">b</span>, <span class="math inline">c</span>, <span class="math inline">d</span> are parameters allowing to reproduce many types of neural firing.</p>
+<p><span class="math inline">I(t)</span> is the input voltage to a neuron at each time step <span class="math inline">t</span>. For the desired network, it is the sum of a random value taken from a normal distribution with mean 0.0 and variance 1.0 (multiplied by a scaling factor) and the net effect of incoming spikes (excitatory and inhibitory).</p>
 <p>Implementing such a neuron in ANNarchy is straightforward:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Izhikevich <span class="op">=</span> Neuron(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span><span class="st">"""</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">        noise = 5.0</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">        a = 0.02</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">        b = 0.2</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="st">        c = -65.0</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="st">        d = 2.0 </span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="st">        v_thresh = 30.0</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    equations<span class="op">=</span><span class="st">"""</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="st">        I = g_exc - g_inh + noise * Normal(0.0, 1.0)</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="st">        dv/dt = 0.04 * v^2 + 5.0 * v + 140.0 - u + I </span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="st">        du/dt = a * (b*v - u) </span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    spike <span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="st">        v &gt;= v_thresh</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    reset <span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="st">        v = c</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="st">        u += d</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The parameters <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code> as well as the noise amplitude <code>noise</code> are declared in the <code>parameters</code> argument, as their value is constant during the simulation. <code>noise</code> is declared as the same throughout the population with the <code>population</code> flag.</p>
+<div id="cell-9" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Izhikevich <span class="op">=</span> ann.Neuron(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">        noise = 5.0 </span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">        a = 0.02</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="st">        b = 0.2</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="st">        c = -65.0</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="st">        d = 2.0 </span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">        v_thresh = 30.0</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    equations<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">        # Input current</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="st">        I = g_exc - g_inh + noise * Normal(0.0, 1.0)</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="st">        # Membrane potential</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="st">        dv/dt = 0.04 * v^2 + 5.0 * v + 140.0 - u + I </span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="st">        # Recovery variable</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="st">        du/dt = a * (b*v - u) </span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    spike <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="st">        v &gt;= v_thresh</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    reset <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="st">        v = c</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="st">        u += d</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The parameters <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code> as well as the noise amplitude <code>noise</code> are declared in the <code>parameters</code> argument, as their value is constant during the simulation.</p>
 <p>The equations for <code>v</code> and <code>u</code> are direct translations of their mathematical counterparts. Note the use of <code>dx/dt</code> for the time derivative and <code>^2</code> for the square function.</p>
 <p>The input voltage <code>I</code> is defined as the sum of:</p>
 <ul>
@@ -549,27 +569,18 @@ window.Quarto = {
 </ul>
 <p>In the pulse-coupled network, synapses are considered as instantaneous, i.e.&nbsp;a pre-synaptic spikes increases immediately the post-synaptic conductance proportionally to the weight of the synapse, but does not leave further trace. As this is the default behavior in ANNarchy, nothing has to be specified in the neuron’s equations.</p>
 <p>The <code>spike</code> argument specifies the condition for when a spike should be emitted (here the membrane potential <code>v</code> should be greater than <code>v_thresh</code>). The <code>reset</code> argument specifies the changes to neural variables that should occur after a spike is emitted: here, the membrane potential is reset to the resting potential <code>c</code> and the membrane recovery variable <code>u</code> is increased from <code>d</code>.</p>
-<p>The <code>Izhikevich</code> neuron is already defined in ANNarchy, so we will use it directly.</p>
 </section>
 <section id="defining-the-populations" class="level2">
 <h2 class="anchored" data-anchor-id="defining-the-populations">Defining the populations</h2>
 <p>We start by defining a population of 1000 Izhikevich neurons and split it into 800 excitatory neurons and 200 inhibitory ones:</p>
-<div id="cell-10" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ann.clear()</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(geometry<span class="op">=</span><span class="dv">1000</span>, neuron<span class="op">=</span>ann.Izhikevich)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>Exc <span class="op">=</span> pop[:<span class="dv">800</span>]</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>Inh <span class="op">=</span> pop[<span class="dv">800</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>ANNarchy 4.8 (4.8.1) on darwin (posix).</code></pre>
-</div>
+<div id="cell-13" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(geometry<span class="op">=</span><span class="dv">1000</span>, neuron<span class="op">=</span>Izhikevich)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Exc <span class="op">=</span> pop[:<span class="dv">800</span>]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>Inh <span class="op">=</span> pop[<span class="dv">800</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>Exc</code> and <code>Inh</code> are subsets of <code>pop</code>, which have the same properties as a population. We can then set parameters differently for each population:</p>
-<div id="cell-12" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="3">
+<div id="cell-15" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>re <span class="op">=</span> np.random.random(<span class="dv">800</span>)      <span class="op">;</span> ri <span class="op">=</span> np.random.random(<span class="dv">200</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Exc.noise <span class="op">=</span> <span class="fl">5.0</span>                 <span class="op">;</span> Inh.noise <span class="op">=</span> <span class="fl">2.0</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>Exc.a <span class="op">=</span> <span class="fl">0.02</span>                    <span class="op">;</span> Inh.a <span class="op">=</span> <span class="fl">0.02</span> <span class="op">+</span> <span class="fl">0.08</span> <span class="op">*</span> ri</span>
@@ -587,18 +598,18 @@ window.Quarto = {
 <li>The excitatory neurons are connected to all neurons with a weight randomly chosen in [0, 0.5]</li>
 <li>The inhibitory neurons are connected to all neurons with a weight randomly chosen in [0, 1]</li>
 </ol>
-<div id="cell-15" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="4">
+<div id="cell-18" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>exc_proj <span class="op">=</span> ann.Projection(pre<span class="op">=</span>Exc, post<span class="op">=</span>pop, target<span class="op">=</span><span class="st">'exc'</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>exc_proj.connect_all_to_all(weights<span class="op">=</span>ann.Uniform(<span class="fl">0.0</span>, <span class="fl">0.5</span>))</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>   </span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>inh_proj <span class="op">=</span> ann.Projection(pre<span class="op">=</span>Inh, post<span class="op">=</span>pop, target<span class="op">=</span><span class="st">'inh'</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>inh_proj.connect_all_to_all(weights<span class="op">=</span>ann.Uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x154b93ec0&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x127c3b9b0&gt;</code></pre>
 </div>
 </div>
 <p>The network is now ready, we can compile:</p>
-<div id="cell-17" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="5">
+<div id="cell-20" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Compiling ...  OK </code></pre>
@@ -608,22 +619,22 @@ window.Quarto = {
 <section id="running-the-simulation" class="level2">
 <h2 class="anchored" data-anchor-id="running-the-simulation">Running the simulation</h2>
 <p>We start by monitoring the spikes and membrane potential in the whole population:</p>
-<div id="cell-20" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> ann.Monitor(pop, [<span class="st">'spike'</span>, <span class="st">'v'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-23" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> ann.Monitor(pop, [<span class="st">'spike'</span>, <span class="st">'v'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We run the simulation for 1000 milliseconds:</p>
-<div id="cell-22" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="7">
+<div id="cell-25" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">1000.0</span>, measure_time<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Simulating 1.0 seconds of the network took 0.03967404365539551 seconds. </code></pre>
+<pre><code>Simulating 1.0 seconds of the network took 0.038668155670166016 seconds. </code></pre>
 </div>
 </div>
 <p>We retrieve the recordings, generate a raster plot and the population firing rate:</p>
-<div id="cell-24" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>spikes <span class="op">=</span> M.get(<span class="st">'spike'</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> M.get(<span class="st">'v'</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>t, n <span class="op">=</span> M.raster_plot(spikes)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>fr <span class="op">=</span> M.histogram(spikes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-27" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>spikes <span class="op">=</span> m.get(<span class="st">'spike'</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> m.get(<span class="st">'v'</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>t, n <span class="op">=</span> m.raster_plot(spikes)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>fr <span class="op">=</span> m.histogram(spikes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We plot:</p>
 <ol type="1">
@@ -631,37 +642,36 @@ window.Quarto = {
 <li>The evolution of the membrane potential of a single excitatory neuron</li>
 <li>The population firing rate</li>
 </ol>
-<div id="cell-26" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div id="cell-29" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span>))</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span>))</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># First plot: raster plot</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">311</span>)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>plt.plot(t, n, <span class="st">'b.'</span>)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Raster plot'</span>)</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Second plot: membrane potential of a single excitatory cell</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">312</span>)</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>plt.plot(v[:, <span class="dv">15</span>]) <span class="co"># for example</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Membrane potential'</span>)</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Third plot: number of spikes per step in the population.</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">313</span>)</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>plt.plot(fr)</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Number of spikes'</span>)</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time (ms)'</span>)</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># First plot: raster plot</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">311</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>plt.plot(t, n, <span class="st">'b.'</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Raster plot'</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Second plot: membrane potential of a single excitatory cell</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">312</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>plt.plot(v[:, <span class="dv">15</span>]) <span class="co"># for example</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Membrane potential'</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Third plot: number of spikes per step in the population.</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">313</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>plt.plot(fr)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Number of spikes'</span>)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time (ms)'</span>)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Izhikevich_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="Izhikevich_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>We can observe how the pusle-coupled network oscillates first at a low frequency, before emitting higher-frequency oscillations.</p>
 
 
 </section>

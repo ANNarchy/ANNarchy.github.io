@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bar Learning problem – ANNarchy 4.8.1</title>
+<title>Bar Learning problem – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -164,7 +164,7 @@ window.Quarto = {
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -490,7 +490,7 @@ window.Quarto = {
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ann.clear()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ANNarchy 4.8 (4.8.1) on darwin (posix).</code></pre>
+<pre><code>ANNarchy 4.8 (4.8.2) on darwin (posix).</code></pre>
 </div>
 </div>
 <p><strong>Input population:</strong></p>
@@ -558,7 +558,7 @@ window.Quarto = {
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    weights <span class="op">=</span> ann.Uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>)</span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x12736f560&gt;</code></pre>
+<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x10bce2210&gt;</code></pre>
 </div>
 </div>
 <p>The two projections are all-to-all and use the <code>Oja</code> synapse type. They only differ by the parameter <code>alpha</code> (lower in <code>pop</code>):</p>
@@ -632,7 +632,7 @@ window.Quarto = {
 </div>
 <p>One or a few bars are present in <code>inp</code>, a few neurons react in <code>pop</code>, but the receptive fields are all random.</p>
 <p>Let’s now define a <code>for</code> loop where the <code>trial()</code> method is called repetitively 10000 times:</p>
-<div id="cell-33" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="13">
+<div id="cell-33" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> []<span class="op">;</span> features <span class="op">=</span> []<span class="op">;</span> rfs <span class="op">=</span> []</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="dv">10000</span></span>
@@ -648,7 +648,7 @@ window.Quarto = {
 <span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        rfs.append(weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now visualize the activities and receptive fields after learning:</p>
-<div id="cell-35" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="14">
+<div id="cell-35" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(layout<span class="op">=</span><span class="st">"constrained"</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>gs <span class="op">=</span> GridSpec(<span class="dv">2</span>, <span class="dv">2</span>, figure<span class="op">=</span>fig)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> fig.add_subplot(gs[<span class="dv">0</span>, <span class="dv">0</span>]) </span>
@@ -672,7 +672,7 @@ window.Quarto = {
 </div>
 <p>After 10000 trials, most neurons have developed a receptive field specific for a single horizontal or vertical bar, although these were always presented together.</p>
 <p>Let’s now have a look at how these receptive fields develop over the course of training.</p>
-<div id="cell-37" class="cell" data-execution_count="15">
+<div id="cell-37" class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> animation</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>leakyintegrator – ANNarchy 4.8.1</title>
+<title>leakyintegrator – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -161,7 +161,7 @@ window.Quarto = {
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -987,16 +987,23 @@ window.Quarto = {
 
 <section id="ANNarchy.models.Neurons.LeakyIntegrator" class="level1">
 <h1>LeakyIntegrator</h1>
-<p><code>models.Neurons.LeakyIntegrator(self, tau=10.0, B=0.0, T=0.0, sum='sum(exc) - sum(inh)', noise=None)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>models.Neurons.LeakyIntegrator(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    tau<span class="op">=</span><span class="fl">10.0</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    B<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    T<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">sum</span><span class="op">=</span><span class="st">'sum(exc) - sum(inh)'</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    noise<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Leaky-integrator rate-coded neuron, optionally noisy.</p>
 <p>This simple rate-coded neuron defines an internal variable <span class="math inline">v(t)</span> which integrates the inputs <span class="math inline">I(t)</span> with a time constant <span class="math inline">\tau</span> and a baseline <span class="math inline">B</span>. An additive noise <span class="math inline">N(t)</span> can be optionally defined:</p>
 <p><span class="math display">\tau \cdot \frac{dv(t)}{dt} + v(t) = I(t) + B + N(t)</span></p>
 <p>The transfer function is the positive (or rectified linear ReLU) function with a threshold <span class="math inline">T</span>:</p>
 <p><span class="math display">r(t) = (v(t) - T)^+</span></p>
 <p>By default, the input <span class="math inline">I(t)</span> to this neuron is “sum(exc) - sum(inh)”, but this can be changed by setting the <code>sum</code> argument:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> ann.LeakyIntegrator(<span class="bu">sum</span><span class="op">=</span><span class="st">"sum('exc')"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> ann.LeakyIntegrator(<span class="bu">sum</span><span class="op">=</span><span class="st">"sum('exc')"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>By default, there is no additive noise, but the <code>noise</code> argument can be passed with a specific distribution:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> ann.LeakyIntegrator(noise<span class="op">=</span><span class="st">"Normal(0.0, 1.0)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> ann.LeakyIntegrator(noise<span class="op">=</span><span class="st">"Normal(0.0, 1.0)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Parameters:</p>
 <ul>
 <li>tau = 10.0 : Time constant in ms of the neuron.</li>
@@ -1012,19 +1019,19 @@ window.Quarto = {
 </ul>
 <p>The ODE is solved using the exponential Euler method.</p>
 <p>Equivalent code:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>LeakyIntegrator <span class="op">=</span> Neuron(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span><span class="st">'''</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">        tau = 10.0 : population</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">        B = 0.0</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">        T = 0.0 : population</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>, </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    equations<span class="op">=</span><span class="st">'''</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="st">        tau * dv/dt + v = sum(exc) - sum(inh) + B : exponential</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="st">        r = pos(v - T)</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>LeakyIntegrator <span class="op">=</span> Neuron(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span><span class="st">'''</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">        tau = 10.0 : population</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">        B = 0.0</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">        T = 0.0 : population</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    equations<span class="op">=</span><span class="st">'''</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="st">        tau * dv/dt + v = sum(exc) - sum(inh) + B : exponential</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="st">        r = pos(v - T)</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1036,25 +1043,25 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>tau</code></td>
+<td>tau</td>
 <td>float</td>
 <td>Time constant.</td>
 <td><code>10.0</code></td>
 </tr>
 <tr class="even">
-<td><code>B</code></td>
+<td>B</td>
 <td>float</td>
 <td>Baseline.</td>
 <td><code>0.0</code></td>
 </tr>
 <tr class="odd">
-<td><code>T</code></td>
+<td>T</td>
 <td>float</td>
 <td>Threshold.</td>
 <td><code>0.0</code></td>
 </tr>
 <tr class="even">
-<td><code>sum</code></td>
+<td>sum</td>
 <td>str</td>
 <td>Input sums.</td>
 <td><code>'sum(exc) - sum(inh)'</code></td>

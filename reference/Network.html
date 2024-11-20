@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>network – ANNarchy 4.8.1</title>
+<title>network – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -940,6 +940,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#ANNarchy.core.Network.Network.enable_learning" id="toc-ANNarchy.core.Network.Network.enable_learning" class="nav-link" data-scroll-target="#ANNarchy.core.Network.Network.enable_learning">enable_learning</a></li>
   <li><a href="#ANNarchy.core.Network.Network.get" id="toc-ANNarchy.core.Network.Network.get" class="nav-link" data-scroll-target="#ANNarchy.core.Network.Network.get">get</a></li>
   <li><a href="#ANNarchy.core.Network.Network.get_current_step" id="toc-ANNarchy.core.Network.Network.get_current_step" class="nav-link" data-scroll-target="#ANNarchy.core.Network.Network.get_current_step">get_current_step</a></li>
+  <li><a href="#ANNarchy.core.Network.Network.get_monitors" id="toc-ANNarchy.core.Network.Network.get_monitors" class="nav-link" data-scroll-target="#ANNarchy.core.Network.Network.get_monitors">get_monitors</a></li>
   <li><a href="#ANNarchy.core.Network.Network.get_population" id="toc-ANNarchy.core.Network.Network.get_population" class="nav-link" data-scroll-target="#ANNarchy.core.Network.Network.get_population">get_population</a></li>
   <li><a href="#ANNarchy.core.Network.Network.get_populations" id="toc-ANNarchy.core.Network.Network.get_populations" class="nav-link" data-scroll-target="#ANNarchy.core.Network.Network.get_populations">get_populations</a></li>
   <li><a href="#ANNarchy.core.Network.Network.get_projection" id="toc-ANNarchy.core.Network.Network.get_projection" class="nav-link" data-scroll-target="#ANNarchy.core.Network.Network.get_projection">get_projection</a></li>
@@ -967,7 +968,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.core.Network.Network" class="level1">
 <h1>Network</h1>
-<p><code>core.Network.Network(self, everything=False)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network(<span class="va">self</span>, everything<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A network gathers already defined populations, projections and monitors in order to run them independently.</p>
 <p>This is particularly useful when varying single parameters of a network and comparing the results (see the <code>parallel_run()</code> method).</p>
 <p>Only objects declared before the creation of the network can be used. Global methods such as <code>simulate()</code> must be used on the network object. The objects must be accessed through the <code>get()</code> method, as the original ones will not be part of the network (a copy is made).</p>
@@ -975,52 +976,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>When passing <code>everything=True</code> to the constructor, all populations/projections/monitors already defined at the global level will be added to the network.</p>
 <p>If not, you can select which object will be added to network with the <code>add()</code> method.</p>
 <p>Example with <code>everything=True</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">100</span>, Izhikevich)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> ann.Projection(pop, pop, <span class="st">'exc'</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>proj.connect_all_to_all(<span class="fl">1.0</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> ann.Monitor(pop, <span class="st">'spike'</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>() <span class="co"># Optional</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network(everything<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>net.get(pop).a <span class="op">=</span> <span class="fl">0.02</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>net.simulate(<span class="fl">1000.</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>net2 <span class="op">=</span> ann.Network(everything<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>net2.get(pop).a <span class="op">=</span> <span class="fl">0.05</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>net2.<span class="bu">compile</span>()</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>net2.simulate(<span class="fl">1000.</span>)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>t, n <span class="op">=</span> net.get(m).raster_plot()</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>t2, n2 <span class="op">=</span> net2.get(m).raster_plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Example with <code>everything=False</code> (the default):</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">100</span>, Izhikevich)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>proj1 <span class="op">=</span> ann.Projection(pop, pop, <span class="st">'exc'</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>proj1.connect_all_to_all(<span class="fl">1.0</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>proj2 <span class="op">=</span> ann.Projection(pop, pop, <span class="st">'exc'</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>proj2.connect_all_to_all(<span class="fl">2.0</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> ann.Monitor(pop, <span class="st">'spike'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> ann.Projection(pop, pop, <span class="st">'exc'</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>proj.connect_all_to_all(<span class="fl">1.0</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> ann.Monitor(pop, <span class="st">'spike'</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>() <span class="co"># Optional</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network()</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>net.add([pop, proj1, m])</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network(everything<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>net.get(pop).a <span class="op">=</span> <span class="fl">0.02</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>net.simulate(<span class="fl">1000.</span>)</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>net2 <span class="op">=</span> ann.Network()</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>net2.add([pop, proj2, m])</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>net2 <span class="op">=</span> ann.Network(everything<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>net2.get(pop).a <span class="op">=</span> <span class="fl">0.05</span></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>net2.<span class="bu">compile</span>()</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>net2.simulate(<span class="fl">1000.</span>)</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>t, n <span class="op">=</span> net.get(m).raster_plot()</span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>t2, n2 <span class="op">=</span> net2.get(m).raster_plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<p>Example with <code>everything=False</code> (the default):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">100</span>, Izhikevich)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>proj1 <span class="op">=</span> ann.Projection(pop, pop, <span class="st">'exc'</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>proj1.connect_all_to_all(<span class="fl">1.0</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>proj2 <span class="op">=</span> ann.Projection(pop, pop, <span class="st">'exc'</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>proj2.connect_all_to_all(<span class="fl">2.0</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> ann.Monitor(pop, <span class="st">'spike'</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network()</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>net.add([pop, proj1, m])</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>net.simulate(<span class="fl">1000.</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>net2 <span class="op">=</span> ann.Network()</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>net2.add([pop, proj2, m])</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>net2.<span class="bu">compile</span>()</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>net2.simulate(<span class="fl">1000.</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>t, n <span class="op">=</span> net.get(m).raster_plot()</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>t2, n2 <span class="op">=</span> net2.get(m).raster_plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 10%">
-<col style="width: 5%">
-<col style="width: 75%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 76%">
 <col style="width: 8%">
 </colgroup>
 <thead>
@@ -1033,7 +1034,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>everything</code></td>
+<td>everything</td>
 <td>bool</td>
 <td>defines if all existing populations and projections should be automatically added (default: False).</td>
 <td><code>False</code></td>
@@ -1076,58 +1077,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Returns the current simulation step.</td>
 </tr>
 <tr class="odd">
+<td><a href="#ANNarchy.core.Network.Network.get_monitors">get_monitors</a></td>
+<td>Returns a list of declared monitors. By default, all monitors are returned.</td>
+</tr>
+<tr class="even">
 <td><a href="#ANNarchy.core.Network.Network.get_population">get_population</a></td>
 <td>Returns the population with the given name.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="#ANNarchy.core.Network.Network.get_populations">get_populations</a></td>
 <td>Returns a list of all declared populations in this network.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="#ANNarchy.core.Network.Network.get_projection">get_projection</a></td>
 <td>Returns the projection with the given name.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="#ANNarchy.core.Network.Network.get_projections">get_projections</a></td>
 <td>Get a list of declared projections for the current network. By default,</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="#ANNarchy.core.Network.Network.get_time">get_time</a></td>
 <td>Returns the current time in ms.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="#ANNarchy.core.Network.Network.load">load</a></td>
 <td>Loads a saved state of the current network by calling ANNarchy.core.IO.load().</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="#ANNarchy.core.Network.Network.reset">reset</a></td>
 <td>Reinitialises the network to its state before the call to compile.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="#ANNarchy.core.Network.Network.save">save</a></td>
 <td>Saves the current network by calling ANNarchy.core.IO.save().</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="#ANNarchy.core.Network.Network.set_current_step">set_current_step</a></td>
 <td>Sets the current simulation step.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="#ANNarchy.core.Network.Network.set_seed">set_seed</a></td>
 <td>Sets the seed of the random number generators for this network.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="#ANNarchy.core.Network.Network.set_time">set_time</a></td>
 <td>Sets the current time in ms.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="#ANNarchy.core.Network.Network.simulate">simulate</a></td>
 <td>Runs the network for the given duration in milliseconds.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="#ANNarchy.core.Network.Network.simulate_until">simulate_until</a></td>
 <td>Runs the network for the maximal duration in milliseconds. If the <code>stop_condition</code> defined in the population becomes true during the simulation, it is stopped.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="#ANNarchy.core.Network.Network.step">step</a></td>
 <td>Performs a single simulation step (duration = <code>dt</code>).</td>
 </tr>
@@ -1135,16 +1140,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="ANNarchy.core.Network.Network.add" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.add">add</h3>
-<p><code>core.Network.Network.add(objects)</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.add(objects)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Adds a Population, Projection or Monitor to the network.</p>
-<section id="parameters-1" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-1">Parameters</h4>
+<section id="parameters-1" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 9%">
-<col style="width: 61%">
-<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 63%">
+<col style="width: 15%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1156,7 +1161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>objects</code></td>
+<td>objects</td>
 <td>list</td>
 <td>A single object or a list to add to the network.</td>
 <td><em>required</em></td>
@@ -1167,15 +1172,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.compile" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.compile">compile</h3>
-<p><code>core.Network.Network.compile(directory='annarchy', clean=False, compiler='default', compiler_flags='default', add_sources='', extra_libs='', cuda_config={'device': 0}, annarchy_json='', silent=False, debug_build=False, profile_enabled=False)</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.<span class="bu">compile</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    directory<span class="op">=</span><span class="st">'annarchy'</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    clean<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    compiler<span class="op">=</span><span class="st">'default'</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    compiler_flags<span class="op">=</span><span class="st">'default'</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    add_sources<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    extra_libs<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    cuda_config<span class="op">=</span>{<span class="st">'device'</span>: <span class="dv">0</span>},</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    annarchy_json<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    silent<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    debug_build<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    profile_enabled<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Compiles the network.</p>
-<section id="parameters-2" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-2">Parameters</h4>
+<section id="parameters-2" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 7%">
 <col style="width: 5%">
-<col style="width: 78%">
+<col style="width: 79%">
 <col style="width: 7%">
 </colgroup>
 <thead>
@@ -1188,43 +1205,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>directory</code></td>
+<td>directory</td>
 <td>str</td>
 <td>name of the subdirectory where the code will be generated and compiled. Must be a relative path. Default: “annarchy/”.</td>
 <td><code>'annarchy'</code></td>
 </tr>
 <tr class="even">
-<td><code>clean</code></td>
+<td>clean</td>
 <td>bool</td>
 <td>boolean to specifying if the library should be recompiled entirely or only the changes since last compilation (default: False).</td>
 <td><code>False</code></td>
 </tr>
 <tr class="odd">
-<td><code>compiler</code></td>
+<td>compiler</td>
 <td>str</td>
 <td>C++ compiler to use. Default: g++ on GNU/Linux, clang++ on OS X. Valid compilers are [g++, clang++].</td>
 <td><code>'default'</code></td>
 </tr>
 <tr class="even">
-<td><code>compiler_flags</code></td>
+<td>compiler_flags</td>
 <td>list[str]</td>
 <td>platform-specific flags to pass to the compiler. Default: “-march=native -O2”. Warning: -O3 often generates slower code and can cause linking problems, so it is not recommended.</td>
 <td><code>'default'</code></td>
 </tr>
 <tr class="odd">
-<td><code>cuda_config</code></td>
+<td>cuda_config</td>
 <td>dict</td>
 <td>dictionary defining the CUDA configuration for each population and projection.</td>
 <td><code>{'device': 0}</code></td>
 </tr>
 <tr class="even">
-<td><code>annarchy_json</code></td>
+<td>annarchy_json</td>
 <td>str</td>
 <td>compiler flags etc are stored in a .json file normally placed in the home directory. With this flag one can directly assign a file location.</td>
 <td><code>''</code></td>
 </tr>
 <tr class="odd">
-<td><code>silent</code></td>
+<td>silent</td>
 <td>bool</td>
 <td>defines if the “Compiling… OK” should be printed.</td>
 <td><code>False</code></td>
@@ -1235,15 +1252,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.disable_learning" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.disable_learning">disable_learning</h3>
-<p><code>core.Network.Network.disable_learning(projections=None)</code></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.disable_learning(projections<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Disables learning for all projections.</p>
-<section id="parameters-3" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-3">Parameters</h4>
+<section id="parameters-3" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 10%">
+<col style="width: 9%">
 <col style="width: 5%">
-<col style="width: 75%">
+<col style="width: 76%">
 <col style="width: 7%">
 </colgroup>
 <thead>
@@ -1256,7 +1273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>projections</code></td>
+<td>projections</td>
 <td>list</td>
 <td>the projections whose learning should be disabled. By default, all the existing projections are disabled.</td>
 <td><code>None</code></td>
@@ -1267,15 +1284,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.enable_learning" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.enable_learning">enable_learning</h3>
-<p><code>core.Network.Network.enable_learning(projections=None, period=None, offset=None)</code></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.enable_learning(projections<span class="op">=</span><span class="va">None</span>, period<span class="op">=</span><span class="va">None</span>, offset<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Enables learning for all projections.</p>
-<section id="parameters-4" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-4">Parameters</h4>
+<section id="parameters-4" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-4">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 10%">
+<col style="width: 9%">
 <col style="width: 5%">
-<col style="width: 75%">
+<col style="width: 76%">
 <col style="width: 7%">
 </colgroup>
 <thead>
@@ -1288,7 +1305,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>projections</code></td>
+<td>projections</td>
 <td>list</td>
 <td>the projections whose learning should be enabled. By default, all the existing projections are disabled.</td>
 <td><code>None</code></td>
@@ -1299,18 +1316,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.get" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.get">get</h3>
-<p><code>core.Network.Network.get(obj)</code></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.get(obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the local Population, Projection or Monitor corresponding to the provided argument.</p>
 <p><code>obj</code> is for example a top-level poopulation, while <code>net.get(pop)</code>is the copy local to the network.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">100</span>, Izhikevich)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network()</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>net.add(pop)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(net.get(pop).v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-5" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-5">Parameters</h4>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">100</span>, Izhikevich)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>net.add(pop)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(net.get(pop).v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-5" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-5">Parameters</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1322,7 +1339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>obj</code></td>
+<td>obj</td>
 <td></td>
 <td>A single object or a list of objects.</td>
 <td><em>required</em></td>
@@ -1330,17 +1347,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="returns" class="level4">
-<h4 class="anchored" data-anchor-id="returns">Returns</h4>
+<section id="returns" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
+<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td></td>
 <td></td>
 <td>The corresponding object or list of objects.</td>
 </tr>
@@ -1350,15 +1369,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.get_current_step" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.get_current_step">get_current_step</h3>
-<p><code>core.Network.Network.get_current_step()</code></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.get_current_step()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the current simulation step.</p>
+</section>
+<section id="ANNarchy.core.Network.Network.get_monitors" class="level3">
+<h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.get_monitors">get_monitors</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.get_monitors(obj<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Returns a list of declared monitors. By default, all monitors are returned. By setting <em>obj</em>, only monitors recording from this object, either <em>Population</em> or <em>Projection</em> will be returned.</p>
 </section>
 <section id="ANNarchy.core.Network.Network.get_population" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.get_population">get_population</h3>
-<p><code>core.Network.Network.get_population(name)</code></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.get_population(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the population with the given name.</p>
-<section id="parameters-6" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-6">Parameters</h4>
+<section id="parameters-6" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-6">Parameters</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1370,7 +1394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>name</code></td>
+<td>name</td>
 <td>str</td>
 <td>name of the population</td>
 <td><em>required</em></td>
@@ -1378,21 +1402,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="returns-1" class="level4">
-<h4 class="anchored" data-anchor-id="returns-1">Returns</h4>
+<section id="returns-1" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-1">Returns</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 14%">
-<col style="width: 85%">
+<col style="width: 8%">
+<col style="width: 13%">
+<col style="width: 77%">
 </colgroup>
 <thead>
 <tr class="header">
+<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td></td>
 <td>Population</td>
 <td>The requested <code>Population</code> object if existing, <code>None</code> otherwise.</td>
 </tr>
@@ -1402,19 +1429,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.get_populations" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.get_populations">get_populations</h3>
-<p><code>core.Network.Network.get_populations()</code></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.get_populations()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns a list of all declared populations in this network.</p>
-<section id="returns-2" class="level4">
-<h4 class="anchored" data-anchor-id="returns-2">Returns</h4>
+<section id="returns-2" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-2">Returns</h4>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 27%">
+<col style="width: 61%">
+</colgroup>
 <thead>
 <tr class="header">
+<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td></td>
 <td>list[Population]</td>
 <td>the list of all populations in the network.</td>
 </tr>
@@ -1424,10 +1458,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.get_projection" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.get_projection">get_projection</h3>
-<p><code>core.Network.Network.get_projection(name)</code></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.get_projection(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the projection with the given name.</p>
-<section id="parameters-7" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-7">Parameters</h4>
+<section id="parameters-7" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-7">Parameters</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1439,7 +1473,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>name</code></td>
+<td>name</td>
 <td>str</td>
 <td>name of the projection</td>
 <td><em>required</em></td>
@@ -1447,21 +1481,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="returns-3" class="level4">
-<h4 class="anchored" data-anchor-id="returns-3">Returns</h4>
+<section id="returns-3" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-3">Returns</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 14%">
-<col style="width: 85%">
+<col style="width: 8%">
+<col style="width: 13%">
+<col style="width: 77%">
 </colgroup>
 <thead>
 <tr class="header">
+<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td></td>
 <td>Projection</td>
 <td>The requested <code>Projection</code> object if existing, <code>None</code> otherwise.</td>
 </tr>
@@ -1471,16 +1508,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.get_projections" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.get_projections">get_projections</h3>
-<p><code>core.Network.Network.get_projections(post=None, pre=None, target=None, suppress_error=False)</code></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.get_projections(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    post<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    pre<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    target<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    suppress_error<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Get a list of declared projections for the current network. By default, the method returns all connections within the network.</p>
 <p>By setting the arguments, post, pre and target one can select a subset.</p>
-<section id="parameters-8" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-8">Parameters</h4>
+<section id="parameters-8" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-8">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 9%">
+<col style="width: 8%">
 <col style="width: 4%">
-<col style="width: 79%">
+<col style="width: 80%">
 <col style="width: 6%">
 </colgroup>
 <thead>
@@ -1493,25 +1535,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>post</code></td>
+<td>post</td>
 <td></td>
 <td>all returned projections should have this population as post.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>pre</code></td>
+<td>pre</td>
 <td></td>
 <td>all returned projections should have this population as pre.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="odd">
-<td><code>target</code></td>
+<td>target</td>
 <td></td>
 <td>all returned projections should have this target.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>suppress_error</code></td>
+<td>suppress_error</td>
 <td></td>
 <td>by default, ANNarchy throws an error if the list of assigned projections is empty. If this flag is set to True, the error message is suppressed.</td>
 <td><code>False</code></td>
@@ -1519,21 +1561,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="returns-4" class="level4">
-<h4 class="anchored" data-anchor-id="returns-4">Returns</h4>
+<section id="returns-4" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-4">Returns</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 82%">
+<col style="width: 6%">
+<col style="width: 16%">
+<col style="width: 77%">
 </colgroup>
 <thead>
 <tr class="header">
+<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td></td>
 <td>list[Projection]</td>
 <td>the list of all assigned projections in this network or a subset according to the arguments.</td>
 </tr>
@@ -1543,20 +1588,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.get_time" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.get_time">get_time</h3>
-<p><code>core.Network.Network.get_time()</code></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.get_time()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the current time in ms.</p>
 </section>
 <section id="ANNarchy.core.Network.Network.load" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.load">load</h3>
-<p><code>core.Network.Network.load(filename, populations=True, projections=True, pickle_encoding=None)</code></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.load(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    filename,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    populations<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    projections<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    pickle_encoding<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Loads a saved state of the current network by calling ANNarchy.core.IO.load().</p>
-<section id="parameters-9" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-9">Parameters</h4>
+<section id="parameters-9" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-9">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 14%">
+<col style="width: 12%">
 <col style="width: 6%">
-<col style="width: 70%">
+<col style="width: 71%">
 <col style="width: 9%">
 </colgroup>
 <thead>
@@ -1569,25 +1619,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>filename</code></td>
+<td>filename</td>
 <td>str</td>
 <td>filename, may contain relative or absolute path.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>populations</code></td>
+<td>populations</td>
 <td>bool</td>
 <td>if True, population data will be saved (by default True)</td>
 <td><code>True</code></td>
 </tr>
 <tr class="odd">
-<td><code>projections</code></td>
+<td>projections</td>
 <td>bool</td>
 <td>if True, projection data will be saved (by default True)</td>
 <td><code>True</code></td>
 </tr>
 <tr class="even">
-<td><code>pickle_encoding</code></td>
+<td>pickle_encoding</td>
 <td>str</td>
 <td>optional parameter provided to the pickle.load() method. If set to None the default is used.</td>
 <td><code>None</code></td>
@@ -1598,16 +1648,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.reset" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.reset">reset</h3>
-<p><code>core.Network.Network.reset(populations=True, projections=False, monitors=True, synapses=False)</code></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.reset(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    populations<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    projections<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    monitors<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    synapses<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Reinitialises the network to its state before the call to compile.</p>
-<section id="parameters-10" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-10">Parameters</h4>
+<section id="parameters-10" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-10">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 10%">
+<col style="width: 9%">
 <col style="width: 5%">
-<col style="width: 75%">
-<col style="width: 7%">
+<col style="width: 76%">
+<col style="width: 8%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1619,19 +1674,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>populations</code></td>
+<td>populations</td>
 <td>bool</td>
 <td>if True (default), the neural parameters and variables will be reset to their initial value.</td>
 <td><code>True</code></td>
 </tr>
 <tr class="even">
-<td><code>projections</code></td>
+<td>projections</td>
 <td>bool</td>
 <td>if True, the synaptic parameters and variables (except the connections) will be reset (default=False).</td>
 <td><code>False</code></td>
 </tr>
 <tr class="odd">
-<td><code>synapses</code></td>
+<td>synapses</td>
 <td>bool</td>
 <td>if True, the synaptic weights will be erased and recreated (default=False).</td>
 <td><code>False</code></td>
@@ -1642,16 +1697,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.save" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.save">save</h3>
-<p><code>core.Network.Network.save(filename, populations=True, projections=True)</code></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.save(filename, populations<span class="op">=</span><span class="va">True</span>, projections<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Saves the current network by calling ANNarchy.core.IO.save().</p>
-<section id="parameters-11" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-11">Parameters</h4>
+<section id="parameters-11" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-11">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 16%">
+<col style="width: 14%">
 <col style="width: 8%">
-<col style="width: 62%">
-<col style="width: 12%">
+<col style="width: 63%">
+<col style="width: 13%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1663,19 +1718,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>filename</code></td>
+<td>filename</td>
 <td>str</td>
 <td>filename, may contain relative or absolute path.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>populations</code></td>
+<td>populations</td>
 <td>bool</td>
 <td>if True, population data will be saved (by default True)</td>
 <td><code>True</code></td>
 </tr>
 <tr class="odd">
-<td><code>projections</code></td>
+<td>projections</td>
 <td>bool</td>
 <td>if True, projection data will be saved (by default True)</td>
 <td><code>True</code></td>
@@ -1686,34 +1741,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.set_current_step" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.set_current_step">set_current_step</h3>
-<p><code>core.Network.Network.set_current_step(t)</code></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.set_current_step(t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Sets the current simulation step.</p>
 <p><strong>Warning:</strong> can be dangerous for some spiking models.</p>
 </section>
 <section id="ANNarchy.core.Network.Network.set_seed" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.set_seed">set_seed</h3>
-<p><code>core.Network.Network.set_seed(seed, use_seed_seq=True)</code></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.set_seed(seed, use_seed_seq<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Sets the seed of the random number generators for this network.</p>
 </section>
 <section id="ANNarchy.core.Network.Network.set_time" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.set_time">set_time</h3>
-<p><code>core.Network.Network.set_time(t, net_id=0)</code></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.set_time(t, net_id<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Sets the current time in ms.</p>
 <p><strong>Warning:</strong> can be dangerous for some spiking models.</p>
 </section>
 <section id="ANNarchy.core.Network.Network.simulate" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.simulate">simulate</h3>
-<p><code>core.Network.Network.simulate(duration, measure_time=False)</code></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.simulate(duration, measure_time<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Runs the network for the given duration in milliseconds.</p>
 <p>The number of simulation steps is computed relative to the discretization step <code>dt</code> declared in <code>setup()</code> (default: 1ms):</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>net.simulate(<span class="fl">1000.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-12" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-12">Parameters</h4>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>net.simulate(<span class="fl">1000.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-12" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-12">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 14%">
+<col style="width: 13%">
 <col style="width: 7%">
-<col style="width: 66%">
+<col style="width: 67%">
 <col style="width: 11%">
 </colgroup>
 <thead>
@@ -1726,13 +1781,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>duration</code></td>
+<td>duration</td>
 <td>float</td>
 <td>the duration in milliseconds.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>measure_time</code></td>
+<td>measure_time</td>
 <td>bool</td>
 <td>defines whether the simulation time should be printed (default=False).</td>
 <td><code>False</code></td>
@@ -1743,22 +1798,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.simulate_until" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.simulate_until">simulate_until</h3>
-<p><code>core.Network.Network.simulate_until(max_duration, population, operator='and', measure_time=False)</code></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.simulate_until(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    max_duration,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    population,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    operator<span class="op">=</span><span class="st">'and'</span>,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    measure_time<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Runs the network for the maximal duration in milliseconds. If the <code>stop_condition</code> defined in the population becomes true during the simulation, it is stopped.</p>
 <p>One can specify several populations. If the stop condition is true for any of the populations, the simulation will stop (‘or’ function).</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> ann.Population( ..., stop_condition <span class="op">=</span> <span class="st">"r &gt; 1.0 : any"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>net.simulate_until(max_duration<span class="op">=</span><span class="fl">1000.0</span>. population<span class="op">=</span>pop1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-13" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-13">Parameters</h4>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> ann.Population( ..., stop_condition <span class="op">=</span> <span class="st">"r &gt; 1.0 : any"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>net.simulate_until(max_duration<span class="op">=</span><span class="fl">1000.0</span>. population<span class="op">=</span>pop1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-13" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-13">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 11%">
-<col style="width: 8%">
-<col style="width: 70%">
-<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 71%">
+<col style="width: 9%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1770,25 +1830,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>max_duration</code></td>
+<td>max_duration</td>
 <td>float</td>
 <td>the maximum duration of the simulation in milliseconds.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>population</code></td>
+<td>population</td>
 <td>Population</td>
 <td>the (list of) population whose <code>stop_condition</code> should be checked to stop the simulation.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>operator</code></td>
+<td>operator</td>
 <td>str</td>
 <td>operator to be used (‘and’ or ‘or’) when multiple populations are provided (default: ‘and’).</td>
 <td><code>'and'</code></td>
 </tr>
 <tr class="even">
-<td><code>measure_time</code></td>
+<td>measure_time</td>
 <td>bool</td>
 <td>defines whether the simulation time should be printed (default=False).</td>
 <td><code>False</code></td>
@@ -1796,17 +1856,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="returns-5" class="level4">
-<h4 class="anchored" data-anchor-id="returns-5">Returns</h4>
+<section id="returns-5" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-5">Returns</h4>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 77%">
+</colgroup>
 <thead>
 <tr class="header">
+<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td></td>
 <td>float</td>
 <td>the actual duration of the simulation in milliseconds.</td>
 </tr>
@@ -1816,7 +1883,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ANNarchy.core.Network.Network.step" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Network.Network.step">step</h3>
-<p><code>core.Network.Network.step()</code></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>core.Network.Network.step()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Performs a single simulation step (duration = <code>dt</code>).</p>
 
 

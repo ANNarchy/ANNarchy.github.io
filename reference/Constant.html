@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>constant – ANNarchy 4.8.1</title>
+<title>constant – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -949,30 +949,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="ANNarchy.core.Constant.Constant" class="level1">
 <h1>Constant</h1>
-<p><code>core.Constant.Constant(self, name, value)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>core.Constant.Constant(<span class="va">self</span>, name, value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Constant parameter that can be used by all neurons and synapses.</p>
 <p>The class <code>Constant</code> derives from <code>float</code>, so any legal operation on floats (addition, multiplication) can be used.</p>
 <p>If a Neuron/Synapse defines a parameter with the same name, the constant parameters will not be visible.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tau <span class="op">=</span> ann.Constant(<span class="st">'tau'</span>, <span class="dv">20</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>factor <span class="op">=</span> ann.Constant(<span class="st">'factor'</span>, <span class="fl">0.1</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>real_tau <span class="op">=</span> ann.Constant(<span class="st">'real_tau'</span>, tau<span class="op">*</span>factor)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> ann.Neuron(</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    equations<span class="op">=</span><span class="st">'''</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="st">        real_tau*dr/dt + r =1.0</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>tau <span class="op">=</span> ann.Constant(<span class="st">'tau'</span>, <span class="dv">20</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>factor <span class="op">=</span> ann.Constant(<span class="st">'factor'</span>, <span class="fl">0.1</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>real_tau <span class="op">=</span> ann.Constant(<span class="st">'real_tau'</span>, tau<span class="op">*</span>factor)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> ann.Neuron(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    equations<span class="op">=</span><span class="st">'''</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">        real_tau*dr/dt + r =1.0</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The value of the constant can be changed anytime with the <code>set()</code> method. Assignments will have no effect (e.g.&nbsp;<code>tau = 10.0</code> only creates a new float).</p>
 <p>The value of constants defined as combination of other constants (<code>real_tau</code>) is not updated if the value of these constants changes (changing <code>tau</code> with <code>tau.set(10.0)</code> will not modify the value of <code>real_tau</code>).</p>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 8%">
 <col style="width: 7%">
-<col style="width: 73%">
+<col style="width: 7%">
+<col style="width: 74%">
 <col style="width: 10%">
 </colgroup>
 <thead>
@@ -985,13 +985,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>name</code></td>
+<td>name</td>
 <td></td>
 <td>name of the constant (unique), which can be used in equations.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>value</code></td>
+<td>value</td>
 <td></td>
 <td>the value of the constant, which must be a float, or a combination of Constants.</td>
 <td><em>required</em></td>
@@ -1038,15 +1038,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="ANNarchy.core.Constant.Constant.set" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.core.Constant.Constant.set">set</h3>
-<p><code>core.Constant.Constant.set(value, network=None)</code></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>core.Constant.Constant.<span class="bu">set</span>(value, network<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Changes the value of the constant.</p>
-<section id="parameters-1" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-1">Parameters</h4>
+<section id="parameters-1" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 9%">
+<col style="width: 7%">
 <col style="width: 6%">
-<col style="width: 73%">
+<col style="width: 75%">
 <col style="width: 10%">
 </colgroup>
 <thead>
@@ -1059,13 +1059,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>value</code></td>
+<td>value</td>
 <td>float</td>
 <td>Value.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>network</code></td>
+<td>network</td>
 <td></td>
 <td>Network instance which should be updated. By default, all active networks are updated.</td>
 <td><code>None</code></td>

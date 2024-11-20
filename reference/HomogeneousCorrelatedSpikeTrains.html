@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>homogeneouscorrelatedspiketrains – ANNarchy 4.8.1</title>
+<title>homogeneouscorrelatedspiketrains – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -161,7 +161,7 @@ window.Quarto = {
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -987,7 +987,18 @@ window.Quarto = {
 
 <section id="ANNarchy.inputs.SpikeTrains.HomogeneousCorrelatedSpikeTrains" class="level1">
 <h1>HomogeneousCorrelatedSpikeTrains</h1>
-<p><code>inputs.SpikeTrains.HomogeneousCorrelatedSpikeTrains(self, geometry, rates, corr, tau, schedule=None, period=-1.0, name=None, refractory=None, copied=False)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inputs.SpikeTrains.HomogeneousCorrelatedSpikeTrains(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    geometry,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    rates,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    corr,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    tau,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    schedule<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    period<span class="op">=-</span><span class="fl">1.0</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    refractory<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    copied<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Population of spiking neurons following a homogeneous distribution with correlated spike trains.</p>
 <p>The method describing the generation of homogeneous correlated spike trains is described in:</p>
 <blockquote class="blockquote">
@@ -1001,38 +1012,38 @@ window.Quarto = {
 <p>To avoid that x becomes negative, the values of mu and sigma are computed from a rectified Gaussian distribution, parameterized by the desired population rate <strong>rates</strong>, the desired correlation strength <strong>corr</strong> and the time constant <strong>tau</strong>. See Brette’s paper for details.</p>
 <p>In short, you should only define the parameters <code>rates</code>, <code>corr</code> and <code>tau</code>, and let the class compute mu and sigma for you. Changing <code>rates</code>, <code>corr</code> or <code>tau</code> after initialization automatically recomputes mu and sigma.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ann.setup(dt<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>pop_corr <span class="op">=</span> ann.HomogeneousCorrelatedSpikeTrains(<span class="dv">200</span>, rates<span class="op">=</span><span class="fl">10.</span>, corr<span class="op">=</span><span class="fl">0.3</span>, tau<span class="op">=</span><span class="fl">10.</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">1000.</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>pop_corr.rates<span class="op">=</span><span class="fl">30.</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">1000.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ann.setup(dt<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pop_corr <span class="op">=</span> ann.HomogeneousCorrelatedSpikeTrains(<span class="dv">200</span>, rates<span class="op">=</span><span class="fl">10.</span>, corr<span class="op">=</span><span class="fl">0.3</span>, tau<span class="op">=</span><span class="fl">10.</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">1000.</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>pop_corr.rates<span class="op">=</span><span class="fl">30.</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">1000.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Alternatively, a schedule can be provided to change automatically the value of <code>rates</code> and <code>corr</code> (but not <code>tau</code>) at the required times (as in TimedArray or TimedPoissonPopulation):</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pop_corr <span class="op">=</span> ann.HomogeneousCorrelatedSpikeTrains(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    geometry<span class="op">=</span><span class="dv">200</span>, </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    rates<span class="op">=</span> [<span class="fl">10.</span>, <span class="fl">30.</span>], </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    corr<span class="op">=</span>[<span class="fl">0.3</span>, <span class="fl">0.5</span>], </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    tau<span class="op">=</span><span class="fl">10.</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    schedule<span class="op">=</span>[<span class="fl">0.</span>, <span class="fl">1000.</span>]</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">2000.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pop_corr <span class="op">=</span> ann.HomogeneousCorrelatedSpikeTrains(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    geometry<span class="op">=</span><span class="dv">200</span>, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    rates<span class="op">=</span> [<span class="fl">10.</span>, <span class="fl">30.</span>], </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    corr<span class="op">=</span>[<span class="fl">0.3</span>, <span class="fl">0.5</span>], </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    tau<span class="op">=</span><span class="fl">10.</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    schedule<span class="op">=</span>[<span class="fl">0.</span>, <span class="fl">1000.</span>]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>ann.<span class="bu">compile</span>()</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>ann.simulate(<span class="fl">2000.</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Even when using a schedule, <code>corr</code> accepts a single constant value. The first value of <code>schedule</code> must be 0. <code>period</code> specifies when the schedule “loops” back to its initial value.</p>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 8%">
+<col style="width: 7%">
 <col style="width: 14%">
-<col style="width: 69%">
+<col style="width: 70%">
 <col style="width: 7%">
 </colgroup>
 <thead>
@@ -1045,49 +1056,49 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>geometry</code></td>
+<td>geometry</td>
 <td>int | tuple[int]</td>
 <td>population geometry as tuple.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>rates</code></td>
+<td>rates</td>
 <td>float | list[float]</td>
 <td>rate in Hz of the population (must be a positive float or a list)</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>corr</code></td>
+<td>corr</td>
 <td>float | list[float]</td>
 <td>total correlation strength (float in [0, 1], or a list)</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>tau</code></td>
+<td>tau</td>
 <td>float</td>
 <td>correlation time constant in ms.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td><code>schedule</code></td>
+<td>schedule</td>
 <td>list[float]</td>
 <td>list of times where new values of <code>rates</code>and <code>corr</code>will be used to computre mu and sigma.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>period</code></td>
+<td>period</td>
 <td>float</td>
 <td>time when the array will be reset and start again, allowing cycling over the schedule. Default: no cycling (-1.)</td>
 <td><code>-1.0</code></td>
 </tr>
 <tr class="odd">
-<td><code>name</code></td>
+<td>name</td>
 <td>str</td>
 <td>unique name of the population (optional).</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>refractory</code></td>
+<td>refractory</td>
 <td>float</td>
 <td>refractory period in ms (careful: may break the correlation)</td>
 <td><code>None</code></td>

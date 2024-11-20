@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>anntosnnconverter – ANNarchy 4.8.1</title>
+<title>anntosnnconverter – ANNarchy 4.8.2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -160,7 +160,7 @@ window.Quarto = {
     <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 4.8.1</span>
+    <span class="navbar-title">ANNarchy 4.8.2</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -992,7 +992,13 @@ window.Quarto = {
 
 <section id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter" class="level1">
 <h1>ANNtoSNNConverter</h1>
-<p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter(self, input_encoding='CPN', hidden_neuron='IaF', read_out='spike_count', **kwargs)</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    input_encoding<span class="op">=</span><span class="st">'CPN'</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    hidden_neuron<span class="op">=</span><span class="st">'IaF'</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    read_out<span class="op">=</span><span class="st">'spike_count'</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>kwargs,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Converts a pre-trained Keras model <code>.keras</code> into an ANNarchy spiking neural network.</p>
 <p>The implementation of the present module is inspired by the SNNToolbox (Rueckauer et al.&nbsp;2017), and is largely based on the work of Diehl et al.&nbsp;(2015). We provide several input encodings, as suggested in the work of Park et al.&nbsp;(2019) and Auge et al.&nbsp;(2021).</p>
 <p><strong>Constraints on the ANN</strong></p>
@@ -1008,12 +1014,12 @@ window.Quarto = {
 </ul></li>
 <li>The layers must <strong>not</strong> contain any bias, even the conv layers:</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.layers.Dense(<span class="dv">128</span>, use_bias<span class="op">=</span><span class="va">False</span>, activation<span class="op">=</span><span class="st">'relu'</span>)(x)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.layers.Conv2D(<span class="dv">64</span>, kernel_size<span class="op">=</span>(<span class="dv">5</span>,<span class="dv">5</span>), activation<span class="op">=</span><span class="st">'relu'</span>, padding<span class="op">=</span><span class="st">'same'</span>, use_bias<span class="op">=</span><span class="va">False</span>)(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.layers.Dense(<span class="dv">128</span>, use_bias<span class="op">=</span><span class="va">False</span>, activation<span class="op">=</span><span class="st">'relu'</span>)(x)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.layers.Conv2D(<span class="dv">64</span>, kernel_size<span class="op">=</span>(<span class="dv">5</span>,<span class="dv">5</span>), activation<span class="op">=</span><span class="st">'relu'</span>, padding<span class="op">=</span><span class="st">'same'</span>, use_bias<span class="op">=</span><span class="va">False</span>)(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>The first layer of the network must be an <code>Input</code>:</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tf.keras.Input(shape <span class="op">=</span> (<span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tf.keras.Input(shape <span class="op">=</span> (<span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Pooling must explicitly be done by <code>MaxPooling2D</code>/<code>AveragePooling2D</code>, strides are ignored.</li>
 </ul>
@@ -1094,13 +1100,13 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 <blockquote class="blockquote">
 <p>Auge D, Hille J, Mueller E et al.&nbsp;(2021) A Survey of Encoding Techniques for Signal Processing in Spiking Neural Networks. Neural Processing Letters. 2021; 53:4963-4710. doi:10.1007/s11063-021-10562-2</p>
 </blockquote>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 10%">
+<col style="width: 9%">
 <col style="width: 4%">
-<col style="width: 74%">
+<col style="width: 75%">
 <col style="width: 10%">
 </colgroup>
 <thead>
@@ -1113,19 +1119,19 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>input_encoding</code></td>
+<td>input_encoding</td>
 <td>str</td>
 <td>a string representing which input encoding should be used: ‘CPN’, ‘IB’ or ‘PSO’.</td>
 <td><code>'CPN'</code></td>
 </tr>
 <tr class="even">
-<td><code>hidden_neuron</code></td>
+<td>hidden_neuron</td>
 <td>str</td>
 <td>neuron model used in the hidden layers. Either the default integrate-and-fire (‘IaF’) or an ANNarchy Neuron object.</td>
 <td><code>'IaF'</code></td>
 </tr>
 <tr class="odd">
-<td><code>read_out</code></td>
+<td>read_out</td>
 <td>str</td>
 <td>a string which of the following read-out method should be used: <code>spike_count</code>, <code>time_to_first_spike</code>, <code>membrane_potential</code>.</td>
 <td><code>'spike_count'</code></td>
@@ -1159,22 +1165,28 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 </table>
 <section id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network">get_annarchy_network</h3>
-<p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network()</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Returns the ANNarchy.Network instance.</p>
 </section>
 <section id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model">load_keras_model</h3>
-<p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model(filename, directory='annarchy', scale_factor=None, show_info=True)</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    filename,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    directory<span class="op">=</span><span class="st">'annarchy'</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    scale_factor<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    show_info<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Loads the pre-trained model provided as a .keras file.</p>
 <p>In tf.keras, the weights can be saved using:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model.save(<span class="st">"model.keras"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="parameters-1" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-1">Parameters</h4>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model.save(<span class="st">"model.keras"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="parameters-1" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 5%">
+<col style="width: 4%">
 <col style="width: 2%">
-<col style="width: 87%">
+<col style="width: 88%">
 <col style="width: 4%">
 </colgroup>
 <thead>
@@ -1187,25 +1199,25 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>filename</code></td>
+<td>filename</td>
 <td>str</td>
 <td>path to the <code>.keras</code> file.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>directory</code></td>
+<td>directory</td>
 <td>str</td>
 <td>sub-directory where the generated code should be stored (default: “annarchy”)</td>
 <td><code>'annarchy'</code></td>
 </tr>
 <tr class="odd">
-<td><code>scale_factor</code></td>
+<td>scale_factor</td>
 <td>float</td>
 <td>allows a fine-grained control of the weight scale factor. By default (None), with each layer-depth the factor increases by one. If a scalar value is provided the same value is used for each layer. Otherwise a list can be provided to assign the scale factors individually.</td>
 <td><code>None</code></td>
 </tr>
 <tr class="even">
-<td><code>show_info</code></td>
+<td>show_info</td>
 <td>bool</td>
 <td>whether the network structure should be printed on console (default: True)</td>
 <td><code>True</code></td>
@@ -1213,17 +1225,19 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 </tbody>
 </table>
 </section>
-<section id="returns" class="level4">
-<h4 class="anchored" data-anchor-id="returns">Returns</h4>
+<section id="returns" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
+<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td></td>
 <td>Network</td>
 <td>An <code>ANNarchy.Network</code> instance.</td>
 </tr>
@@ -1233,15 +1247,19 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 </section>
 <section id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict" class="level3">
 <h3 class="anchored" data-anchor-id="ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict">predict</h3>
-<p><code>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict(samples, duration_per_sample=1000, multiple=False)</code></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    samples,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    duration_per_sample<span class="op">=</span><span class="dv">1000</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    multiple<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Performs the prediction for a given input array.</p>
-<section id="parameters-2" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-2">Parameters</h4>
+<section id="parameters-2" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 14%">
+<col style="width: 13%">
 <col style="width: 5%">
-<col style="width: 72%">
+<col style="width: 73%">
 <col style="width: 7%">
 </colgroup>
 <thead>
@@ -1254,19 +1272,19 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>samples</code></td>
+<td>samples</td>
 <td></td>
 <td>set of inputs to present to the network. The function expects a 2-dimensional array (num_samples, input_size).</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>duration_per_sample</code></td>
+<td>duration_per_sample</td>
 <td></td>
 <td>the number of simulation steps for one input sample (default: 1000, 1 second biological time)</td>
 <td><code>1000</code></td>
 </tr>
 <tr class="odd">
-<td><code>multiple</code></td>
+<td>multiple</td>
 <td></td>
 <td>if several output neurons reach the criteria, return the full list instead of randomly chosing one.</td>
 <td><code>False</code></td>
@@ -1274,17 +1292,24 @@ v_\text{th}(t) = \Pi(t) \, v_\text{th}(t)\\
 </tbody>
 </table>
 </section>
-<section id="returns-1" class="level4">
-<h4 class="anchored" data-anchor-id="returns-1">Returns</h4>
+<section id="returns-1" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-1">Returns</h4>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 17%">
+<col style="width: 71%">
+</colgroup>
 <thead>
 <tr class="header">
+<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td></td>
 <td>list[int]</td>
 <td>A list of predicted class indices for each sample.</td>
 </tr>
