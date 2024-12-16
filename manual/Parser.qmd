@@ -349,6 +349,8 @@ neuron = ann.Neuron(
 )
 ```
 
+:::
+
 ### Mathematical functions
 
 Most mathematical functions of the `cmath` library are understood by the parser, for example:
@@ -379,7 +381,6 @@ In such simple cases, it might be more readable to use the min/max attributes:
 ```python
 neuron = ann.Neuron(
     equations = [
-        ann.variable('tau * dv/dt = baseline -v'),
         ann.variable('r = pos(v)'),
         # is equivalent to:
         ann.variable('r = v', min=0.0),
@@ -544,7 +545,7 @@ functions == """
 ```
 
 
-## Old interface with strings
+## Previous string-based interface (<4.9)
 
 Prior to version 4.9, the default interface was using multiline strings to define both parameters and variables. This interface still works, but might become deprecated in a future release.
 
@@ -561,7 +562,18 @@ LeakyIntegratorNeuron = ann.Neuron(
 )
 ```
 
-When using strings, parameters are by default local, i.e. unique to each synapse in a given projection. This is the opposite to the default behavior with dictionaries. If the `postsynaptic` flag is passed after a colon ':', the parameter will be common to all synapses of a post-synaptic neuron, but can differ from one post-synaptic neuron to another. If the `projection` flag is passed, the parameter will be common to all synapses of a projection (e.g. the learning rate). `postsynaptic` declares one value per post-synaptic neuron in the projection.
+When using strings, parameters and variables are by default local, i.e. unique to each neuron in a population or synapse in a projection. With parameters, this is the opposite to the new default behavior with dictionaries. To make the parameters global, you need to pass a flag 
+
+* If `population` is passed after a colon ':' in a neuron, the parameter will be common to all neurons of the population.
+
+```python
+parameters = """
+    tau = 10.0                   # equivalent to local
+    baseline = 0.0 : population  # equivalent to global
+"""
+```
+
+* If the `postsynaptic` flag is passed after a colon ':' in a synapse, the parameter will be common to all synapses of a post-synaptic neuron, but can differ from one post-synaptic neuron to another. If the `projection` flag is passed, the parameter will be common to all synapses of a projection. 
 
 ```python
 parameters = """
@@ -571,7 +583,7 @@ parameters = """
 """
 ```
 
-Variables are local by default. The `init`, `min`, `max` flags and the numerical method can be passed after the colon.
+Variables are also local by default, and can be modified by the same flags. The `init`, `min`, `max` flags and the numerical method (without `method=`) can be passed after the colon like in a regular `ann.variable()`.
 
 
 ```python
