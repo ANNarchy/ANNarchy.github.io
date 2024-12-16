@@ -1,0 +1,43 @@
+# variable { #ANNarchy.core.Parameters.variable }
+
+```python
+core.Parameters.variable(
+    self,
+    equation,
+    init=None,
+    min=None,
+    max=None,
+    method=None,
+    locality='local',
+    type='float',
+)
+```
+
+Dataclass to represent a variable in a Neuron or Synapse definition.
+
+```python
+neuron = ann.Neuron(
+    equations = [
+        # Global parameter
+        tau = ann.parameter(value=10.0, locality='global')
+
+        # Local parameter
+        baseline = ann.parameter(value=ann.Uniform(-1., 1.), locality='local')
+
+        # Boolean global parameter
+        activated = ann.parameter(value=True, type=bool)
+    ]
+)
+```
+
+## Parameters {.doc-section .doc-section-parameters}
+
+| Name     | Type                                       | Description                                                                                                                                                                                                 | Default    |
+|----------|--------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| equation | str                                        | string representing the equation.                                                                                                                                                                           | _required_ |
+| init     | float \| int \| bool \| RandomDistribution | initial value of the variable. It can be defined as a RandomDistribution, which will be sampled with the correct shape when the population/projection is created, or a float/int/bool, depending on `type`. | `None`     |
+| min      | float                                      | minimum value that the variable can take.                                                                                                                                                                   | `None`     |
+| max      | float                                      | maximum value that the variable can take.                                                                                                                                                                   | `None`     |
+| method   | str                                        | numerical method to be used when the equation is an ODE. Must be in ['explicit', 'implicit', 'semiimplicit', 'exponential','midpoint', 'rk4', 'event-driven']                                               | `None`     |
+| locality | str                                        | Locality of the parameter. Must be in ['global', 'semiglobal', 'local'].                                                                                                                                    | `'local'`  |
+| type     | str                                        | Data type of the parameter. Must be in [float, int, bool] (or ['float', 'int', 'bool']).                                                                                                                    | `'float'`  |

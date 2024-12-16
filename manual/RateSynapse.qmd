@@ -4,12 +4,12 @@ As for neurons, you can define the synaptic behavior using a `Synapse` object. A
 
 Like `r` for a rate-coded neuron, one variable is special for a rate-coded synapse:
 
--   `w` represents the synaptic efficiency (or the weight of the connection). If an ODE is defined for this variable, this will implement a learning rule. If none is provided, the synapse is non-plastic.
+* `w` represents the synaptic efficiency (or the weight of the connection). If an ODE is defined for this variable, this will implement a learning rule. If none is provided, the synapse is non-plastic.
 
 The ODEs for synaptic variables follow the same syntax as for neurons. As for neurons, the following variables are already defined:
 
--   `t`: time in milliseconds elapsed since the creation of the network.
--   `dt`: the discretization step is 1.0ms by default.
+* `t`: time in milliseconds elapsed since the creation of the network.
+* `dt`: the discretization step is 1.0ms by default.
 
 ## Synaptic plasticity
 
@@ -23,37 +23,36 @@ could be implemented this way:
 
 ```python
 Oja = ann.Synapse(
-    parameters="""
-        tau = 5000
+    parameters = dict(
+        tau = 5000,
         alpha = 8.0
-    """,
-    equations="""
-        tau * dw / dt = pre.r * post.r - alpha * post.r^2 * w
-    """
+    ),
+    equations = [
+        'tau * dw / dt = pre.r * post.r - alpha * post.r^2 * w',
+    ]
 )
 ```
 
-Note that it is equivalent to define the increment directly if you want
-to apply the explicit Euler method:
+Note that it is equivalent to define the increment directly if you want to apply the explicit Euler method:
 
 ```python
-equations="""
-    w += dt / tau * ( pre.r * post.r - alpha * post.r^2 * w)
-"""
+equations = [
+    'w += dt / tau * ( pre.r * post.r - alpha * post.r^2 * w)',
+]
 ```
 
 The same vocabulary as for rate-coded neurons applies. Custom functions can also be defined:
 
 ```python
 Oja = ann.Synapse(
-    parameters="""
-        tau = 5000
+    parameters = dict(
+        tau = 5000,
         alpha = 8.0
-    """,
-    equations="""
-        tau * dw / dt = product(pre.r,  post.r) - alpha * post.r^2 * w
-    """,
-    functions="""
+    ),
+    equations = [
+        'tau * dw / dt = product(pre.r,  post.r) - alpha * post.r^2 * w',
+    ],
+    functions = """
         product(x,y) = x * y
     """,
 )
@@ -80,36 +79,36 @@ If the projection uses delays, all pre-synaptic variables used in the synapse mo
 
 There are 3 levels of locality for a synaptic parameter or variable:
 
-1.  `synaptic`: there is one value per synapse in the projection (default).
-2.  `postsynaptic`: there is one value per post-synaptic neuron in the projection.
-3.  `projection`: there is only one value for the whole projection.
+1.  `local`: there is one value per synapse in the projection (default for variables).
+2.  `semiglobal`: there is one value per post-synaptic neuron in the projection.
+3.  `global`: there is only one value for the whole projection (default for parameters).
 
 The following BCM learning rule makes use of the three levels of locality:
 
 ```python
 BCM = ann.Synapse(
-    parameters = """
-        eta = 0.01 : projection
-        tau = 100. : projection
-    """,
-    equations = """
-        tau * dtheta/dt + theta = post.r^2 : postsynaptic
-        dw/dt = eta * post.r * (post.r - theta) * pre.r : min=0.0
-    """
+    parameters = dict(
+        eta = 0.01, # global
+        tau = 100., # global
+    ),
+    equations = [
+        ann.variable('tau * dtheta/dt + theta = post.r^2', locality='semiglobal'),
+        ann.variable('dw/dt = eta * post.r * (post.r - theta) * pre.r', min=0.0), # local
+    ]
 )
 ```
 
-`eta` and `tau` are global parameters to the projection: all synapses will use the same value. `theta` defines one value per post-synaptic neuron: it tracks the average of the post-synaptic firing rate. There is therefore no need to update one value per synapse, so we can use the flag \"postsynaptic\". Naturally, `w` is local to each synapse, so no locality flag should be passed.
+`eta` and `tau` are global parameters to the projection: all synapses will use the same value. `theta` defines one value per post-synaptic neuron: it tracks the average of the post-synaptic firing rate. There is therefore no need to update one value per synapse, so we can use the value 'semiglobal'. Naturally, `w` is local to each synapse, so no locality should be passed.
 
 ## Global operations
 
 Some learning rules require global information about the pre- or post-synaptic population, which is not local to the synapse, such as the mean or maximal activity in the pre-synaptic population. This information can be accessed at the synapse-level. The special functions:
 
--   `min(v)` for the minimum: $\min_i v_i$,
--   `max(v)` for the maximum: $\max_i v_i$,
--   `mean(v)` for the mean: $\frac{1}{N} \sum_i v_i$,
--   `norm1(v)` for the L1-norm: $\frac{1}{N} \sum_i |v_i|$,
--   `norm2(v)` for the L2-norm: $\frac{1}{N} \sum_i v_i^2$
+* `min(v)` for the minimum: $\min_i v_i$,
+* `max(v)` for the maximum: $\max_i v_i$,
+* `mean(v)` for the mean: $\frac{1}{N} \sum_i v_i$,
+* `norm1(v)` for the L1-norm: $\frac{1}{N} \sum_i |v_i|$,
+* `norm2(v)` for the L2-norm: $\frac{1}{N} \sum_i v_i^2$
 
 are available for any pre- or post-synaptic variable.
 
@@ -121,20 +120,20 @@ Using the global operations, such a learning rule is trivial to implement:
 
 ```python
 Covariance = ann.Synapse(
-    parameters="""
+    parameters = dict(
         tau = 5000.0
-    """,
-    equations="""
-        tau * dw/dt = (pre.r - mean(pre.r) ) * (post.r - mean(post.r) )
-    """
+    ),
+    equations = [
+        'tau * dw/dt = (pre.r - mean(pre.r) ) * (post.r - mean(post.r) )'
+    ]
 )
 ```
 
 :::callout-warning
 
--   Such global operations can become expensive to compute if the populations are too big.
--   The global operations are performed over the whole population, not only the synapses which actually reach the post-synaptic neuron.
--   They can only be applied to a single variable, not a combination or function of them.
+* Such global operations can become expensive to compute if the populations are too big.
+* The global operations are performed over the whole population, not only the synapses which actually reach the post-synaptic neuron.
+* They can only be applied to a single variable, not a combination or function of them.
 :::
 
 ## Defining the post-synaptic potential (psp)
@@ -159,9 +158,7 @@ In this case, you can just modify the `psp` argument of the synapse:
 
 ```python
 NonLinearSynapse = ann.Synapse( 
-    psp = """
-        log( (pre.r * w + 1 ) / (pre.r * w - 1) )
-    """
+    psp = " log( (pre.r * w + 1 ) / (pre.r * w - 1) ) "
 )
 ```
 
@@ -186,10 +183,10 @@ In this case, `sum(target)` will represent the maximum value of `w * pre.r` over
 
 The available operations are:
 
--   `"sum"`: (default): sum of all incoming psps.
--   `"max"`: maximum of all incoming psps.
--   `"min"`: minimum of all incoming psps.
--   `"mean"`: mean of all incoming psps.
+* `"sum"`: (default): sum of all incoming psps.
+* `"max"`: maximum of all incoming psps.
+* `"min"`: minimum of all incoming psps.
+* `"mean"`: mean of all incoming psps.
 
 :::callout-warning
 These operations are only possible for rate-coded synapses.

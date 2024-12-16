@@ -554,46 +554,56 @@ $$
 import ANNarchy as ann
 
 ESN_Neuron = ann.Neuron(
-    parameters = """
-        tau = 30.0   : population   # Time constant
-        g = 1.0      : population   # Scaling
-        noise = 0.01 : population   # Noise level
-    """,
-    equations="""
-        tau * dx/dt + x = sum(in) + g * sum(exc) + noise * Uniform(-1, 1)  : init=0.0
+
+    parameters = {'tau': 30.0, 'g': 1.0 , 'noise': 0.01},
+    
+    equations = [
+        'tau * dx/dt + x = sum(in) + g * sum(exc) + noise * Uniform(-1, 1)',
  
-        r = tanh(x)
-    """
+        'r = tanh(x)'
+    ]
 )
 ```
 
 # Parameters
 
+* The parameters are provided as a dictionary:
+
 ```python
-    parameters = """
-        tau = 30.0   : population   # Time constant
-        g = 1.0      : population   # Scaling
-        noise = 0.01 : population   # Noise level
-    """
+parameters = {'tau': 30.0, 'g': 1.0 , 'noise': 0.01},
 ```
 
-* All parameters used in the equations must be declared in the **Neuron** definition.
 
-* Parameters can have one value per neuron in the population (default) or be common to all neurons (flag `population` or `projection`).
+* Parameters can have one value per neuron in the population (**local**) or be common to all neurons of the population (**global**).
 
-* Parameters and variables are double floats by default, but the type can be specified (`int`, `bool`).
+* The parameters are considered global by default. To define a local parameters, use `ann.parameter()`:
+
+```python
+parameters = {'tau': 30.0, 'g': 1.0 , 'noise': ann.parameter(0.01, locality='local')},
+```
+
+
+* Parameters and variables are floats by default, but the type can also be specified (`int`, `bool`).
+
+```python
+parameters = dict(
+    tau = 30.0, 
+    g = 1.0, 
+    activated= ann.parameter(False, type=bool, locality='local'),
+)
+```
 
 # Variables
 
+
+* Variables are evaluated at each time step **in the order of their declaration**.
+
 ```python
-    equations="""
-        tau * dx/dt + x = sum(in) + g * sum(exc) + noise * Uniform(-1, 1) : init=0.0
-
-        r = tanh(x)
-    """
+equations = [
+    'tau * dx/dt + x = sum(in) + g * sum(exc) + noise * Uniform(-1, 1)',
+    'r = tanh(x)',
+]
 ```
-
-* Variables are evaluated at each time step *in the order of their declaration*, except for coupled ODEs.
 
 * The output variable of a rate-coded neuron must be named `r`.
 
@@ -601,12 +611,22 @@ ESN_Neuron = ann.Neuron(
 
 * The math C library symbols can be used (`tanh`, `cos`, `exp`, etc).
 
-* Initial values at the start of the simulation can be specified with `init` (default: 0.0). 
+* Initial values can be specified by using an `ann.variable()` object (default: 0.0). 
+
+```python
+equations = [
+    ann.variable('tau * dx/dt + x = sum(exc)', init=-1.0),
+    ann.variable('r = tanh(x)'),
+]
+```
 
 * Lower/higher bounds on the values of the variables can be set with the `min`/`max` flags:
 
-```
-r = x : min=0.0 # ReLU
+```python
+equations = [
+    ann.variable('tau * dx/dt + x = sum(exc)', init=-1.0, max=1.0),
+    ann.variable('r = x', min=0.0), # ReLU
+]
 ```
 
 * Additive noise can be drawn from several distributions, including `Uniform`, `Normal`, `LogNormal`, `Exponential`, `Gamma`...
@@ -621,10 +641,10 @@ r = x : min=0.0 # ReLU
 * First-order ODEs are parsed and manipulated using `sympy`:
 
 ```python
-    # All equivalent:
-    tau * dx/dt + x = I
-    tau * dx/dt = I - x
-    dx/dt = (I - x)/tau
+# All equivalent:
+tau * dx/dt + x = I
+tau * dx/dt = I - x
+dx/dt = (I - x)/tau
 ```
 
 
@@ -732,11 +752,10 @@ proj_inh = ann.Projection(I, pop, 'inh')
 * The weighted sum of inputs for a specific target is accessed in the equations by `sum(target)`:
 
 ```python
-equations="""
-    tau * dx/dt + x = sum(exc) - sum(inh)
-
-    r = tanh(x)
-"""
+equations = [
+    ann.variable('tau * dx/dt + x = sum(exc) / (1 + sum(inh))'),
+    ann.variable('r = tanh(x)'),
+]
 ```
 
 * It is therefore possible to model modulatory effects, divisive inhibition, etc.
@@ -748,9 +767,9 @@ equations="""
 * Several patterns are predefined:
 
 ```python
-proj.connect_all_to_all(weights=Normal(0.0, 1.0), delays=2.0, allow_self_connections=False)
+proj.connect_all_to_all(weights=ann.Normal(0.0, 1.0), delays=2.0, allow_self_connections=False)
 
-proj.connect_one_to_one(weights=1.0, delays=Uniform(1.0, 10.0))
+proj.connect_one_to_one(weights=1.0, delays=ann.Uniform(1.0, 10.0))
 
 proj.connect_fixed_number_pre(number=20, weights=1.0)
 
@@ -848,7 +867,7 @@ Recording projections can quickly fill up the RAM...
 
 # Notebook: Echo-State Network
 
-[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/RC.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/master/notebooks/RC.ipynb){target="_blank"}
+[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/RC.ipynb){target="_blank"} [![Open in Colab](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/RC.ipynb){target="_blank"}
 
 $$
     \tau \frac{dx(t)}{dt} + x(t) = \sum_\text{input} W^\text{IN} \, r^\text{IN}(t) + g \,  \sum_\text{rec} W^\text{REC} \, r(t) + \xi(t)
@@ -858,16 +877,15 @@ $$
     r(t) = \tanh(x(t))
 $$
 
-::: {}
+
 ![](img/rc.jpg){width=60% fig-align="center"}
-:::
+
 
 :::footer
 @Jaeger2001 The "echo state" approach to analysing and training recurrent neural networks. Jacobs Universität Bremen.
 :::
 
 # Plasticity in rate-coded networks
-
 
 * Synapses can also implement plasticity rules that will be evaluated after each neural update.
 
@@ -877,22 +895,21 @@ $$\Delta w = \eta \, r^\text{pre} \, r^\text{post}  \,  (r^\text{post} - \mathbb
 
 ```python
 IBCM = ann.Synapse(
-    parameters = """
-        eta = 0.01 : projection
-        tau = 2000.0 : projection
-    """,
-    equations = """
-        tau * dtheta/dt + theta = post.r^2 : postsynaptic, exponential
+    parameters = dict(eta = 0.01, tau = 2000.0),
+    equations = [
+        ann.variable(
+            'tau * dtheta/dt + theta = post.r^2', 
+            locality='semiglobal', method='exponential'),
 
-        dw/dt = eta * post.r * (post.r - theta) * pre.r : min=0.0, explicit
-    """,
+        ann.variable('dw/dt = eta * post.r * (post.r - theta) * pre.r', min=0.0),
+    ],
     psp = "w * pre.r"
 )
 ```
 
 * Each synapse can access pre- and post-synaptic variables with `pre.` and `post.`.
 
-* The `postsynaptic` flag allows to do computations only once per post-synaptic neurons.
+* The `semiglobal` locality allows to do computations only once per post-synaptic neuron.
 
 * `psp` optionally defines what will be summed by the post-synaptic neuron (e.g. `psp = "w * log(pre.r)"`).
 
@@ -920,7 +937,7 @@ proj[10].w
 
 # Notebook: IBCM learning rule
 
-[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/BCM.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/master/notebooks/BCM.ipynb){target="_blank"}
+[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/BCM.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/BCM.ipynb){target="_blank"}
 
 :::columns
 :::column
@@ -946,14 +963,14 @@ $$\Delta w = \eta \, r^\text{pre} \, r^\text{post}  \,  (r^\text{post} - \mathbb
 
 # Notebook: Reward-modulated RC network of Miconi (2017)
 
-[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/Miconi.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/master/notebooks/Miconi.ipynb){target="_blank"}
+[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/Miconi.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/Miconi.ipynb){target="_blank"}
 
 $$
     e_{i, j}(t) = e_{i, j}(t-1) + (r_i (t) \, x_j(t))^3
 $$
 
 $$
-    \Delta w_{i, j} = - \eta \,  e_{i, j}(T) \, (R -R_\text{mean})
+    \Delta w_{i, j} = - \eta \,  e_{i, j}(T) \, (R - R_\text{mean})
 $$
 
 ::: {}
@@ -997,17 +1014,20 @@ $$
 
 ```python
 LIF = ann.Neuron(
-    parameters = """
-        C = 200.
-        g_L = 10.
-        E_L = -70.
-        v_T = 0.
-        v_r = -58.
-        I = 0.25
-    """,
-    equations = """
-        C * dv/dt = g_L * (E_L - v) + I : init=E_L     
-    """,
+    parameters = dict(
+        C = 200.,
+        g_L = 10.,
+        E_L = -70.,
+        v_T = 0.,
+        v_r = -58.,
+        I = 0.25,
+    ),
+    equations = [
+        ann.variable(
+            'C * dv/dt = g_L * (E_L - v) + I', 
+            init='E_L'
+        ),     
+    ],
     spike = "v >= v_T",
     reset = "v = v_r",
     refractory = 2.0
@@ -1019,7 +1039,7 @@ LIF = ann.Neuron(
 
 # Notebook: AdEx neuron - Adaptive exponential Integrate-and-fire
 
-[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/AdEx.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/master/notebooks/AdEx.ipynb){target="_blank"}
+[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/AdEx.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/AdEx.ipynb){target="_blank"}
 
 
 
@@ -1040,10 +1060,13 @@ $$\tau \cdot \frac{dv (t)}{dt} = E_l - v(t) + g_\text{exc} (t) \, (E_\text{exc} 
 
 ```python
 LIF = Neuron(
-    parameters = "...",
-    equations = """
-        C*dv/dt = g_L*(E_L - v) + g_exc : init=E_L    
-    """,
+    parameters = {...},
+    equations = [
+        ann.variable(
+            'C * dv/dt = g_L * (E_L - v) + I', 
+            init='E_L'
+        ),     
+    ],
     spike = "v >= v_T",
     reset = "v = v_r",
     refractory = 2.0
@@ -1076,12 +1099,17 @@ g_target += w
 
 ```python
 LIF = ann.Neuron(
-    parameters = "...",
-    equations = """
-        C*dv/dt = g_L*(E_L - v) + g_exc : init=E_L   
-
-        tau_exc * dg_exc/dt = - g_exc : exponential
-    """,
+    parameters = {...},
+    equations = [
+        ann.variable(
+            'C * dv/dt = g_L * (E_L - v) + I', 
+            init='E_L'
+        ),  
+        ann.variable(
+            'tau_exc * dg_exc/dt = - g_exc', 
+            method='exponential'
+        ),     
+    ],
     spike = "v >= v_T",
     reset = "v = v_r",
     refractory = 2.0
@@ -1103,7 +1131,7 @@ LIF = ann.Neuron(
 :::columns
 :::column
 
-[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/SynapticTransmission.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/master/notebooks/SynapticTransmission.ipynb){target="_blank"}
+[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/SynapticTransmission.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/SynapticTransmission.ipynb){target="_blank"}
 
 
 ```python
@@ -1126,11 +1154,11 @@ tau_c * dh_c/dt = g_c - h_c
 
 # Notebook: COBA - Conductance-based E/I network
 
-[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/COBA.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/master/notebooks/COBA.ipynb){target="_blank"}
+[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/COBA.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/COBA.ipynb){target="_blank"}
 
-::: {}
+
 ![](img/COBA.png){width=40% fig-align="center"}
-:::
+
 
 $$\tau \, \frac{dv (t)}{dt} = E_l - v(t) + g_\text{exc} (t) \, (E_\text{exc} - v(t)) + g_\text{inh} (t) \, (E_\text{inh} - v(t)) + I(t)$$
 
@@ -1149,15 +1177,15 @@ $$\tau \, \frac{dv (t)}{dt} = E_l - v(t) + g_\text{exc} (t) \, (E_\text{exc} - v
 
 ```python
 STP = ann.Synapse(
-    parameters = """
-        tau_rec = 100.0 : projection
-        tau_facil = 0.01 : projection
+    parameters = dict(
+        tau_rec = 100.0,
+        tau_facil = 0.01,
         U = 0.5
-    """,
-    equations = """
-        dx/dt = (1 - x)/tau_rec : init = 1.0, event-driven
-        du/dt = (U - u)/tau_facil : init = 0.5, event-driven
-    """,
+    ),
+    equations = [
+        ann.variable('dx/dt = (1 - x)/tau_rec', init = 1.0, method='event-driven'),
+        ann.variable('du/dt = (U - u)/tau_facil', init = 0.5, method='event-driven'),
+    ],
     pre_spike="""
         g_target += w * u * x
         x *= (1 - u)
@@ -1169,7 +1197,7 @@ STP = ann.Synapse(
 
 # Notebook: STP
 
-[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/STP.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/master/notebooks/STP.ipynb){target="_blank"}
+[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/STP.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/STP.ipynb){target="_blank"}
 
 ![](img/stp.png){width=70% fig-align="center"}
 
@@ -1184,15 +1212,15 @@ STP = ann.Synapse(
 
 ```python
 STDP = ann.Synapse(
-    parameters = """
-        tau_plus = 20.0 : projection ; tau_minus = 20.0 : projection
-        A_plus = 0.01 : projection   ; A_minus = 0.01 : projection
-        w_min = 0.0 : projection     ; w_max = 1.0 : projection
-    """,
-    equations = """
-        tau_plus  * dx/dt = -x : event-driven # pre-synaptic trace
-        tau_minus * dy/dt = -y : event-driven # post-synaptic trace
-    """,
+    parameters = dict(
+        tau_plus = 20.0, tau_minus = 20.0,
+        A_plus = 0.01, A_minus = 0.01,
+        w_min = 0.0, w_max = 1.0,
+    ),
+    equations = [
+        ann.variable('tau_plus  * dx/dt = -x', method='event-driven'), # pre-synaptic trace
+        ann.variable('tau_minus * dy/dt = -y', method='event-driven'), # post-synaptic trace
+    ],
     pre_spike="""
         g_target += w
         x += A_plus * w_max
@@ -1206,7 +1234,7 @@ STDP = ann.Synapse(
 
 # Notebook: STDP
 
-[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/STDP1.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/master/notebooks/STDP1.ipynb){target="_blank"}
+[![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/STDP1.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/STDP1.ipynb){target="_blank"}
 
 $$
 \begin{cases}

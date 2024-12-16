@@ -4,14 +4,14 @@ Once the `Neuron` objects have been defined, the populations can be created. Let
 
 ```python
 LeakyIntegratorNeuron = ann.Neuron(
-    parameters = """
-        tau = 10.0
+    parameters = dict(
+        tau = 10.0,
         baseline = -0.2
-    """,
-    equations = """
-        tau * dv/dt  + v = baseline + sum(exc)
-        r = pos(v)
-    """
+    ),
+    equations = [
+        'tau * dv/dt  + v = baseline + sum(exc)',
+        'r = pos(v)',
+    ]
 )
 ```
 
@@ -28,9 +28,9 @@ The rate-coded or spiking nature of the `Neuron` instance is irrelevant when cre
 
 It takes different parameters:
 
--   `geometry` defines the number of neurons in the population, as well as its spatial structure (1D/2D/3D or more). For example, a two-dimensional population with 15\*10 neurons takes the argument `(15, 10)`, while a one-dimensional array of 100 neurons would take `(100,)` or simply `100`.
--   `neuron` indicates the neuron type to use for this population (which must have been defined before). It requires a `Neuron` instance.
--   `name` is an unique string for each population in the network. If `name` is omitted, an internal name such as `pop0` will be given (the number is incremented every time a new population is defined). Although this argument is optional, it is strongly recommended to give an understandable name to each population: if you somehow "lose" the reference to the `Population` object in some portion of your code, you can always retrieve it using the `get_population(name)` method.
+* `geometry` defines the number of neurons in the population, as well as its spatial structure (1D/2D/3D or more). For example, a two-dimensional population with 15\*10 neurons takes the argument `(15, 10)`, while a one-dimensional array of 100 neurons would take `(100,)` or simply `100`.
+* `neuron` indicates the neuron type to use for this population (which must have been defined before). It requires a `Neuron` instance.
+* `name` is an unique string for each population in the network. If `name` is omitted, an internal name such as `pop0` will be given (the number is incremented every time a new population is defined). Although this argument is optional, it is strongly recommended to give an understandable name to each population: if you somehow "lose" the reference to the `Population` object in some portion of your code, you can always retrieve it using the `get_population(name)` method.
 
 After creation, each population has several attributes defined (corresponding to the parameters and variables of the `Neuron` type) and is assigned a fixed size (`pop.size` corresponding to the total number of neurons, here 100 for `pop1` and 64 for `pop2`) and geometry (`pop1.geometry`, here `(100, )` and `(8, 8)`).
 
@@ -43,16 +43,16 @@ The coordinates use the matrix notation for multi-dimensional arrays, which is a
 To convert the rank of a neuron to its coordinates (and vice-versa), you
 can use the [ravel_multi_index](http://docs.scipy.org/doc/numpy/reference/generated/numpy.ravel_multi_index.html) and [unravel_index](http://docs.scipy.org/doc/numpy/reference/generated/numpy.unravel_index.html#numpy.unravel_index) methods of Numpy, but they can be quite slow. The `Population` class provides two more efficient methods to do this conversion:
 
--   `coordinates_from_rank` returns a tuple representing the coordinates of neuron based on its rank (between 0 and `size -1`, otherwise an error is thrown).
--   `rank_from_coordinates` returns the rank corresponding to the coordinates.
+* `coordinates_from_rank` returns a tuple representing the coordinates of neuron based on its rank (between 0 and `size -1`, otherwise an error is thrown).
+* `rank_from_coordinates` returns the rank corresponding to the coordinates.
 
 For example, with `pop2` having a geometry `(8, 8)`:
 
 ```python
->>> pop2.coordinates_from_rank(15)
-(1, 7)
->>> pop2.rank_from_coordinates((4, 6))
-38
+pop2.coordinates_from_rank(15)
+# (1, 7)
+pop2.rank_from_coordinates((4, 6))
+# 38
 ```
 
 ## Population attributes
@@ -62,28 +62,29 @@ The value of the parameters and variables of all neurons in a population can be 
 With the previously defined populations, you can list all their parameters and variables with:
 
 ```python
->>> pop2.attributes
-['tau', 'baseline', 'v', 'r']
->>> pop2.parameters
-['tau', 'baseline']
->>> pop2.variables
-['r', 'v']
+pop2.attributes
+# ['tau', 'baseline', 'v', 'r']
+pop2.parameters
+# ['tau', 'baseline']
+pop2.variables
+# ['r', 'v']
 ```
 
 Reading their value is straightforward:
 
 ```python
->>> pop2.tau
-10.0
->>> pop2.r
-array([[ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.]])
+pop2.tau
+# 10.0
+
+pop2.r
+# array([[ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.]])
 ```
 
 Population-wise parameters/variables have a single value for the
@@ -93,53 +94,56 @@ same geometry has the population.
 Setting their value is also simple:
 
 ```python
->>> pop2.tau = 20.0
->>> pop2.tau
-20.0
->>> pop2.r = 1.0
->>> pop2.r
-array([[ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
-       [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
-       [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
-       [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
-       [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
-       [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
-       [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
-       [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.]])
->>> pop2.v = 0.5 * np.ones(pop2.geometry)
-array([[ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
-       [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
-       [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
-       [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
-       [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
-       [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
-       [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
-       [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5]])
->>> pop2.r = Uniform(0.0, 1.0)
-array([[ 0.97931939,  0.64865327,  0.29740417,  0.49352664,  0.36511704,
-         0.59879869,  0.10835491,  0.38481751],
-       [ 0.07664157,  0.77532887,  0.04773084,  0.75395453,  0.56072342,
-         0.54139054,  0.28553319,  0.96159595],
-       [ 0.01811468,  0.30214921,  0.45321071,  0.56728733,  0.24577655,
-         0.32798484,  0.84929103,  0.63025331],
-       [ 0.34168482,  0.07411291,  0.6510492 ,  0.89025337,  0.31192464,
-         0.59834719,  0.77102494,  0.88537967],
-       [ 0.41813573,  0.47395247,  0.46603402,  0.45863676,  0.76628989,
-         0.42256749,  0.18527079,  0.8322103 ],
-       [ 0.70616692,  0.73210377,  0.05255718,  0.01939817,  0.24659769,
-         0.50349528,  0.79201573,  0.19159611],
-       [ 0.21246111,  0.93570727,  0.68544108,  0.61158741,  0.17954022,
-         0.90084004,  0.41286698,  0.45550662],
-       [ 0.14720568,  0.51426136,  0.36225438,  0.06096426,  0.77209455,
-         0.07348683,  0.43178591,  0.32451531]])
+pop2.tau = 20.0
+print(pop2.tau)
+# 20.0
+
+pop2.r = 1.0
+print(pop2.r) 
+# array([[ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
+#        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
+#        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
+#        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
+#        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
+#        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
+#        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
+#        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.]])
+
+pop2.v = 0.5 * np.ones(pop2.geometry)
+# array([[ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
+#        [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
+#        [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
+#        [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
+#        [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
+#        [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
+#        [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5],
+#        [ 0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5,  0.5]])
+
+pop2.r = Uniform(0.0, 1.0)
+# array([[ 0.97931939,  0.64865327,  0.29740417,  0.49352664,  0.36511704,
+#          0.59879869,  0.10835491,  0.38481751],
+#        [ 0.07664157,  0.77532887,  0.04773084,  0.75395453,  0.56072342,
+#          0.54139054,  0.28553319,  0.96159595],
+#        [ 0.01811468,  0.30214921,  0.45321071,  0.56728733,  0.24577655,
+#          0.32798484,  0.84929103,  0.63025331],
+#        [ 0.34168482,  0.07411291,  0.6510492 ,  0.89025337,  0.31192464,
+#          0.59834719,  0.77102494,  0.88537967],
+#        [ 0.41813573,  0.47395247,  0.46603402,  0.45863676,  0.76628989,
+#          0.42256749,  0.18527079,  0.8322103 ],
+#        [ 0.70616692,  0.73210377,  0.05255718,  0.01939817,  0.24659769,
+#          0.50349528,  0.79201573,  0.19159611],
+#        [ 0.21246111,  0.93570727,  0.68544108,  0.61158741,  0.17954022,
+#          0.90084004,  0.41286698,  0.45550662],
+#        [ 0.14720568,  0.51426136,  0.36225438,  0.06096426,  0.77209455,
+#          0.07348683,  0.43178591,  0.32451531]])
 ```
 
 For population-wide attributes, you can only specify a single value (float, int or bool depending on the type of the parameter/variable). For neuron-specific attributes, you can provide either:
 
--   a single value which will be applied to all neurons of the population.
--   a list or a one-dimensional Numpy array of the same length as the number of neurons in the population. This information is provided by `pop1.size`.
--   a Numpy array of the same shape as the geometry of the population. This information is provided by `pop1.geometry`.
--   a random number generator object (Uniform, Normal\...).
+* a single value which will be applied to all neurons of the population.
+* a list or a one-dimensional Numpy array of the same length as the number of neurons in the population. This information is provided by `pop1.size`.
+* a Numpy array of the same shape as the geometry of the population. This information is provided by `pop1.geometry`.
+* a random number generator object (Uniform, Normal\...).
 
 :::callout-note
 
@@ -157,31 +161,31 @@ pop1.set({'v': 1.0, 'r': Uniform(0.0, 1.0)})
 There exists a purely semantic access to individual neurons of a population. The `IndividualNeuron` class wraps population data for a specific neuron. It can be accessed through the `Population.neuron()` method using either the rank of the neuron (from 0 to `pop1.size - 1`) or its coordinates in the population's geometry:
 
 ```python
->>> print pop2.neuron(2, 2)
-Neuron of the population pop2 with rank 18 (coordinates (2, 2)).
-Parameters:
-  tau = 10.0
-  baseline = -0.2
-
-Variables:
-  v = 0.0
-  r = 0.0
+print(pop2.neuron(2, 2))
+# Neuron of the population pop2 with rank 18 (coordinates (2, 2)).
+# Parameters:
+#   tau = 10.0
+#   baseline = -0.2
+# 
+# Variables:
+#   v = 0.0
+#   r = 0.0
 ```
 
 The individual neurons can be manipulated individually:
 
 ```python
->>> my_neuron = pop2.neuron(2, 2)
->>> my_neuron.r = 1.0
->>> print my_neuron
-Neuron of the population pop2 with rank 18 (coordinates (2, 2)).
-Parameters:
-  tau = 10.0
-  baseline = -0.2
-
-Variables:
-  v = 0.0
-  r = 1.0
+my_neuron = pop2.neuron(2, 2)
+my_neuron.r = 1.0
+print(my_neuron)
+# Neuron of the population pop2 with rank 18 (coordinates (2, 2)).
+# Parameters:
+#   tau = 10.0
+#   baseline = -0.2
+# 
+# Variables:
+#   v = 0.0
+#   r = 1.0
 ```
 
 :::callout-warning
@@ -189,83 +193,85 @@ Variables:
 `IndividualNeuron` is only a wrapper for ease of use, the real data is stored in arrays for the whole population, so accessing individual neurons is much slower and should be reserved to specific cases (i.e. only from time to time and for a limited set of neurons).
 :::
 
-## Accessing groups of neurons
+## Accessing groups of neurons - PopulationView
 
 Individual neurons can be grouped into `PopulationView` objects, which hold references to different neurons of the same population. One can create population views by "adding" several neurons together:
 
 ```python
->>> popview = pop2.neuron(2,2) + pop2.neuron(3,3) + pop2.neuron(4,4)
->>> popview
-PopulationView of pop2
-  Ranks: [18, 27, 36]
-* Neuron of the population pop2 with rank 18 (coordinates (2, 2)).
-Parameters:
-  tau = 10.0
-  baseline = -0.2
+popview = pop2.neuron(2,2) + pop2.neuron(3,3) + pop2.neuron(4,4)
+print(popview)
 
-Variables:
-  v = 0.0
-  r = 0.0
+# PopulationView of pop2
+#   Ranks: [18, 27, 36]
+# * Neuron of the population pop2 with rank 18 (coordinates (2, 2)).
+# Parameters:
+#   tau = 10.0
+#   baseline = -0.2
+# 
+# Variables:
+#   v = 0.0
+#   r = 0.0
+# 
+# * Neuron of the population pop2 with rank 27 (coordinates (3, 3)).
+# Parameters:
+#   tau = 10.0
+#   baseline = -0.2
+# 
+# Variables:
+#   v = 0.0
+#   r = 0.0
+# 
+# * Neuron of the population pop2 with rank 36 (coordinates (4, 4)).
+# Parameters:
+#   tau = 10.0
+#   baseline = -0.2
+# 
+# Variables:
+#   v = 0.0
+#   r = 0.0
 
-* Neuron of the population pop2 with rank 27 (coordinates (3, 3)).
-Parameters:
-  tau = 10.0
-  baseline = -0.2
-
-Variables:
-  v = 0.0
-  r = 0.0
-
-* Neuron of the population pop2 with rank 36 (coordinates (4, 4)).
-Parameters:
-  tau = 10.0
-  baseline = -0.2
-
-Variables:
-  v = 0.0
-  r = 0.0
->>> popview.r = 1.0
->>> pop2.r
-array([[ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.]])
+popview.r = 1.0
+print(pop2.r)
+# array([[ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.]])
 ```
 
 One can also use the slice operators to create PopulationViews:
 
 ```python
->>> popview = pop2[3, :]
->>> popview.r = 1.0
->>> pop2.r 
-array([[ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.]])
+popview = pop2[3, :]
+popview.r = 1.0
+print(pop2.r)
+# array([[ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
+#        [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.]])
 ```
 
 or:
 
 ```python
->>> popview = pop2[2:5, 4] 
->>> popview.r = 1.0
->>> pop1.r
-array([[ 0., 0., 0., 0., 0., 0., 0., 0.], 
-       [ 0., 0., 0., 0., 0., 0., 0., 0.], 
-       [ 0., 0., 0., 0., 1., 0., 0., 0.], 
-       [ 0., 0., 0., 0., 1., 0., 0., 0.], 
-       [ 0., 0., 0., 0., 1., 0., 0., 0.], 
-       [ 0., 0., 0., 0., 0., 0., 0., 0.], 
-       [ 0., 0., 0., 0., 0., 0., 0., 0.], 
-       [ 0., 0., 0., 0., 0., 0., 0., 0.]])
+popview = pop2[2:5, 4] 
+popview.r = 1.0
+print(pop1.r)
+# array([[ 0., 0., 0., 0., 0., 0., 0., 0.], 
+#        [ 0., 0., 0., 0., 0., 0., 0., 0.], 
+#        [ 0., 0., 0., 0., 1., 0., 0., 0.], 
+#        [ 0., 0., 0., 0., 1., 0., 0., 0.], 
+#        [ 0., 0., 0., 0., 1., 0., 0., 0.], 
+#        [ 0., 0., 0., 0., 0., 0., 0., 0.], 
+#        [ 0., 0., 0., 0., 0., 0., 0., 0.], 
+#        [ 0., 0., 0., 0., 0., 0., 0., 0.]])
 ```
 
 `PopulationView` objects can be used to create projections.
@@ -281,15 +287,15 @@ If you have defined a function inside a `Neuron` definition:
 
 ```python
 LeakyIntegratorNeuron = ann.Neuron(
-    parameters="""   
-        tau = 10.0
-        slope = 1.0
-        baseline = -0.2
-    """,
-    equations = """
-        tau * dv/dt + v = baseline + sum(exc)
-        r = sigmoid(v, slope)
-    """,
+    parameters = dict(   
+        tau = 10.0,
+        slope = 1.0,
+        baseline = -0.2,
+    ),
+    equations = [
+        'tau * dv/dt + v = baseline + sum(exc)'
+        'r = sigmoid(v, slope)'
+    ],
     functions = """
         sigmoid(x, k) = 1.0 / (1.0 + exp(-x*k))
     """

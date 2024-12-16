@@ -10,15 +10,15 @@ import ANNarchy as ann
 ann.setup(method='exponential')
 ```
 
-or specified explicitely for each ODE by specifying a flag:
+or specified explicitely for each ODE by specifying the attribute:
 
 ```python
-equations = """
-    tau * dV/dt  + V =  A : init = 0.0, exponential
-"""
+equations = [
+    ann.variable('tau * dv/dt  + v =  A', init = 0.0, method='exponential'),
+]
 ```
 
-If nothing is specified, the explicit Euler method will be used.
+If nothing is specified, the explicit Euler method is used.
 
 Different numerical methods are available:
 
@@ -131,8 +131,8 @@ The exponential method can only be applied to **first-order linear** ODEs. Any o
 
 ```python
 neuron = nn.Neuron(
-    parameters = "tau = 10. : population",
-    equations = "tau * dr/dt + r = sum(exc) : min=0.0, exponential"
+    parameters = dict(tau = 10.),
+    equations = ann.variable('tau * dr/dt + r = sum(exc)', min=0.0, method='exponential'),
 )
 ```
 
@@ -170,14 +170,14 @@ Event-driven integration is only available for spiking synapses with variables f
 
 ```python
 STDP = ann.Synapse(
-    parameters = """
-        tau_pre = 10.0 : postsynaptic
-        tau_post = 10.0 : postsynaptic
-    """,
-    equations = """
-        tau_pre * dApre/dt = - Apre : event-driven
-        tau_post * dApost/dt = - Apost : event-driven
-    """,
+    parameters = dict(
+        tau_pre = 10.0,
+        tau_post = 10.0,
+    ),
+    equations = [
+        ann.variable('tau_pre * dApre/dt = - Apre', method='event-driven'),
+        ann.variable('tau_post * dApost/dt = - Apost', method='event-driven'),
+    ],
     pre_spike = """
         g_target += w
         Apre += cApre
@@ -240,8 +240,8 @@ This way, we ensure that the interdependent ODEs use the correct value for the o
 
 When assignments (`=`, `+=`\...) are used in an `equations` field, the order of valuation is different:
 
--   Assigments occurring before or after a system of ODEs are updated sequentially.
--   Systems of ODEs are updated concurrently.
+* Assigments occurring before or after a system of ODEs are updated sequentially.
+* Systems of ODEs are updated concurrently.
 
 Let's consider the following dummy equations:
 
@@ -250,9 +250,11 @@ Let's consider the following dummy equations:
 Exc = some_function(sum(exc))
 Inh = another_function(sum(inh))
 I = Exc - Inh
+
 # ODE for the membrane potential, with a recovery variable
-tau*dv/dt = I - v - u
-tau*du/dt = v - u
+tau * dv/dt = I - v - u
+tau * du/dt = v - u
+
 # Firing rate is the positive part of v
 r = pos(v)
 ```
@@ -266,11 +268,13 @@ The generated code is therefore equivalent to:
 Exc = some_function(sum(exc))
 Inh = another_function(sum(inh))
 I = Exc - Inh
+
 # ODE for the membrane potential, with a recovery variable
 new_v = v + dt*(I - v - u)/tau
 new_u = u + dt*(v - u)/tau
 v = new_v
 u = new_u
+
 # Firing rate is the positive part of v
 r = pos(v)
 ```

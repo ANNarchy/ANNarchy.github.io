@@ -14,17 +14,17 @@ proj = ann.Projection(
 )
 ```
 
--   `pre` is either the name of the pre-synaptic population or the corresponding `Population` object.
--   `post` is either the name of the post-synaptic population or the corresponding `Population` object.
--   `target` is the type of the connection.
--   `synapse` is an optional argument requiring a `Synapse` instance.
+* `pre` is either the name of the pre-synaptic population or the corresponding `Population` object.
+* `post` is either the name of the post-synaptic population or the corresponding `Population` object.
+* `target` is the type of the connection.
+* `synapse` is an optional argument requiring a `Synapse` instance.
 
 The post-synaptic neuron type must use `sum(exc)` in the rate-coded case respectively `g_exc` in the spiking case, otherwise the projection will be useless.
 
 If the `synapse` argument is omitted, the default synapse will be used:
 
--   the default rate-coded synapse defines `psp = w * pre.r`,
--   the default spiking synapse defines `g_target += w`.
+* the default rate-coded synapse defines `psp = w * pre.r`,
+* the default spiking synapse defines `g_target += w`.
 
 ## Building the projections
 
@@ -52,14 +52,14 @@ Let's suppose the `BCM` synapse is used to create the Projection `proj` (spiking
 
 ```python
 BCM = ann.Synapse(
-    parameters = """
-        eta = 0.01 : projection
-        tau = 100. : projection
-    """,
-    equations = """
-        tau * dtheta/dt + theta = post.r^2 : postsynaptic
-        dw/dt = eta * post.r * (post.r - theta) * pre.r : min=0.0
-    """
+    parameters = dict(
+        eta = 0.01,
+        tau = 100.,
+    ),
+    equations = [
+        ann.variable('tau * dtheta/dt + theta = post.r^2', 'semiglobal'),
+        ann.variable('dw/dt = eta * post.r * (post.r - theta) * pre.r', min=0.0),
+    ]
 )
 ```
 
@@ -68,15 +68,15 @@ BCM = ann.Synapse(
 The global parameters and variables of a projection (i.e. defined with the `postsynaptic` or `projection` flags) can be accessed directly through attributes. Attributes defined with `projection` have a single value for the whole population:
 
 ```python
->>> proj.tau
-100
+print(proj.tau)
+# 100
 ```
 
 Attributes defined with `postsynaptic` have one value per post-synaptic neuron, so the result is a vector:
 
 ```python
->>> proj.theta
-[3.575, 15.987, ... , 4.620]
+print(proj.theta)
+# [3.575, 15.987, ... , 4.620]
 ```
 
 Post-synaptic variables can be modified by passing:
@@ -87,15 +87,15 @@ Post-synaptic variables can be modified by passing:
 After compilation (and therefore creation of the synapses), you can access how many post-synaptic neurons receive actual synapses with:
 
 ```python
->>> proj.size
-4
+print(proj.size)
+# 4
 ```
 
 The list of ranks of the post-synaptic neurons receiving synapses is obtained with:
 
 ```python
->>> proj.post_ranks
-[0, 1, 2, 3]
+print(proj.post_ranks)
+# [0, 1, 2, 3]
 ```
 
 ### Local attributes
@@ -109,7 +109,6 @@ The first index represents the post-synaptic neurons. It has the same length as 
 The second index addresses the pre-synaptic neurons. If the connection is sparse, it also is unrelated to the ranks of the pre-synaptic neurons in their populations.
 
 :::callout-warning
-
 Modifying these lists of lists is error-prone, so this method should be avoided if possible.
 :::
 
@@ -123,11 +122,11 @@ Each dendrite stores the parameters and variables of the corresponding synapses 
 
 ```python
 for dendrite in proj.dendrites:
-    print dendrite.pre_ranks
-    print dendrite.size
-    print dendrite.tau
-    print dendrite.alpha
-    print dendrite.w
+    print(dendrite.pre_ranks)
+    print(dendrite.size)
+    print(dendrite.tau)
+    print(dendrite.alpha)
+    print(dendrite.w)
 ```
 
 `dendrite.pre_ranks` returns a list of pre-synaptic neuron ranks. `dendrite.size` returns the number of synapses for the considered post-synaptic neuron. Global parameters/variables return a single value (`dendrite.tau`) and local ones return a list (`dendrite.w`).
@@ -176,14 +175,14 @@ If you have defined a function inside a `Synapse` definition:
 
 ```python
 BCM = ann.Synapse(
-    parameters = """
-        eta = 0.01 : projection
-        tau = 100. : projection
-    """,
-    equations = """
-        tau * dtheta/dt + theta = post.r^2 : postsynaptic
-        dw/dt = eta * BCMRule(pre.r, post.r, theta) : min=0.0
-    """,
+    parameters = dict(
+        eta = 0.01,
+        tau = 100.,
+    ),
+    equations = [
+        ann.variable('tau * dtheta/dt + theta = post.r^2', 'semiglobal'),
+        ann.variable('dw/dt = eta * BCMRule(pre.r, post.r, theta)', min=0.0),
+    ]
     functions = """
         BCMRule(pre, post, theta) = post * (post - theta) * pre
     """
@@ -227,7 +226,9 @@ proj = ann.Projection(
     pre = pop1_center,
     post = pop2_center,
     target = "exc",
-    synapse = BCM)
+    synapse = BCM
+)
+
 proj.connect_all_to_all( weights = 1.0 )
 ```
 
@@ -294,22 +295,22 @@ For spiking neurons, it may be desirable that a single synapses activates differ
 
 ```python
 RSNeuron = ann.Neuron(
-    parameters = """
-        a = 0.02
-        b = 0.2
-        c = -65.
-        d = 8.
-        tau_ampa = 5.
-        tau_nmda = 150.
-        vrev = 0.0
-    """ ,
-    equations="""
-        I = g_ampa * (vrev - v) + g_nmda * nmda(v, -80.0, 60.0) * (vrev -v)
-        dv/dt = 0.04 * v^2 + 5.0 * v + 140.0 - u + I : init=-65., midpoint
-        du/dt = a * (b*v - u) : init=-13.
-        tau_ampa * dg_ampa/dt = -g_ampa
-        tau_nmda * dg_nmda/dt = -g_nmda
-    """ ,
+    parameters = dict(
+        a = 0.02,
+        b = 0.2,
+        c = -65.,
+        d = 8.,
+        tau_ampa = 5.,
+        tau_nmda = 150.,
+        vrev = 0.0,
+     ) ,
+    equations = [
+        'I = g_ampa * (vrev - v) + g_nmda * nmda(v, -80.0, 60.0) * (vrev -v)',
+        'dv/dt = 0.04 * v^2 + 5.0 * v + 140.0 - u + I',
+        'du/dt = a * (b*v - u)',
+        'tau_ampa * dg_ampa/dt = -g_ampa',
+        'tau_nmda * dg_nmda/dt = -g_nmda',
+    ],
     spike = """
         v >= 30.
     """,
@@ -332,6 +333,5 @@ proj = Projection(pop1, pop2, ['ampa', 'nmda'], STDP)
 An example is provided in `/notebooks/Ramp.ipynb`.
 
 :::callout-warning
-
 Multiple targets are not available on CUDA yet.
 :::

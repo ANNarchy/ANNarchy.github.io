@@ -17,15 +17,15 @@ If the flag is not set, the following methods will do nothing.
 
 There are two possibilities to dynamically create or delete synapses:
 
--   Externally, using methods at the dendrite level from Python.
--   Internally, by defining conditions for creating/pruning in the synapse description.
+* Externally, using methods at the dendrite level from Python.
+* Internally, by defining conditions for creating/pruning in the synapse description.
 
 ## Dendrite level
 
 Two methods of the `Dendrite` class are available for creating/deleting synapses:
 
--   `create_synapse()`
--   `prune_synapse()`
+* `create_synapse()`
+* `prune_synapse()`
 
 ### Creating synapses
 
@@ -33,15 +33,15 @@ Let's suppose that we want to add regularly new synapses between strongly active
 
 ```python
 LeakyIntegratorNeuron = ann.Neuron(
-    parameters="""   
-        tau = 10.0
-        baseline = -0.2
-        tau_mean = 100000.0
-    """,
-    equations = """
-        tau * dv/dt + v = baseline + sum(exc)
-        r = pos(v)
-        tau_mean * dmean_r/dt =  (r - mean_r) : init = 0.0
+    parameters = dict(  
+        tau = 10.0,
+        baseline = -0.2,
+        tau_mean = 100000.0,
+    ),
+    equations = [
+        'tau * dv/dt + v = baseline + sum(exc)',
+        'r = pos(v)',
+        'tau_mean * dmean_r/dt =  (r - mean_r)',
     """
 )
 ```
@@ -78,12 +78,12 @@ Removing useless synapses (pruning) is also possible. Let's consider a synapse t
 
 ```python
 AgingSynapse = ann.Synapse(
-    equations="""
+    equations = ann.variable("""
         age = if pre.r * post.r > 0.0 : 
                 0
               else :
                 age + 1 : init = 0, int
-    """
+    """, init=0, type=int)
 )
 ```
 
@@ -104,8 +104,8 @@ for post in proj.post_ranks:
 
 This form of structural plasticity is rather slow because:
 
--   The `for` loops are in Python, not C++. Implementing this structural plasticity in Cython should already help.
--   The memory allocated for the synapses of a projection may have to be displaced at another location. This can lead to massive transfer of data, slowing the simulation down.
+* The `for` loops are in Python, not C++. Implementing this structural plasticity in Cython should already help.
+* The memory allocated for the synapses of a projection may have to be displaced at another location. This can lead to massive transfer of data, slowing the simulation down.
 
 It is of course the user's responsability to balance synapse creation/destruction, otherwise projections could become either empty or fully connected on the long-term.
 
@@ -116,27 +116,25 @@ Conditions for creating or deleting synapses can also be specified in the synaps
 
 ### Creating synapses
 
-The creation of a synapse must be described by a boolean expression:
+The creation of a synapse can be described using a boolean expression inside the `ann.creating()` object:
 
 ```python
 CreatingSynapse = ann.Synapse(
-    parameters = " ... ",
-    equations = " ... ",
-    creating = "pre.mean_r * post.mean_r > 0.7 : proba = 0.5, w = 1.0"
+    creating = ann.creating("pre.mean_r * post.mean_r > 0.7", proba = 0.5, w = 1.0),
 )
 ```
 
-The condition can make use of any pre- or post-synaptic variable, but NOT synaptic variables, as they obviously do not exist yet. Global parameters (defined with the `postsynaptic` or `projection` flags) can nevertheless be used.
+The condition can make use of any pre- or post-synaptic variable, but NOT synaptic variables, as they obviously do not exist yet. Global parameters of the projection can nevertheless be used.
 
 Several flags can be passed to the expression:
 
--   `proba` specifies the probability according to which a synapse will be created, if the condition is met. The default is 1.0 (i.e. a synapse will be created whenever the condition is fulfilled).
--   `w` specifies the value for the weight which will be created (default: 0.0).
--   `d` specifies the delay (default: the same as all other synapses if the delay is constant in the projection, `dt` otherwise).
+* *`proba` specifies the probability according to which a synapse will be created, if the condition is met. The default is 1.0 (i.e. a synapse will be created whenever the condition is fulfilled).
+* `w` specifies the value for the weight which will be created (default: 0.0).
+* `d` specifies the delay (default: the same as all other synapses if the delay is constant in the projection, `dt` otherwise).
 
 Note that the new value for the delay can not exceed the maximal delay in the projection, nor be different from the others if they were all equal. Other synaptic variables will take the default value after creation.
 
-Synapse creation is not automatically enabled at the start of the simulation: the Projectiom method `start_creating()` must be called:
+Synapse creation is not automatically enabled at the start of the simulation: the Projection method `start_creating()` must be called:
 
 ```python
 proj.start_creating(period=100.0)
@@ -148,21 +146,21 @@ Similarly, the `stop_creating()` method can be called to stop the creation condi
 
 ### Deleting synapses
 
-Synaptic pruning also rely on a boolean expression:
+Synaptic pruning also rely on a boolean expression and the `ann.pruning()` object:
 
 ```python
 PruningSynapse = ann.Synapse(
-    parameters = " T = 100000 : int, projection ",
-    equations = """
+    parameters = dict(T = ann.parameter(10000, 'global', int),
+    equations = ann.variable("""
         age = if pre.r * post.r > 0.0 : 
                 0
               else :
-                age + 1 : init = 0, int""",
-    pruning = "age > T : proba = 0.5"
+                age + 1 : init = 0, int
+    """, init=0, type=int)
+    pruning = ann.pruning("age > T", proba = 0.5),
 )
 ```
 
--   A synapse type can combine `creating` and `pruning` arguments.
--   The `pruning` argument can rely on synaptic variables (here `age`), as the synapse already exist.
--   Only the `proba` flag can be passed to specify the probability at which the synapse will be deleted if the condition is met.
--   Pruning has to be started/stopped with the `start_pruning()` and `stop_pruning()` methods. `start_pruning()` accepts a `period` argument.
+A synapse type can combine `creating` and `pruning` arguments. The `pruning` argument can rely on synaptic variables (here `age`), as the synapse already exists. The `proba` flag can be passed to specify the probability at which the synapse will be deleted if the condition is met.
+
+Pruning has to be started/stopped with the `start_pruning()` and `stop_pruning()` methods. `start_pruning()` accepts a `period` argument.

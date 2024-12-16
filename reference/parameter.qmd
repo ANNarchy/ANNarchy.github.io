@@ -1,0 +1,32 @@
+# parameter { #ANNarchy.core.Parameters.parameter }
+
+```python
+core.Parameters.parameter(self, value, locality='global', type='float')
+```
+
+Dataclass to represent a parameter in a Neuron or Synapse definition.
+
+```python
+neuron = ann.Neuron(
+    parameters = dict(
+        # Global parameter
+        tau = ann.parameter(value=10.0, locality='global')
+
+        # Local parameter
+        baseline = ann.parameter(value=ann.Uniform(-1., 1.), locality='local')
+
+        # Boolean global parameter
+        activated = ann.parameter(value=True, type=bool)
+    )
+)
+```
+
+By default, parameters are global and use the float type, so tau could be simply defined as `ann.parameter(10.0)`, or even just `10.0`.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+| Name     | Type                                       | Description                                                                                                                                                                                                  | Default    |
+|----------|--------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| value    | float \| int \| bool \| RandomDistribution | Initial value of the parameter. It can be defined as a RandomDistribution, which will be sampled with the correct shape when the population/projection is created, or a float/int/bool, depending on `type`. | _required_ |
+| locality | str                                        | Locality of the parameter. Must be in ['global', 'semiglobal', 'local'].                                                                                                                                     | `'global'` |
+| type     | str                                        | Data type of the parameter. Must be in [float, int, bool] (or ['float', 'int', 'bool']).                                                                                                                     | `'float'`  |

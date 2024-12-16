@@ -6,7 +6,7 @@ The methods to set inputs to a network depends on whether it is rate-coded or sp
 
 ### Standard method
 
-The simplest way to define an input population is to use a dummy neuron which simply holds a firing rate `r` as parameter, and connect it to another population:
+The simplest way to define an input population is to use a dummy neuron which simply holds a firing rate `r` as a local parameter, and connect it to another population:
 
 ```python
 import ANNarchy as ann
@@ -27,15 +27,39 @@ input_pop.r = 1.0
 ann.simulate(100.)
 ```
 
-The only thing you need to do is to manipulate the numpy array `r` holded by `input_pop`, and it will influence the "real" population `pop`
+The only thing you need to do is to manipulate the numpy array `r` hold by `input_pop`, and it will influence the "real" population `pop`
 
-It is **important** to define `r` as a **parameter** of the neuron, not
-a variable in `equations`. A variable sees its value updated at each
-step, so the value you set would be immediately forgotten.
+It is **important** to define `r` as a **local parameter** of the neuron, not a variable in `equations`. A variable sees its value updated at each step, so the value you set would be immediately overwritten. Do not use a dictionary instead of the string, as the parameter would become global to the populations. This would be safer:
 
-:::callout-hint
-Using this method necessitates to interact with the input population in the Python script everytime you want to change the inputs. If the inputs change every time step, your simulation will alternate between Python and C++ executions and potentially become very slow.
-:::
+```python
+input_pop = ann.Population(10, Neuron(parameters=ann.parameter("r=0.0", locality='local'))
+```
+
+### Input Array
+
+A totally equivalent way is to use `InputArray` instead of the previous input population. The only difference is that the firing rate `r` of the input array can also be recorded, contrary to the previous case where `r` was a non-recordable parameter.
+
+```python
+import ANNarchy as ann
+
+input_pop = ann.InputArray(10)
+
+pop = ann.Population (10, LeakyIntegrator)
+
+proj = ann.Projection(input_pop, pop, 'exc')
+proj.connect_one_to_one(1.0)
+
+m = ann.Monitor(input_pop, 'r')
+n = ann.Monitor(pop, 'r')
+
+ann.compile()
+
+ann.simulate(100.)
+
+input_pop.r = 1.0
+
+ann.simulate(100.)
+```
 
 ### Timed Arrays
 
@@ -84,8 +108,10 @@ inp = ann.TimedArray(rates=inputs, schedule=10.)
 Here each input will be kept constant for 10 ms, so the 10 inputs will need 100 ms of simulation to be presented. If you do not want a regular schedule, you can also provide a list of times where inputs should be set:
 
 ```python
-inp = ann.TimedArray(rates=inputs, 
-    schedule=[0., 10., 30., 60., 100., 150., 210., 280., 360., 450.])
+inp = ann.TimedArray(
+    rates=inputs, 
+    schedule=[0., 10., 30., 60., 100., 150., 210., 280., 360., 450.]
+)
 ```
 
 The length of the `schedule` list should be equal or smaller to the number of inputs defined in `rates`. If this length is smaller (e.g. 7), only the 7 first inputs will be used as inputs. If the length is bigger, it will lead to an error.
@@ -209,7 +235,7 @@ import numpy as np
 import ANNarchy as ann
 ann.setup(dt=0.1)
 
-pop = ann.Population(100, Izhikevich)
+pop = ann.Population(100, ann.Izhikevich)
 
 pop.i_offset= np.linspace(0.0, 30.0, 100)
 
@@ -239,9 +265,9 @@ rate-coded population of the same size as the spiking population and
 create a `CurrentInjection` projection between them:
 
 ```python
-inp = ann.Population(100, Neuron(equations="r = sin(t)"))
+inp = ann.Population(100, ann.Neuron(equations="r = sin(t)"))
 
-pop = ann.Population(100, Izhikevich)
+pop = ann.Population(100, ann.Izhikevich)
 
 proj = ann.CurrentInjection(inp, pop, 'exc')
 proj.connect_current()
@@ -359,13 +385,13 @@ Another possibility is to define a rule for the evolution of the mean firing rat
 
 ```python
 pop = PoissonPopulation(
-        geometry=100,
-        parameters = """
-            amp = 100.0
-            frequency = 50.0
-        """,
-        rates="amp * (1.0 + sin(2*pi*frequency*t/1000.0) )/2.0"
-    )
+    geometry=100,
+    parameters = dict(
+        amp = 100.0,
+        frequency = 50.0
+    ),
+    rates="amp * (1.0 + sin(2*pi * frequency * t/1000.0) )/2.0"
+)
 ```
 
 The rule can only depend on the time `t`: the corresponding mean firing
@@ -404,7 +430,9 @@ The implementation is based on the one provided by [Brian](http://briansimulator
 
 To generate correlated spike trains, the population rate of the group of Poisson-like spiking neurons varies following a stochastic differential equation:
 
-$$\dfrac{dx}{dt} = \dfrac{\mu - x}{\tau} + \sigma \, \dfrac{\xi }{\sqrt{\tau}}$$
+$$
+    \dfrac{dx}{dt} = \dfrac{\mu - x}{\tau} + \sigma \, \dfrac{\xi }{\sqrt{\tau}}
+$$
 
 where $\xi$ is a random variable. Basically, $x$ will randomly vary around $\mu§ over time, with an amplitude determined by $\sigma$ and a speed determined by $\tau$.
 

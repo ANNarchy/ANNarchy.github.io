@@ -22,15 +22,15 @@ This neural model can be defined in ANNarchy by:
 
 ```python
 LIF = ann.Neuron(
-    parameters="""
-        tau = 10.0  : population
-        Er = -60.0  : population
-        Ee = 0.0    : population
-        T = -45.0   : population
-    """,
-    equations="""
-        tau * dv/dt = (Er - v) + g_exc *(Ee- v) : init = 0.0
-    """,
+    parameters = dict(
+        tau = 10.0,
+        Er = -60.0,
+        Ee = 0.0,
+        T = -45.0,
+    ),
+    equations = [
+        ann.variable('tau * dv/dt = (Er - v) + g_exc *(Ee- v)', init = 0.0),
+    ],
     spike = "v > T",
     reset = "v = Er",
     refractory = 5.0
@@ -39,9 +39,9 @@ LIF = ann.Neuron(
 
 As for rate-coded neurons, the parameters are defined in the `parameters` description, here globally for the population. `equations` contains the description of the ODE followed by the membrane potential. The additional information to provide is:
 
--   `spike` : a boolean condition on a single variable (typically the membrane potential) deciding when a spike is emitted.
--   `reset` : the modifications to the neuron's variables after a spike is emitted (typically, clamping the membrane potential to its reset potential).
--   `refractory`: optionally a refractory period in ms.
+* `spike` : a boolean condition on a single variable (typically the membrane potential) deciding when a spike is emitted.
+* `reset` : the modifications to the neuron's variables after a spike is emitted (typically, clamping the membrane potential to its reset potential).
+* `refractory`: optionally a refractory period in ms.
 
 ### Spike condition
 
@@ -50,30 +50,39 @@ The spike condition is a single constraint definition. You may use the different
 The use of assignment statements or ODEs will lead to an error. Conditional statements can be used. Example:
 
 ```python
-parameters="""
-    ...
-    T = -45.0 
-""",
-equations="""
-    prev_v = v
-    noise = Uniform (-5.0, 5.0)
-    tau*dv/dt = E - v + g_exc
-""",
-spike = """
-    (v > T + noise) and (prev_v < T + noise)
-"""
+neuron = ann.Neuron(
+    parameters = dict(
+        ...
+        T = -45.0 
+    ),
+    equations = [
+        'prev_v = v',
+        'noise = Uniform (-5.0, 5.0)',
+        'tau * dv/dt = E - v + g_exc',
+    ],
+    spike = " (v > T + noise) and (prev_v < T + noise) "
+)
 ```
 
 ### Reset
 
-Here you define the variables which should be set to certain values after a spike occured. Any assignment statements is allowed (`=`, `+=`, etc), but the use of ODEs is not possible, as the reset is performed only once at the end of the time step.
+In the `reset` attribute, you define the variables which should be set to certain values after a spike occured. Any assignment statements is allowed (`=`, `+=`, etc), but the use of ODEs is not possible, as the reset is performed only once at the end of the time step.
 
 Example:
 
 ```python
+reset = [
+    'v = Er',
+    'u += 0.1',
+]
+```
+
+A multiline string is also possible (and perhaps easier, as no other flag is allowed):
+
+```python
 reset = """
-    v = Er 
-    u += 0.1 
+    v = Er
+    u += 0.1
 """
 ```
 
@@ -87,33 +96,27 @@ tau * dv/dt + v = g_exc
 
 The dynamics of the conductance can be specified after its usage in the membrane potential equation.
 
--   The default behaviour for conductances is an **instantaneous reset** (or infinitely fast exponential decay). In practice, this means that all incoming spikes are summed up (weighted by the synaptic efficiency) at the beginning of a simulation step, and the resulting conductance is reset to 0.0 at the end of the step. This default behaviour is equivalent to :
+The default behaviour for conductances is an **instantaneous reset** (or infinitely fast exponential decay). In practice, this means that all incoming spikes are summed up (weighted by the synaptic efficiency) at the beginning of a simulation step, and the resulting conductance is reset to 0.0 at the end of the step. This default behaviour is equivalent to :
 
 ```python
 LIF = ann.Neuron(
-    parameters=""" ... """,
-    equations="""
-        tau * dv/dt = (Er - v) + g_exc *(Ee- v) : init = 0.0
-        g_exc = 0.0
-    """,
-    spike = " ... ",
-    reset = " ... "
+    equations = [
+        ann.variable('tau * dv/dt = (Er - v) + g_exc * (Ee- v)', init = 0.0),
+        ann.variable('g_exc = 0.0'),
+    ],
 )
 ```
 
 Incoming spikes increase `g_exc` and can provoke a post-synaptic spike at the next step, but leave no trace beyond that point.
 
--   Most models however use **exponentially decaying synapses**, where the conductance decays with a short time constant after a spike is received. This behavior should be explicitely specified in the neuron's equations:
+Most models however use **exponentially decaying synapses**, where the conductance decays with a short time constant after a spike is received. This behavior should be explicitely specified in the neuron's equations:
 
 ```python
 LIF = ann.Neuron(
-    parameters=""" ... """,
-    equations="""
-        tau * dv/dt = (Er - v) + g_exc *(Ee- v) : init = 0.0
-        tau_exc * dg_exc/dt = - g_exc
-    """,
-    spike = " ... ",
-    reset = " ... "
+    equations = [
+        ann.variable('tau * dv/dt = (Er - v) + g_exc * (Ee- v)', init = 0.0),
+        ann.variable('tau_exc * dg_exc/dt = - g_exc'),
+    ],
 )
 ```
 
@@ -125,13 +128,6 @@ The refractory period in milliseconds is specified by the `refractory` parameter
 
 ```python
 LIF = ann.Neuron (
-    parameters = """ ... """,
-    equations = """ ... """,
-    spike = """ ... """,
-    reset = """ 
-        v = c
-        u += d
-    """,
     refractory = 5.0
 )
 ```
@@ -143,16 +139,6 @@ If `dt = 0.1`, this means that the `equations` will not be evaluated for 50 cons
 `refractory` becomes an attribute of a spiking `Population` object, so it can be set specifically for a population even when omitted in the neuron definition:
 
 ```python
-LIF = ann.Neuron (
-    parameters = " ... ",
-    equations = " ... ",
-    spike = " ... ",
-    reset = """ 
-        v = c
-        u += d
-    """
-)
-
 pop = ann.Population(geometry = 1000, neuron = LIF)
 pop.refractory = Uniform(1.0, 10.0)
 ```
@@ -169,11 +155,11 @@ This can be used to update the instantaneous firing rate of a neuron, by inverti
 
 ```python
 neuron = ann.Neuron(
-    parameters = "tau = 20.0; tauf = 1000.",
-    equations = """
-        tau * dv/dt + v = ...
-        tauf * df/dt = -f
-    """,
+    parameters = dict(tau = 20.0, tauf = 1000.),
+    equations = [
+        "tau * dv/dt + v = g_exc",
+        "tauf * df/dt = -f ",
+    ],
     spike = "v > 1.0",
     reset = """
         v = 0.0

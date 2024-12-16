@@ -103,12 +103,12 @@ The report is generated based entirely on the Python script. For it to make sens
 
     ```python
     LIF = ann.Neuron(
-        parameters = """
+        parameters = dict(
             tau = 10.0
-        """,
-        equations = """
-            tau * dv/dt + v = g_exc
-        """,
+        ),
+        equations = [
+            "tau * dv/dt + v = g_exc",
+        ],
         spike = "v > 30.0",
         reset = "v = 0.0"
         name = "LIF",
@@ -116,36 +116,24 @@ The report is generated based entirely on the Python script. For it to make sens
     )
 
     Oja = ann.Synapse(
-        parameters = """
-            eta = 10.0 
-            tau = 10.0 : postsynaptic
-        """,
-        equations = """
-            tau * dalpha/dt + alpha = pos(post.r - 1.0) : postsynaptic
-            eta * dw/dt = pre.r * post.r - alpha * post.r^2 * w : min=0.0
-        """, 
+        parameters = dict(
+            eta = 10.0,
+            tau = 10.0,
+        ),
+        equations = [
+            ann.variable('tau * dalpha/dt + alpha = pos(post.r - 1.0)', locality='semiglobal'),
+            ann.variable('eta * dw/dt = pre.r * post.r - alpha * post.r^2 * w', min=0.0),
+        ], 
         name="Oja learning rule",
         description= """Oja learning rule ensuring regularization of the synaptic weights."""
     ) 
     ```
 
-3.  Choose simple parameter and variable names for the description of
-    equations. If a parameter/variable name uses only one character, it
-    will be treated as a mathematical variable in the equations (ex: `v`
-    becomes $v$), otherwise the plain text representation will be used
-    (ugly). If the name corresponds to a greek letter (`alpha`, `tau`,
-    etc.), it will be represented by the corresponding greek letter
-    ($\alpha$, $\tau$). If the name is composed of two terms separated
-    by an underscore (`tau_exc`), a subscript will be used
-    ($\tau_\text{exc}$). If more than one underscore is used, the text
-    representation is used instead (LaTeX does not allow multiple
-    subscripts).
+3.  Choose simple parameter and variable names for the description of equations. If a parameter/variable name uses only one character, it will be treated as a mathematical variable in the equations (ex: `v` becomes $v$), otherwise the plain text representation will be used (ugly). If the name corresponds to a greek letter (`alpha`, `tau`, etc.), it will be represented by the corresponding greek letter ($\alpha$, $\tau$). If the name is composed of two terms separated by an underscore (`tau_exc`), a subscript will be used ($\tau_\text{exc}$). If more than one underscore is used, the text representation is used instead (LaTeX does not allow multiple subscripts).
 
 ## Example
 
-Let's take the homeostatic STDP ramp example provided in
-`examples/homeostatic_stdp/Ramp.py` and add names/descriptions to the
-objects:
+Let's take the homeostatic STDP ramp example provided in `examples/homeostatic_stdp/Ramp.py` and add names/descriptions to the objects:
 
 ```python
 import numpy as np
@@ -153,25 +141,23 @@ import ANNarchy as ann
 
 # Izhikevich RS neuron
 RSNeuron = ann.Neuron(
-    parameters = """
-        a = 0.02 : population
-        b = 0.2 : population
-        c = -65. : population
-        d = 8. : population
-        tau_ampa = 5. : population
-        tau_nmda = 150. : population
-        vrev = 0.0 : population
-    """ ,
-    equations="""
+    parameters = dict(
+        a = 0.02,
+        b = 0.2,
+        c = -65.,
+        d = 8.,
+        tau_ampa = 5.,
+        tau_nmda = 150.,
+        vrev = 0.0,
+    ),
+    equations = """
         # Inputs
         I = g_ampa * (vrev - v) + g_nmda * nmda(v, -80.0, 60.0) * (vrev -v)  
+
         # Midpoint scheme      
         dv/dt = (0.04 * v + 5.0) * v + 140.0 - u + I : init=-65., midpoint
         du/dt = a * (b*v - u) : init=-13., midpoint
-        # Izhikevich scheme
-        # new_v = v + 0.5*(0.04 * v^2 + 5.0 * v + 140.0 - u + I) : init=-65.
-        # v = new_v + 0.5*(0.04 * new_v^2 + 5.0 * new_v + 140.0 - u + I) : init=-65.
-        # u += a * (b*v - u) : init=-13.
+
         # Conductances
         tau_ampa * dg_ampa/dt = -g_ampa : exponential
         tau_nmda * dg_nmda/dt = -g_nmda : exponential
@@ -203,17 +189,18 @@ pop2.compute_firing_rate(5000.)
 
 # Nearest Neighbour STDP
 nearest_neighbour_stdp = ann.Synapse(
-    parameters="""
-        tau_plus = 20. : projection
-        tau_minus = 60. : projection
-        A_plus = 0.0002 : projection
-        A_minus = 0.000066 : projection
-        w_max = 0.03 : projection
-    """,
+    parameters = dict(
+        tau_plus = 20.,
+        tau_minus = 60.,
+        A_plus = 0.0002,
+        A_minus = 0.000066,
+        w_max = 0.03,
+    ),
     equations = """
         # Traces
         tau_plus  * dltp/dt = -ltp : exponential
         tau_minus * dltd/dt = -ltd : exponential
+
         # Nearest-neighbour
         w += if t_post >= t_pre: ltp else: - ltd : min=0.0, max=w_max
     """,
@@ -230,29 +217,31 @@ nearest_neighbour_stdp = ann.Synapse(
 
 # STDP with homeostatic regulation
 homeo_stdp = ann.Synapse(
-    parameters="""
+    parameters = dict(
         # STDP
-        tau_plus = 20. : projection
-        tau_minus = 60. : projection
-        A_plus = 0.0002 : projection
-        A_minus = 0.000066 : projection
-        w_min = 0.0 : projection
-        w_max = 0.03 : projection
+        tau_plus = 20.,
+        tau_minus = 60.,
+        A_plus = 0.0002,
+        A_minus = 0.000066,
+        w_min = 0.0,
+        w_max = 0.03,
 
         # Homeostatic regulation
-        alpha = 0.1 : projection
-        beta = 1.0 : projection
-        gamma = 50. : projection
-        Rtarget = 35. : projection
-        T = 5000. : projection
-    """,
+        alpha = 0.1,
+        beta = 1.0,
+        gamma = 50.,
+        Rtarget = 35.,
+        T = 5000.,
+    ),
     equations = """
         # Traces
         tau_plus  * dltp/dt = -ltp : exponential
         tau_minus * dltd/dt = -ltd : exponential
+
         # Homeostatic values
         R = post.r : postsynaptic
         K = R/(T*(1.+fabs(1. - R/Rtarget) * gamma)) : postsynaptic
+        
         # Nearest-neighbour
         stdp = if t_post >= t_pre: ltp else: - ltd 
         w += (alpha * w * (1- R/Rtarget) + beta * stdp ) * K : min=w_min, max=w_max
