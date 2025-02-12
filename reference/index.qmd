@@ -2,55 +2,21 @@
 
 ## **Core components**
 
-Basic objects that can be used to create a network.
+Basic objects composing a network. The `Network` class is the main access point for all functionalities.
 
 | | |
 | --- | --- |
-| [parameter](parameter.qmd#ANNarchy.core.Parameters.parameter) | Dataclass to represent a parameter in a Neuron or Synapse definition. |
-| [variable](variable.qmd#ANNarchy.core.Parameters.variable) | Dataclass to represent a variable in a Neuron or Synapse definition. |
-| [Population](Population.qmd#ANNarchy.core.Population.Population) | Structure for a population of homogeneous neurons. |
-| [Projection](Projection.qmd#ANNarchy.core.Projection.Projection) | Structure holding all synapses of the same type between two populations. |
+| [Network](Network.qmd#ANNarchy.core.Network.Network) | A network is a collection of populations, projections and monitors that runs the simulation. |
+| [Parameter](Parameter.qmd#ANNarchy.core.Parameters.Parameter) | Dataclass to represent a parameter in a Neuron or Synapse definition. |
+| [Variable](Variable.qmd#ANNarchy.core.Parameters.Variable) | Dataclass to represent a variable in a Neuron or Synapse definition. |
 | [Neuron](Neuron.qmd#ANNarchy.core.Neuron.Neuron) | Base class to define a neuron. |
 | [Synapse](Synapse.qmd#ANNarchy.core.Synapse.Synapse) | Base class to define a synapse. |
+| [Population](Population.qmd#ANNarchy.core.Population.Population) | Structure for a population of homogeneous neurons. |
+| [Projection](Projection.qmd#ANNarchy.core.Projection.Projection) | Structure holding all synapses of the same type between two populations. |
 | [Monitor](Monitor.qmd#ANNarchy.core.Monitor.Monitor) | Monitoring class allowing to record easily parameters or variables from Population, PopulationView, Dendrite or Projection objects. |
 | [PopulationView](PopulationView.qmd#ANNarchy.core.PopulationView.PopulationView) | Container representing a subset of neurons of a Population. |
 | [Dendrite](Dendrite.qmd#ANNarchy.core.Dendrite.Dendrite) | A `Dendrite` is a sub-group of a `Projection`, gathering the synapses between the pre-synaptic population and a single post-synaptic neuron. |
-| [Network](Network.qmd#ANNarchy.core.Network.Network) | A network gathers already defined populations, projections and monitors in order to run them independently. |
-
-## **Configuration**
-
-Configuration and compilation of the network.
-
-| | |
-| --- | --- |
-| [setup](setup.qmd#ANNarchy.intern.ConfigManagement.setup) | The setup function is used to configure ANNarchy simulation environment. It takes various optional arguments: |
-| [compile](compile.qmd#ANNarchy.generator.compile) | This method uses the network architecture to generate optimized C++ code and compile a shared library that will perform the simulation. |
-| [clear](clear.qmd#ANNarchy.core.Global.clear) | Clears all variables (erasing already defined populations, projections, monitors and constants), as if you had just imported ANNarchy. |
-| [reset](reset.qmd#ANNarchy.core.Global.reset) | Reinitialises the network to its state before the call to compile. The network time will be set to 0ms. |
-| [set_seed](set_seed.qmd#ANNarchy.core.Global.set_seed) | Sets the seed of the random number generators, both in ANNarchy.RandomDistributions and in the C++ library when it is created. |
-| [get_population](get_population.qmd#ANNarchy.core.Global.get_population) | Returns the population with the given name. |
-| [get_projection](get_projection.qmd#ANNarchy.core.Global.get_projection) | Returns the projection with the given name. |
-| [populations](populations.qmd#ANNarchy.core.Global.populations) | Returns a list of all declared populations. |
-| [projections](projections.qmd#ANNarchy.core.Global.projections) | Returns a list of all declared populations. By default, the method returns all connections which were defined. |
-| [monitors](monitors.qmd#ANNarchy.core.Global.monitors) | Returns a list of declared monitors. By default, all monitors are returned. |
-
-## **Simulation**
-
-Methods to control the simulation.
-
-| | |
-| --- | --- |
-| [simulate](simulate.qmd#ANNarchy.core.Simulate.simulate) | Simulates the network for the given duration in milliseconds.  |
-| [simulate_until](simulate_until.qmd#ANNarchy.core.Simulate.simulate_until) | Runs the network for the maximal duration in milliseconds. If the ``stop_condition`` defined in the population becomes true during the simulation, it is stopped. |
-| [step](step.qmd#ANNarchy.core.Simulate.step) | Performs a single simulation step (duration = `dt`). |
-| [parallel_run](parallel_run.qmd#ANNarchy.core.Network.parallel_run) | Allows to run multiple networks in parallel using multiprocessing. |
-| [enable_learning](enable_learning.qmd#ANNarchy.core.Global.enable_learning) | Enables learning for all projections. Optionally *period* and *offset* can be changed for all projections. |
-| [disable_learning](disable_learning.qmd#ANNarchy.core.Global.disable_learning) | Disables learning for all projections. |
-| [get_time](get_time.qmd#ANNarchy.core.Global.get_time) | Returns the current time in ms. |
-| [set_time](set_time.qmd#ANNarchy.core.Global.set_time) | Sets the current time in ms. |
-| [get_current_step](get_current_step.qmd#ANNarchy.core.Global.get_current_step) | Returns the current simulation step. |
-| [set_current_step](set_current_step.qmd#ANNarchy.core.Global.set_current_step) | Sets the current simulation step (integer). |
-| [dt](dt.qmd#ANNarchy.core.Global.dt) | Returns the simulation step size `dt` used in the simulation. |
+| [Constant](Constant.qmd#ANNarchy.core.Constant.Constant) | Constant parameter that can be used by all neurons and synapses. |
 
 ## **Neuron models**
 
@@ -89,32 +55,13 @@ Input populations that can be used to stimulate the networks.
 | [InputArray](InputArray.qmd#ANNarchy.inputs.InputArray.InputArray) | Population holding static inputs for a rate-coded network. |
 | [TimedArray](TimedArray.qmd#ANNarchy.inputs.TimedArray.TimedArray) | Data structure holding sequential inputs for a rate-coded network. |
 | [PoissonPopulation](PoissonPopulation.qmd#ANNarchy.inputs.PoissonPopulation.PoissonPopulation) | Population of spiking neurons following a Poisson distribution. |
-| [TimedPoissonPopulation](TimedPoissonPopulation.qmd#ANNarchy.inputs.TimedArray.TimedPoissonPopulation) | Poisson population whose rate vary with the provided schedule. |
+| [TimedPoissonPopulation](TimedPoissonPopulation.qmd#ANNarchy.inputs.TimedPoissonPopulation.TimedPoissonPopulation) | Poisson population whose rate vary with the provided schedule. |
 | [SpikeSourceArray](SpikeSourceArray.qmd#ANNarchy.inputs.SpikeSourceArray.SpikeSourceArray) | Spike source generating spikes at the times given in the spike_times array. |
 | [HomogeneousCorrelatedSpikeTrains](HomogeneousCorrelatedSpikeTrains.qmd#ANNarchy.inputs.SpikeTrains.HomogeneousCorrelatedSpikeTrains) | Population of spiking neurons following a homogeneous distribution with correlated spike trains. |
 | [CurrentInjection](CurrentInjection.qmd#ANNarchy.inputs.CurrentInjection.CurrentInjection) | Inject current from a rate-coded population into a spiking population. |
 | [DecodingProjection](DecodingProjection.qmd#ANNarchy.inputs.DecodingProjection.DecodingProjection) | Decoding projection to transform spike trains into firing rates. |
 | [ImagePopulation](ImagePopulation.qmd#ANNarchy.extensions.image.ImagePopulation.ImagePopulation) | Rate-coded Population allowing to represent images (png, jpg...) as the firing rate of a population (each neuron represents one pixel). |
 | [VideoPopulation](VideoPopulation.qmd#ANNarchy.extensions.image.ImagePopulation.VideoPopulation) | Rate-coded Population allowing to feed a webcam input into the firing rate of a population (each neuron represents one pixel). |
-
-## **IO**
-
-Saving and loading methods for the network.
-
-| | |
-| --- | --- |
-| [save](save.qmd#ANNarchy.core.IO.save) | Save the current network state (parameters and variables) to a file. |
-| [load](load.qmd#ANNarchy.core.IO.load) | Loads a saved state of the network. |
-| [save_parameters](save_parameters.qmd#ANNarchy.core.IO.save_parameters) | Saves the global parameters of a network (flag ``population`` for neurons, ``projection`` for synapses) to a JSON file. |
-| [load_parameters](load_parameters.qmd#ANNarchy.core.IO.load_parameters) | Loads the global parameters of a network (flag ``population`` for neurons, ``projection`` for synapses) from a JSON file. |
-
-## **Utilities**
-
-Various additional utilities.
-
-| | |
-| --- | --- |
-| [report](report.qmd#ANNarchy.parser.report.Report.report) | Generates a report describing the network. |
 
 ## **Random Distributions**
 
@@ -130,29 +77,14 @@ Random distributions that can be used to generate numpy arrays.
 | [Gamma](Gamma.qmd#ANNarchy.core.Random.Gamma) | Gamma distribution. |
 | [Binomial](Binomial.qmd#ANNarchy.core.Random.Binomial) | Binomial distribution. |
 
-## **Functions and Constants**
+## **Functions**
 
-Functions and constants declared at the global level.
+Functions declared at the global level.
 
 | | |
 | --- | --- |
 | [add_function](add_function.qmd#ANNarchy.core.Global.add_function) | Defines a global function which can be used by all neurons and synapses. |
 | [functions](functions.qmd#ANNarchy.core.Global.functions) | Allows to access a global function declared with ``add_function`` and use it from Python using arrays **after compilation**. |
-| [Constant](Constant.qmd#ANNarchy.core.Constant.Constant) | Constant parameter that can be used by all neurons and synapses. |
-| [get_constant](get_constant.qmd#ANNarchy.core.Constant.get_constant) | Returns the Constant object with the given name, None otherwise. |
-
-## **Plotting**
-
-Plotting methods from `Monitor`that can be used without the `Monitor` object, i.e. offline.
-
-| | |
-| --- | --- |
-| [raster_plot](raster_plot.qmd#ANNarchy.core.Monitor.raster_plot) | Returns two vectors representing for each recorded spike 1) the spike times and 2) the ranks of the neurons. |
-| [histogram](histogram.qmd#ANNarchy.core.Monitor.histogram) | Returns a histogram for the recorded spikes in the population. |
-| [inter_spike_interval](inter_spike_interval.qmd#ANNarchy.core.Monitor.inter_spike_interval) | Computes the inter-spike interval (ISI) for the recorded spike events of a population. |
-| [coefficient_of_variation](coefficient_of_variation.qmd#ANNarchy.core.Monitor.coefficient_of_variation) | Computes the coefficient of variation of the inter-spike intervals for the recorded spike events of a population. |
-| [population_rate](population_rate.qmd#ANNarchy.core.Monitor.population_rate) | Takes the recorded spikes of a population and returns a smoothed firing rate for the population of recorded neurons. |
-| [smoothed_rate](smoothed_rate.qmd#ANNarchy.core.Monitor.smoothed_rate) | Computes the smoothed firing rate of the recorded spiking neurons. |
 
 ## **Callbacks**
 
@@ -175,6 +107,14 @@ simulate(10000.)
 | [enable_callbacks](enable_callbacks.qmd#ANNarchy.core.Simulate.enable_callbacks) | Enables all declared callbacks for the network. |
 | [clear_all_callbacks](clear_all_callbacks.qmd#ANNarchy.core.Simulate.clear_all_callbacks) | Clears the list of declared callbacks for the network. |
 
+## **Utilities**
+
+Various additional utilities.
+
+| | |
+| --- | --- |
+| [report](report.qmd#ANNarchy.parser.report.Report.report) | Generates a report describing the network. |
+
 ## **Convolution**
 
 Extension for convolution and pooling projections. The extension has to be explicitly imported:
@@ -189,7 +129,7 @@ from ANNarchy.extensions.convolution import *
 | --- | --- |
 | [Convolution](Convolution.qmd#ANNarchy.extensions.convolution.Convolve.Convolution) | Performs a convolution of a weight kernel on the pre-synaptic population. |
 | [Pooling](Pooling.qmd#ANNarchy.extensions.convolution.Pooling.Pooling) | Performs a pooling operation (e.g. max.pooling) on the pre-synaptic population. |
-| [Transpose](Transpose.qmd#ANNarchy.extensions.convolution.Transpose.Transpose) | Transposed projection reusing the weights of an already-defined rate-coded projection.  |
+| [Transpose](Transpose.qmd#ANNarchy.extensions.convolution.Transpose.Transpose) | Transposed projection reusing the weights of an already-defined projection.  |
 | [Copy](Copy.qmd#ANNarchy.extensions.convolution.Copy.Copy) | Creates a virtual projection reusing the weights and delays of an already-defined projection. |
 
 ## **BOLD monitoring**
@@ -242,3 +182,34 @@ from ANNarchy.extensions.ann_to_snn_conversion import ANNtoSNNConverter
 | | |
 | --- | --- |
 | [ANNtoSNNConverter](ANNtoSNNConverter.qmd#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter) | Converts a pre-trained Keras model `.keras` into an ANNarchy spiking neural network.  |
+
+## **Top-level API (deprecated)**
+
+Accessing objects at the global level is deprecated since ANNarchy 5.0.
+
+| | |
+| --- | --- |
+| [setup](setup.qmd#ANNarchy.intern.ConfigManagement.setup) | The setup function is used to configure ANNarchy simulations.  |
+| [compile](compile.qmd#ANNarchy.generator.compile) | This method uses the network architecture to generate optimized C++ code and compile a shared library that will perform the simulation. |
+| [clear](clear.qmd#ANNarchy.core.Global.clear) | Clears all variables (erasing already defined populations, projections, monitors), as if you had just imported ANNarchy. |
+| [reset](reset.qmd#ANNarchy.core.Global.reset) | Reinitialises the network to its state before the call to compile. The network time will be set to 0ms. |
+| [set_seed](set_seed.qmd#ANNarchy.core.Global.set_seed) | Sets the seed of the random number generators, both in ANNarchy.RandomDistributions and in the C++ library when it is created. |
+| [get_population](get_population.qmd#ANNarchy.core.Global.get_population) | Returns the population with the given name. |
+| [get_projection](get_projection.qmd#ANNarchy.core.Global.get_projection) | Returns the projection with the given name. |
+| [populations](populations.qmd#ANNarchy.core.Global.populations) | Returns a list of all declared populations. |
+| [projections](projections.qmd#ANNarchy.core.Global.projections) | Returns a list of all declared populations.  |
+| [monitors](monitors.qmd#ANNarchy.core.Global.monitors) | Returns a list of declared monitors. By default, all monitors are returned. |
+| [simulate](simulate.qmd#ANNarchy.core.Simulate.simulate) | Simulates the network for the given duration in milliseconds.  |
+| [simulate_until](simulate_until.qmd#ANNarchy.core.Simulate.simulate_until) | Runs the network for the maximal duration in milliseconds. If the ``stop_condition`` defined in the population becomes true during the simulation, it is stopped. |
+| [step](step.qmd#ANNarchy.core.Simulate.step) | Performs a single simulation step (duration = `dt`). |
+| [enable_learning](enable_learning.qmd#ANNarchy.core.Global.enable_learning) | Enables learning for all projections. Optionally *period* and *offset* can be changed for all projections. |
+| [disable_learning](disable_learning.qmd#ANNarchy.core.Global.disable_learning) | Disables learning for all projections. |
+| [get_time](get_time.qmd#ANNarchy.core.Global.get_time) | Returns the current time in ms. |
+| [set_time](set_time.qmd#ANNarchy.core.Global.set_time) | Sets the current time in ms. |
+| [get_current_step](get_current_step.qmd#ANNarchy.core.Global.get_current_step) | Returns the current simulation step. |
+| [set_current_step](set_current_step.qmd#ANNarchy.core.Global.set_current_step) | Sets the current simulation step (integer). |
+| [dt](dt.qmd#ANNarchy.core.Global.dt) | Returns the simulation step size `dt` used in the simulation. |
+| [save](save.qmd#ANNarchy.core.IO.save) | Save the current network state (parameters and variables) to a file. |
+| [load](load.qmd#ANNarchy.core.IO.load) | Loads a saved state of the network. |
+| [save_parameters](save_parameters.qmd#ANNarchy.core.IO.save_parameters) | Saves the global parameters of a network (flag ``population`` for neurons, ``projection`` for synapses) to a JSON file. |
+| [load_parameters](load_parameters.qmd#ANNarchy.core.IO.load_parameters) | Loads the global parameters of a network (flag ``population`` for neurons, ``projection`` for synapses) from a JSON file. |

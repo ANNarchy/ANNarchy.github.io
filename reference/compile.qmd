@@ -4,8 +4,6 @@
 generator.compile(
     directory='annarchy',
     clean=False,
-    populations=None,
-    projections=None,
     compiler='default',
     compiler_flags='default',
     add_sources='',
@@ -30,14 +28,12 @@ The following arguments are for internal development use only:
 
 ## Parameters {.doc-section .doc-section-parameters}
 
-| Name           | Type   | Description                                                                                                                                                                       | Default         |
-|----------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| directory      |        | name of the subdirectory where the code will be generated and compiled. Must be a relative path. Default: "annarchy/".                                                            | `'annarchy'`    |
-| clean          |        | boolean to specifying if the library should be recompiled entirely or only the changes since last compilation (default: False).                                                   | `False`         |
-| populations    |        | list of populations which should be compiled. If set to None, all available populations will be used.                                                                             | `None`          |
-| projections    |        | list of projection which should be compiled. If set to None, all available projections will be used.                                                                              | `None`          |
-| compiler       |        | C++ compiler to use. Default: g++ on GNU/Linux, clang++ on OS X. Valid compilers are [g++, clang++].                                                                              | `'default'`     |
-| compiler_flags |        | platform-specific flags to pass to the compiler. Default: "-march=native -O2". Warning: -O3 often generates slower code and can cause linking problems, so it is not recommended. | `'default'`     |
-| cuda_config    |        | dictionary defining the CUDA configuration for each population and projection.                                                                                                    | `{'device': 0}` |
-| annarchy_json  |        | compiler flags etc can be stored in a .json file normally placed in the home directory (see comment below). With this flag one can directly assign a file location.               | `''`            |
-| silent         |        | defines if status message like "Compiling... OK" should be printed.                                                                                                               | `False`         |
+| Name           | Type   | Description                                                                                                                                     | Default         |
+|----------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
+| directory      |        | name of the subdirectory where the code will be generated and compiled. Default: "annarchy/".                                                   | `'annarchy'`    |
+| clean          |        | boolean to specifying if the library should be recompiled entirely or only the changes since last compilation (default: False).                 | `False`         |
+| compiler       |        | C++ compiler to use. Default: g++ on GNU/Linux, clang++ on OS X. Valid compilers are [g++, clang++].                                            | `'default'`     |
+| compiler_flags |        | platform-specific flags to pass to the compiler. Defaults are defined in annarchy.json: "-march=native -O3".                                    | `'default'`     |
+| cuda_config    |        | dictionary defining the CUDA configuration for each population and projection.                                                                  | `{'device': 0}` |
+| annarchy_json  |        | compiler flags etc can be stored in a .json file normally placed in the home directory. With this flag one can directly assign a file location. | `''`            |
+| silent         |        | defines if status message like "Compiling... OK" should be printed.                                                                             | `False`         |

@@ -9,18 +9,16 @@ In the simplest case, a pre-synaptic spike increases a `target` conductance valu
 The default spiking synapse in ANNarchy is equivalent to:
 
 ```python
-DefaultSynapse = ann.Synapse(
-    parameters = dict(w=0.0),
-    equations = [],
+default_synapse = ann.Synapse(
     pre_spike = """
         g_target += w
     """     
 ) 
 ```
 
-The only thing it does is to increase the conductance `g_target` of the post-synaptic neuron (for example `g_exc` if the target is `exc`) every time a pre-synaptic spike arrives at the synapse, proportionally to the synaptic efficiency `w` of the synapse. Note that `w` is implicitely defined in all synapses, you will never need to define it explicitely.
+The only thing it does is to increase the conductance `g_target` of the post-synaptic neuron (for example `g_exc` if the target is `exc`) every time a pre-synaptic spike arrives at the synapse, proportionally to the synaptic efficiency `w` of the synapse. Note that `w` is implicitely defined in all synapses, you do not need to define it explicitely.
 
-The `pre_spike` argument can be a string, a multi-line string, a list of strings or a list of `ann.variable` instances. It can only contain assignments (`=`, `+=`, etc.), no ODE.
+The `pre_spike` argument can be a string, a multi-line string, a list of strings or a list of `ann.Variable` instances. It can only contain assignments (`=`, `+=`, etc.), no ODE.
 
 For example, you may want to implement a \"fatigue\" mechanism for the synapse, transciently reducing the synaptic efficiency when the pre-synaptic neuron fires too strongly. One solution would be to decrease a synaptic variable everytime a pre-synaptic spike is received and increase the post-synaptic conductance proportionally to this value. When no spike is received, this `trace` variable should slowly return to its maximal value.
 
@@ -31,7 +29,7 @@ FatigueSynapse = ann.Synapse(
         dec = 0.05,  # Decrement of the trace
     ),
     equations = [
-        ann.variable('tau * dtrace/dt + trace = 1.0', min = 0.0),
+        ann.Variable('tau * dtrace/dt + trace = 1.0', min = 0.0),
     ],
     pre_spike = """
         g_target += w * trace
@@ -145,8 +143,8 @@ STDP_online = ann.Synapse(
         wmax = 0.01,
     ),
     equations = [
-        ann.variable('tau_pre * dApre/dt = - Apre', method='event-driven'),
-        ann.variable('tau_post * dApost/dt = - Apost', method='event-driven'),
+        ann.Variable('tau_pre * dApre/dt = - Apre', method='event-driven'),
+        ann.Variable('tau_post * dApost/dt = - Apost', method='event-driven'),
     ],
     pre_spike = """
         g_target += w
@@ -192,8 +190,8 @@ STDP_online = ann.Synapse(
         wmax = 0.01,
     ),
     equations = [
-        ann.variable('tau_pre * dApre/dt = - Apre'),
-        ann.variable('tau_post * dApost/dt = - Apost'),
+        ann.Variable('tau_pre * dApre/dt = - Apre'),
+        ann.Variable('tau_post * dApost/dt = - Apost'),
     ],
     pre_spike = """
         g_target += w

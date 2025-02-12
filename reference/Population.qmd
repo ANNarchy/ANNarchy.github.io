@@ -9,15 +9,17 @@ core.Population.Population(
     stop_condition=None,
     storage_order='post_to_pre',
     copied=False,
+    net_id=0,
 )
 ```
 
 Structure for a population of homogeneous neurons.
 
-Example:
+The object is created and returned by the method `Network.create()`:
 
 ```python
-pop = ann.Population(100, neuron=ann.Izhikevich, name="Excitatory population")
+net = ann.Network()
+pop = net.create(100, neuron=ann.Izhikevich, name="Excitatory population")
 ```
 
 ## Parameters {.doc-section .doc-section-parameters}
@@ -25,8 +27,8 @@ pop = ann.Population(100, neuron=ann.Izhikevich, name="Excitatory population")
 | Name           | Type         | Description                                                                                | Default    |
 |----------------|--------------|--------------------------------------------------------------------------------------------|------------|
 | geometry       | tuple \| int | population geometry as tuple. If an integer is given, it is the size of the population.    | _required_ |
-| neuron         | Neuron       | `Neuron`instance. It can be user-defined or a built-in model.                              | _required_ |
-| name           | str          | unique name of the population (optional, it defaults to `pop0`, `pop1`, etc).              | `None`     |
+| neuron         | Neuron       | `Neuron` instance. It can be user-defined or a built-in model.                             | _required_ |
+| name           | str          | unique name of the population (optional).                                                  | `None`     |
 | stop_condition | str          | a single condition on a neural variable which can stop the simulation whenever it is true. | `None`     |
 
 ## Attributes
@@ -39,7 +41,6 @@ pop = ann.Population(100, neuron=ann.Izhikevich, name="Excitatory population")
 | [functions](#ANNarchy.core.Population.Population.functions) | List of declared functions. |
 | [geometry](#ANNarchy.core.Population.Population.geometry) | Geometry of the population. |
 | [height](#ANNarchy.core.Population.Population.height) | Height of the population. |
-| [name](#ANNarchy.core.Population.Population.name) | Name of the population |
 | [neurons](#ANNarchy.core.Population.Population.neurons) | Returns iteratively each neuron in the population. |
 | [parameters](#ANNarchy.core.Population.Population.parameters) | List of parameter names. |
 | [ranks](#ANNarchy.core.Population.Population.ranks) | Array of ranks in the population (between 0 and `size - 1`). |

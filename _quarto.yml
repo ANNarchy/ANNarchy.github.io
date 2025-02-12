@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "ANNarchy 4.8.3"
+  title: "ANNarchy 5.0.0"
   page-navigation: true
   bread-crumbs: false
     
@@ -198,70 +198,32 @@ quartodoc:
 
   sections:
     - title: "**Core components**"
-      desc: Basic objects that can be used to create a network.
+      desc: Basic objects composing a network. The `Network` class is the main access point for all functionalities.
       contents:
-        - name: parameter
+        - name: Network
+          package: ANNarchy.core.Network
+        - name: Parameter
           package: ANNarchy.core.Parameters
-        - name: variable
+        - name: Variable
           package: ANNarchy.core.Parameters
+        - name: Neuron
+          package: ANNarchy.core.Neuron
+        - name: Synapse
+          package: ANNarchy.core.Synapse
         - name: Population
           package: ANNarchy.core.Population
         - name: Projection
           package: ANNarchy.core.Projection
           dynamic: true # needed to inspect the connectors
-        - name: Neuron
-          package: ANNarchy.core.Neuron
-        - name: Synapse
-          package: ANNarchy.core.Synapse
         - name: Monitor
           package: ANNarchy.core.Monitor
         - name: PopulationView
           package: ANNarchy.core.PopulationView
         - name: Dendrite
           package: ANNarchy.core.Dendrite
-        - name: Network
-          package: ANNarchy.core.Network
+        - name: Constant
+          package: ANNarchy.core.Constant
 
-    - title: "**Configuration**"
-      desc: Configuration and compilation of the network. 
-      package: ANNarchy.core.Global
-      contents:
-        - name: setup
-          package: ANNarchy.intern.ConfigManagement
-        - name: compile
-          package: ANNarchy.generator
-        - clear
-        - reset
-        - set_seed
-        - get_population
-        - get_projection
-        - populations
-        - projections
-        - monitors
-
-    - title: "**Simulation**"
-      desc: Methods to control the simulation. 
-      package: ANNarchy.core.Simulate
-      contents:
-        - name: simulate
-        - name: simulate_until
-        - name: step
-        - name: parallel_run
-          package: ANNarchy.core.Network
-        - name: enable_learning
-          package: ANNarchy.core.Global
-        - name: disable_learning
-          package: ANNarchy.core.Global
-        - name: get_time
-          package: ANNarchy.core.Global
-        - name: set_time
-          package: ANNarchy.core.Global
-        - name: get_current_step
-          package: ANNarchy.core.Global
-        - name: set_current_step
-          package: ANNarchy.core.Global
-        - name: dt
-          package: ANNarchy.core.Global
         
     - title: "**Neuron models**"
       desc: Default neuron models that can be used directly. The naming follows the PyNN convention.
@@ -299,7 +261,7 @@ quartodoc:
         - name: PoissonPopulation
           package: ANNarchy.inputs.PoissonPopulation
         - name: TimedPoissonPopulation
-          package: ANNarchy.inputs.TimedArray
+          package: ANNarchy.inputs.TimedPoissonPopulation
         - name: SpikeSourceArray
           package: ANNarchy.inputs.SpikeSourceArray
         - name: HomogeneousCorrelatedSpikeTrains
@@ -313,21 +275,6 @@ quartodoc:
         - name: VideoPopulation
           package: ANNarchy.extensions.image.ImagePopulation
 
-
-    - title: "**IO**"
-      desc: Saving and loading methods for the network.
-      package: ANNarchy.core.IO
-      contents:
-        - save
-        - load
-        - save_parameters
-        - load_parameters
-
-    - title: "**Utilities**"
-      desc: Various additional utilities.
-      contents:
-        - name: report
-          package: ANNarchy.parser.report.Report
         
     - title: "**Random Distributions**"
       desc: Random distributions that can be used to generate numpy arrays.
@@ -341,27 +288,12 @@ quartodoc:
         - name: Gamma
         - name: Binomial
   
-    - title: "**Functions and Constants**"
-      desc: Functions and constants declared at the global level. 
+    - title: "**Functions**"
+      desc: Functions declared at the global level. 
       package: ANNarchy.core.Global
       contents:
         - add_function
         - functions
-        - name: Constant
-          package: ANNarchy.core.Constant
-        - name: get_constant
-          package: ANNarchy.core.Constant
-
-    - title: "**Plotting**"
-      desc: Plotting methods from `Monitor`that can be used without the `Monitor` object, i.e. offline. 
-      package: ANNarchy.core.Monitor
-      contents:
-        - raster_plot
-        - histogram
-        - inter_spike_interval
-        - coefficient_of_variation
-        - population_rate
-        - smoothed_rate
 
     - title: "**Callbacks**"
       desc: |
@@ -381,6 +313,12 @@ quartodoc:
           - disable_callbacks
           - enable_callbacks
           - clear_all_callbacks
+          
+    - title: "**Utilities**"
+      desc: Various additional utilities.
+      contents:
+        - name: report
+          package: ANNarchy.parser.report.Report
 
 
     - title: "**Convolution**"
@@ -456,3 +394,57 @@ quartodoc:
       contents:
           - name: ANNtoSNNConverter
 
+
+
+    - title: "**Top-level API (deprecated)**"
+      desc: Accessing objects at the global level is deprecated since ANNarchy 5.0. 
+      package: ANNarchy.core.Global
+      contents:
+        - name: setup
+          package: ANNarchy.intern.ConfigManagement
+        - name: compile
+          package: ANNarchy.generator
+        - name: clear
+          package: ANNarchy.core.Global
+        - name: reset
+          package: ANNarchy.core.Global
+        - name: set_seed
+          package: ANNarchy.core.Global
+        - name: get_population
+          package: ANNarchy.core.Global
+        - name: get_projection
+          package: ANNarchy.core.Global
+        - name: populations
+          package: ANNarchy.core.Global
+        - name: projections
+          package: ANNarchy.core.Global
+        - name: monitors
+          package: ANNarchy.core.Global
+        - name: simulate
+          package: ANNarchy.core.Simulate
+        - name: simulate_until
+          package: ANNarchy.core.Simulate
+        - name: step
+          package: ANNarchy.core.Simulate
+        - name: enable_learning
+          package: ANNarchy.core.Global
+        - name: disable_learning
+          package: ANNarchy.core.Global
+        - name: get_time
+          package: ANNarchy.core.Global
+        - name: set_time
+          package: ANNarchy.core.Global
+        - name: get_current_step
+          package: ANNarchy.core.Global
+        - name: set_current_step
+          package: ANNarchy.core.Global
+        - name: dt
+          package: ANNarchy.core.Global
+        - name: save
+          package: ANNarchy.core.IO
+        - name: load
+          package: ANNarchy.core.IO
+        - name: save_parameters
+          package: ANNarchy.core.IO
+        - name: load_parameters
+          package: ANNarchy.core.IO

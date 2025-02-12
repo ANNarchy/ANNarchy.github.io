@@ -4,7 +4,7 @@ A `Neuron` or `Synapse` instance is primarily defined by two sets of values whic
 
 *  **Parameters** are values such as time constants which are constant during the simulation. They can be the same throughout the population/projection (**global**), or take different values for each neuron/synapse (**local**). In projections, they can also be **semiglobal**: one value per post-synaptic neuron.
 
-*  **Variables** are neuronal variables (for example the membrane potential or firing rate) or synaptic variables (the synaptic efficiency) whose value evolve with time during the simulation. The equation (which can be an ordinary differential equation or not) ruling their evolution can be described using a specific equation-oriented anguage.
+*  **Variables** are neuronal variables (for example the membrane potential or firing rate) or synaptic variables (the synaptic efficiency) whose value evolve with time during the simulation. The equation (which can be an ordinary differential equation or not) ruling their evolution can be described using a specific equation-oriented language.
 
 ## Parameters
 
@@ -27,18 +27,18 @@ As a neuron/synapse type is likely to be reused in different populations/project
 
 Neural parameters can be either **local** (each neuron has a different value of the parameter) or **global** (the value is the same for all neurons of a population - but can be different in two populations using the same neuron type).
 
-The default locality of a parameter is global. The `parameter` dataclass allows to tell ANNarchy that the parameter has to be local, i.e. it should take one value per neuron in the population.
+The default locality of a parameter is global. The `Parameter` dataclass allows to tell ANNarchy that the parameter has to be local, i.e. it should take one value per neuron in the population.
 
 ```python
 neuron = ann.Neuron(
     parameters = dict(
-        tau = ann.parameter(10.0, locality='local'),
-        baseline = ann.parameter(-0.1, locality='local'),
+        tau = ann.Parameter(10.0, locality='local'),
+        baseline = ann.Parameter(-0.1, locality='local'),
     )
 )
 ```
 
-For synapses, there are three different localities:
+For synapses, there are three different localities (see [Locality](RateSynapse.qmd#locality)):
 
 * `'local'`: one value per synapse in the projection (e.g. the synaptic efficiency).
 * `'semiglobal'`: one value per post-synaptic neuron in the projection.
@@ -55,8 +55,8 @@ Parameters have floating-point precision by default. If you want to force the pa
 ```python
 neuron = ann.Neuron(
     parameters = dict(
-        number_spikes = ann.parameter(0, type=int),
-        activated = ann.parameter(False, locality='global', type=bool),
+        number_spikes = ann.Parameter(0, type=int),
+        activated = ann.Parameter(False, locality='global', type=bool),
     )
 )
 """
@@ -81,7 +81,7 @@ The advantage of this method is that if a parameter value is \"shared\" across s
 
 ## Variables
 
-Time-varying variables are defined using a list of strings (or `ann.variable` instances):
+Time-varying variables are defined using a list of strings (or `ann.Variable` instances):
 
 ```python
 neuron = ann.Neuron(
@@ -121,7 +121,7 @@ In practice, ODEs are transformed using Sympy into the last form (only the gradi
 
 **Locality and type**
 
-Like the parameters, variables defined using the `ann.variable()` class also accept the `local`, `global` and `semiglobal` attributes to define the locality of the variable, as well as the `int` or `bool` flags for their type.
+Like the parameters, variables defined using the `ann.Variable()` class also accept the `local`, `global` and `semiglobal` attributes to define the locality of the variable, as well as the `int` or `bool` flags for their type.
 
 ```python
 neuron = ann.Neuron(
@@ -130,9 +130,9 @@ neuron = ann.Neuron(
         baseline = -0.1,
     ),
     equations = [
-        ann.variable('noise += Uniform(-0.1, 0.1)', locality='global'),
-        ann.variable('tau * dv/dt  + v = baseline + noise'),
-        ann.variable('r = pos(v)'),
+        ann.Variable('noise += Uniform(-0.1, 0.1)', locality='global'),
+        ann.Variable('tau * dv/dt  + v = baseline + noise'),
+        ann.Variable('r = pos(v)'),
     ]
 ```
 
@@ -150,9 +150,9 @@ neuron = ann.Neuron(
         init_v = -0.1,
     ),
     equations = [
-        ann.variable('noise += Uniform(-0.1, 0.1)', init=0.1),
-        ann.variable('tau * dv/dt  + v = baseline + noise', init='init_v'),
-        ann.variable('r = pos(v)', init=ann.Uniform(0.0, 1.0)),
+        ann.Variable('noise += Uniform(-0.1, 0.1)', init=0.1),
+        ann.Variable('tau * dv/dt  + v = baseline + noise', init='init_v'),
+        ann.Variable('r = pos(v)', init=ann.Uniform(0.0, 1.0)),
     ]
 )
 ```
@@ -161,7 +161,7 @@ Acceptables values are:
 
 * a float/int/bool matching the type of the variable, which will be the same for all neurons/synapses.
 * a `RandomDistribution` object (see [Random Distributions](/reference/index.qmd#random-distributions)), allowing to randomly initialize the variable fo each neuron/variable.
-* The name of a parameter of the same neuron model, or of a constant.
+* the name of a parameter of the same neuron model, or of a constant.
 
 When using a random variable, the size of the array will be sampled after creation of the object using its size (number of neurons/synapses) and the locality (a global variable only need one value).
 
@@ -180,9 +180,9 @@ neuron = ann.Neuron(
         init_v = -0.1,
     ),
     equations = [
-        ann.variable('noise += Uniform(-0.1, 0.1)', init=0.1),
-        ann.variable('tau * dv/dt  + v = baseline + noise', init='init_v', min=0.0, max=10.0),
-        ann.variable('r = v', init=ann.Uniform(0.0, 1.0)),
+        ann.Variable('noise += Uniform(-0.1, 0.1)', init=0.1),
+        ann.Variable('tau * dv/dt  + v = baseline + noise', init='init_v', min=0.0, max=10.0),
+        ann.Variable('r = v', init=ann.Uniform(0.0, 1.0)),
     ]
 )
 ```
@@ -203,9 +203,9 @@ neuron = ann.Neuron(
         init_v = -0.1,
     ),
     equations = [
-        ann.variable('noise += Uniform(-0.1, 0.1)', init=0.1),
-        ann.variable('tau * dv/dt  + v = baseline + noise', init='init_v', min=0.0, max=10.0, method='exponential'),
-        ann.variable('r = v', init=ann.Uniform(0.0, 1.0)),
+        ann.Variable('noise += Uniform(-0.1, 0.1)', init=0.1),
+        ann.Variable('tau * dv/dt  + v = baseline + noise', init='init_v', min=0.0, max=10.0, method='exponential'),
+        ann.Variable('r = v', init=ann.Uniform(0.0, 1.0)),
     ]
 )
 ```
@@ -216,7 +216,9 @@ The available numerical methods are described in [Numerical methods](NumericalMe
 
 ## Constants
 
-Global constants can be created by the user and used inside any equation. They must define an unique name and a floating point value:
+Constants can be created by the user and used inside any equation. They must define an unique name and a floating point value. 
+
+Constants can either be declared at the global level:
 
 ```python
 tau = ann.Constant('tau', 10.0)
@@ -226,7 +228,17 @@ neuron = ann.Neuron(
 )
 ```
 
-In this example, a Neuron or Synapse does not have to define the parameter `tau` to use it: it is available everywhere. If the Neuron/Synapse redefines a parameter called `tau`, the constant is not visible anymore to that object.
+or from a `Network` instance:
+
+```python
+net = ann.Network()
+tau = net.constant('tau', 10.0)
+neuron = ann.Neuron(
+    equations = "tau * dr/dt + r = sum(exc)"
+)
+```
+
+Neuron or Synapse models does not have to define the parameter `tau` to use it: it is available everywhere. If the Neuron/Synapse redefines a parameter called `tau`, the constant is not visible anymore to that object.
 
 Constants can be manipulated as normal floats to define complex values:
 
@@ -242,10 +254,19 @@ neuron = ann.Neuron(
 )
 ```
 
-Note that constants are strictly global, changing their value impacts all objects using them. Changing the value of a constant can only be done through the `set()` method (before or after `compile()`):
+Note that changing the value of a global constant impacts all networks using them. When the constant was created at the network level, a change of its value only impacts this network. 
+
+Changing the value of a constant can only be done through the `set()` method:
 
 ```python
 tau = ann.Constant('tau', 20)
+tau.set(10.0)
+```
+
+or:
+
+```python
+tau = net.constant('tau', 10.0)
 tau.set(10.0)
 ```
 
@@ -265,8 +286,8 @@ The constant $\pi$ is available under the literal form `pi`.
 
 ### Operators
 
--   Additions (+), substractions (-), multiplications (\*), divisions (/) and power functions (\^) are of course allowed.
--   Gradients are allowed only for the variable currently described. They take the form:
+* Additions (+), substractions (-), multiplications (\*), divisions (/) and power functions (\^) are of course allowed.
+* Temporal gradients are allowed only for the variable currently described. They take the form:
 
 ```
 dv / dt  = A
@@ -274,7 +295,7 @@ dv / dt  = A
 
 with a `d` preceding the variable's name and terminated by `/dt` (with or without spaces). Gradients must be on the left side of the equation.
 
--   To update the value of a variable at each time step, the operators `=`, `+=`, `-=`, `*=`, and `/=` are allowed.
+* To update the value of a variable at each time step, the operators `=`, `+=`, `-=`, `*=`, and `/=` are allowed.
 
 ### Parameters and Variables
 
@@ -282,9 +303,7 @@ Any parameter or variable defined in the same Neuron/Synapse can be used
 inside an equation. User-defined constants can also be used.
 Additionally, the following variables are pre-defined:
 
--   `dt` : the discretization time step for the simulation. Using this
-    variable, you can define the numerical method by yourself. For
-    example:
+* `dt` : the discretization time step for the simulation. Using this variable, you can define the numerical method by yourself. For example:
 
 ```python
 tau * dv / dt  + v = baseline
@@ -296,8 +315,7 @@ with backward Euler would be equivalent to:
 v += dt/tau * (baseline - v)
 ```
 
--   `t` : the time in milliseconds elapsed since the creation of the
-    network. This allows to generate oscillating variables:
+* `t` : the time in milliseconds elapsed since the creation of the network. This allows for example to generate oscillating variables:
 
 ```python
 f = 10.0 # Frequency of 10 Hz
@@ -310,11 +328,10 @@ r = 10.0 * (sin(2*pi*f*ts + phi) + 1.0)
 
 Several random generators are available and can be used within an equation, for example:
 
--   `Uniform(min, max)` generates random numbers from a uniform distribution in the range $[\text{min}, \text{max}]$.
--   `Normal(mu, sigma)` generates random numbers from a normal distribution with mean mu and standard deviation sigma.
+* `ann.Uniform(min, max)` generates random numbers from a uniform distribution in the range $[\text{min}, \text{max}]$.
+* `ann.Normal(mu, sigma)` generates random numbers from a normal distribution with mean mu and standard deviation sigma.
 
 See the reference for [Random Distributions](/reference/index.qmd#random-distributions) for more distributions. 
-
 
 The arguments to the random distributions can be either fixed values or global parameters.
 
@@ -325,7 +342,7 @@ neuron = ann.Neuron(
         noise_max = 0.1,
     ),
     equations = [
-        ann.variable('noise += Uniform(noise_min, noise_max)'),
+        ann.Variable('noise += Uniform(noise_min, noise_max)'),
     ]
 )
 ```
@@ -344,7 +361,7 @@ neuron = ann.Neuron(
         noise_max = 0.1,
     ),
     equations = [
-        ann.variable('noise += noise_min + (noise_max - noise_min) * Uniform(0, 1)'),
+        ann.Variable('noise += noise_min + (noise_max - noise_min) * Uniform(0, 1)'),
     ]
 )
 ```
@@ -381,9 +398,9 @@ In such simple cases, it might be more readable to use the min/max attributes:
 ```python
 neuron = ann.Neuron(
     equations = [
-        ann.variable('r = pos(v)'),
+        ann.Variable('r = pos(v)'),
         # is equivalent to:
-        ann.variable('r = v', min=0.0),
+        ann.Variable('r = v', min=0.0),
     ]
 )
 ```
@@ -499,7 +516,7 @@ To simplify the writing of equations, custom functions can be defined either glo
 Global functions can be defined using the `add_function()` method:
 
 ```python
-add_function('sigmoid(x) = 1.0 / (1.0 + exp(-x))')
+ann.add_function('sigmoid(x) = 1.0 / (1.0 + exp(-x))')
 ```
 
 With this declaration, `sigmoid()` can be used in the declaration of any variable, for example:
@@ -520,21 +537,6 @@ The types of the arguments (including the return value) are by default floating-
 ann.add_function('conditional_increment(c, v, t) = if v > t : c + 1 else: c : int, int, float, float')
 ```
 
-**After compilation**, the function can be called using arbitrary list
-of values for the arguments using the `functions()` method and the name
-of the function:
-
-```python
-ann.add_function('sigmoid(x) = 1.0 / (1.0 + exp(-x))')
-
-compile()
-
-x = np.linspace(-10., 10., 1000)
-y = ann.functions('sigmoid')(x)
-```
-
-You can pass a list or a 1D Numpy array as argument, but not a single value or a multidimensional array. When several arguemnts are passed, they **must** have the same size.
-
 Local functions are specific to a Neuron or Synapse class and can only be used within this context (if they have the same name as global variables, they will override them). They can be passed as a multi-line argument to the constructor of a neuron or synapse (see later):
 
 ```python
@@ -545,9 +547,9 @@ functions == """
 ```
 
 
-## Previous string-based interface (<4.9)
+## Previous string-based interface (<5.0)
 
-Prior to version 4.9, the default interface was using multiline strings to define both parameters and variables. This interface still works, but might become deprecated in a future release.
+Prior to version 5.0, the default interface was using multiline strings to define both parameters and variables. This interface still works, but might become deprecated in a future release.
 
 ```python
 LeakyIntegratorNeuron = ann.Neuron(
@@ -583,7 +585,7 @@ parameters = """
 """
 ```
 
-Variables are also local by default, and can be modified by the same flags. The `init`, `min`, `max` flags and the numerical method (without `method=`) can be passed after the colon like in a regular `ann.variable()`.
+Variables are also local by default, and can be modified by the same flags. The `init`, `min`, `max` flags and the numerical method (without `method=`) can be passed after the colon like in a regular `ann.Variable()`.
 
 
 ```python

@@ -1,101 +1,61 @@
 # Network { #ANNarchy.core.Network.Network }
 
 ```python
-core.Network.Network(self, everything=False)
+core.Network.Network(self, dt=None, seed=None)
 ```
 
-A network gathers already defined populations, projections and monitors in order to run them independently.
+A network is a collection of populations, projections and monitors that runs the simulation.
 
-This is particularly useful when varying single parameters of a network and comparing the results (see the `parallel_run()` method).
+TODO
 
-Only objects declared before the creation of the network can be used. Global methods such as `simulate()` must be used on the network object.
-The objects must be accessed through the `get()` method, as the original ones will not be part of the network (a copy is made).
+## Attributes
 
-Each network must be individually compiled, but it does not matter if the original objects were already compiled.
-
-When passing `everything=True` to the constructor, all populations/projections/monitors already defined at the global level will be added to the network.
-
-If not, you can select which object will be added to network with the ``add()`` method.
-
-Example with ``everything=True``:
-
-```python
-pop = ann.Population(100, Izhikevich)
-proj = ann.Projection(pop, pop, 'exc')
-proj.connect_all_to_all(1.0)
-m = ann.Monitor(pop, 'spike')
-
-ann.compile() # Optional
-
-net = ann.Network(everything=True)
-net.get(pop).a = 0.02
-net.compile()
-net.simulate(1000.)
-
-net2 = ann.Network(everything=True)
-net2.get(pop).a = 0.05
-net2.compile()
-net2.simulate(1000.)
-
-t, n = net.get(m).raster_plot()
-t2, n2 = net2.get(m).raster_plot()
-```
-
-Example with ``everything=False`` (the default):
-
-```python
-pop = ann.Population(100, Izhikevich)
-proj1 = ann.Projection(pop, pop, 'exc')
-proj1.connect_all_to_all(1.0)
-proj2 = ann.Projection(pop, pop, 'exc')
-proj2.connect_all_to_all(2.0)
-m = ann.Monitor(pop, 'spike')
-
-net = ann.Network()
-net.add([pop, proj1, m])
-net.compile()
-net.simulate(1000.)
-
-net2 = ann.Network()
-net2.add([pop, proj2, m])
-net2.compile()
-net2.simulate(1000.)
-
-t, n = net.get(m).raster_plot()
-t2, n2 = net2.get(m).raster_plot()
-```
-
-## Parameters {.doc-section .doc-section-parameters}
-
-| Name       | Type   | Description                                                                                         | Default   |
-|------------|--------|-----------------------------------------------------------------------------------------------------|-----------|
-| everything | bool   | defines if all existing populations and projections should be automatically added (default: False). | `False`   |
+| Name | Description |
+| --- | --- |
+| [compiled](#ANNarchy.core.Network.Network.compiled) | Whether the network has been compiled. |
+| [directory](#ANNarchy.core.Network.Network.directory) | Directory in which the network has been compiled. |
+| [dt](#ANNarchy.core.Network.Network.dt) | Step size in milliseconds for the integration of the ODEs. |
+| [instance](#ANNarchy.core.Network.Network.instance) | C++ instance. |
+| [seed](#ANNarchy.core.Network.Network.seed) | Seed for the random number generator (Python and C++). |
 
 ## Methods
 
 | Name | Description |
 | --- | --- |
-| [add](#ANNarchy.core.Network.Network.add) | Adds a Population, Projection or Monitor to the network. |
+| [add](#ANNarchy.core.Network.Network.add) | REMOVED |
+| [boldmonitor](#ANNarchy.core.Network.Network.boldmonitor) | TODO |
+| [clear](#ANNarchy.core.Network.Network.clear) | Empties the network to prevent a memory leak until the garbage collector wakes up. |
 | [compile](#ANNarchy.core.Network.Network.compile) | Compiles the network. |
+| [config](#ANNarchy.core.Network.Network.config) | Configuration of the network.  |
+| [connect](#ANNarchy.core.Network.Network.connect) | TODO |
+| [constant](#ANNarchy.core.Network.Network.constant) | Adds a constant to the network. |
+| [copy](#ANNarchy.core.Network.Network.copy) | Returns a new instance of the Network class, using the provided arguments to the constructor.  |
+| [create](#ANNarchy.core.Network.Network.create) | Adds a population of neurons to the network. |
 | [disable_learning](#ANNarchy.core.Network.Network.disable_learning) | Disables learning for all projections. |
 | [enable_learning](#ANNarchy.core.Network.Network.enable_learning) | Enables learning for all projections. |
-| [get](#ANNarchy.core.Network.Network.get) | Returns the local Population, Projection or Monitor corresponding to the provided argument. |
+| [get](#ANNarchy.core.Network.Network.get) | REMOVED |
+| [get_constant](#ANNarchy.core.Network.Network.get_constant) | Returns the constant with the given name. |
+| [get_constants](#ANNarchy.core.Network.Network.get_constants) | Returns a list of declared constants. |
 | [get_current_step](#ANNarchy.core.Network.Network.get_current_step) | Returns the current simulation step. |
-| [get_monitors](#ANNarchy.core.Network.Network.get_monitors) | Returns a list of declared monitors. By default, all monitors are returned. |
+| [get_extension](#ANNarchy.core.Network.Network.get_extension) | Returns the extension with the given name. |
+| [get_extensions](#ANNarchy.core.Network.Network.get_extensions) | Returns a list of declared extensions (e.g. BOLD monitors). |
+| [get_monitor](#ANNarchy.core.Network.Network.get_monitor) | Returns the monitor with the given name. |
+| [get_monitors](#ANNarchy.core.Network.Network.get_monitors) | Returns a list of declared monitors. |
 | [get_population](#ANNarchy.core.Network.Network.get_population) | Returns the population with the given name. |
 | [get_populations](#ANNarchy.core.Network.Network.get_populations) | Returns a list of all declared populations in this network. |
 | [get_projection](#ANNarchy.core.Network.Network.get_projection) | Returns the projection with the given name. |
-| [get_projections](#ANNarchy.core.Network.Network.get_projections) | Get a list of declared projections for the current network. By default, |
+| [get_projections](#ANNarchy.core.Network.Network.get_projections) | Returns a list of all declared projections for the current network.  |
 | [get_time](#ANNarchy.core.Network.Network.get_time) | Returns the current time in ms. |
 | [load](#ANNarchy.core.Network.Network.load) | Loads a saved state of the current network by calling ANNarchy.core.IO.load(). |
+| [monitor](#ANNarchy.core.Network.Network.monitor) | TODO |
+| [parallel_run](#ANNarchy.core.Network.Network.parallel_run) | Runs the provided method for multiple copies of the network. |
 | [reset](#ANNarchy.core.Network.Network.reset) | Reinitialises the network to its state before the call to compile. |
 | [save](#ANNarchy.core.Network.Network.save) | Saves the current network by calling ANNarchy.core.IO.save(). |
 | [set_current_step](#ANNarchy.core.Network.Network.set_current_step) | Sets the current simulation step. |
-| [set_seed](#ANNarchy.core.Network.Network.set_seed) | Sets the seed of the random number generators for this network. |
 | [set_time](#ANNarchy.core.Network.Network.set_time) | Sets the current time in ms. |
 | [simulate](#ANNarchy.core.Network.Network.simulate) | Runs the network for the given duration in milliseconds.  |
 | [simulate_until](#ANNarchy.core.Network.Network.simulate_until) | Runs the network for the maximal duration in milliseconds. If the `stop_condition` defined in the population becomes true during the simulation, it is stopped. |
-| [step](#ANNarchy.core.Network.Network.step) | Performs a single simulation step (duration = ``dt``). |
+| [step](#ANNarchy.core.Network.Network.step) | Performs a single simulation step (duration = `dt`). |
 
 ### add { #ANNarchy.core.Network.Network.add }
 
@@ -103,13 +63,31 @@ t2, n2 = net2.get(m).raster_plot()
 core.Network.Network.add(objects)
 ```
 
-Adds a Population, Projection or Monitor to the network.
+REMOVED
 
-#### Parameters {.doc-section .doc-section-parameters}
+### boldmonitor { #ANNarchy.core.Network.Network.boldmonitor }
 
-| Name    | Type   | Description                                      | Default    |
-|---------|--------|--------------------------------------------------|------------|
-| objects | list   | A single object or a list to add to the network. | _required_ |
+```python
+core.Network.Network.boldmonitor(
+    populations=None,
+    bold_model=balloon_RN,
+    mapping={'I_CBF': 'r'},
+    scale_factor=None,
+    normalize_input=None,
+    recorded_variables=None,
+    start=False,
+)
+```
+
+TODO
+
+### clear { #ANNarchy.core.Network.Network.clear }
+
+```python
+core.Network.Network.clear()
+```
+
+Empties the network to prevent a memory leak until the garbage collector wakes up.
 
 ### compile { #ANNarchy.core.Network.Network.compile }
 
@@ -135,13 +113,109 @@ Compiles the network.
 
 | Name           | Type        | Description                                                                                                                                                                       | Default         |
 |----------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| directory      | str         | name of the subdirectory where the code will be generated and compiled. Must be a relative path. Default: "annarchy/".                                                            | `'annarchy'`    |
+| directory      | str         | name of the subdirectory where the code will be generated and compiled. Default: "./annarchy/".                                                                                   | `'annarchy'`    |
 | clean          | bool        | boolean to specifying if the library should be recompiled entirely or only the changes since last compilation (default: False).                                                   | `False`         |
 | compiler       | str         | C++ compiler to use. Default: g++ on GNU/Linux, clang++ on OS X. Valid compilers are [g++, clang++].                                                                              | `'default'`     |
 | compiler_flags | list\[str\] | platform-specific flags to pass to the compiler. Default: "-march=native -O2". Warning: -O3 often generates slower code and can cause linking problems, so it is not recommended. | `'default'`     |
 | cuda_config    | dict        | dictionary defining the CUDA configuration for each population and projection.                                                                                                    | `{'device': 0}` |
 | annarchy_json  | str         | compiler flags etc are stored in a .json file normally placed in the home directory. With this flag one can directly assign a file location.                                      | `''`            |
 | silent         | bool        | defines if the "Compiling... OK" should be printed.                                                                                                                               | `False`         |
+
+### config { #ANNarchy.core.Network.Network.config }
+
+```python
+core.Network.Network.config(*args, **kwargs)
+```
+
+Configuration of the network. 
+
+This method is equivalent to calling `setup()` at the global level, but only influences the current network. The initial configuration of the network copies the values set in `setup()` at the time of the creation of the network.
+
+It can be called multiple times until `compile()` is called, new values of key erasing older ones.
+
+The only functional difference with `setup()` is the seed, which should be passed to the constructor of `Network`, otherwise any random number generation in the constructor might be unseeded. `dt` can also be passed to the constructor, but setting it in `config()` is also fine.
+
+It takes various optional arguments. The most useful ones are:
+
+* `dt`: simulation step size in milliseconds (default: 1.0).
+* `paradigm`: parallel framework for code generation. Accepted values: "openmp" or "cuda" (default: "openmp").
+* `method`: default method to numerize the ODEs. Default is the explicit forward Euler method ('explicit').
+* `precision`: default floating precision for variables in ANNarchy. Accepted values: "float" or "double" (default: "double")
+* `structural_plasticity`: allows synapses to be dynamically added/removed during the simulation (default: False).
+* `seed`: the seed (integer) to be used in the random number generators (default = None is equivalent to time(NULL)).
+* `num_threads`: number of treads used by openMP (overrides the environment variable ``OMP_NUM_THREADS`` when set, default = None).
+
+Flags related to the optimization of the simulation kernels are:
+
+* `sparse_matrix_format`: the default matrix format for projections in ANNarchy (by default: List-In-List for CPUs and Compressed Sparse Row). Note that this affects only the C++ data structures.
+* `sparse_matrix_storage_order`: encodes whether the row in a connectivity matrix encodes pre-synaptic neurons (post_to_pre, default) or post-synaptic neurons (pre_to_post). Note that affects only the C++ data structures.
+* `only_int_idx_type`: if set to True (default) only signed integers are used to store pre-/post-synaptic ranks which was default until 4.7. If set to False, the index type used in a single projection is selected based on the size of the corresponding populations.
+* `visible_cores`: allows a fine-grained control which cores are useable for the created threads (default = [] for no limitation). It can be used to limit created openMP threads to a physical socket.
+
+The following parameters are mainly for debugging and profiling, and should be ignored by most users:
+
+* `verbose`: shows details about compilation process on console (by default False). Additional some information of the network construction will be shown.
+* `suppress_warnings`: if True, warnings (e. g. from the mathematical parser) are suppressed.
+* `show_time`: if True, initialization times are shown. Attention: verbose should be set to True additionally.
+* `disable_shared_library_time_offset`: by default False. If set to True, the shared library generated by ANNarchy will not be extended by time offset.
+
+### connect { #ANNarchy.core.Network.Network.connect }
+
+```python
+core.Network.Network.connect(
+    pre,
+    post=None,
+    target='',
+    synapse=None,
+    name=None,
+    projection=None,
+    disable_omp=True,
+)
+```
+
+TODO
+
+### constant { #ANNarchy.core.Network.Network.constant }
+
+```python
+core.Network.Network.constant(name, value)
+```
+
+Adds a constant to the network.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                    | Default    |
+|--------|--------|--------------------------------|------------|
+| name   |        | Name of constant.              | _required_ |
+| value  |        | Initial value of the constant. | _required_ |
+
+### copy { #ANNarchy.core.Network.Network.copy }
+
+```python
+core.Network.Network.copy(*args, **kwargs)
+```
+
+Returns a new instance of the Network class, using the provided arguments to the constructor. 
+
+Beware, `Network.compile()` is not called, only the instantiation of the data structures. Nothing in the constructor should induce a recompilation.
+
+### create { #ANNarchy.core.Network.Network.create }
+
+```python
+core.Network.Network.create(
+    geometry,
+    neuron=None,
+    stop_condition=None,
+    name=None,
+    population=None,
+    storage_order='post_to_pre',
+)
+```
+
+Adds a population of neurons to the network.
+
+TODO
 
 ### disable_learning { #ANNarchy.core.Network.Network.disable_learning }
 
@@ -177,32 +251,35 @@ Enables learning for all projections.
 core.Network.Network.get(obj)
 ```
 
-Returns the local Population, Projection or Monitor corresponding to the provided argument.
+REMOVED
 
-`obj` is for example a top-level poopulation, while `net.get(pop)`is the copy local to the network.
-
-Example:
+### get_constant { #ANNarchy.core.Network.Network.get_constant }
 
 ```python
-pop = ann.Population(100, Izhikevich)
-net = ann.Network()
-net.add(pop)
-net.compile()
-
-print(net.get(pop).v)
+core.Network.Network.get_constant(name)
 ```
+
+Returns the constant with the given name.
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name   | Type   | Description                           | Default    |
-|--------|--------|---------------------------------------|------------|
-| obj    |        | A single object or a list of objects. | _required_ |
+| Name   | Type   | Description          | Default    |
+|--------|--------|----------------------|------------|
+| name   | str    | name of the constant | _required_ |
 
 #### Returns {.doc-section .doc-section-returns}
 
-| Name   | Type   | Description                                  |
-|--------|--------|----------------------------------------------|
-|        |        | The corresponding object or list of objects. |
+| Name   | Type     | Description                                                    |
+|--------|----------|----------------------------------------------------------------|
+|        | Constant | The requested `Constant` object if existing, `None` otherwise. |
+
+### get_constants { #ANNarchy.core.Network.Network.get_constants }
+
+```python
+core.Network.Network.get_constants()
+```
+
+Returns a list of declared constants.
 
 ### get_current_step { #ANNarchy.core.Network.Network.get_current_step }
 
@@ -212,14 +289,61 @@ core.Network.Network.get_current_step()
 
 Returns the current simulation step.
 
+### get_extension { #ANNarchy.core.Network.Network.get_extension }
+
+```python
+core.Network.Network.get_extension(name)
+```
+
+Returns the extension with the given name.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description           | Default    |
+|--------|--------|-----------------------|------------|
+| name   | str    | name of the extension | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                           |
+|--------|--------|-------------------------------------------------------|
+|        |        | The requested object if existing, ``None`` otherwise. |
+
+### get_extensions { #ANNarchy.core.Network.Network.get_extensions }
+
+```python
+core.Network.Network.get_extensions()
+```
+
+Returns a list of declared extensions (e.g. BOLD monitors).
+
+### get_monitor { #ANNarchy.core.Network.Network.get_monitor }
+
+```python
+core.Network.Network.get_monitor(name)
+```
+
+Returns the monitor with the given name.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description         | Default    |
+|--------|--------|---------------------|------------|
+| name   | str    | name of the monitor | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description                                                       |
+|--------|---------|-------------------------------------------------------------------|
+|        | Monitor | The requested ``Monitor`` object if existing, ``None`` otherwise. |
+
 ### get_monitors { #ANNarchy.core.Network.Network.get_monitors }
 
 ```python
-core.Network.Network.get_monitors(obj=None)
+core.Network.Network.get_monitors()
 ```
 
-Returns a list of declared monitors. By default, all monitors are returned.
-By setting *obj*, only monitors recording from this object, either *Population* or *Projection* will be returned.
+Returns a list of declared monitors.
 
 ### get_population { #ANNarchy.core.Network.Network.get_population }
 
@@ -278,27 +402,10 @@ Returns the projection with the given name.
 ### get_projections { #ANNarchy.core.Network.Network.get_projections }
 
 ```python
-core.Network.Network.get_projections(
-    post=None,
-    pre=None,
-    target=None,
-    suppress_error=False,
-)
+core.Network.Network.get_projections()
 ```
 
-Get a list of declared projections for the current network. By default,
-the method returns all connections within the network.
-
-By setting the arguments, post, pre and target one can select a subset.
-
-#### Parameters {.doc-section .doc-section-parameters}
-
-| Name           | Type   | Description                                                                                                                                      | Default   |
-|----------------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| post           |        | all returned projections should have this population as post.                                                                                    | `None`    |
-| pre            |        | all returned projections should have this population as pre.                                                                                     | `None`    |
-| target         |        | all returned projections should have this target.                                                                                                | `None`    |
-| suppress_error |        | by default, ANNarchy throws an error if the list of assigned projections is empty. If this flag is set to True, the error message is suppressed. | `False`   |
+Returns a list of all declared projections for the current network. 
 
 #### Returns {.doc-section .doc-section-returns}
 
@@ -335,6 +442,38 @@ Loads a saved state of the current network by calling ANNarchy.core.IO.load().
 | populations     | bool   | if True, population data will be saved (by default True)                                     | `True`     |
 | projections     | bool   | if True, projection data will be saved (by default True)                                     | `True`     |
 | pickle_encoding | str    | optional parameter provided to the pickle.load() method. If set to None the default is used. | `None`     |
+
+### monitor { #ANNarchy.core.Network.Network.monitor }
+
+```python
+core.Network.Network.monitor(
+    obj,
+    variables=[],
+    period=None,
+    period_offset=None,
+    start=True,
+    name=None,
+)
+```
+
+TODO
+
+### parallel_run { #ANNarchy.core.Network.Network.parallel_run }
+
+```python
+core.Network.Network.parallel_run(
+    method,
+    number,
+    max_processes=-1,
+    seeds=None,
+    measure_time=False,
+    **kwargs,
+)
+```
+
+Runs the provided method for multiple copies of the network.
+
+TODO
 
 ### reset { #ANNarchy.core.Network.Network.reset }
 
@@ -383,18 +522,10 @@ Sets the current simulation step.
 
 **Warning:** can be dangerous for some spiking models.
 
-### set_seed { #ANNarchy.core.Network.Network.set_seed }
-
-```python
-core.Network.Network.set_seed(seed, use_seed_seq=True)
-```
-
-Sets the seed of the random number generators for this network.
-
 ### set_time { #ANNarchy.core.Network.Network.set_time }
 
 ```python
-core.Network.Network.set_time(t, net_id=0)
+core.Network.Network.set_time(t)
 ```
 
 Sets the current time in ms.
@@ -467,4 +598,4 @@ net.simulate_until(max_duration=1000.0. population=pop1)
 core.Network.Network.step()
 ```
 
-Performs a single simulation step (duration = ``dt``).
+Performs a single simulation step (duration = `dt`).

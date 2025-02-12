@@ -1,7 +1,7 @@
-# TimedPoissonPopulation { #ANNarchy.inputs.TimedArray.TimedPoissonPopulation }
+# TimedPoissonPopulation { #ANNarchy.inputs.TimedPoissonPopulation.TimedPoissonPopulation }
 
 ```python
-inputs.TimedArray.TimedPoissonPopulation(
+inputs.TimedPoissonPopulation.TimedPoissonPopulation(
     self,
     geometry,
     rates,
@@ -9,6 +9,7 @@ inputs.TimedArray.TimedPoissonPopulation(
     period=-1.0,
     name=None,
     copied=False,
+    net_id=0,
 )
 ```
 
@@ -47,7 +48,7 @@ inp = TimedPoissonPopulation(
 
 Here the rate will become 10Hz again every 1 second of simulation. If the period is smaller than the schedule, the remaining rates will not be set.
 
-Note that you can use the ``reset()`` method to manually reinitialize the schedule, times becoming relative to that call:
+You can use the `reset()` method to manually reinitialize the schedule, times becoming relative to that call:
 
 ```python
 simulate(1200.) # Should switch to 100 Hz due to the period of 1000.
@@ -55,16 +56,26 @@ inp.reset()
 simulate(1000.) # Starts at 10 Hz again.
 ```
 
-The rates were here global to the population. If you want each neuron to have a different rate, ``rates`` must have additional dimensions corresponding to the geometry of the population.
+Note that the rates are reset to the value they had before compile().
+
+The rates are here common to all neurons of the population. If you want each neuron to have a different rate, `rates` must have additional dimensions corresponding to the geometry of the population. The first dimension still corresponds to the schedule.
 
 ```python
 inp = TimedPoissonPopulation(
     geometry = 100,
     rates = [ 
-        [10. + 0.05*i for i in range(100)], 
-        [20. + 0.05*i for i in range(100)],
+        [10. + 0.05*i for i in range(100)], # First 100 ms
+        [20. + 0.05*i for i in range(100)], # After 100 ms
     ],
     schedule = [0., 100.],
     period = 1000.,
 )
 ```
+
+## Parameters {.doc-section .doc-section-parameters}
+
+| Name     | Type   | Description                                                                                                                                                                                                                                                   | Default    |
+|----------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| rates    |        | array of firing rates (list of floats or lists of numpy arrays). The first axis corresponds to the times where the firing rate should change and have the same length as `schedule`, if used. The other dimensions must match the geometry of the population. | _required_ |
+| schedule |        | list of times (in ms) where the firing rate should change.                                                                                                                                                                                                    | _required_ |
+| period   |        | time when the timed array will be reset and start again, allowing cycling over the schedule. Default: no cycling (-1).                                                                                                                                        | `-1.0`     |

@@ -22,6 +22,7 @@ ANNarchy depends on a number of packages that should be easily accessible on rec
 * `g++` >= 7.4 or `clang++` >= 3.4
 * `cmake` >= 3.16
 * `setuptools` >= 65.0
+* `nanobind` >= 2.4.0
 * `cython` >= 3.0
 * `numpy` >= 1.21
 * `sympy` >= 1.11
@@ -165,13 +166,27 @@ We strongly advise using a full Python distribution like [Miniforge](https://git
 
 The main issue is the choice of the C++ compiler:
 
-### Using Apple's LLVM/clang
+### Using LLVM/clang
 
-If not done already, you should first install the [Xcode Command Line Tools](https://developer.apple.com/), either through Apple's website or through [Homebrew](https://brew.sh/) (see <https://mac.install.guide/commandlinetools/> for a guide) to get the LLVM clang++ compiler.
+If not done already, you should first install the [Xcode Command Line Tools](https://developer.apple.com/) and [Homebrew](https://brew.sh/) (see <https://mac.install.guide/commandlinetools/> for a guide) to get the LLVM clang++ compiler.
 
-The major drawback is that Apple's clang++ still does not support OpenMP for parallel computing. Any attempt to use OpenMP with ANNarchy using this compiler will crash.
+The major drawback of Apple's clang++ is that it still does not support OpenMP for parallel computing. Any attempt to use OpenMP with ANNarchy using this compiler will crash.
 
-If you have a M1 arm64 processor, it might be beneficial to tell clang++ to use optimizations for that hardware. Open the configuration file at `$HOME/.config/ANNarchy/annarchy.json` and add the following compiler flag (Xcode > 13.0):
+It is strongly advised to use a more recent version of `clang++` such as the one offered by homebrew:
+
+```bash
+brew install llvm
+```
+
+and update your shell config to use this version of `clang++` instead of Apple's (adapt the paths accordingly): 
+
+```bash
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib:$LDFLAGS"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include:$CPPFLAGS"
+```
+
+If you have a MX arm64 processor, it might be beneficial to tell clang++ to use optimizations for that hardware. Open the configuration file at `$HOME/.config/ANNarchy/annarchy.json` and add the following compiler flag (adapt it to your processor):
 
 ``` {.json}
 {
@@ -190,7 +205,7 @@ If you have a M1 arm64 processor, it might be beneficial to tell clang++ to use 
 
 ### Using gcc
 
-In order to benefit from OpenMP parallelization, you should install `gcc`, the GNU C compiler, using [Homebrew](https://brew.sh/):
+In order to benefit from OpenMP parallelization, you can also install `gcc`, the GNU C compiler, using [Homebrew](https://brew.sh/):
 
 ```bash
 brew install gcc
@@ -201,6 +216,7 @@ You will get the command-line C++ compiler with a **version number**, e.g.:
 ```bash
 g++-11
 ```
+
 The `g++` executable is a symlink to Apple's clang++, do not use it...
 
 You now have to tell ANNarchy which compiler to use, even if it is in your PATH. After installing ANNarchy, a config file is created in `$HOME/.config/ANNarchy/annarchy.json`. Open it and change the `openmp` entry to:
@@ -219,25 +235,6 @@ You now have to tell ANNarchy which compiler to use, even if it is in your PATH.
     }
 }
 ```
-
-:::callout-note
-
-A potential problem with Anaconda/miniforge is that the compiler will use by default the
-Python shared library provided by Apple, leading to the following crash
-when simulating:
-
-    Fatal Python error: PyThreadState_Get: no current thread
-    Abort trap: 6
-
-The solution is to set the environment variable
-`DYLD_FALLBACK_LIBRARY_PATH` to point at the correct library
-`libpython3.6.dylib` in your `.bash_profile`. For a standard Anaconda
-installation, this should be:
-
-```bash
-export DYLD_FALLBACK_LIBRARY_PATH=$HOME/anaconda/lib:$DYLD_FALLBACK_LIBRARY_PATH
-```
-:::
 
 
 :::callout-warning

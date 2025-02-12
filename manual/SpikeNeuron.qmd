@@ -4,17 +4,38 @@ Contrary to rate-coded neurons, the use of spiking neurons requires the addition
 
 ## Built-in neurons
 
-ANNarchy provides standard spiking neuron models, similar to the ones defined in [PyNN](http://neuralensemble.org/docs/PyNN/reference/neuronmodels.html). Their definition (parameters, equations) are described in [Specific Neurons](/reference/index.qmd#neuron-models). The classes can be used directly when creating the populations (no need to implement them). Example:
+ANNarchy provides standard spiking neuron models, similar to the ones defined in [PyNN](http://neuralensemble.org/docs/PyNN/reference/neuronmodels.html). Their definition (parameters, equations) are described in [Specific Neurons](/reference/index.qmd#neuron-models). 
+
+The classes can be used directly when creating the populations (no need to implement them). Example:
 
 ```python
-pop = ann.Population(geometry = 1000, neuron = Izhikevich)
+pop = net.create(geometry = 1000, neuron = ann.Izhikevich)
+```
+
+The model can also be instantiated with different parameter values to change the behavior of the neuron. For example for the Izhikevich neuron model:
+
+```python
+pop = net.create(
+    geometry = 1000, 
+    Izhikevich(
+        a=0.02,
+        b=0.2,
+        c=-65.0,
+        d=8.0,
+        v_thresh=30.0,
+        i_offset=0.0,
+        noise=0.0,
+    )
+)
 ```
 
 ## User-defined neurons
 
-Let's consider a simple leaky integrate-and-fire spiking neuron model (LIF) using a voltage-gated excitatory conductance:
+Contrary to many other simulators, you can define your own neural models. Let's consider a simple leaky integrate-and-fire spiking neuron model (LIF) using a voltage-gated excitatory conductance:
 
-$$\tau \cdot  \frac{ d v(t) }{ dt } = (E_r - v(t) ) + g_\text{exc}(t) \cdot (E_e -  v(t) )$$
+$$
+    \tau \cdot  \frac{ d v(t) }{ dt } = (E_r - v(t) ) + g_\text{exc}(t) \cdot (E_e -  v(t) )
+$$
 
 where $v(t)$ is the membrane potential, $\tau$ is the membrane time constant (in milliseconds), $E_r$ the resting potential, $E_e$ the target potential for excitatory synapses and $g_\text{exc}(t)$ the total current induced by excitatory synapses.
 
@@ -29,7 +50,7 @@ LIF = ann.Neuron(
         T = -45.0,
     ),
     equations = [
-        ann.variable('tau * dv/dt = (Er - v) + g_exc *(Ee- v)', init = 0.0),
+        ann.Variable('tau * dv/dt = (Er - v) + g_exc *(Ee- v)', init = 0.0),
     ],
     spike = "v > T",
     reset = "v = Er",
@@ -101,8 +122,8 @@ The default behaviour for conductances is an **instantaneous reset** (or infinit
 ```python
 LIF = ann.Neuron(
     equations = [
-        ann.variable('tau * dv/dt = (Er - v) + g_exc * (Ee- v)', init = 0.0),
-        ann.variable('g_exc = 0.0'),
+        ann.Variable('tau * dv/dt = (Er - v) + g_exc * (Ee- v)', init = 0.0),
+        ann.Variable('g_exc = 0.0'),
     ],
 )
 ```
@@ -114,8 +135,8 @@ Most models however use **exponentially decaying synapses**, where the conductan
 ```python
 LIF = ann.Neuron(
     equations = [
-        ann.variable('tau * dv/dt = (Er - v) + g_exc * (Ee- v)', init = 0.0),
-        ann.variable('tau_exc * dg_exc/dt = - g_exc'),
+        ann.Variable('tau * dv/dt = (Er - v) + g_exc * (Ee- v)', init = 0.0),
+        ann.Variable('tau_exc * dg_exc/dt = - g_exc'),
     ],
 )
 ```

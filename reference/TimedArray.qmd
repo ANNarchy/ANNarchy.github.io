@@ -9,13 +9,13 @@ inputs.TimedArray.TimedArray(
     period=-1.0,
     name=None,
     copied=False,
+    net_id=0,
 )
 ```
 
 Data structure holding sequential inputs for a rate-coded network.
 
 The input values are stored in the (recordable) attribute `r`, without any further processing.
-You will need to connect this population to another one using the ``connect_one_to_one()`` method.
 
 By default, the firing rate of this population will iterate over the different values step by step:
 
@@ -35,16 +35,16 @@ inputs = np.array(
     ]
 )
 
-inp = ann.TimedArray(rates=inputs)
+net = ann.Network()
+inp = net.create(ann.TimedArray(rates=inputs))
+pop = net.create(10, ann.LeakyIntegrator)
 
-pop = ann.Population(10, ...)
-
-proj = ann.Projection(inp, pop, 'exc')
+proj = net.connect(inp, pop, 'exc')
 proj.connect_one_to_one(1.0)
 
-ann.compile()
+net.compile()
 
-ann.simulate(10.)
+net.simulate(10.)
 ```
 
 This creates a population of 10 neurons whose activity will change during the first 10*dt milliseconds of the simulation. After that delay, the last input will be kept (i.e. 1 for the last neuron).
@@ -52,18 +52,18 @@ This creates a population of 10 neurons whose activity will change during the fi
 If you want the TimedArray to "loop" over the different input vectors, you can specify a period for the inputs:
 
 ```python
-inp = ann.TimedArray(rates=inputs, period=10.)
+inp = net.create(ann.TimedArray(rates=inputs, period=10.))
 ```
 
 If the period is smaller than the length of the rates, the last inputs will not be set.
 
-If you do not want the inputs to be set at every step, but every 10 ms for example, youcan use the ``schedule`` argument:
+If you do not want the inputs to be set at every step, but every 10 ms for example, you can use the ``schedule`` argument:
 
 ```python
-inp = ann.TimedArray(rates=inputs, schedule=10.)
+inp = net.create(ann.TimedArray(rates=inputs, schedule=10.))
 ```
 
-The input [1, 0, 0,...] will stay for 10 ms, then[0, 1, 0, ...] for the next 10 ms, etc...
+The input [1, 0, 0,...] will stay for 10 ms, then [0, 1, 0, ...] for the next 10 ms, etc...
 
 If you need a less regular schedule, you can specify it as a list of times:
 

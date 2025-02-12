@@ -1,12 +1,45 @@
-# Projections
+---
+title: "Projections"
+execute:
+  echo: true
+jupyter: python3
+---
+
+```{python}
+#| echo: false
+import numpy as np
+import ANNarchy as ann
+```
+
+Let's suppose the `BCM` synapse should used to create a plastic projection between two populations :
+
+```{python}
+BCM = ann.Synapse(
+    parameters = dict(
+        eta = 0.01,
+        tau = 100.,
+    ),
+    equations = [
+        ann.Variable('tau * dtheta/dt + theta = post.r^2', locality='semiglobal'),
+        ann.Variable('dw/dt = eta * post.r * (post.r - theta) * pre.r', min=0.0),
+    ]
+)
+```
+
+and two populations have been created:
+
+```{python}
+net = ann.Network()
+pop1 = net.create(10, ann.Neuron(equations="r=sum(exc)"))
+pop2 = net.create(10, ann.Neuron(equations="r=sum(exc)"))
+```
 
 ## Declaring the projections
 
-Once the populations are created, one can connect them by creating
-`Projection` instances:
+Once the populations are created, one can connect them by creating `Projection` instances through the `Network.connect()` method:
 
-```python
-proj = ann.Projection(
+```{python}
+proj = net.connect(
     pre = pop1,
     post = pop2,
     target = "exc",
@@ -19,7 +52,7 @@ proj = ann.Projection(
 * `target` is the type of the connection.
 * `synapse` is an optional argument requiring a `Synapse` instance.
 
-The post-synaptic neuron type must use `sum(exc)` in the rate-coded case respectively `g_exc` in the spiking case, otherwise the projection will be useless.
+The post-synaptic neuron type must use `sum(exc)` in the rate-coded case, respectively `g_exc` in the spiking case, otherwise the projection will be useless.
 
 If the `synapse` argument is omitted, the default synapse will be used:
 
@@ -34,68 +67,49 @@ To this end, ANNarchy already provides a set of predefined connector methods, bu
 
 The connection pattern should be applied right after the creation of the Projection:
 
-```python
-proj = Projection(
-    pre = pop1,
-    post = pop2,
-    target = "exc",
-    synapse = BCM
-)
-proj.connect_all_to_all( weights = 1.0 )
+```{python}
+proj.connect_fixed_probability(probability=0.5, weights = 1.0)
 ```
 
 The connector method must be called before the network is compiled.
 
-## Projection attributes
-
-Let's suppose the `BCM` synapse is used to create the Projection `proj` (spiking synapses are accessed similarly):
-
-```python
-BCM = ann.Synapse(
-    parameters = dict(
-        eta = 0.01,
-        tau = 100.,
-    ),
-    equations = [
-        ann.variable('tau * dtheta/dt + theta = post.r^2', 'semiglobal'),
-        ann.variable('dw/dt = eta * post.r * (post.r - theta) * pre.r', min=0.0),
-    ]
-)
+```{python}
+#| echo: true
+net.compile(silent=True)
 ```
+
+## Projection attributes
 
 ### Global attributes
 
 The global parameters and variables of a projection (i.e. defined with the `postsynaptic` or `projection` flags) can be accessed directly through attributes. Attributes defined with `projection` have a single value for the whole population:
 
-```python
+```{python}
 print(proj.tau)
-# 100
 ```
 
 Attributes defined with `postsynaptic` have one value per post-synaptic neuron, so the result is a vector:
 
-```python
+```{python}
 print(proj.theta)
-# [3.575, 15.987, ... , 4.620]
 ```
 
 Post-synaptic variables can be modified by passing:
 
--   a single value, which will be the same for all post-synaptic neurons.
--   a list of values, with the same size as the number of neurons receiving synapses (for some sparse connectivity patterns, it may not be the same as the size of the population, so no multidimensional array is accepted).
+* a single value, which will be the same for all post-synaptic neurons.
+* a list of values, with the same size as the number of neurons receiving synapses (for some sparse connectivity patterns, it may not be the same as the size of the population, so no multidimensional array is accepted).
+* a list of lists, matching exactly the number of synapses in the projection.
 
 After compilation (and therefore creation of the synapses), you can access how many post-synaptic neurons receive actual synapses with:
 
-```python
+```{python}
 print(proj.size)
-# 4
 ```
 
 The list of ranks of the post-synaptic neurons receiving synapses is obtained with:
 
-```python
+```{python}
 print(proj.post_ranks)
-# [0, 1, 2, 3]
 ```
 
 ### Local attributes
@@ -103,6 +117,10 @@ print(proj.post_ranks)
 **At the projection level**
 
 Local attributes can also be accessed globally through attributes. It will return a list of lists containing the synapse-specific values.
+
+```{python}
+print(proj.w)
+```
 
 The first index represents the post-synaptic neurons. It has the same length as `proj.post_ranks`. Beware that if some post-synaptic neurons do not receive any connection, this index will not correspond to the ranks of the post-synaptic population.
 
@@ -120,49 +138,21 @@ The local parameters and variables of a projection (synapse-specific) should bet
 
 Each dendrite stores the parameters and variables of the corresponding synapses as attributes, as populations do for neurons. You can loop over all post-synaptic neurons receiving synapses with the `dendrites` iterator:
 
-```python
+```{python}
 for dendrite in proj.dendrites:
-    print(dendrite.pre_ranks)
-    print(dendrite.size)
-    print(dendrite.tau)
-    print(dendrite.alpha)
-    print(dendrite.w)
+    print(dendrite.pre_ranks, dendrite.size)
 ```
 
 `dendrite.pre_ranks` returns a list of pre-synaptic neuron ranks. `dendrite.size` returns the number of synapses for the considered post-synaptic neuron. Global parameters/variables return a single value (`dendrite.tau`) and local ones return a list (`dendrite.w`).
 
-You can even omit the `.dendrites` part of the iterator:
 
-```python
-for dendrite in proj:
-    print(dendrite.pre_ranks)
-    print(dendrite.size)
-    print(dendrite.tau)
-    print(dendrite.alpha)
-    print(dendrite.w)
-```
+You can also access the dendrites individually, either by specifying the rank or the coordinates of the post-synaptic neuron:
 
-You can also access the dendrites individually, either by specifying the rank of the post-synaptic neuron:
-
-```python
-dendrite = proj.dendrite(13)
+```{python}
+dendrite = proj.dendrite(3)
 print(dendrite.w)
 ```
 
-or its coordinates:
-
-```python
-dendrite = proj.dendrite(5, 5)
-print(dendrite.w)
-```
-
-When using ranks, you can also directly address the projection as an
-array:
-
-```python
-dendrite = proj[13]
-print(dendrite.w)
-```
 
 :::callout-warning
 
@@ -180,8 +170,8 @@ BCM = ann.Synapse(
         tau = 100.,
     ),
     equations = [
-        ann.variable('tau * dtheta/dt + theta = post.r^2', 'semiglobal'),
-        ann.variable('dw/dt = eta * BCMRule(pre.r, post.r, theta)', min=0.0),
+        ann.Variable('tau * dtheta/dt + theta = post.r^2', 'semiglobal'),
+        ann.Variable('dw/dt = eta * BCMRule(pre.r, post.r, theta)', min=0.0),
     ]
     functions = """
         BCMRule(pre, post, theta) = post * (post - theta) * pre
@@ -222,14 +212,14 @@ pop2_center = pop2[2:7, 2:7]
 They can then be simply used to create a projection:
 
 ```python
-proj = ann.Projection(
+proj = net.connect(
     pre = pop1_center,
     post = pop2_center,
     target = "exc",
     synapse = BCM
 )
 
-proj.connect_all_to_all( weights = 1.0 )
+proj.connect_all_to_all(weights = 1.0)
 ```
 
 Each neuron of `pop2_center` will receive synapses from all neurons of `pop1_center`, and only them. Neurons of `pop2` which are not in `pop2_center` will not receive any synapse.
@@ -327,7 +317,7 @@ RSNeuron = ann.Neuron(
 However, `g_ampa` and `g_nmda` collect by default spikes from different projections, so the weights will not be shared between the \"ampa\" projection and the \"nmda\" one. It is therefore possible to specify a list of targets when building a projection, meaning that a single pre-synaptic spike will increase both `g_ampa` and `g_nmda` from the same weight:
 
 ```python
-proj = Projection(pop1, pop2, ['ampa', 'nmda'], STDP)
+proj = net.connect(pop1, pop2, ['ampa', 'nmda'], STDP)
 ```
 
 An example is provided in `/notebooks/Ramp.ipynb`.

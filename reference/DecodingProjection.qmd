@@ -9,6 +9,7 @@ inputs.DecodingProjection.DecodingProjection(
     window=0.0,
     name=None,
     copied=False,
+    net_id=0,
 )
 ```
 
@@ -18,9 +19,9 @@ The pre-synaptic population must be a spiking population, while the post-synapti
 
 Pre-synaptic spikes are accumulated for each post-synaptic neuron. A sliding window can be used to smoothen the results with the ``window`` parameter.
 
-The decoded firing rate is accessible in the post-synaptic neurons with ``sum(target)``.
+The decoded firing rate is accessible in the post-synaptic neurons with `sum(target)`.
 
-The projection can be connected using any method available in ``Projection`` (although all-to-all or many-to-one makes mostly sense). Delays are ignored.
+The projection can be connected using any method available in `Projection` (although all-to-all or many-to-one makes mostly sense). Delays are ignored.
 
 The weight value allows to scale the firing rate: if you want a pre-synaptic firing rate of 100 Hz to correspond to a post-synaptic rate of 1.0, use ``w = 1./100.``.
 
@@ -30,7 +31,7 @@ Example:
 pop1 = ann.PoissonPopulation(1000, rates=100.)
 pop2 = ann.Population(1, ann.Neuron(equations="r=sum(exc)"))
 proj = DecodingProjection(pop1, pop2, 'exc', window=10.0)
-proj.connect_all_to_all(1.0, force_multiple_weights=True)
+proj.connect_all_to_all(1.0)
 ```
 
 ## Parameters {.doc-section .doc-section-parameters}

@@ -1,10 +1,17 @@
 # Transpose { #ANNarchy.extensions.convolution.Transpose.Transpose }
 
 ```python
-extensions.convolution.Transpose.Transpose(self, proj, target)
+extensions.convolution.Transpose.Transpose(
+    self,
+    projection,
+    target,
+    name=None,
+    copied=False,
+    net_id=0,
+)
 ```
 
-Transposed projection reusing the weights of an already-defined rate-coded projection. 
+Transposed projection reusing the weights of an already-defined projection. 
 
 Even though the original projection can be learnable, this one can not. The computed post-synaptic potential is the default case for rate-coded projections: "w * pre.r"
 
@@ -17,15 +24,15 @@ proj_ff = ann.Projection( input, output, target="exc" )
 proj_ff.connect_all_to_all(weights=Uniform(0,1)
 
 proj_fb = Transpose(proj_ff, target="inh")
-proj_fb.connect()
+proj_fb.connect_transpose()
 ````
 
 ## Parameters {.doc-section .doc-section-parameters}
 
-| Name   | Type   | Description                                                | Default    |
-|--------|--------|------------------------------------------------------------|------------|
-| proj   |        | original projection.                                       | _required_ |
-| target |        | type of the connection (can differ from the original one). | _required_ |
+| Name       | Type   | Description                                                | Default    |
+|------------|--------|------------------------------------------------------------|------------|
+| projection |        | original projection.                                       | _required_ |
+| target     |        | type of the connection (can differ from the original one). | _required_ |
 
 ## Methods
 

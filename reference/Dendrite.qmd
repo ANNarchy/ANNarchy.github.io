@@ -26,8 +26,8 @@ dendrite = proj.dendrite(6)
 
 | Name | Description |
 | --- | --- |
-| [create_synapse](#ANNarchy.core.Dendrite.Dendrite.create_synapse) | Creates a synapse for this dendrite with the given pre-synaptic neuron. |
-| [create_synapses](#ANNarchy.core.Dendrite.Dendrite.create_synapses) | Creates a synapse for this dendrite with the given pre-synaptic neurons. |
+| [create_synapse](#ANNarchy.core.Dendrite.Dendrite.create_synapse) | Creates a single synapse for this dendrite with the given pre-synaptic neuron. |
+| [create_synapses](#ANNarchy.core.Dendrite.Dendrite.create_synapses) | Creates a set of synapses for this dendrite with the given pre-synaptic neurons. |
 | [get](#ANNarchy.core.Dendrite.Dendrite.get) | Returns the value of a variable/parameter. |
 | [prune_synapse](#ANNarchy.core.Dendrite.Dendrite.prune_synapse) | Removes the synapse with the given pre-synaptic neuron from the dendrite. |
 | [prune_synapses](#ANNarchy.core.Dendrite.Dendrite.prune_synapses) | Removes the synapses which belong to the provided pre-synaptic neurons from the dendrite. |
@@ -41,15 +41,15 @@ dendrite = proj.dendrite(6)
 core.Dendrite.Dendrite.create_synapse(rank, w=0.0, delay=0)
 ```
 
-Creates a synapse for this dendrite with the given pre-synaptic neuron.
+Creates a single synapse for this dendrite with the given pre-synaptic neuron.
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name   | Type   | Description                     | Default    |
-|--------|--------|---------------------------------|------------|
-| rank   | int    | rank of the pre-synaptic neuron | _required_ |
-| w      | float  | synaptic weight.                | `0.0`      |
-| delay  | float  | synaptic delay.                 | `0`        |
+| Name   | Type   | Description                                                       | Default    |
+|--------|--------|-------------------------------------------------------------------|------------|
+| rank   | int    | rank of the pre-synaptic neuron                                   | _required_ |
+| w      | float  | synaptic weight.                                                  | `0.0`      |
+| delay  | float  | synaptic delay in milliseconds that should be a multiple of *dt*. | `0`        |
 
 ### create_synapses { #ANNarchy.core.Dendrite.Dendrite.create_synapses }
 
@@ -57,15 +57,15 @@ Creates a synapse for this dendrite with the given pre-synaptic neuron.
 core.Dendrite.Dendrite.create_synapses(ranks, weights=None, delays=None)
 ```
 
-Creates a synapse for this dendrite with the given pre-synaptic neurons.
+Creates a set of synapses for this dendrite with the given pre-synaptic neurons.
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name    | Type          | Description                                | Default    |
-|---------|---------------|--------------------------------------------|------------|
-| ranks   | list\[int\]   | list of ranks of the pre-synaptic neurons. | _required_ |
-| weights | list\[float\] | list of synaptic weights (default: 0.0).   | `None`     |
-| delays  | list\[float\] | list of synaptic delays (default = dt).    | `None`     |
+| Name    | Type          | Description                                 | Default    |
+|---------|---------------|---------------------------------------------|------------|
+| ranks   | list\[int\]   | list of ranks for the pre-synaptic neurons. | _required_ |
+| weights | list\[float\] | list of synaptic weights (default: 0.0).    | `None`     |
+| delays  | list\[float\] | list of synaptic delays (default = dt).     | `None`     |
 
 ### get { #ANNarchy.core.Dendrite.Dendrite.get }
 

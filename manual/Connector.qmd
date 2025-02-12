@@ -30,10 +30,10 @@ proj.connect_all_to_all(weights=Uniform(0.0, 0.5))
 A neuron of the post-synaptic population forms a connection with only **one** neuron of the pre-synaptic population. The order depends on the ranks: neuron 0 is connected with neuron 0 and so on. It is advised that the pre- and post-populations have the same size/geometry, especially when using population views.
 
 ```python
-pop1 = Population((20, 20), Neuron(parameters="r=0.0"))
-pop2 = Population((10, 10), Neuron(equations="r=sum(exc)"))
+pop1 = net.create((20, 20), Neuron(parameters="r=0.0"))
+pop2 = net.create((10, 10), Neuron(equations="r=sum(exc)"))
 
-proj = Projection(pop1[5:15, 5:15], pop2, 'exc')
+proj = net.connect(pop1[5:15, 5:15], pop2, 'exc')
 proj.connect_one_to_one(weights=1.0) 
 ```
 
@@ -170,7 +170,9 @@ The following code creates a synfire chain inside a population of 100 neurons:
 
 ```python
 N = 100
-proj = ann.Projection(pop, pop, 'exc')
+net = ann.Network()
+pop = net.create(N, Neuron(equations="r=sum(exc)"))
+proj = net.connect(pop, pop, 'exc')
 
 # Initialize an empty connectivity matrix
 w = np.array([[None]*N]*N)
@@ -186,7 +188,7 @@ proj.connect_from_matrix(w)
 Connectivity matrices can not work with multi-dimensional coordinates, only ranks are used. Population views can be used in the projection, but the connection matrix must have the corresponding size:
 
 ```python
-proj = ann.Projection(pop[10:20], pop[50:60], 'exc')
+proj = net.connect(pop[10:20], pop[50:60], 'exc')
 
 # Create the connectivity matrix
 w = np.ones((10, 10))
@@ -202,7 +204,7 @@ For sparse connection matrices, the Numpy array format may have a huge memory ov
 ```python
 from scipy.sparse import lil_matrix
 
-proj = ann.Projection(pop, pop, 'exc')
+proj = net.connect(pop, pop, 'exc')
 
 w = lil_matrix((N, N))
 for i in range(N):
@@ -249,18 +251,23 @@ import random
 import ANNarchy as ann
 
 def probabilistic_pattern(pre, post, weight, probability):
+    
     # Create a LIL structure for the connectivity matrix
     synapses = ann.LILConnectivity()
+    
     # For all neurons in the post-synaptic population
     for post_rank in range(post.size):
+        
         # Decide which pre-synaptic neurons should form synapses
         ranks = []
         for pre_rank in range(pre.size):
             if random.random() < probability:
                 ranks.append(pre_rank)
+        
         # Create weights and delays arrays of the same size
         values = [weight for i in range(len(ranks)) ]
         delays = [0 for i in range(len(ranks)) ]
+        
         # Add this information to the LIL matrix
         synapses.add(post_rank, ranks, values, delays)
 
@@ -287,7 +294,7 @@ The `add()` should be only called once per post-synaptic neuron! If not, ANNarch
 To use the pattern within a projection you provide the pattern method to the `connect_with_func` method of `Projection`
 
 ```python
-proj = ann.Projection(
+proj = net.connect(
     pre = pop1, 
     post = pop2, 
     target = 'inh' 

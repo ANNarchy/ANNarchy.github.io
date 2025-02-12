@@ -14,7 +14,7 @@ or specified explicitely for each ODE by specifying the attribute:
 
 ```python
 equations = [
-    ann.variable('tau * dv/dt  + v =  A', init = 0.0, method='exponential'),
+    ann.Variable('tau * dv/dt  + v =  A', init = 0.0, method='exponential'),
 ]
 ```
 
@@ -132,7 +132,7 @@ The exponential method can only be applied to **first-order linear** ODEs. Any o
 ```python
 neuron = nn.Neuron(
     parameters = dict(tau = 10.),
-    equations = ann.variable('tau * dr/dt + r = sum(exc)', min=0.0, method='exponential'),
+    equations = ann.Variable('tau * dr/dt + r = sum(exc)', min=0.0, method='exponential'),
 )
 ```
 
@@ -175,8 +175,8 @@ STDP = ann.Synapse(
         tau_post = 10.0,
     ),
     equations = [
-        ann.variable('tau_pre * dApre/dt = - Apre', method='event-driven'),
-        ann.variable('tau_post * dApost/dt = - Apost', method='event-driven'),
+        ann.Variable('tau_pre * dApre/dt = - Apre', method='event-driven'),
+        ann.Variable('tau_post * dApost/dt = - Apost', method='event-driven'),
     ],
     pre_spike = """
         g_target += w

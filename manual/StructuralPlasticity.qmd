@@ -78,7 +78,7 @@ Removing useless synapses (pruning) is also possible. Let's consider a synapse t
 
 ```python
 AgingSynapse = ann.Synapse(
-    equations = ann.variable("""
+    equations = ann.Variable("""
         age = if pre.r * post.r > 0.0 : 
                 0
               else :
@@ -150,8 +150,8 @@ Synaptic pruning also rely on a boolean expression and the `ann.pruning()` objec
 
 ```python
 PruningSynapse = ann.Synapse(
-    parameters = dict(T = ann.parameter(10000, 'global', int),
-    equations = ann.variable("""
+    parameters = dict(T = ann.Parameter(10000, 'global', int),
+    equations = ann.Variable("""
         age = if pre.r * post.r > 0.0 : 
                 0
               else :

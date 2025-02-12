@@ -92,13 +92,13 @@ BCM = ann.Synapse(
         tau = 100., # global
     ),
     equations = [
-        ann.variable('tau * dtheta/dt + theta = post.r^2', locality='semiglobal'),
-        ann.variable('dw/dt = eta * post.r * (post.r - theta) * pre.r', min=0.0), # local
+        ann.Variable('tau * dtheta/dt + theta = post.r^2', locality='semiglobal'),
+        ann.Variable('dw/dt = eta * post.r * (post.r - theta) * pre.r', min=0.0), # local
     ]
 )
 ```
 
-`eta` and `tau` are global parameters to the projection: all synapses will use the same value. `theta` defines one value per post-synaptic neuron: it tracks the average of the post-synaptic firing rate. There is therefore no need to update one value per synapse, so we can use the value 'semiglobal'. Naturally, `w` is local to each synapse, so no locality should be passed.
+`eta` and `tau` are global parameters to the projection: all synapses will use the same value. `theta` defines one value per post-synaptic neuron: it tracks the average of the post-synaptic firing rate. There is therefore no need to update one value per synapse, so we can use the value `semiglobal`. Naturally, `w` is local to each synapse, so no locality should be passed.
 
 ## Global operations
 
@@ -140,10 +140,16 @@ Covariance = ann.Synapse(
 
 The argument `psp` of a `Synapse` object represents the post-synaptic potential evoked by the pre-synaptic neuron. This value is actually summed by the post-synaptic neuron over all other synapses of the same projection in `sum(target)`. If not defined, it will simply represent the product between the pre-synaptic firing rate (`pre.r`) and the weight value (`w`).
 
-The post-synaptic potential of a single synapse is by default:
+$$
+    g_i = \sum_{j} \text{psp}(i) = \sum_{i} w_{ij} \, r^\text{pre}_i
+$$
+
+The post-synaptic potential of a single synapse is therefore by default:
 
 ```python
-psp = w * pre.r
+default_synapse = ann.Synapse(
+    psp = "w * pre.r"
+)
 ```
 
 where `pre.r` is the pre-synaptic firing rate, but you may want to override this behaviour in certain cases.
@@ -151,14 +157,14 @@ where `pre.r` is the pre-synaptic firing rate, but you may want to override this
 For example, you may want to model a non-linear synapse with a logarithmic term:
 
 $$
-r_{i} = \sum_j \log \left( \frac {( r_{j} * w_{ij} ) + 1 } { ( r_{j} * w_{ij} ) - 1 } \right)
+g_i = \sum_j \log \left( \frac {( w_{ij} \, r^\text{pre}_j) + 1 } { ( w_{ij}/, r^\text{pre}_j ) - 1 } \right)
 $$
 
 In this case, you can just modify the `psp` argument of the synapse:
 
 ```python
-NonLinearSynapse = ann.Synapse( 
-    psp = " log( (pre.r * w + 1 ) / (pre.r * w - 1) ) "
+nonlinear_synapse = ann.Synapse( 
+    psp = "log( (pre.r * w + 1 ) / (pre.r * w - 1) )"
 )
 ```
 
@@ -166,11 +172,7 @@ No further modification has to be done in the post-synaptic neuron, this value w
 
 ## Defining the post-synaptic operation
 
-By default, a post-synaptic neuron calling `sum(target)` will compute the sum over all incoming synapses of their defined `psp`:
-
-$$\text{sum(exc)} = \sum_{i \in \text{exc}} \text{psp}(i) = \sum_{i \in \text{exc}} w_i * \text{pre}.r_i$$
-
-It is possible to define a different operation performed on the connected synapses, using the `operation` argument of the synapse:
+It is possible to define a different operation than a sum  performed on the connected synapses, using the `operation` argument of the synapse:
 
 ```python
 MaxPooling = ann.Synapse(
