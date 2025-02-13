@@ -1,11 +1,16 @@
-# Recording with Monitors
+# Monitors
 
 Between two calls to `simulate()`, all neural and synaptic variables can be accessed through the generated attributes. The evolution of neural or synaptic variables during a simulation phase can be selectively recorded using `Monitor` objects.
 
 The `Monitor` object can be created at any time (before or after `compile()`) to record any variable of a `Population`, `PopulationView`, `Dendrite` or `Projection`.
 
-:::callout-important
+```python
+m_pop = net.monitor(pop, 'r')
+m_proj = net.monitor(proj.dendrite(0), 'w')
+```
 
+
+:::callout-important
 The value of each variable is stored for every simulation step in the RAM. For huge networks and long simulations, this can very rapidly fill up the available memory and lead to cache defaults, thereby degrading strongly the performance. It is the user's responsability to record only the needed variables and to regularly save the values in a file.
 :::
 
@@ -21,17 +26,17 @@ The `Monitor` object takes four arguments:
 Some examples:
 
 ```python
-m = ann.Monitor(pop, 'r') # record r in all neurons of pop
-m = ann.Monitor(pop, ['r', 'v']) # record r and v of all neurons
-m = ann.Monitor(pop[:100], 'r', period=10.0) # record r in the first 100 neurons of pop, every 10 ms
-m = ann.Monitor(pop, 'r', start=False) # record r in all neurons, but do not start recording
+m = net.monitor(pop, 'r') # record r in all neurons of pop
+m = net.monitor(pop, ['r', 'v']) # record r and v of all neurons
+m = net.monitor(pop[:100], 'r', period=10.0) # record r in the first 100 neurons of pop, every 10 ms
+m = net.monitor(pop, 'r', start=False) # record r in all neurons, but do not start recording
 ```
 
 Spiking networks additionally allow to record the `spike` events in a population (see later). You also can record conductances (e.g. `g_exc`) and weighted sums of inputs in rate-coded networks (`sum(exc)`) the same way:
 
 ```python
-m = ann.Monitor(pop, ['spike', 'g_exc', 'g_inh'])
-m = ann.Monitor(pop, ['r', 'sum(exc)', 'sum(inh)'])
+m = net.nonitor(pop, ['spike', 'g_exc', 'g_inh'])
+m = net.monitor(pop, ['r', 'sum(exc)', 'sum(inh)'])
 ```
 
 ### Starting the recordings
@@ -39,10 +44,11 @@ m = ann.Monitor(pop, ['r', 'sum(exc)', 'sum(inh)'])
 If `start` is set to `False`, recordings can be started later by calling the `start()` method:
 
 ```python
-m = ann.Monitor(pop, 'r', start=False)
-ann.simulate(100.)
+m = net.monitor(pop, 'r', start=False)
+
+net.simulate(100.)
 m.start()
-ann.simulate(100.)
+net.simulate(100.)
 ```
 
 In this case, only the last 100 ms of the simulation will be recorded. Otherwise, recording would start immediately after the creation of the object.
@@ -52,12 +58,13 @@ In this case, only the last 100 ms of the simulation will be recorded. Otherwise
 If you are interested in recording only specific periods of the simulation, you can ause and resume recordings:
 
 ```python
-m = ann.Monitor(pop, 'r')
-ann.simulate(100.)
+m = net.monitor(pop, 'r')
+
+net.simulate(100.)
 m.pause()
-ann.simulate(1000.)
+net.simulate(1000.)
 m.resume()
-ann.simulate(100.)
+net.simulate(100.)
 ```
 
 In this example, only the first and last 100 ms of the simulation are recorded.
@@ -67,10 +74,14 @@ In this example, only the first and last 100 ms of the simulation are recorded.
 The recorded values are obtained through the `get()` method. If no argument is passed, a dictionary is returned with one element per recorded variable. If the name of a variable is passed (for example `get('r')`), the recorded values for this variable are directly returned:
 
 ```python
-m = ann.Monitor(pop, ['r', 'v'])
+m = net.monitor(pop, ['r', 'v'])
+
 ann.simulate(100.)
-data = m.get()
+
+data = m.get() # both 'r' and 'v'
+
 ann.simulate(100.)
+
 r = m.get('r')
 v = m.get('v')
 ```
@@ -101,23 +112,29 @@ Once you call `get()`, the internal data is erased, so calling it immediately af
 The time indices are in simulation steps (integers), not in real time (ms). If `dt` is different from 1.0, this indices must be multiplied by `dt()` in order to plot real times:
 
 ```python
-ann.setup(dt=0.1)
+net = ann.Network(dt=0.1)
+
 # ...
-m = ann.Monitor(pop, 'r')
-ann.simulate(100.)
+
+m = net.monitor(pop, 'r')
+
+net.simulate(100.)
 r = m.get('r')
+
 plt.plot(dt()*np.arange(100), r[:, 15])
 ```
 
 If recordings used the `pause()` and `resume()` methods, `get()` returns only one array with all recordings concatenated. You can access the steps at which the recording started or paused with the `times()` method:
 
 ```python
-m = ann.Monitor(pop, 'r')
-ann.simulate(100.)
+m = net.monitor(pop, 'r')
+
+net.simulate(100.)
 m.pause()
-ann.simulate(1000.)
+net.simulate(1000.)
 m.resume()
-ann.simulate(100.)
+net.simulate(100.)
+
 r = m.get('r') # A (200, N) Numpy array
 print(m.times()) # {'start': [0, 1100], 'stop': [100, 1200]}
 ```
@@ -127,7 +144,7 @@ print(m.times()) # {'start': [0, 1100], 'stop': [100, 1200]}
 Any variable defined in the neuron type can be recorded. An exception for spiking neurons is the `spike` variable itself, which is never explicitely defined in the neuron type but can be recorded:
 
 ```python
-m = ann.Monitor(pop, ['v', 'spike'])
+m = net.monitor(pop, ['v', 'spike'])
 ```
 
 Unlike other variables, the binary value of `spike` is not recorded at each time step, which would lead to very sparse matrices, but only the times (in steps, not milliseconds) at which spikes actually occur.
@@ -135,8 +152,9 @@ Unlike other variables, the binary value of `spike` is not recorded at each time
 As each neuron fires differently (so each neuron will have recorded spikes of different lengths), `get()` in this case does not return a Numpy array, but a dictionary associating to each recorded neuron a list of spike times:
 
 ```python
-m = ann.Monitor(pop, ['v', 'spike'])
-ann.simulate(100.0)
+m = net.monitor(pop, ['v', 'spike'])
+
+net.simulate(100.0)
 data = m.get('spike')
 print(data[0]) # [23, 76, 98]
 ```
@@ -181,6 +199,7 @@ The mean firing rate in the population can be easily calculated using the length
 ```python
 N = 1000 # number of neurons
 duration = 500. # duration of the simulation
+
 data = m.get('spike')
 spike_times, ranks = m.raster_plot(data)
 print('Mean firing rate:', len(spike_times)/float(N)/duration*1000., 'Hz.')
@@ -227,35 +246,6 @@ plt.plot(histo)
 
 `bins` represents the size of each bin, here 1 ms. By default, the bin size is `dt`.
 
-**Note :** the methods to analyse the spike patterns are also available outside the monitors. For example if you save the spike recordings into a file using numpy:
-
-```python
-spikes = m.get('spike')
-
-np.save('spikes.npy', spikes)
-```
-
-you can analyze them in a separate file like this:
-
-```python
-# Load the data
-spikes = np.load('spikes.npy').item()
-
-# Compute the raster plot
-t, n = ann.raster_plot(spikes)
-
-# Compute the population firing rate
-fr = ann.histogram(spikes, bins=1.)
-
-# Smoothed firing rate
-sr = ann.smoothed_rate(spikes, smooth=10.0)
-
-# Population firing rate
-pr = ann.population_rate(spikes, smooth=10.0)
-
-# Global firing rate
-mfr = ann.mean_fr(spikes)
-```
 
 ## Synaptic variables
 
@@ -265,8 +255,11 @@ To avoid fast memory fills, you should either 1) record the projection variables
 
 ```python
 dendrite = proj.dendrite(12) # or simply proj[12]
-m = ann.Monitor(dendrite, 'w')
-ann.simulate(1000.0)
+
+m = net.monitor(dendrite, 'w')
+
+net.simulate(1000.0)
+
 data = m.get('w')
 ```
 
@@ -280,15 +273,16 @@ dendrite.pre_ranks # [0, 3, 12, ..]
 To record a complete projection, simply pass it to the Monitor:
 
 ```python
-m = ann.Monitor(proj, 'w', period=1000.)
+m = net.monitor(proj, 'w', period=1000.)
+
 ann.simulate(10000.0)
+
 data = m.get('w')
 ```
 
 One last time, do **not** record all weights of a projection at each time step!
 
 :::callout-warning
-
 Recording synaptic variables with CUDA is not available.
 :::
 

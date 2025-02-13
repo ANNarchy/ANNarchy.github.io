@@ -42,6 +42,8 @@ To modify this behavior, a `Synapse` object can be provided.
 | [dendrites](#ANNarchy.core.Projection.Projection.dendrites) | Iteratively returns the dendrites corresponding to this projection. |
 | [nb_synapses](#ANNarchy.core.Projection.Projection.nb_synapses) | Total number of synapses in the projection. |
 | [parameters](#ANNarchy.core.Projection.Projection.parameters) | List of parameter names. |
+| [post_ranks](#ANNarchy.core.Projection.Projection.post_ranks) | List of ranks of post-synaptic neurons that receive connections. Read-only. |
+| [pre_ranks](#ANNarchy.core.Projection.Projection.pre_ranks) | List of lists of pre-synaptic ranks, for each post-synaptic neuron. Read-only. |
 | [size](#ANNarchy.core.Projection.Projection.size) | Number of post-synaptic neurons receiving synapses. |
 | [variables](#ANNarchy.core.Projection.Projection.variables) | List of variable names. |
 
@@ -67,7 +69,6 @@ To modify this behavior, a `Synapse` object can be provided.
 | [enable_learning](#ANNarchy.core.Projection.Projection.enable_learning) | Enables learning for all the synapses of this projection. |
 | [get](#ANNarchy.core.Projection.Projection.get) | Returns a list of parameters/variables values for each dendrite in the projection. |
 | [load](#ANNarchy.core.Projection.Projection.load) | Loads the saved state of the projection by `Projection.save()`. |
-| [nb_efferent_synapses](#ANNarchy.core.Projection.Projection.nb_efferent_synapses) | Number of efferent connections. Intended only for spiking models. |
 | [nb_synapses_per_dendrite](#ANNarchy.core.Projection.Projection.nb_synapses_per_dendrite) | Total number of synapses for each dendrite as a list. |
 | [receptive_fields](#ANNarchy.core.Projection.Projection.receptive_fields) | Gathers all receptive fields within this projection. |
 | [reset](#ANNarchy.core.Projection.Projection.reset) | Resets all parameters and variables of the projection to their initial value (before the call to compile()). |
@@ -534,14 +535,6 @@ proj.load('proj1.txt.gz')
 |-----------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
 | filename        | str    | the file name with relative or absolute path.                                                                                                                                                                                                                                           | _required_ |
 | pickle_encoding | str    | What encoding to use when reading Python 2 strings. Only useful when loading Python 2 generated pickled files in Python 3, which includes npy/npz files containing object arrays. Values other than `latin1`, `ASCII`, and `bytes` are not allowed, as they can corrupt numerical data. | `None`     |
-
-### nb_efferent_synapses { #ANNarchy.core.Projection.Projection.nb_efferent_synapses }
-
-```python
-core.Projection.Projection.nb_efferent_synapses()
-```
-
-Number of efferent connections. Intended only for spiking models.
 
 ### nb_synapses_per_dendrite { #ANNarchy.core.Projection.Projection.nb_synapses_per_dendrite }
 

@@ -34,7 +34,7 @@ pop1 = net.create(10, ann.Neuron(equations="r=sum(exc)"))
 pop2 = net.create(10, ann.Neuron(equations="r=sum(exc)"))
 ```
 
-## Declaring the projections
+## Creating the projections
 
 Once the populations are created, one can connect them by creating `Projection` instances through the `Network.connect()` method:
 
@@ -59,7 +59,7 @@ If the `synapse` argument is omitted, the default synapse will be used:
 * the default rate-coded synapse defines `psp = w * pre.r`,
 * the default spiking synapse defines `g_target += w`.
 
-## Building the projections
+## Instantiating the projections
 
 Creating the **Projection** objects only defines the information that two populations are connected. The synapses must be explicitely created by applying a connector method on the **Projection** object.
 
@@ -74,7 +74,7 @@ proj.connect_fixed_probability(probability=0.5, weights = 1.0)
 The connector method must be called before the network is compiled.
 
 ```{python}
-#| echo: true
+#| echo: false
 net.compile(silent=True)
 ```
 
@@ -82,59 +82,73 @@ net.compile(silent=True)
 
 ### Global attributes
 
-The global parameters and variables of a projection (i.e. defined with the `postsynaptic` or `projection` flags) can be accessed directly through attributes. Attributes defined with `projection` have a single value for the whole population:
+The global parameters and variables of a projection (parameters by default, and variables defined with `locality='global'`) can be accessed directly through attributes:
 
 ```{python}
-print(proj.tau)
+proj.tau
 ```
 
-Attributes defined with `postsynaptic` have one value per post-synaptic neuron, so the result is a vector:
+Semi-global attributes have one value per post-synaptic neuron, so the result is a list:
 
 ```{python}
-print(proj.theta)
+proj.theta
 ```
 
 Post-synaptic variables can be modified by passing:
 
 * a single value, which will be the same for all post-synaptic neurons.
-* a list of values, with the same size as the number of neurons receiving synapses (for some sparse connectivity patterns, it may not be the same as the size of the population, so no multidimensional array is accepted).
+* a list of values, with the same size as the number of neurons receiving synapses.
 * a list of lists, matching exactly the number of synapses in the projection.
 
 After compilation (and therefore creation of the synapses), you can access how many post-synaptic neurons receive actual synapses with:
 
 ```{python}
-print(proj.size)
+proj.size
 ```
 
 The list of ranks of the post-synaptic neurons receiving synapses is obtained with:
 
 ```{python}
-print(proj.post_ranks)
+proj.post_ranks
 ```
 
 ### Local attributes
+
+**Beware:** As projections are only instantiated after the call to `compile()`, local attributes of a Projection are only available then. Trying to access them before compilation will lead to an error!
+
 
 **At the projection level**
 
 Local attributes can also be accessed globally through attributes. It will return a list of lists containing the synapse-specific values.
 
 ```{python}
-print(proj.w)
+proj.w
 ```
 
 The first index represents the post-synaptic neurons. It has the same length as `proj.post_ranks`. Beware that if some post-synaptic neurons do not receive any connection, this index will not correspond to the ranks of the post-synaptic population.
 
-The second index addresses the pre-synaptic neurons. If the connection is sparse, it also is unrelated to the ranks of the pre-synaptic neurons in their populations.
+The second index represents the pre-synaptic neurons. The list of pre-synaptic ranks for each post-synaptic neuron is obtained with:
+
+```{python}
+proj.pre_ranks
+```
+
+`proj.w` and `proj.pre_ranks` have the same number of elements. In the general case, the connectivity matrix is not dense (different number of incoming synapses for each post-synaptic neuron), so projection attributes cannot be casted to 2D numpy arrays.
+
+The connectivity matrix with weights `w` can be visualized as a 2D array using `Projection.connectivity_matrix()`, replacing non-existing synapse with `0.0` (or any other value of your choice).
+
+```{python}
+proj.connectivity_matrix(fill=0.0)
+```
+
 
 :::callout-warning
-Modifying these lists of lists is error-prone, so this method should be avoided if possible.
+Modifying these lists of lists will not change the underlying connectivity, they are read-only. Only use them for analysis.
 :::
 
 **At the post-synaptic level**
 
-The local parameters and variables of a projection (synapse-specific) should better be accessed through the **Dendrite** object, which gathers for a single post-synaptic neuron all synapses belonging to the projection.
-
-**Beware:** As projections are only instantiated after the call to `compile()`, local attributes of a Projection are only available then. Trying to access them before compilation will lead to an error!
+To minimize memory access, the local parameters and variables of a projection can be accessed through the **Dendrite** object, which gathers for a single **post-synaptic** neuron all synapses belonging to the projection.
 
 Each dendrite stores the parameters and variables of the corresponding synapses as attributes, as populations do for neurons. You can loop over all post-synaptic neurons receiving synapses with the `dendrites` iterator:
 
@@ -183,7 +197,8 @@ you can use this function in Python as if it were a method of the
 corresponding object:
 
 ```python
-proj = ann.Projection(pop1, pop2, 'exc', BCM).connect_xxx()
+proj = net.connect(pop1, pop2, 'exc', BCM)
+proj.connect_xxx()
 
 pre = np.linspace(0., 1., 100)
 post = np.linspace(0., 1., 100)
@@ -199,10 +214,9 @@ The size of the arrays passed for each argument is arbitrary (it must not match 
 ## Connecting population views
 
 `Projections` are usually understood as a connectivity pattern between two populations. Complex connectivity patterns have to specifically designed (see [Connectivity](Connector.qmd)).
-
 In some cases, it can be much simpler to connect subsets of neurons directly, using built-in connector methods. To this end, the `Projection` object also accepts `PopulationView` objects for the `pre` and `post` arguments.
 
-Let's suppose we want to connect the (8,8) populations `pop1` and `pop2` in a all-to-all manner, but only for the (4,4) neurons in the center of these populations. The first step is to create the `PopulationView` objects using the slice operator:
+Let's suppose we want to connect the (8, 8) populations `pop1` and `pop2` in a all-to-all manner, but only for the (4,4) neurons in the center of these populations. The first step is to create the `PopulationView` objects using the slice operator:
 
 ```python
 pop1_center = pop1[2:7, 2:7]
@@ -236,8 +250,8 @@ By default, synaptic transmission is considered to be instantaneous (or more pre
 In order to take longer propagation times into account in the transmission of information between two populations, one has the possibility to define synaptic delays for a projection. All the built-in connector methods take an argument `delays` (default=`dt`), which can be a float (in milliseconds) or a random number generator.
 
 ```python
-proj.connect_all_to_all( weights = 1.0, delays = 10.0)
-proj.connect_all_to_all( weights = 1.0, delays = Uniform(1.0, 10.0))
+proj.connect_all_to_all(weights = 1.0, delays = 10.0)
+proj.connect_all_to_all(weights = 1.0, delays = Uniform(1.0, 10.0))
 ```
 
 If the delay is not a multiple of the simulation time step (`dt = 1.0` by default), it will be rounded to the closest multiple. The same is true for the values returned by a random number generator.

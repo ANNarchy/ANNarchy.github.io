@@ -1,0 +1,227 @@
+---
+title: "Parallel simulations"
+---
+
+
+A typical ANNarchy model is represented by a single network of populations and projections. Most of the work in computational neuroscience consists in running the same network again and again, varying some free parameters each time, until the fit to the data is publishable. 
+
+In order to simulate similar networks in paralle using the same script, the `Network` class can be used to make copies of the current network and simulate them in parallel using `parallel_run()`. This is demonstrated in the notebook [MultipleNetworks.ipynb](../notebooks/MultipleNetworks.ipynb).
+
+:::callout-note
+
+``parallel_run()`` uses the ``multiprocessing`` module to start parallel processes. On Linux, it should work directly, but there is an issue on OSX. Since Python 3.8, the 'spawn' method is the default way to start processes, but it does not work on MacOS. The following code should fix the issue, but it should only be ran once in the script.
+
+```python
+import platform
+if platform.system() == "Darwin":
+    import multiprocessing as mp
+    mp.set_start_method('fork')
+```
+:::
+
+## Network subclass
+
+Let's define a pulse-coupled network of Izhikevich neurons using a **subclass** of `Network`:
+
+```python
+class PulseNetwork(ann.Network):
+
+    def __init__(self, w_exc=0.5, w_inh=1.0):
+
+        # Create the population
+        self.P = self.create(geometry=1000, neuron=ann.Izhikevich)
+
+        # Create the projections
+        self.proj_exc = self.connect(self.P[:800], self.P, 'exc')
+        self.proj_inh = self.connect(self.P[800:], self.P, 'inh')
+
+        self.proj_exc.connect_all_to_all(weights=ann.Uniform(0.0, w_exc))
+        self.proj_inh.connect_all_to_all(weights=ann.Uniform(0.0, w_inh))
+
+        # Create a spike monitor
+        self.m = self.monitor(self.P, 'spike')
+```
+
+Refer to [MultipleNetworks.ipynb](../notebooks/MultipleNetworks.ipynb) for the parameters allowing a more realistic simulation. Let's suppose that we want to run several simulations in parallel with different values of the parameter `w_exc` and plot the corresponding raster plots.
+
+:::callout-important
+
+``parallel_run()`` does not work when using a `Network` instance directly, it must be a **subclass**.
+
+```python
+net = ann.Network()
+net.create(...)
+net.compile()
+
+net.parallel_run(...) # DOES NOTHING!
+```
+:::
+
+## Simulation method
+
+To perform the simulation, we just need to write a method that takes a network instance as an input and returns what we want:
+
+```python
+def simulation(net, duration=1000.):
+    # Run the simulation
+    net.simulate(duration)
+
+    # Compute the raster plot
+    t, n = net.m.raster_plot()
+
+    return t, n
+
+# Create a network
+net = PulseNetwork(w_exc=0.5)
+net.compile()
+
+# Run a single simulation
+t, n = simulation(net)
+```
+
+## parallel_run()
+
+If you want multiple instances of the same network to perform the simulation, all you need to call is:
+
+```python
+results = net.parallel_run(method=simulation, number=4)
+```
+
+The `simulation()` method will be called over four copies of the network (in different processes). The first argument to this method **must** be an instance of a Network subclass (class [Network](/reference/Network.qmd)), which will be instantiated by `parallel_run()` in each process.
+
+This is why only subclasses of `Network` are allowed: `parallel_run()` must be able to re-create the network using only its constructor. Populations and projections created with ``net.create()` and `net.connect()` could not be re-created exactly the same way (up to random number generation). 
+
+You do not have access on the internally-created networks after the simulation (they are in a separate memory space and will be deleted). The method must return the data you want to analyze (here the raster plot) or write them to disk (in separate files).
+
+`parallel_run()` returns a list of the values returned by each run of the simulation method:
+
+```python
+t1, n1 = results[0]
+t2, n2 = results[1]
+t3, n3 = results[2]
+```
+
+
+### Passing arguments
+
+There are two sorts of arguments that you may want to pass to the parallel simulations:
+
+* Constructor arguments (`w_exc`, `w_inh`) for the network copies,
+* Method arguments (`duration`) for the simulation method.
+
+The first obligatory argument of the simulation callback is `net`, the network object, but you do not have control over it. 
+
+You can provide these arguments to the `simulation` callback during the `parallel_run()` call, by passing either a single value (the same for all copies of the network), or a list of values (same size as the number of simulations). 
+
+Example with `w_exc` and `duration`:
+
+```python
+results = net.parallel_run(
+    method=simulation, 
+    number=4, 
+    w_exc=[0.5, 1.0, 1.5, 1.0]
+    duration=[500, 1000, 1500, 2000])
+```
+
+The first simulation would use `w_exc=0.5` and `duration=500`, the second `w_exc=1.0` and `duration=1000`, and so on.
+
+The arguments can be passed in any order, but they must be named. 
+`parallel_run()` does not explicitly distinguish between constructor and method arguments, so be sure to have different names!
+
+
+:::callout-important
+
+When passing arguments to the constructor of the network in `parallel_run()`, make sure that this parameter **does not force recompilation**! The method would try to compile each copy of the network in the same folder, and terrible things would happen.
+
+For example, never change the size of a population in `parallel_run()`, as this always leads to recompilation. The only thing you should vary is the value of global parameters.
+
+:::
+
+## Controlling the seeds
+
+If you do not vary any parameter (constructor or method) during the call to `parallel_run()`, the only variability would come from the network itself, for example from the initialization of the random weights:
+
+```python
+self.proj_exc.connect_all_to_all(weights=ann.Uniform(0.0, w_exc))
+self.proj_inh.connect_all_to_all(weights=ann.Uniform(0.0, w_inh))
+```
+
+The weights are going to be redrawn for each copy, so you get different simulations every time.
+
+However, you may want to control the seed of each network for reproducibility. You first need to make sure that the seed of a network is used everywhere in its constructor.
+
+Even at the beginning of the constructor, the attribute `self.seed` is set at a random value (if left to None in the call to constructor), or to a desired value. You should use it to seed all random objects, mainly `numpy`'s RNG and ANNarchy's random distribution classes:
+
+```python
+class PulseNetwork(ann.Network):
+
+    def __init__(self, w_exc=0.5, w_inh=1.0):
+
+        rng = np.random.default_rng(self.seed)
+
+        # Create the population
+        self.P = self.create(geometry=1000, neuron=ann.Izhikevich)
+        self.P.v = rng.random.uniform(0.0, 1.0, 1000)
+
+        # Create the projections
+        self.proj_exc = self.connect(self.P[:800], self.P, 'exc')
+        self.proj_inh = self.connect(self.P[800:], self.P, 'inh')
+
+        self.proj_exc.connect_all_to_all(weights=ann.Uniform(0.0, w_exc, seed=self.seed))
+        self.proj_inh.connect_all_to_all(weights=ann.Uniform(0.0, w_inh, seed=self.seed))
+
+        # Create a spike monitor
+        self.m = self.monitor(self.P, 'spike')
+```
+
+Intrinsically random methods, such as `proj.connect_fixed_probability()` are automatically seeded by the network, you do not need to worry about them.
+
+Once the seed of a network is controlled, `parallel_run()` offers several possibilities:
+
+**Random seeds everywhere**
+
+```python
+net = PulseNetwork(seed=None)
+results = net.parallel_run(
+    method=simulation, number=4, 
+    seeds=None
+)
+```
+
+If both the main network and its copies do not have seeds, all re-runs will be different.
+
+**Seeded network but random copies**
+
+```python
+net = PulseNetwork(seed=42)
+results = net.parallel_run(
+    method=simulation, number=4, 
+    seeds=None
+)
+```
+
+The main network will always perform the same simulation, but not its copies.
+
+**List of seeds**
+
+```python
+net = PulseNetwork(seed=whatever)
+results = net.parallel_run(
+    method=simulation, number=4, 
+    seeds=[23, 42, 73, 9382758568]
+)
+```
+
+A list of seeds can be provided for each of the subnetworks, regardless how the main network was seeded.
+
+**Incremental seeds**
+
+```python
+net = PulseNetwork(seed=42)
+results = net.parallel_run(
+    method=simulation, number=4, 
+    seeds='sequential' # equavalent to [43, 44, 45, 46]
+)
+```
+
+If set to `'sequential'`, the seeds will incrementally increase from the seed of the main network (which has to be set). 

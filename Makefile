@@ -16,4 +16,6 @@ notebooks: $(notebooks_targets)
 	quarto render $?
 
 quarto:
+	rm -rf manual/annarchy
+	rm -rf notebooks/annarchy
 	quarto render .

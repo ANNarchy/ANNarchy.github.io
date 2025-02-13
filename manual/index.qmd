@@ -1,6 +1,6 @@
-# ANNarchy models
+# Overview
 
-## Definition of a neural network
+## Structure of a neural network
 
 A neural network in ANNarchy is a collection of interconnected **Populations**. Each population comprises a set of similar artificial **Neurons**, whose mean-firing rate or spiking behavior is governed by one or many ordinary differential equations (ODE). These ODEs are dependent on the activity of other neurons through **Synapses**. The connection pattern between two populations is called a **Projection**.
 
@@ -16,9 +16,9 @@ To define a neural network and simulate its behavior, you need to define the fol
 * For plastic synapses, the ODEs describing the evolution of synaptic weights during the simulation (learning).
 * The interaction of the network with its environment (I/O relationships, rewarded tasks, fitting procedure...)
 
-ANNarchy provides a convenient way to define this information in a single Python script pr notebook. In this manual, we will focus on simple networks composed of a few interconnected populations, but more complex architectures are of course possible (see the examples in the provided [Notebooks](../notebooks/index.qmd)).
+ANNarchy provides a convenient way to define this information in a single Python script or notebook. In this manual, we will focus on simple networks composed of a few interconnected populations, but more complex architectures are of course possible (see the examples in the provided [Notebooks](../notebooks/index.qmd)).
 
-## Basic structure of a model
+## Definition of a model
 
 In a script file (e.g. `MyNetwork.py`) or a Jupyter notebook, you first need to import the ANNarchy package:
 
@@ -73,9 +73,9 @@ net = ann.Network()
 Using the network, the populations can be created (section [Populations](Populations.qmd)) by calling `Network.create()`. We create here two populations `pop1` and `pop2` containing 100 neurons each and using the `LeakyIntegratorNeuron` neural model:
 
 ```python
-pop1 = net.create(name='pop1', geometry=100, neuron=LeakyIntegratorNeuron)
+pop1 = net.create(geometry=100, neuron=LeakyIntegratorNeuron)
 
-pop2 = net.create(name='pop2', geometry=100, neuron=LeakyIntegratorNeuron)
+pop2 = net.create(geometry=100, neuron=LeakyIntegratorNeuron)
 ```
 
 Using `Network.connect`, we now define an excitatory projection between the neurons of `pop1` and `pop2`, with a target `exc` and a all_to_all connection pattern (section [Projections](Projections.qmd)). 
@@ -102,4 +102,4 @@ The network is now ready to be simulated for the desired duration:
 net.simulate(1000.0) # simulate for 1 second
 ```
 
-It remains to set inputs, record variables and analyze the results, but the structure of the network is already there.
+It remains to set inputs, record variables and analyze the results, but the structure of the network is already there. The rest of the manual is there to get into more details on these objects.

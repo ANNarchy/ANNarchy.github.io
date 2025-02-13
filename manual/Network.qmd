@@ -1,215 +1,470 @@
-# Parallel simulations and networks
+# Network
 
-A typical ANNarchy script represents a single network of populations and projections. Most of the work in computational neuroscience consists in running the same network again and again, varying some free parameters each time, until the fit to the data is publishable. The `reset()` allows to return the network to its state before compilation, but this is particularly tedious to implement.
+## `Network` class 
 
-In order to run different networks using the same script, the `Network` object can be used to make copies of existing objects (populations, projections and monitors) and simulate them in parallel using ``parallel_run()``.
-
-Let's suppose the following dummy network is defined:
+The main object in ANNarchy is the `Network` instance, which contains all data structures apart from the neuron / synapse models and the functions:
 
 ```python
-pop1 = ann.PoissonPopulation(100, rates=10.0)
-pop2 = ann.Population(100, Izhikevich)
-proj = ann.Projection(pop1, pop2, 'exc')
-proj.connect_fixed_probability(weights=5.0, probability=0.2)
-m = ann.Monitor(pop2, 'spike')
+import ANNarchy as ann
 
-ann.compile()
+neuron = ann.Neuron(
+    parameters = dict(tau = 10.0),
+    equations = [
+        'tau * dv/dt  + v =  sum(exc)',
+        'r = pos(v)'
+    ]
+)
+
+synapse = ann.Synapse(
+    parameters = dict(tau = 5000.0),
+    equations = 'tau * dw/dt = pre.r * post.r ',
+)
+
+# Create the empty network
+net = Network()
+
+# Create two populations
+pop1 = net.create(10, neuron)
+pop2 = net.create(10, neuron)
+
+# Connect the two populations
+proj = net.connect(pop1, pop2, 'exc', synapse)
+
+# Monitor the second population
+m = net.monitor(pop2, 'r')
 ```
 
-One would like to compare the firing patterns in `pop2` when:
+`Network.create()` and `Network.connect()` are the main access points to create populations and projections. However, if you lose the references to `pop1`, `pop2` and `proj` (for example if you create them inside a method but do not return them), it is difficult to access them.
 
--   There is no input to `pop2`.
--   The Poisson input is at 10 Hz.
--   The Poisson input is at 20 Hz.
+One option is to iterate over the lists of populations and projections stored in the network, but you have to know what you are looking for:
+
+```python
+for pop in net.get_populations():
+    print(pop.r)
+
+for proj in net.get_projections():
+    print(proj.w)
+```
+
+It is also possible to provide a unique name to each population and projection at creation time, so they can be easily retrieved:
+
+```python
+def create_network():
+    net = ann.Network()
+    pop1 = net.create(10, neuron, name='pop1')
+    pop2 = net.create(10, neuron, name='pop2')
+    proj = net.connect(pop1, pop2, 'exc', synapse, name='projection1')
+    m = net.monitor(pop2, 'r', name='monitor')
+    return net
+
+net = create_network()
+pop1 = net.get_population('pop1')
+pop2 = net.get_population('pop2')
+proj = net.get_projection('projection1')
+m = net.get_monitor('monitor')
+```
+
+Another safer option is to create your own class inheriting from `ann.Network` and store all populations and projections as an attribute:
+
+```python
+class SimpleNetwork (ann.Network):
+    def __init__(self, N)
+        self.pop1 = self.create(N, neuron)
+        self.pop2 = self.create(N, neuron)
+        self.proj = self.connect(self.pop1, self.pop2, 'exc', synapse)
+        self.m    = self.monitor(self.pop2, 'r')
+
+net = SimpleNetwork(10)
+print(net.pop1.r)
+```
+
+You do not need to explictly call the constructor of Network (`Network.__init__(self)`), it is done automatically. 
+Creating a subclass of `Network` furthermore allows to use the `parallel_run()` method if the whole construction of the network is done through the constructor.
+
+Apart from that, the two approaches are equivalent, pick the one you prefer. Subclasses are easier to re-use, especially across files.
+
+
+
+## Compiling the network
+
+Once all the relevant information has been defined, one needs to actually compile the network, by calling the `Network.compile()` method:
+
+```python
+net.compile()
+```
+
+The optimized C++ code will be generated, compiled, the underlying objects created and made available to the Python interface.
+
+You can specify several arguments to `compile()`, including:
+
+- `compiler`: to select which C++ compiler will be used. 
+- `compiler_flags`: to select which flags are passed to the compiler. 
+- `directory`: absolute/relative path to the directory where files will be generated and compiled (default: `annarchy/`).
+
+### Compiler
+
+ANNarchy requires a C++ compiler. On GNU/Linux, the default choice is `g++`, while on MacOS it is `clang++`. You can change the compiler (and its flags) to use either during the call to `net.compile()` in your script:
+
+```python
+net.compile(compiler="clang++", compiler_flags="-march=native -O3")
+```
+
+or globally by modifying the configuration file located at `~/.config/ANNarchy/annarchy.json`:
+
+``` {.json}
+{
+    "openmp": {
+        "compiler": "clang++",
+        "flags": "-march=native -O3"
+    }
+}
+```
+
+Be careful with the flags: for example, the optimization level `-O3` does not obligatorily produce faster code. But this is the case for most models, therefore it is the default in the ANNarchy 4.7.x releases.
+
+Even more caution is required when using the `-ffast-math` flag. It can increase the performance, in particular in combination with SIMD. However, the application of `-ffast-math` enables a set of optimizations which might violate IEEE 754 compliance (which might be okay in many cases, but it is important that the user verifies the result). For more details, see the
+g++ documentation: https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
 
 :::callout-note
 
-``parallel_run()`` uses the ``multiprocessing`` module to start parallel processes. On Linux, it should work directly, but there is an issue on OSX. Since Python 3.8, the 'spawn' method is the default way to start processes, but it does not work on MacOS. The following code should fix the issue, but it should only be ran once in the script.
+In rare cases, it may occur that the CPU architecture is not detectable for the used g++ compiler (e.g. Intel's Tigerlake and g++ <= 9.4). This will result in a compiler error which can be fixed by removing the '-march=native' flag. To get access to AVX-512 SIMD instructions, you need to add `-mavx512f` instead, as well as `-ftree-vectorize` if `-O3` is not already used.
+:::
+
+### Directory
+
+When calling `compile()`, the subfolder `annarchy/` (or whatever is defined by ``directory`) will be created, and the generated code will be compiled. The first compilation may last a couple of seconds, but further runs of the script are much faster. If no modification to the network has been made except for parameter values, it will not be recompiled, sparing us this overhead.
+
+ANNarchy tracks the changes in the script and re-generates the corresponding code. In some cases (a new version of ANNarchy has been installed, bugs), it may be necessary to perform a fresh compilation of the network. You can either delete the `annarchy/` subfolder and restart the script:
+
+```bash
+rm -rf annarchy/
+python MyNetwork.py
+```
+
+pass the `--clean` flag to the script:
+
+```bash
+python MyNetwork.py --clean 
+```
+
+or tell `compile()` to start fresh:
 
 ```python
-import platform
-if platform.system() == "Darwin":
-    import multiprocessing as mp
-    mp.set_start_method('fork')
+net.compile(clean=True)
+```
+
+
+## Simulating the network
+
+After the network is compiled, the simulation can be run for the specified duration (in milliseconds) through the `Network.simulate()` method:
+
+```python
+net.simulate(1000.0) # Simulate for 1 second
+```
+
+The provided duration should be a multiple of `dt`. If not, the number of simulation steps performed will be approximated.
+
+In some cases, you may want to perform only one step of the simulation, instead of specifing the duration. The `Network.step()` method can then be used.
+
+```python
+net.step() # Simulate for 1 step
+```
+
+## Setting the discretization step dt
+
+An important value for the simulation is the discretization step `dt`. Its default value is 1 ms, which is usually fine for rate-coded networks, but may be too high for spiking networks, as the equations are stiffer. Taken too high, it can lead to high numerical errors. Too low, and the simulation will take an unnecessary amount of time.
+
+To set the discretization step, just pass the desired value to the constructor of `Network`:
+
+```python
+net = ann.Network(dt=0.1)
+```
+
+It can also be set using the `config()` method, before projections are created:
+
+```python
+net.config(dt=0.1)
+```
+
+However, changing its value after calling `compile()` will not have any effect.
+
+You can always access the current value of dt with the attribute `net.dt`.
+
+If you create a subclass of `Network`, you can also provide `dt` to its constructor, even if your network does not catch it. 
+
+```python
+class SimpleNetwork (ann.Network):
+    def __init__(self, N)
+        self.pop1 = net.create(N, neuron)
+        self.pop2 = net.create(N, neuron)
+        self.proj = net.connect(self.pop1, self.pop2, 'exc', synapse)
+
+net = SimpleNetwork(N=10, dt=0.1)
+```
+
+## Setting the seed of the random number generators
+
+By default, the random number generators(RNG) are seeded with `time(NULL)`, so each simulation will be different. If you want to have deterministic simulations, you need to provide a fixed seed to `Network`:
+
+```python
+net = ann.Network(dt=0.1, seed=42)
+```
+
+If you define a subclass of `Network`, pass the seed without further processing, like for `dt`.
+
+Note that this also sets the seed of the old RNG of numpy, which are used to initialize values produced by `np.random.*`. If you use the new default RNG of numpy (`rng = np.random.default_rng()`), you will have to seed it yourself.
+
+When `seed`is left to its default value `None`, a value is chosen with `time(NULL)` and it becomes accessible in the attribute `net.seed`.
+
+:::callout-note
+Using the same seed with the OpenMP and CUDA backends will not lead to the same sequences of numbers!
+:::
+
+
+## Early-stopping
+
+In some cases, it is desired to stop the simulation whenever a criterion is fulfilled (for example, a neural integrator exceeds a certain threshold), not after a fixed amount of time.
+
+There is the possibility to define a `stop_condition` when creating a `Population`:
+
+```python
+pop1 = net.create( ... , stop_condition = "r > 1.0")
+```
+
+When calling the `simulate_until()` method instead of `simulate()`:
+
+```python
+t = net.simulate_until(max_duration=1000.0, populations=pop1)
+```
+
+the simulation will be stopped whenever the `stop_condition` of `pop1` is met, i.e. when the firing rate of *any* neuron of pop1 is above 1.0. If the condition is never met, the simulation will last maximally `max_duration`. The methods returns the effective duration of the simulation (to compute reaction times, for example).
+
+The `stop_condition` can use any logical operation on the parameters and variables of the neuron associated to the population:
+
+```python
+pop1 = net.create( ... , stop_condition = "(r > 1.0) and (mp < 2.0)")
+```
+
+By default, the simulation stops when at least one neuron in the population fulfills the criterion. If you want to stop the simulation when **all** neurons fulfill the condition, you can use the flag `all` after the condition:
+
+```python
+pop1 = net.create( ... , stop_condition = "r > 1.0 : all")
+```
+
+The flag `any` is the default behavior and can be omitted.
+
+The stop criterion can depend on several populations, by providing a list of populations to the `populations` argument instead of a single population:
+
+```python
+t = net.simulate_until(max_duration=1000.0, populations=[pop1, pop2])
+```
+
+The simulation will then stop when the criterion is met in both populations at the same time. If you want that the simulation stops when at least one population meets its criterion, you can specify the `operator` argument:
+
+```python
+t = net.simulate_until(max_duration=1000.0, populations=[pop1, pop2], operator='or')
+```
+
+The default value of `operator` is a `'and'` function between the populations' criteria.
+
+:::callout-warning
+
+Global operations (min, max, mean) are not possible inside the `stop_condition`. If you need them, store them in a variable in the `equations` argument of the neuron and use it as the condition:
+
+```python
+equations = [
+    'r = ...',
+    'max_r = max(r)',
+]
 ```
 :::
 
 
-## Parallel simulation
+## Setting inputs periodically
 
-### parallel_run
-
-The most simple method is to create a single network and to iterate over some parameters values to run identical simulations multiple times using `parallel_run()`:
+In most cases, your simulation will be decomposed into a series of fixed-duration trials, where you basically set inputs at the beginning of the trial, run the simulation for a fixed duration, and possibly read out results at the end:
 
 ```python
-pop1 = ann.PoissonPopulation(100, rates=10.0)
-pop2 = ann.Population(100, Izhikevich)
-proj = ann.Projection(pop1, pop2, 'exc')
-proj.connect_fixed_probability(weights=5.0, probability=0.2)
-m = ann.Monitor(pop2, 'spike')
-
-ann.compile()
-
-def simulation(idx, net):
-    net.get(pop1).rates = 10. * idx
+# Iterate over 100 trials
+result = []
+for trial in range(100):
+    # Set inputs to the network
+    pop.I = ann.Uniform(0.0, 1.0)
+    # Simulate for 1 second
     net.simulate(1000.)
-    return net.get(m).raster_plot()
-
-results = ann.parallel_run(method=simulation, number=3)
-
-t1, n1 = results[0]
-t2, n2 = results[1]
-t3, n3 = results[2]
+    # Save the output
+    result.append(pop.r)
 ```
 
-The `simulation()` method will be called over three copies of the network (in different processes). The first argument to this method **must** be an integer corresponding to the index of a network (here `idx = [0, 1, 2]`), the second **must** be a `Network` object (class [Network](/reference/Network.qmd)).
-
-Populations, projections and monitors of a network **must** be accessed with:
+For convenience, we provide the decorator `every`, which allows to register a python method and call it automatically during the simulation with a fixed period:
 
 ```python
-net.get(pop1)
-net.get(pop2)
-net.get(proj)
-net.get(m)
+result = []
+
+@ann.every(period=1000.)
+def set inputs(n):
+    # Set inputs to the network
+    pop.I = ann.Uniform(0.0, 1.0)
+    # Save the output of the previous step
+    if n > 0:
+        result.append(pop.r)
+
+net.simulate(100 * 1000.)
 ```
 
-Networks only work on copies of the corresponding objects at the time they are added to the network. It is no use to modify the `rates` parameter of `pop1` after the network are created: the network is now independent. Only `net.get(pop1).rates` allows to change `rates` for the current simulation. Similarly, it is useless to read variables from the original objects when the networks are simulated: they would still have their original values.
+In this example, `set_inputs()` will be executed just before the steps corresponding to times t = 0., 1000., 2000., and so on until t = 100000.
 
-You do not have access on the internally-created networks after the simulation (they are in a separate memory space). The method must the data you want to analyze (here the raster plot) or write them to disk (in separate files).
-
-`parallel_run()` returns a list of the values returned by the passed method:
+The method can have any name, but must accept only one argument, the integer `n` which will be incremented at each call of the method (i.e. it will take the values 0, 1, 2 until 99). This can for example be used to access data in a numpy array:
 
 ```python
-results = parallel_run(method=simulation, networks=[net1, net2, net3])
+images = np.random.random((100, 640, 480))
 
-t1, n1 = results[0]
-t2, n2 = results[1]
-t3, n3 = results[2]
+@ann.every(period=1000.)
+def set inputs(n):
+    # Set inputs to the network
+    pop.I = images[n, :, :]
+
+net.simulate(100 * 1000.)
 ```
 
-If you initialize some variables randomly in the main network, for example:
+One can define several methods that will be called in the order of their definition:
 
 ```python
-pop2.v = -60. + 10. * np.random.random(100)
+@ann.every(period=1000.)
+def set inputs(n):
+    pop.I = 1.0
+
+@ann.every(period=1000.)
+def reset inputs(n):
+    pop.I = 0.0
 ```
 
-they will have the same value in all networks, they are not drawn again. You need to perform random initialization on each network inside the simulation method:
+In this example, `set_inputs()` will be called first, followed by `reset_inputs`, so `pop.I` will finally be 0.0. The decorator `every` accepts an argument `offset` defining a delay within the period to call the method:
 
 ```python
-def simulation(idx, net):
-    net.get(pop1).rates = 10. * idx
-    net.get(pop2).v = -60. + 10. * np.random.random(100)
-    net.simulate(1000.)
-    return net.get(m).raster_plot()
+@ann.every(period=1000.)
+def set inputs(n):
+    pop.I = 1.0
+
+@ann.every(period=1000., offset=500.)
+def reset inputs(n):
+    pop.I = 0.0
 ```
 
-Oppositely, connection methods having a random components (e.g. `connect_fixed_probability()` or using `weights=Uniform(0.0, 1.0)`) will be redrawn for each network.
-
-Global simulation methods should not be called directly, even with the `net_id` parameter. The `Network` class overrides them:
+In this case, `set_inputs()` will be called at times 0, 1000, 2000\...
+while `reset_inputs()` will be called at times 500, 1500, 2500\...,
+allowing to structure a trial more effectively. The `offset` can be set
+negative, in which case it will be relative to the end of the trial:
 
 ```python
-net.step()
-net.simulate()
-net.simulate_until()
-net.reset()
-net.get_time()
-net.set_time(t)
-net.get_current_step()
-net.set_current_step(t)
-net.set_seed(seed)
-net.enable_learning()
-net.disable_learning()
-net.get_population(name)
+@every(period=1000., offset=-100.)
+def reset inputs(n):
+    pop.I = 0.0
 ```
 
-### Passing additional arguments
+In this example, the method will be called at times 900, 1900, 2900 and so on. The `offset` value can not be longer than the `period`, by definition. If you try to do so, a modulo operation will anyway be applied (i.e. an offset of 1500 with a period of 1000 becomes 500).
 
-The two first obligatory arguments of the simulation callback are `idx`, the index of the network in the simulation, and `net`, the network object. You can of course use other names, but these two arguments will be passed.
-
-`idx` can be used for example to access arrays of parameter values:
+Finally, the `wait` argument allows to delay the first call to the method from a fixed interval:
 
 ```python
-rates = [0.0, 0.1, 0.2, 0.3, 0.4]
-def simulation(idx, net):
-    net.get(pop1).rates = rates[idx]
-    ...
-
-results = ann.parallel_run(method=simulation, number=len(rates))
+@every(period=1000., wait=5000.)
+def reset inputs(n):
+    pop.I = 0.0
 ```
 
-Another option is to provide additional arguments to the `simulation` callback during the `parallel_run()` call:
+In this case, the method will be called at times 5000, 6000 and so on.
+
+Between two calls to `simulate()`, the callbacks can be disabled or re-enabled using the following methods:
 
 ```python
-def simulation(idx, net, rates):
-    net.get(pop1).rates = rates
-    ...
+@every(period=1000.)
+def reset inputs(n):
+    pop.I = 0.0
 
-rates = [0.0, 0.1, 0.2, 0.3, 0.4]
-results = ann.parallel_run(method=simulation, number=len(rates), rates=rates)
+# Simulate with callbacks
+net.simulate(10000.)
+
+# Disable callbacks
+net.disable_callbacks()
+
+# Simulate without callbacks
+net.simulate(10000.)
+
+# Re-enable callbacks
+net.enable_callbacks()
+
+# Simulate with callbacks
+net.simulate(10000.)
 ```
 
-These additional arguments must be lists of the same size as the number of networks (`number` or `len(networks)`). You can use as many additional arguments as you want:
+Note that the period is always relative to the time when `simulate()` is called, so if no offset is defined, the callbacks will be called before the first step of a simulation, no matter how long the previous simulation lasted. In the current state, it is not possible yet to enable/disable callbacks selectively, it is all or none.
+
+Callbacks can only be used with `simulate()`, not with `step()` or `simulate_until()`.
+
+
+
+## Parallel computing with OpenMP
+
+The default paradigm for an ANNarchy simulation is through openMP, which distributes automatically the computations over the available CPU cores.
+
+By default, ANNarchy will use a single thread for your simulation. Automatically using all possible cores would not be optimal: small networks in particular tend to run faster with a smaller amount of cores. For this reason, the `OMP_NUM_THREADS` environment variable has no effect in ANNarchy. 
+
+You can control the number of cores by passing the `-j` flag to the Python script:
+
+```bash
+python NeuralField.py -j2
+```
+
+It is the responsability of the user to find out which number of cores is optimal for his network, by comparing simulation times. When this optimal number is found, it can be hard-coded in the script by setting the `num_threads` argument to `Network.config()`:
 
 ```python
-def simulation(idx, net, a, b, c, d):
-    ...
-results = ann.parallel_run(method=simulation, number=10, a=..., b=..., c=..., d=...)
+net.config(num_threads=2)
 ```
 
-In `parallel_run()`, the arguments can be passed in any order, but they must be named (e.g. `, a=list(range(0)),`, not `, list(range(10)),`).
+## Parallel computing with CUDA
 
-## Multiple network instances
+To run your network on GPUs, you need to declare to ANNarchy that you want to use CUDA. One way to do so is to pass the `--gpu` flag to the command line:
 
-One can also create three different `Network` objects to implement the three conditions:
+```bash
+python NeuralField.py --gpu
+```
+
+You can also set the `paradigm` argument of `Network.config()` to make it permanent:
 
 ```python
-net1 = Network()
-net1.add([pop2, m])
-net1.compile()
+net.config(paradigm="cuda")
 ```
 
-The network is created empty, and the population `pop2` as well as the attached monitor are added to it through the `add()` method. This method takes a list of objects (populations, projections and monitors).
+If there are multiple GPUs on your machine, you can select the ID of the device by specifying it to the `--gpu` flag on the command line:
 
-The network has then to be compiled by calling the `compile()` method specifically on the network. The network can be simulated independently by calling `simulate()` or `simulate_until()` on the network.
+```bash
+python NeuralField.py --gpu=2
+```
 
-The basic network, with inputs at 10 Hz, can be simulated directly using the normal methods, or copied into a new network:
+Alternatively, you can also pass the `cuda_config` dictionary argument to `Network.compile()`:
 
 ```python
-net2 = Network()
-net2.add([pop1, pop2, proj, m])
-net2.compile()
+net.compile(cuda_config={'device': 2})
 ```
 
-Here, all defined objects are added to the network. It would be easier to pass the `everything` argument of the Network constructor as `True`, which has the same effect. We can use this for the third network:
+The default GPU is defined in the configuration file `~/.config/ANNarchy/annarchy.json` (0 unless you modify it).
 
-```python
-net3 = Network(everything=True)
-net3.get(pop1).rates = 20.0
-net3.compile()
+``` {.json}
+{
+    "cuda": {
+        "device": 0,
+        "path": "/usr/local/cuda"
+    }
+}
 ```
 
-Here, the population `pop1` of the third network has to be accessed though the `get()` method. The data corresponding to `pop1` will not be the same as for `net3.get(pop1)`, only the geometry and neuron models are the same.
+:::callout-hint
 
-Once a network is compiled, it can be simulated (but it does not matter if the other networks are also compiled, including the "original" network):
+As the current implementation is a development version, some of the features provided by ANNarchy are not supported yet with CUDA:
 
-```python
-net1.simulate(1000.)
-net2.simulate(1000.)
-net3.simulate(1000.)
-```
-
-Spike recordings have to be accessed per network, through the copies of the monitor `m`:
-
-```python
-t1, n1 = net1.get(m).raster_plot()
-t2, n2 = net2.get(m).raster_plot()
-t3, n3 = net3.get(m).raster_plot()
-```
-
-One can also call the `parallel_run()` method and pass it a list of networks instead of `number`:
-
-```python
-ann.parallel_run(method=simulation, networks=[net1, net2, net3])
-```
-
-This will apply `simulation()` in parallel on the 3 networks, reducing the total computation time.
+* weight sharing (convolutions),
+* non-uniform synaptic delays,
+* structural plasticity,
+* spiking neurons: a) with mean firing rate and b) continous integration of inputs,
+* `SpikeSourceArray`.
+:::

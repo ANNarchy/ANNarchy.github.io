@@ -1,31 +1,82 @@
-# Connectivity
+---
+title: "Connectors"
+execute:
+  echo: true
+jupyter: python3
+---
 
 There are basically four methods to instantiate projections:
 
-1.  By using a [built-in connector method.](Connector.qmd#available-connector-methods)
+1.  By using a [built-in connector method.](Connector.qmd#built-in-connectors)
 2.  By using a [saved projection.](Connector.qmd#saved-connectivity)
-3.  By loading [dense or sparse matrices.](Connector.qmd#from-connectivity-matrices)
+3.  By loading [dense or sparse matrices](Connector.qmd#from-connectivity-matrices) from numpy or scipy.
 4.  By defining a [custom connector method.](Connector.qmd#user-defined-patterns)
 
-## Available connector methods
 
-For further detailed information about these connectors, please refer to the library reference [Projections](/reference/Projection.qmd).
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+import ANNarchy as ann
 
-### connect_all_to_all
+```
 
-*All* neurons of the post-synaptic population form connections with *all* neurons of the pre-synaptic population (dense connectivity). Self-connections are avoided by default, but the parameter `allow_self_connections` can be set to `True`:
+## Built-in connectors
+
+Connectors are methods of `Projection` that allow to instantiate the underlying data structures like the connectivity matrix and other local attributes. However, this only happens **after** the network is compiled.
+
+Connector methods usually take the form:
+
+```python
+proj.connect_xxx(weights, delays, *other_parameters)
+```
+
+The `weights` argument defines the initial value taken by the weight `w`of the projection. You can provide either:
+
+* a single value (`weights=1.0`) which will be the same for all synapses.
+* a random distribution instance ([RandomDistribution](../reference/index.qmd#random-distributions)) allowing to sample values for each synapse.
+
+It is not possible to provide a list of weights, as the underling synapses are not created yet and might be random. 
+
+The `delays` argument controls the delays in synaptic transmission. By default it is 0 (or `dt`), meaning that transitting inormation through a synapse takes one simulation step.  You canalso provide either:
+
+* a single value (`delays=5.0`), meaning that all synapses will have the same constant delay (called uniform delays).
+* a random distribution instance, providing a unique random delay for each synapse (called non-uniform delays).
+
+
+### connect_all_to_all (dense)
+
+In a all-to-all pattern (also called dense or fully-connected), **all** neurons of the post-synaptic population form connections with **all** neurons of the pre-synaptic population. 
+
+```python
+proj.connect_all_to_all(weights=ann.Uniform(0.0, 0.5)) 
+```
+
+When the projection is between a projection and itself (recurrent), self-connections (a single neuron to itself) are avoided by default (the diagonal of the connectivity matrix is removed), but the parameter `allow_self_connections` can be set to `True`:
 
 ```python
 proj.connect_all_to_all(weights=1.0, delays=2.0, allow_self_connections=False) 
 ```
 
-The `weights` and `delays` arguments accept both single float values (all synapses will take this initial value), as well as random objects allowing to randomly select the initial values for different synapses:
+If you provide a single initial weight value and the synapse has **no plasticity** (the weight `w` will never be modified), the projection will not store one value of `w` per synapse, but one **per projection**. This allows to save a lot of memory space for this kind of static projections. If you do not want this, you can disable it with:
 
 ```python
-proj.connect_all_to_all(weights=Uniform(0.0, 0.5)) 
+proj.connect_all_to_all(weights=1.0, force_multiple_weights=True) 
 ```
 
-### connect_one_to_one
+
+
+### connect_fixed_probability (sparse)
+
+For each post-synaptic neuron, there is a fixed probability that it forms a connection with a neuron of the pre-synaptic population. It is basically am **all_to_all** projection, except some synapses are not created, making the projection **sparse**:
+
+```python
+proj.connect_fixed_probability(probability = 0.2, weights=1.0) 
+```
+
+`allow_self_connections` and `force_multiple_weights` can also be set.
+
+### connect_one_to_one (diagonal)
 
 A neuron of the post-synaptic population forms a connection with only **one** neuron of the pre-synaptic population. The order depends on the ranks: neuron 0 is connected with neuron 0 and so on. It is advised that the pre- and post-populations have the same size/geometry, especially when using population views.
 
@@ -37,11 +88,31 @@ proj = net.connect(pop1[5:15, 5:15], pop2, 'exc')
 proj.connect_one_to_one(weights=1.0) 
 ```
 
-Weights and delays also accept random distributions.
+Self-connections cannot be created. `force_multiple_weights` can be set to True.
 
-Below is a graphical representation of the difference between **all_to_all** and **one_to_one**:
 
-![](img/one2all.svg)
+### connect_fixed_number_pre
+
+Each neuron in the post-synaptic population receives connections from a fixed number of neurons of the pre-synaptic population chosen randomly. It may happen that two post-synaptic neurons are connected to the same pre-synaptic neuron and that some pre-synaptic neurons are connected to nothing:
+
+```python
+proj.connect_fixed_number_pre(number = 20, weights=1.0) 
+```
+
+
+### connect_fixed_number_post
+
+Each neuron in the pre-synaptic population sends a connection to a fixed number of neurons of the post-synaptic population chosen randomly. It may happen that two pre-synaptic neurons are connected to the same post-synaptic neuron and that some post-synaptic neurons receive no connection at all:
+
+```python
+proj.connect_fixed_number_post(number = 20, weights=1.0) 
+```
+
+The following figure shows the **fixed_number_pre** (left) and **fixed_number_post** projections between two populations of 4 neurons, with `number=2`. In **fixed_number_pre**, each post-synaptic neuron receives exactly 2 connections, while in **fixed_number_post**, each pre-synaptic neuron send exactly two connections:
+
+![](img/fixed_number.svg)
+
+
 
 ### connect_gaussian
 
@@ -88,38 +159,6 @@ The following figure shows the example of a neuron of coordinates (10, 10) in th
 
 ![](img/gaussiandog.png)
 
-### connect_fixed_number_pre
-
-Each neuron in the post-synaptic population receives connections from a fixed number of neurons of the pre-synaptic population chosen randomly. It may happen that two post-synaptic neurons are connected to the same pre-synaptic neuron and that some pre-synaptic neurons are connected to nothing:
-
-```python
-proj.connect_fixed_number_pre(number = 20, weights=1.0) 
-```
-
-`weights` and `delays` can also take a random object.
-
-### connect_fixed_number_post
-
-Each neuron in the pre-synaptic population sends a connection to a fixed number of neurons of the post-synaptic population chosen randomly. It may happen that two pre-synaptic neurons are connected to the same post-synaptic neuron and that some post-synaptic neurons receive no connection at all:
-
-```python
-proj.connect_fixed_number_post(number = 20, weights=1.0) 
-```
-
-The following figure shows the **fixed_number_pre** (left) and **fixed_number_post** projections between two populations of 4 neurons, with `number=2`. In **fixed_number_pre**, each post-synaptic neuron receives exactly 2 connections, while in **fixed_number_post**, each pre-synaptic neuron send exactly two connections:
-
-![](img/fixed_number.svg)
-
-### connect_fixed_probability
-
-For each post-synaptic neuron, there is a fixed probability that it
-forms a connection with a neuron of the pre-synaptic population. It is
-basically a **all_to_all** projection, except some synapses are not
-created, making the projection sparser:
-
-```python
-proj.connect_fixed_probability(probability = 0.2, weights=1.0) 
-```
 
 :::callout-important
 
