@@ -91,8 +91,8 @@ The report is generated based entirely on the Python script. For it to make sens
     populations have the same name, the connectivity will be unreadable:
 
     ```python
-    pop1 = ann.Population(geometry=(100, 100), neuron=ann.Izhikevich, name="Excitatory")
-    pop2 = ann.Population(geometry=(20, 20), neuron=ann.Izhikevich, name="Inhibitory")
+    pop1 = net.create(geometry=(100, 100), neuron=ann.Izhikevich, name="Excitatory")
+    pop2 = net.create(geometry=(20, 20), neuron=ann.Izhikevich, name="Inhibitory")
     ```
 
 2.  User-defined neuron and synapse models should be assigned a name and
@@ -150,18 +150,18 @@ RSNeuron = ann.Neuron(
         tau_nmda = 150.,
         vrev = 0.0,
     ),
-    equations = """
+    equations = [
         # Inputs
-        I = g_ampa * (vrev - v) + g_nmda * nmda(v, -80.0, 60.0) * (vrev -v)  
+        'I = g_ampa * (vrev - v) + g_nmda * nmda(v, -80.0, 60.0) * (vrev -v)',
 
         # Midpoint scheme      
-        dv/dt = (0.04 * v + 5.0) * v + 140.0 - u + I : init=-65., midpoint
-        du/dt = a * (b*v - u) : init=-13., midpoint
+        ann.Variable('dv/dt = (0.04 * v + 5.0) * v + 140.0 - u + I', init=-65., method="midpoint"),
+        ann.Variable('du/dt = a * (b*v - u)', init=-13., method="midpoint"),
 
         # Conductances
-        tau_ampa * dg_ampa/dt = -g_ampa : exponential
-        tau_nmda * dg_nmda/dt = -g_nmda : exponential
-    """ , 
+        ann.Variable('tau_ampa * dg_ampa/dt = -g_ampa', method="exponential"),
+        ann.Variable('tau_nmda * dg_nmda/dt = -g_nmda', method="exponential"),
+     ] , 
     spike = """
         v >= 30.
     """, 
@@ -176,15 +176,18 @@ RSNeuron = ann.Neuron(
     description = "Regular-spiking Izhikevich neuron, with AMPA/NMDA exponentially decreasing synapses."
 )
 
+# Network
+net = ann.Network()
+
 # Input population
-inp = ann.PoissonPopulation(100, rates=np.linspace(0.2, 20., 100), name="Poisson input")
+inp = net.create(ann.PoissonPopulation(100, rates=np.linspace(0.2, 20., 100), name="Poisson input"))
 
 # RS neuron without homeostatic mechanism
-pop1 = ann.Population(1, RSNeuron, name="RS neuron without homeostasis")
+pop1 = net.create(1, RSNeuron, name="RS neuron without homeostasis")
 pop1.compute_firing_rate(5000.)
 
 # RS neuron with homeostatic mechanism
-pop2 = ann.Population(1, RSNeuron, name="RS neuron with homeostasis")
+pop2 = net.create(1, RSNeuron, name="RS neuron with homeostasis")
 pop2.compute_firing_rate(5000.)
 
 # Nearest Neighbour STDP
@@ -196,14 +199,14 @@ nearest_neighbour_stdp = ann.Synapse(
         A_minus = 0.000066,
         w_max = 0.03,
     ),
-    equations = """
+    equations = [
         # Traces
-        tau_plus  * dltp/dt = -ltp : exponential
-        tau_minus * dltd/dt = -ltd : exponential
+        ann.Variable('tau_plus  * dltp/dt = -ltp', method='exponential'),
+        ann.Variable('tau_minus * dltd/dt = -ltd', method='exponential'),
 
         # Nearest-neighbour
-        w += if t_post >= t_pre: ltp else: - ltd : min=0.0, max=w_max
-    """,
+        ann.Variable('w += if t_post >= t_pre: ltp else: - ltd', min=0.0, max=w_max),
+    ],
     pre_spike="""
         g_target += w
         ltp = A_plus
@@ -233,19 +236,19 @@ homeo_stdp = ann.Synapse(
         Rtarget = 35.,
         T = 5000.,
     ),
-    equations = """
+    equations = [
         # Traces
-        tau_plus  * dltp/dt = -ltp : exponential
-        tau_minus * dltd/dt = -ltd : exponential
+        ann.Variable('tau_plus  * dltp/dt = -ltp', method='exponential'),
+        ann.Variable('tau_minus * dltd/dt = -ltd', method='exponential'),
 
         # Homeostatic values
-        R = post.r : postsynaptic
-        K = R/(T*(1.+fabs(1. - R/Rtarget) * gamma)) : postsynaptic
+        ann.Variable('R = post.r', locality='semiglobal'),
+        ann.Variable('K = R/(T*(1.+fabs(1. - R/Rtarget) * gamma))', locality='semiglobal'),
         
         # Nearest-neighbour
-        stdp = if t_post >= t_pre: ltp else: - ltd 
-        w += (alpha * w * (1- R/Rtarget) + beta * stdp ) * K : min=w_min, max=w_max
-    """,
+        ann.Variable('stdp = if t_post >= t_pre: ltp else: - ltd'),
+        ann.Variable('w += (alpha * w * (1- R/Rtarget) + beta * stdp ) * K', min=w_min, max=w_max),
+    ],
     pre_spike="""
         g_target += w
         ltp = A_plus
@@ -258,22 +261,25 @@ homeo_stdp = ann.Synapse(
 )
 
 # Projection without homeostatic mechanism
-proj1 = ann.Projection(inp, pop1, ['ampa', 'nmda'], synapse=nearest_neighbour_stdp)
+proj1 = net.connect(inp, pop1, ['ampa', 'nmda'], synapse=nearest_neighbour_stdp)
 proj1.connect_all_to_all(Uniform(0.01, 0.03))
 
 # Projection with homeostatic mechanism
-proj2 = ann.Projection(inp, pop2, ['ampa', 'nmda'], synapse=homeo_stdp)
+proj2 = net.connect(inp, pop2, ['ampa', 'nmda'], synapse=homeo_stdp)
 proj2.connect_all_to_all(weights=Uniform(0.01, 0.03))
 
 
 # Record
-m1 = ann.Monitor(pop1, 'r')
-m2 = ann.Monitor(pop2, 'r')
+m1 = net.monitor(pop1, 'r')
+m2 = net.monitor(pop2, 'r')
 
-ann.report('ramp.qmd', 
-        title="Biologically plausible models of homeostasis and STDP; Stability and learning in spiking neural networks", 
-        author="Carlson, Richert, Dutt and Krichmar",
-        date="Neural Networks (IJCNN) 2013")
+ann.report(
+    network=net,
+    filename='ramp.qmd', 
+    title="Biologically plausible models of homeostasis and STDP; Stability and learning in spiking neural networks", 
+    author="Carlson, Richert, Dutt and Krichmar",
+    date="Neural Networks (IJCNN) 2013"
+)
 ```
 
 This generates the following Markdown file:
@@ -287,7 +293,7 @@ date: Neural Networks (IJCNN) 2013
 
 # Structure of the network
 
-* ANNarchy 4.8.0 using the default backend.
+* ANNarchy 5.0.0 using the default backend.
 * Numerical step size: 1.0 ms.
 
 ## Populations
@@ -556,3 +562,278 @@ $${{\text{ltd}}}(t) = A_{\text{minus}}$$
 |                                                                                    |                                         | ${\text{Rtarget}}$    | 35.0      | 
 |                                                                                    |                                         | $T$                   | 5000.0    | 
 ```
+
+
+## Rendered version
+
+
+### Structure of the network
+
+* ANNarchy 5.0.0 using the default backend.
+* Numerical step size: 1.0 ms.
+
+#### Populations
+
+| **Population**                | **Size** | **Neuron type**            | 
+| ----------------------------- | -------- | -------------------------- | 
+| Poisson input                 | 100      | Poisson                    | 
+| RS neuron without homeostasis | 1        | Regular-spiking Izhikevich | 
+| RS neuron with homeostasis    | 1        | Regular-spiking Izhikevich | 
+
+
+### Projections
+
+| **Source**    | **Destination**               | **Target**  | **Synapse type**                        | **Pattern**                                               | 
+| ------------- | ----------------------------- | ----------- | --------------------------------------- | --------------------------------------------------------- | 
+| Poisson input | RS neuron without homeostasis | ampa / nmda | Nearest-neighbour STDP                  | All-to-All, weights $\mathcal{U}$(0.01, 0.03), delays 0.0 | 
+| Poisson input | RS neuron with homeostasis    | ampa / nmda | Nearest-neighbour STDP with homeostasis | All-to-All, weights $\mathcal{U}$(0.01, 0.03), delays 0.0 | 
+
+
+#### Monitors
+
+| **Object**                    | **Variables** | **Period** | 
+| ----------------------------- | ------------- | ---------- | 
+| RS neuron without homeostasis | r             | 1.0        | 
+| RS neuron with homeostasis    | r             | 1.0        | 
+
+
+### Neuron models
+
+#### Regular-spiking Izhikevich
+
+Regular-spiking Izhikevich neuron, with AMPA/NMDA exponentially decreasing synapses.
+
+**Parameters:**
+
+| **Name**             | **Default value** | **Locality**   | **Type** | 
+| -------------------- | ----------------- | -------------- | -------- | 
+| $a$                  | 0.02              | per population | double   | 
+| $b$                  | 0.2               | per population | double   | 
+| $c$                  | -65.0             | per population | double   | 
+| $d$                  | 8.0               | per population | double   | 
+| $\tau_{\text{ampa}}$ | 5.0               | per population | double   | 
+| $\tau_{\text{nmda}}$ | 150.0             | per population | double   | 
+| ${\text{vrev}}$      | 0.0               | per population | double   | 
+
+**Equations:**
+
+* Variable $I$ : per neuron, initial value: 0.0
+
+$$
+{I}(t) = {g_{\text{ampa}}}(t) \cdot \left({\text{vrev}} - {v}(t)\right) + {g_{\text{nmda}}}(t) \cdot \left({\text{vrev}} - {v}(t)\right) \cdot \operatorname{nmda}{\left ({v}(t),-80.0,60.0 \right )}
+$$
+
+* Variable $v$ : per neuron, initial value: -65.0, midpoint numerical method
+
+$$
+\frac{d{v}(t)}{dt} = {I}(t) - {u}(t) + {v}(t) \cdot \left(0.04 \cdot {v}(t) + 5.0\right) + 140.0
+$$
+
+* Variable $u$ : per neuron, initial value: -13.0, midpoint numerical method
+
+$$
+\frac{d{u}(t)}{dt} = a \cdot \left(b \cdot {v}(t) - {u}(t)\right)
+$$
+
+* Variable $g_{\text{ampa}}$ : per neuron, initial value: 0.0, exponential numerical method
+
+$$
+\frac{d{g_{\text{ampa}}}(t)}{dt} \cdot \tau_{\text{ampa}} = - {g_{\text{ampa}}}(t)
+$$
+
+* Variable $g_{\text{nmda}}$ : per neuron, initial value: 0.0, exponential numerical method
+
+$$
+\frac{d{g_{\text{nmda}}}(t)}{dt} \cdot \tau_{\text{nmda}} = - {g_{\text{nmda}}}(t)
+$$
+
+**Spike emission:**
+
+if ${v}(t) \geq 30.0$ :
+
+* Emit a spike a time $t$.
+* ${v}(t) = c$
+* ${u}(t) \mathrel{+}= d$
+
+
+**Functions**
+
+$${\text{nmda}}(v, t, s) = \frac{\left(- t + v\right)^{2}}{s^{2} \cdot \left(1.0 + \frac{1}{s^{2}} \cdot \left(- t + v\right)^{2}\right)}$$
+
+
+#### Poisson
+
+Spiking neuron with spikes emitted according to a Poisson distribution.
+
+**Parameters:**
+
+| **Name**         | **Default value** | **Locality** | **Type** | 
+| ---------------- | ----------------- | ------------ | -------- | 
+| ${\text{rates}}$ | 10.0              | per neuron   | double   | 
+
+**Equations:**
+
+* Variable $p$ : per neuron, initial value: 0.0
+
+$$
+{p}(t) = \frac{1000.0}{\Delta t} \cdot \mathcal{U}{\left (0.0,1.0 \right )}
+$$
+
+**Spike emission:**
+
+if ${p}(t) < {\text{rates}}$ :
+
+* Emit a spike a time $t$.
+
+### Synapse models
+
+#### Nearest-neighbour STDP
+
+Nearest-neighbour STDP synaptic plasticity. Each synapse updates two traces (ltp and ltd) and updates continuously its weight.
+
+**Parameters:**
+
+| **Name**              | **Default value** | **Locality**   | **Type** | 
+| --------------------- | ----------------- | -------------- | -------- | 
+| $\tau_{\text{plus}}$  | 20.0              | per projection | double   | 
+| $\tau_{\text{minus}}$ | 60.0              | per projection | double   | 
+| $A_{\text{plus}}$     | 0.0002            | per projection | double   | 
+| $A_{\text{minus}}$    | 6.6e-05           | per projection | double   | 
+| $w_{\text{max}}$      | 0.03              | per projection | double   | 
+
+**Equations:**
+
+* Variable ${\text{ltp}}$ : per synapse, initial value: 0.0, exponential numerical method
+
+$$
+\frac{d{{\text{ltp}}}(t)}{dt} \cdot \tau_{\text{plus}} = - {{\text{ltp}}}(t)
+$$
+
+* Variable ${\text{ltd}}$ : per synapse, initial value: 0.0, exponential numerical method
+
+$$
+\frac{d{{\text{ltd}}}(t)}{dt} \cdot \tau_{\text{minus}} = - {{\text{ltd}}}(t)
+$$
+
+* Variable $w$ : per synapse, initial value: 0.0, minimum: 0.0, maximum: w_max
+
+$$
+{w}(t) \mathrel{+}= \begin{cases}{{\text{ltp}}}(t)\qquad \text{if} \quad t_{\text{pos}} \geq t_{\text{pre}}\\ - {{\text{ltd}}}(t) \qquad \text{otherwise.} \end{cases}
+$$
+
+**Pre-synaptic event at $t_\text{pre} + d$:**
+$$g_{\text{target}(t)} \mathrel{+}= {w}(t)$$
+$${{\text{ltp}}}(t) = A_{\text{plus}}$$
+
+**Post-synaptic event at $t_\text{post}$:**
+$${{\text{ltd}}}(t) = A_{\text{minus}}$$
+
+#### Nearest-neighbour STDP with homeostasis
+
+Nearest-neighbour STDP synaptic plasticity with an additional homeostatic term. 
+
+**Parameters:**
+
+| **Name**              | **Default value** | **Locality**   | **Type** | 
+| --------------------- | ----------------- | -------------- | -------- | 
+| $\tau_{\text{plus}}$  | 20.0              | per projection | double   | 
+| $\tau_{\text{minus}}$ | 60.0              | per projection | double   | 
+| $A_{\text{plus}}$     | 0.0002            | per projection | double   | 
+| $A_{\text{minus}}$    | 6.6e-05           | per projection | double   | 
+| $w_{\text{min}}$      | 0.0               | per projection | double   | 
+| $w_{\text{max}}$      | 0.03              | per projection | double   | 
+| $\alpha$              | 0.1               | per projection | double   | 
+| $\beta$               | 1.0               | per projection | double   | 
+| $\gamma$              | 50.0              | per projection | double   | 
+| ${\text{Rtarget}}$    | 35.0              | per projection | double   | 
+| $T$                   | 5000.0            | per projection | double   | 
+
+**Equations:**
+
+* Variable ${\text{ltp}}$ : per synapse, initial value: 0.0, exponential numerical method
+
+$$
+\frac{d{{\text{ltp}}}(t)}{dt} \cdot \tau_{\text{plus}} = - {{\text{ltp}}}(t)
+$$
+
+* Variable ${\text{ltd}}$ : per synapse, initial value: 0.0, exponential numerical method
+
+$$
+\frac{d{{\text{ltd}}}(t)}{dt} \cdot \tau_{\text{minus}} = - {{\text{ltd}}}(t)
+$$
+
+* Variable $R$ : per post-synaptic neuron, initial value: 0.0
+
+$$
+{R}(t) = {r}^{\text{post}}(t)
+$$
+
+* Variable $K$ : per post-synaptic neuron, initial value: 0.0
+
+$$
+{K}(t) = \frac{{R}(t)}{T \cdot \left(\gamma \cdot \left|{f}\right|{\left (- \frac{{R}(t)}{{\text{Rtarget}}} + 1.0 \right )} + 1.0\right)}
+$$
+
+* Variable ${\text{stdp}}$ : per synapse, initial value: 0.0
+
+$$
+{{\text{stdp}}}(t) = \begin{cases}{{\text{ltp}}}(t)\qquad \text{if} \quad t_{\text{pos}} \geq t_{\text{pre}}\\ - {{\text{ltd}}}(t) \qquad \text{otherwise.} \end{cases}
+$$
+
+* Variable $w$ : per synapse, initial value: 0.0, minimum: w_min, maximum: w_max
+
+$$
+{w}(t) \mathrel{+}= {K}(t) \cdot \left(\alpha \cdot {w}(t) \cdot \left(- \frac{{R}(t)}{{\text{Rtarget}}} + 1\right) + \beta \cdot {{\text{stdp}}}(t)\right)
+$$
+
+**Pre-synaptic event at $t_\text{pre} + d$:**
+$$g_{\text{target}(t)} \mathrel{+}= {w}(t)$$
+$${{\text{ltp}}}(t) = A_{\text{plus}}$$
+
+**Post-synaptic event at $t_\text{post}$:**
+$${{\text{ltd}}}(t) = A_{\text{minus}}$$
+
+### Parameters
+
+#### Population parameters
+
+| **Population**                | **Neuron type**            | **Name**             | **Value**     | 
+| ----------------------------- | -------------------------- | -------------------- | ------------- | 
+| Poisson input                 | Poisson                    | ${\text{rates}}$     | $[0.2, 20.0]$ | 
+| RS neuron without homeostasis | Regular-spiking Izhikevich | $a$                  | 0.02          | 
+|                               |                            | $b$                  | 0.2           | 
+|                               |                            | $c$                  | -65.0         | 
+|                               |                            | $d$                  | 8.0           | 
+|                               |                            | $\tau_{\text{ampa}}$ | 5.0           | 
+|                               |                            | $\tau_{\text{nmda}}$ | 150.0         | 
+|                               |                            | ${\text{vrev}}$      | 0.0           | 
+| RS neuron with homeostasis    | Regular-spiking Izhikevich | $a$                  | 0.02          | 
+|                               |                            | $b$                  | 0.2           | 
+|                               |                            | $c$                  | -65.0         | 
+|                               |                            | $d$                  | 8.0           | 
+|                               |                            | $\tau_{\text{ampa}}$ | 5.0           | 
+|                               |                            | $\tau_{\text{nmda}}$ | 150.0         | 
+|                               |                            | ${\text{vrev}}$      | 0.0           | 
+
+
+
+#### Projection parameters
+
+| **Projection**                                                                     | **Synapse type**                        | **Name**              | **Value** | 
+| ---------------------------------------------------------------------------------- | --------------------------------------- | --------------------- | --------- | 
+| Poisson input  $\rightarrow$ RS neuron without homeostasis with target ampa / nmda | Nearest-neighbour STDP                  | $\tau_{\text{plus}}$  | 20.0      | 
+|                                                                                    |                                         | $\tau_{\text{minus}}$ | 60.0      | 
+|                                                                                    |                                         | $A_{\text{plus}}$     | 0.0002    | 
+|                                                                                    |                                         | $A_{\text{minus}}$    | 6.6e-05   | 
+|                                                                                    |                                         | $w_{\text{max}}$      | 0.03      | 
+| Poisson input  $\rightarrow$ RS neuron with homeostasis with target ampa / nmda    | Nearest-neighbour STDP with homeostasis | $\tau_{\text{plus}}$  | 20.0      | 
+|                                                                                    |                                         | $\tau_{\text{minus}}$ | 60.0      | 
+|                                                                                    |                                         | $A_{\text{plus}}$     | 0.0002    | 
+|                                                                                    |                                         | $A_{\text{minus}}$    | 6.6e-05   | 
+|                                                                                    |                                         | $w_{\text{min}}$      | 0.0       | 
+|                                                                                    |                                         | $w_{\text{max}}$      | 0.03      | 
+|                                                                                    |                                         | $\alpha$              | 0.1       | 
+|                                                                                    |                                         | $\beta$               | 1.0       | 
+|                                                                                    |                                         | $\gamma$              | 50.0      | 
+|                                                                                    |                                         | ${\text{Rtarget}}$    | 35.0      | 
+|                                                                                    |                                         | $T$                   | 5000.0    | 

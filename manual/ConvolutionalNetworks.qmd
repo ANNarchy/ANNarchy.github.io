@@ -11,7 +11,7 @@ from ANNarchy.extensions.convolution import *
 
 :::callout-warning
 
-Shared weights are only implemented for rate-coded networks. The only possible backend is currently OpenMP, CUDA will be implemented later.
+Convolutions are currently only implemented for rate-coded networks. The only possible backend is currently OpenMP, CUDA will be implemented later.
 :::
 
 
@@ -20,10 +20,14 @@ Shared weights are only implemented for rate-coded networks. The only possible b
 The simplest case of convolution is when the pre- and post-synaptic population have the same number of dimensions, for example:
 
 ```python
-pre = ann.Population(geometry=(100, 100), 
-        neuron=ann.Neuron(parameters="r = 0.0"))
-post = ann.Population(geometry=(100, 100), 
-        neuron=ann.Neuron(equations="r = sum(exc)"))
+pre = net.create(
+    geometry=(100, 100), 
+    neuron=ann.Neuron(parameters="r = 0.0")
+)
+post = net.create(
+    geometry=(100, 100), 
+    neuron=ann.Neuron(equations="r = sum(exc)")
+)
 ```
 
 Contrary to normal projections, the geometry of the populations (number of dimensions and neurons in each dimension) has a great influence on the operation to be performed. In particular the number of dimensions will define how the convolution will be applied.
@@ -46,10 +50,10 @@ $$
 \text{post}[i, j] = \sum_{c_i=-1}^1 \sum_{c_j=-1}^1 \text{filter}[c_i][c_j] \cdot \text{pre}[i + c_i, j + c_j]
 $$
 
-Such a convolution is achieved by creating a `Convolution` object and using the `connect_filter()` method to create the connection pattern:
+Such a convolution is achieved by creating a `Convolution` object (inheriting from `Projection`, so it can be passed to `Network.connect()`) and using the `connect_filter()` method to create the connection pattern:
 
 ```python
-proj = Convolution(pre=pre, post=post, target='exc')
+proj = net.connect(Convolution(pre=pre, post=post, target='exc'))
 proj.connect_filter(weights=vertical_filter)
 ```
 
@@ -63,10 +67,10 @@ Several options can be passed to the `convolve()` method:
 One can access the coordinates in the pre-synaptic geometry of the center of the filter corresponding to a particular post-synaptic neuron by calling the `center()` method of `Convolution` with the rank or coordinates of the post neuron:
 
 ```python
-pre = ann.Population(geometry=(100, 100), neuron = Whatever)
-post = ann.Population(geometry=(50, 50), neuron = Whatever)
+pre = net.create(geometry=(100, 100), neuron = ann.Neuron(parameters="r = 0.0"))
+post = net.create(geometry=(50, 50), neuron = ann.Neuron(equations="r = sum(exc)"))
 
-proj = Convolution(pre=pre, post=post, target='exc')
+proj = net.connect(Convolution(pre=pre, post=post, target='exc'))
 proj.connect_filter(weights=vertical_filter)
 
 pre_coordinates = proj.center(10, 10) # returns (20, 20)
@@ -75,8 +79,8 @@ pre_coordinates = proj.center(10, 10) # returns (20, 20)
 In some cases, the post-synaptic population can have less dimensions than the pre-synaptic one. An example would be when the pre-synaptic population has three dimensions (e.g. (100, 100, 3)), the last representing the R, G and B components of an image. A 3D filter, with 3 components in the last dimension, would result in a (100, 100, 1) post-synaptic population (or any subsampling of it). ANNarchy accepts in this case the use of a 2D population (100, 100), but it will be checked that the number of elements in the last dimension of the filter equals the number of pre-synaptic neurons in the last dimension:
 
 ```python
-pre = ann.Population(geometry=(100, 100, 3), neuron=ann.Neuron(parameters="r = 0.0"))
-post = ann.Population(geometry=(100, 100), neuron=ann.Neuron(equations="r = sum(exc)"))
+pre = net.create(geometry=(100, 100, 3), neuron=ann.Neuron(parameters="r = 0.0"))
+post = net.create(geometry=(100, 100), neuron=ann.Neuron(equations="r = sum(exc)"))
 
 red_filter = np.array(
     [
@@ -86,7 +90,7 @@ red_filter = np.array(
     ]
 )
 
-proj = Convolution(pre=pre, post=post, target='exc')
+proj = net.connect(Convolution(pre=pre, post=post, target='exc'))
 proj.connect_filter(weights=red_filter)
 ```
 
@@ -97,13 +101,13 @@ proj.connect_filter(weights=red_filter)
 -   the `psp` argument defines what will be summed. It is `w*pre.r` by default but can be changed to any combination of `w` and `pre.r`,such as `w * log(1+pre.r)`:
 
     ```python
-    proj = Convolution(pre=pre, post=post, target='exc', psp='w*log(1+pre.r)')
+    proj = net.connect(Convolution(pre=pre, post=post, target='exc', psp='w*log(1+pre.r)'))
     ```
 
 -   the `operation` argument allows to change the summation operation. You can set it to 'max' (the maximum value of `w*pre.r` over the extent of the filter will be returned), 'min' (minimum) or 'mean' (same as 'sum', but normalized by the number of elements in the filter). The default is 'sum':
 
     ```python
-    proj = Convolution(pre=pre, post=post, target='exc', operation='max')
+    proj = net.connect(Convolution(pre=pre, post=post, target='exc', operation='max'))
     ```
 
 ## Layer-wise convolutions
@@ -111,8 +115,8 @@ proj.connect_filter(weights=red_filter)
 It is possible to define kernels with less dimensions than the pre-synaptic population. A 2D filter can for example be applied on each color component independently:
 
 ```python
-pre = ann.Population(geometry=(100, 100, 3), neuron=ann.Neuron(parameters="r = 0.0"))
-post = ann.Population(geometry=(50, 50, 3), neuron=ann.Neuron(equations="r = sum(exc)"))
+pre = net.create(geometry=(100, 100, 3), neuron=ann.Neuron(parameters="r = 0.0"))
+post = net.create(geometry=(50, 50, 3), neuron=ann.Neuron(equations="r = sum(exc)"))
 
 vertical_filter = np.array(
     [
@@ -122,7 +126,7 @@ vertical_filter = np.array(
     ]
 )
 
-proj = Convolution(pre=pre, post=post, target='exc')
+proj = net.connect(Convolution(pre=pre, post=post, target='exc'))
 proj.connect_filter(weights=vertical_filter, keep_last_dimension=True)
 ```
 
@@ -133,8 +137,8 @@ The important parameter in this case is `keep_last_dimension` which tells the co
 Convolutional networks often use banks of filters to perform different operations (such as edge detection with various orientations). It is possible to specify this mode of functioning by using the `connect_filters()` method:
 
 ```python
-pre = ann.Population(geometry=(100, 100), neuron=ann.Neuron(parameters="r = 0.0"))
-post = ann.Population(geometry=(50, 50, 4), neuron=ann.Neuron(equations="r = sum(exc)"))
+pre = net.create(geometry=(100, 100), neuron=ann.Neuron(parameters="r = 0.0"))
+post = net.create(geometry=(50, 50, 4), neuron=ann.Neuron(equations="r = sum(exc)"))
 
 bank_filters = np.array(
     [
@@ -159,7 +163,7 @@ bank_filters = np.array(
     ]
 )
 
-proj = Convolution(pre=pre, post=post, target='exc')
+proj = net.connectConvolution(pre=pre, post=post, target='exc')
 proj.connect_filters(weights=bank_filters)
 ```
 
@@ -177,10 +181,10 @@ Another form of atypical projection for a neural network is the pooling operatio
 The `Pooling` class allows to define such an operation without defining any synapse:
 
 ```python
-pre = ann.Population(geometry=(100, 100), neuron=ann.Neuron(parameters="r = 0.0"))
-post = ann.Population(geometry=(50, 50), neuron=ann.Neuron(equations="r = sum(exc)"))
+pre = net.create(geometry=(100, 100), neuron=ann.Neuron(parameters="r = 0.0"))
+post = net.create(geometry=(50, 50), neuron=ann.Neuron(equations="r = sum(exc)"))
 
-proj = Pooling(pre=pre, post=post, target='exc', operation='max')
+proj = net.connect(Pooling(pre=pre, post=post, target='exc', operation='max'))
 proj.connect_pooling()
 ```
 
@@ -189,10 +193,10 @@ The pooling region of a post-synaptic region is automatically determined by comp
 If the number of dimensions do not match, you have to specify the `extent` argument to `pooling()`. For example, you can pool completely over one dimension of the pre-synaptic population:
 
 ```python
-pre = ann.Population(geometry=(100, 100, 10), neuron=ann.Neuron(parameters="r = 0.0"))
-post = ann.Population(geometry=(50, 50), neuron=ann.Neuron(equations="r = sum(exc)"))
+pre = net.connect(geometry=(100, 100, 10), neuron=ann.Neuron(parameters="r = 0.0"))
+post = net.connect(geometry=(50, 50), neuron=ann.Neuron(equations="r = sum(exc)"))
 
-proj = Pooling(pre=pre, post=post, target='exc', operation='max')
+proj = net.connect(Pooling(pre=pre, post=post, target='exc', operation='max'))
 proj.connect_pooling(extent=(2, 2, 10))
 ```
 
@@ -203,15 +207,15 @@ A different possibility to share weights is between two projections. If your net
 To this end, you can use the `Copy` class and pass it an existing projection:
 
 ```python
-pop1 = ann.Population(geometry=(30, 30), neuron=ann.Neuron(equations="r = sum(exc)"))
-pop2 = ann.Population(geometry=(20, 20), neuron=ann.Neuron(equations="r = sum(exc)"))
-pop3 = ann.Population(geometry=(20, 20), neuron=ann.Neuron(equations="r = sum(exc)"))
+pop1 = net.connect(geometry=(30, 30), neuron=ann.Neuron(equations="r = sum(exc)"))
+pop2 = net.connect(geometry=(20, 20), neuron=ann.Neuron(equations="r = sum(exc)"))
+pop3 = net.connect(geometry=(20, 20), neuron=ann.Neuron(equations="r = sum(exc)"))
 
 
-proj1 = ann.Projection(pop1, pop2, 'exc')
+proj1 = net.connect(pop1, pop2, 'exc')
 proj1.connect_gaussian(amp = 1.0, sigma=0.3, delays=2.0)
 
-proj2 = Copy(pop1, pop3, 'exc')
+proj2 = net.connect(Copy(pop1, pop3, 'exc'))
 proj2.connect_copy(proj1)
 ```
 

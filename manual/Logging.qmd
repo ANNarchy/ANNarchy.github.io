@@ -65,7 +65,7 @@ The simplest information to log is a scalar, for example the accuracy at the end
 ```python
 with ann.Logger() as logger:
     for trial in range(100):
-        ann.simulate(1000.0)
+        net.simulate(1000.0)
         accuracy = ...
         logger.add_scalar("Accuracy", accuracy, trial)
 ```
@@ -75,7 +75,7 @@ A tag should be given for each plot as the first argument. In the example above,
 ```python
 with ann.Logger() as logger:
     for trial in range(100):
-        ann.simulate(1000.0)
+        net.simulate(1000.0)
         train_accuracy = ...
         test_accuracy = ...
         logger.add_scalar("Accuracy/Train", train_accuracy, trial)
@@ -89,7 +89,7 @@ If you want to display several scalars on the same plot, you can use the method 
 ```python
 with ann.Logger() as logger:
     for trial in range(100):
-        ann.simulate(1000.0)
+        net.simulate(1000.0)
         train_accuracy = ...
         test_accuracy = ...
         logger.add_scalars("Accuracy", {'train': train_accuracy, 'test': test_accuracy}, trial)
@@ -102,7 +102,7 @@ It is also possible to log images, for example an input image or the firing rate
 ```python
 with ann.Logger() as logger:
     for trial in range(100):
-        ann.simulate(1000.0)
+        net.simulate(1000.0)
         img = pop.r.reshape((10, 10))
         logger.add_image("Population/Firing rate", img, trial)
 ```
@@ -126,7 +126,7 @@ To display several images together, for example the receptive fields of a popula
 ```python
 with ann.Logger() as logger:
     for trial in range(100):
-        ann.simulate(1000.0)
+        net.simulate(1000.0)
         weights= proj.w.reshape(100, 10, 10) # 100 post neurons, 10*10 pre neurons
         logger.add_images("Projection/Receptive fields", weights, trial, equalize=True)
 ```
@@ -140,7 +140,7 @@ Histograms can also be logged, for example to visualize the statistics of weight
 ```python
 with ann.Logger() as logger:
     for trial in range(100):
-        ann.simulate(1000.0)
+        net.simulate(1000.0)
         weights= proj.w.flatten()
         logger.add_histogram("Weight distribution", weights, trial)
 ```

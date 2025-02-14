@@ -9,17 +9,17 @@ A typical application would be to define a rate-coded network to process visual 
 Converting a rate-coded population to a spiking network is straightforward. The `PoissonPopulation` (see its [API](/reference/PoissonPopulation.qmd)) defines a population of spiking neurons emitting spikes following a Poisson distribution:
 
 ```python
-pop = ann.PoissonPopulation(1000, rates=50.)
+pop = net.create(ann.PoissonPopulation(1000, rates=50.))
 ```
 
 In this case, the 1000 neurons emit spikes at a rate of 50 Hz (the rate of individual neurons can be later modified). It is possible to use a weighted sum of rate-coded synapses in order to determine the firing rate of each Poisson neuron. It requires to connect a rate-coded population to the `PoissonPopulation` with a given target:
 
 ```python
-pop1 = ann.Population(4, Neuron(parameters="r=0.0"))
+pop1 = net.create(4, Neuron(parameters="r=0.0"))
 
-pop2 = ann.PoissonPopulation(1000, target='exc')
+pop2 = net.create(ann.PoissonPopulation(1000, target='exc'))
 
-proj = ann.Projection(pop1, pop2, 'exc')
+proj = net.connect(pop1, pop2, 'exc')
 proj.connect_fixed_number_pre(weights=10.0, number=1)
 ```
 
@@ -31,12 +31,13 @@ The weights determine the scaling of the transmission: a presynaptic rate `r` of
 
 Decoding a spiking population is a harder process, because of the stochastic nature of spike trains. One can take advantage of the fact here that a rate-coded neuron usually represents an ensemble of spiking neurons, so the average firing rate in that ensemble can be more precisely decoded.
 
-In order to do so, one needs to connect the spiking population to a rate-coded one with a many-to-one pattern using a `DecodingProjection`. A `DecodingProjection` heritates all methods of `Projection` (including the connection methods) but performs the necessary conversion from spike trains to a instantaneous rate:
+In order to do so, one needs to connect the spiking population to a rate-coded one with a many-to-one pattern using a `DecodingProjection`. A `DecodingProjection` heritates all methods of `Projection` (including the connection methods) but performs the necessary conversion from spike trains to a instantaneous rate. It can be passed as the first unnamed argument to `Network.connect()`:
 
 ```python
-pop1 = ann.PoissonPopulation(1000, rates=50.0)
-pop2 = ann.Population(1, Neuron(equations="r=sum(exc)"))
-proj = ann.DecodingProjection(pop1, pop2, 'exc', window=10.0)
+pop1 = net.create(ann.PoissonPopulation(1000, rates=50.0))
+pop2 = net.create(1, Neuron(equations="r=sum(exc)"))
+
+proj = net.connect(ann.DecodingProjection(pop1, pop2, 'exc', window=10.0))
 proj.connect_all_to_all(weights=1.0)
 ```
 

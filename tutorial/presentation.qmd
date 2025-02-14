@@ -500,27 +500,25 @@ Requirements (Linux and MacOS):
 ```python
 import ANNarchy as ann
 
-# Create neuron types
-neuron = ann.Neuron(...) 
+# Create network
+net = ann.Network()
 
-# Create synapse types for transmission and/or plasticity
+# Create neuron and  synapse types for transmission and/or plasticity
+neuron = ann.Neuron(...) 
 stdp = ann.Synapse(...) 
 
 # Create populations of neurons
-pop = ann.Population(1000, neuron) 
+pop = net.create(1000, neuron) 
 
 # Connect the populations through projections
-proj = ann.Projection(pop, pop, 'exc', stdp) 
+proj = net.connect(pop, pop, 'exc', stdp) 
 proj.connect_fixed_probability(weights=ann.Uniform(0.0, 1.0), probability=0.1)
 
 # Generate and compile the code
-ann.compile() 
-
-# Record spiking activity
-m = ann.Monitor(pop, ['spike']) 
+net.compile() 
 
 # Simulate for 1 second
-ann.simulate(1000.)
+net.simulate(1000.)
 ```
 
 # 3 - Rate-coded networks
@@ -555,11 +553,10 @@ import ANNarchy as ann
 
 ESN_Neuron = ann.Neuron(
 
-    parameters = {'tau': 30.0, 'g': 1.0 , 'noise': 0.01},
+    parameters = dict(tau=30.0, g=1.0 , noise=0.01),
     
     equations = [
         'tau * dx/dt + x = sum(in) + g * sum(exc) + noise * Uniform(-1, 1)',
- 
         'r = tanh(x)'
     ]
 )
@@ -570,16 +567,16 @@ ESN_Neuron = ann.Neuron(
 * The parameters are provided as a dictionary:
 
 ```python
-parameters = {'tau': 30.0, 'g': 1.0 , 'noise': 0.01},
+parameters = dict(tau=30.0, g=1.0 , noise=0.01),
 ```
 
 
 * Parameters can have one value per neuron in the population (**local**) or be common to all neurons of the population (**global**).
 
-* The parameters are considered global by default. To define a local parameters, use `ann.parameter()`:
+* The parameters are considered global by default. To define a local parameters, use `ann.Parameter()`:
 
 ```python
-parameters = {'tau': 30.0, 'g': 1.0 , 'noise': ann.parameter(0.01, locality='local')},
+parameters = dict(tau=30.0, g=1.0 , noise=ann.Parameter(0.01, locality='local'))
 ```
 
 
@@ -587,9 +584,8 @@ parameters = {'tau': 30.0, 'g': 1.0 , 'noise': ann.parameter(0.01, locality='loc
 
 ```python
 parameters = dict(
-    tau = 30.0, 
-    g = 1.0, 
-    activated= ann.parameter(False, type=bool, locality='local'),
+    tau = 30.0, g = 1.0, noise=0.01, 
+    activated= ann.Parameter(False, type=bool, locality='local'),
 )
 ```
 
@@ -611,12 +607,12 @@ equations = [
 
 * The math C library symbols can be used (`tanh`, `cos`, `exp`, etc).
 
-* Initial values can be specified by using an `ann.variable()` object (default: 0.0). 
+* Initial values can be specified by using an `ann.Variable()` object (default: 0.0). 
 
 ```python
 equations = [
-    ann.variable('tau * dx/dt + x = sum(exc)', init=-1.0),
-    ann.variable('r = tanh(x)'),
+    ann.Variable('tau * dx/dt + x = sum(exc)', init=-1.0),
+    ann.Variable('r = tanh(x)'),
 ]
 ```
 
@@ -624,8 +620,8 @@ equations = [
 
 ```python
 equations = [
-    ann.variable('tau * dx/dt + x = sum(exc)', init=-1.0, max=1.0),
-    ann.variable('r = x', min=0.0), # ReLU
+    ann.Variable('tau * dx/dt + x = sum(exc)', init=-1.0, max=1.0),
+    ann.Variable('r = x', min=0.0), # ReLU
 ]
 ```
 
@@ -709,18 +705,80 @@ for(unsigned int i = 0; i < size; i++){
 <https://annarchy.github.io/manual/NumericalMethods>
 :::
 
+# Network
+
+:::columns
+:::column
+
+* `Network` is the main object in ANNarchy:
+
+```python
+net = ann.Network()
+```
+
+* It is the container for all populations and projections of the network:
+
+```python
+pop = net.create(
+    geometry=1000, 
+    neuron=ESN_Neuron
+)
+
+proj = net.connect(
+    pre=pop, 
+    post=pop, 
+    target='exc'
+)
+```
+
+* It stores the configuration of the simulation, including the numerical time step `dt` and the seed of the RNG:
+
+```python
+net = ann.Network(dt=0.1, seed=42)
+net.config(num_threads=8)
+```
+
+:::
+:::column
+
+* For better re-usability, you can create your own `Network` subclasses:
+
+```python
+class SimpleNetwork(ann.Network):
+    def __init__(self, size:int):
+
+        self.pop = self.create(
+            geometry=size, 
+            neuron=ESN_Neuron
+        )
+        
+        self.proj = self.connect(
+            pre=self.pop, 
+            post=self.pop, 
+            target='exc'
+        )
+
+net = SimpleNetwork(1000)
+```
+
+* `Network` subclasses allow to run simulations in parallel.
+
+:::
+:::
+
+
 # Populations
 
 * Populations are creating by specifying a number of neurons and a neuron type:
 
 ```python
-pop = ann.Population(1000, ESN_Neuron)
+pop = net.create(geometry=1000, neuron=ESN_Neuron)
 ```
 
 * For visualization purposes or when using convolutional layers, a tuple geometry can be passed instead of the size:
 
 ```python
-pop = ann.Population((100, 100), ESN_Neuron)
+pop = net.create(geometry=(100, 100), neuron=ESN_Neuron)
 ```
 
 * All parameters and variables become attributes of the population (read and write) as numpy arrays:
@@ -733,7 +791,7 @@ pop.r = np.tanh(pop.v)
 * Slices of populations are called `PopulationView` and can be addressed separately:
 
 ```python
-pop = ann.Population(1000, ESN_Neuron)
+pop = net.create(geometry=1000, neuron=ESN_Neuron)
 E = pop[:800]
 I = pop[800:]
 ```
@@ -743,8 +801,8 @@ I = pop[800:]
 * Projections connect two populations (or views) in a uni-directional way.
 
 ```python
-proj_exc = ann.Projection(E, pop, 'exc')
-proj_inh = ann.Projection(I, pop, 'inh')
+proj_exc = net.connect(E, pop, 'exc')
+proj_inh = net.connect(I, pop, 'inh')
 ```
 
 * Each target (`'exc', 'inh', 'AMPA', 'NMDA', 'GABA'`) can be defined as needed and will be treated differently by the post-synaptic neurons.
@@ -753,8 +811,8 @@ proj_inh = ann.Projection(I, pop, 'inh')
 
 ```python
 equations = [
-    ann.variable('tau * dx/dt + x = sum(exc) / (1 + sum(inh))'),
-    ann.variable('r = tanh(x)'),
+    ann.Variable('tau * dx/dt + x = sum(exc) / (1 + sum(inh))'),
+    ann.Variable('r = tanh(x)'),
 ]
 ```
 
@@ -769,13 +827,13 @@ equations = [
 ```python
 proj.connect_all_to_all(weights=ann.Normal(0.0, 1.0), delays=2.0, allow_self_connections=False)
 
+proj.connect_fixed_probability(probability=0.2, weights=1.0)
+
 proj.connect_one_to_one(weights=1.0, delays=ann.Uniform(1.0, 10.0))
 
 proj.connect_fixed_number_pre(number=20, weights=1.0)
 
 proj.connect_fixed_number_post(number=20, weights=1.0)
-
-proj.connect_fixed_probability(probability=0.2, weights=1.0)
 
 proj.connect_gaussian(amp=1.0, sigma=0.2, limit=0.001)
 
@@ -816,23 +874,23 @@ proj.connect_from_sparse(w)
 
 # Compiling and running the simulation
 
-* Once all populations and projections are created, you have to generate to the C++ code and compile it:
+* Once all populations and projections are created inside a network, you have to generate to the C++ code and compile it:
 
 ```python
-ann.compile()
+net.compile()
 ```
 
-* You can now manipulate all parameters/variables from Python thanks to the Cython bindings.
+* You can now manipulate all parameters/variables from Python.
 
 * A simulation is simply run for a fixed duration in milliseconds with:
 
 ```python
-ann.simulate(1000.) # 1 second
+net.simulate(1000.) # 1 second
 ```
 
 * You can also run a simulation until a criteria is filled (e.g. first-spike), see:
 
-<https://annarchy.github.io/manual/Simulation.html#early-stopping>
+<https://annarchy.github.io/manual/Network.html#early-stopping>
 
 # Monitoring
 
@@ -841,9 +899,9 @@ ann.simulate(1000.) # 1 second
 * You may want to record some variables (neural or synaptic) during the simulation with a `Monitor`:
 
 ```python
-m = ann.Monitor(pop, ['v', 'r'])
+m = net.monitor(pop, ['v', 'r'])
 
-n = ann.Monitor(proj, ['w'])
+n = net.monitor(proj, ['w'])
 ```
 
 * After the simulation, you can retrieve the recordings with:
@@ -897,11 +955,11 @@ $$\Delta w = \eta \, r^\text{pre} \, r^\text{post}  \,  (r^\text{post} - \mathbb
 IBCM = ann.Synapse(
     parameters = dict(eta = 0.01, tau = 2000.0),
     equations = [
-        ann.variable(
+        ann.Variable(
             'tau * dtheta/dt + theta = post.r^2', 
             locality='semiglobal', method='exponential'),
 
-        ann.variable('dw/dt = eta * post.r * (post.r - theta) * pre.r', min=0.0),
+        ann.Variable('dw/dt = eta * post.r * (post.r - theta) * pre.r', min=0.0),
     ],
     psp = "w * pre.r"
 )
@@ -915,10 +973,10 @@ IBCM = ann.Synapse(
 
 # Plastic projections
 
-* The synapse type just has to be passed to the Projection:
+* The synapse type just has to be passed to `Network.connect()`:
 
 ```python
-proj = Projection(inp, pop, 'exc', synapse=IBCM)
+proj = net.connect(inp, pop, 'exc', synapse=IBCM)
 ```
 
 * Synaptic variables can be accessed as lists of lists for the whole projection:
@@ -973,9 +1031,9 @@ $$
     \Delta w_{i, j} = - \eta \,  e_{i, j}(T) \, (R - R_\text{mean})
 $$
 
-::: {}
+
 ![](img/miconi.png){width=80% fig-align="center"}
-:::
+
 
 :::footer
 @Miconi2017 Biologically plausible learning in recurrent neural networks reproduces neural dynamics observed during cognitive tasks. eLife. doi:10.7554/eLife.20899
@@ -1023,7 +1081,7 @@ LIF = ann.Neuron(
         I = 0.25,
     ),
     equations = [
-        ann.variable(
+        ann.Variable(
             'C * dv/dt = g_L * (E_L - v) + I', 
             init='E_L'
         ),     
@@ -1059,24 +1117,24 @@ $$\tau \cdot \frac{dv (t)}{dt} = E_l - v(t) + g_\text{exc} (t) \, (E_\text{exc} 
 * A pre-synaptic spike arriving to a spiking neuron increases the conductance/current `g_target` (e.g. `g_exc` or `g_inh`, depending on the projection).
 
 ```python
-LIF = Neuron(
-    parameters = {...},
+LIF = ann.Neuron(
+    parameters = {tau=20.0},
     equations = [
-        ann.variable(
-            'C * dv/dt = g_L * (E_L - v) + I', 
-            init='E_L'
-        ),     
+        'tau * dv/dt + v = g_exc',     
     ],
-    spike = "v >= v_T",
-    reset = "v = v_r",
-    refractory = 2.0
+    spike = "v >= 1",
+    reset = "v = 0"
 )
 ```
 
 * Each spike increments instantaneously `g_target` from the synaptic efficiency `w` of the corresponding synapse.
 
-```
-g_target += w
+* This can be changed through the `pre_spike` argument of the synapse model:
+
+```python
+default_synapse = ann.Synapse(
+    pre_spike="g_target += w"
+)
 ```
 
 :::
@@ -1095,27 +1153,26 @@ g_target += w
 
 * For **exponentially-decreasing** or **alpha-shaped** synapses, ODEs have to be introduced for the conductance/current.
 
-* The exponential numerical method should be preferred, as integration is exact.
-
 ```python
 LIF = ann.Neuron(
-    parameters = {...},
+    parameters = {tau=20.0},
     equations = [
-        ann.variable(
-            'C * dv/dt = g_L * (E_L - v) + I', 
-            init='E_L'
-        ),  
-        ann.variable(
-            'tau_exc * dg_exc/dt = - g_exc', 
-            method='exponential'
-        ),     
+        'tau * dv/dt + v = g_exc',     
+        'tau_exc * dg_exc/dt = - g_exc',
     ],
-    spike = "v >= v_T",
-    reset = "v = v_r",
-    refractory = 2.0
+    spike = "v >= 1",
+    reset = "v = 0"
 )
 ```
 
+* The exponential numerical method should be preferred, as integration is exact.
+
+```python
+        ann.Variable(
+            'tau_exc * dg_exc/dt = - g_exc', 
+            method='exponential'
+        )
+```
 
 :::
 ::: {.column width=40%}
@@ -1129,25 +1186,38 @@ LIF = ann.Neuron(
 # Notebook: Synaptic transmission
 
 :::columns
-:::column
+::: {.column width=60%}
 
 [![Download JupyterNotebook](https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&logo=Jupyter)](https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/SynapticTransmission.ipynb){target="_blank"} [![Download JupyterNotebook](https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&logo=Jupyter)](https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/SynapticTransmission.ipynb){target="_blank"}
 
 
 ```python
-# Membrane potential
-tau * dv/dt = (E_L - v) + g_a + g_b + alpha_c
-
-# Exponentially decreasing
-tau_b * dg_b/dt = -g_b
-
-# Alpha-shaped
-tau_c * dg_c/dt = -g_c
-tau_c * dh_c/dt = g_c - h_c
+equations = [
+    # Membrane potential
+    'tau*dv/dt = (E_L- v) + g_a + g_b + alpha_c',
+    
+    # Exponentially decreasing
+    ann.Variable(
+        'tau_b * dg_b/dt = -g_b', 
+        method='exponential'
+    ),
+    
+    # Alpha-shaped
+    ann.Variable(
+        'tau_c * dg_c/dt = -g_c', 
+        method='exponential'
+    ),
+    ann.Variable('''
+        tau_c * dalpha_c/dt = 
+            exp((tau_c - dt/2.0)/tau_c) * g_c 
+                                    - alpha_c''', 
+        method='exponential'
+    ),
+],
 ```
 
 :::
-:::column
+::: {.column width=40%}
 ![](img/synaptictransmission.png)
 :::
 :::
@@ -1173,7 +1243,7 @@ $$\tau \, \frac{dv (t)}{dt} = E_l - v(t) + g_\text{exc} (t) \, (E_\text{exc} - v
 
 * `g_target` is an alias for the corresponding post-synaptic conductance: it will be replaced by `g_exc` or `g_inh` depending on how the synapse is used.
 
-* By default, a pre-synaptic spike increments the post-synaptic conductance from `w`: `g_target += w`
+* By default, a pre-synaptic spike increments the post-synaptic conductance from `w`, but this can be changed.
 
 ```python
 STP = ann.Synapse(
@@ -1183,8 +1253,8 @@ STP = ann.Synapse(
         U = 0.5
     ),
     equations = [
-        ann.variable('dx/dt = (1 - x)/tau_rec', init = 1.0, method='event-driven'),
-        ann.variable('du/dt = (U - u)/tau_facil', init = 0.5, method='event-driven'),
+        ann.Variable('dx/dt = (1 - x)/tau_rec', init = 1.0, method='event-driven'),
+        ann.Variable('du/dt = (U - u)/tau_facil', init = 0.5, method='event-driven'),
     ],
     pre_spike="""
         g_target += w * u * x
@@ -1218,8 +1288,8 @@ STDP = ann.Synapse(
         w_min = 0.0, w_max = 1.0,
     ),
     equations = [
-        ann.variable('tau_plus  * dx/dt = -x', method='event-driven'), # pre-synaptic trace
-        ann.variable('tau_minus * dy/dt = -y', method='event-driven'), # post-synaptic trace
+        ann.Variable('tau_plus  * dx/dt = -x', method='event-driven'), # pre-synaptic trace
+        ann.Variable('tau_minus * dy/dt = -y', method='event-driven'), # post-synaptic trace
     ],
     pre_spike="""
         g_target += w
@@ -1238,9 +1308,9 @@ STDP = ann.Synapse(
 
 $$
 \begin{cases}
-\tau^+ \, \dfrac{d x(t)}{dt} = -x(t) \\
+\tau^+ \, \dfrac{d x(t)}{dt} = - x(t) \\
 \\
-\tau^- \, \dfrac{d y(t)}{dt} = -y(t) \\
+\tau^- \, \dfrac{d y(t)}{dt} = - y(t) \\
 \end{cases}
 $$
 
@@ -1291,6 +1361,7 @@ $$
 * ANN (keras) to SNN conversion tool.
 
 RTFM: <https://annarchy.github.io>
+
 
 # References (scroll down for the full list)
 
