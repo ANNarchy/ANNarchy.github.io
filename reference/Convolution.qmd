@@ -1,7 +1,7 @@
 # Convolution { #ANNarchy.extensions.convolution.Convolve.Convolution }
 
 ```python
-extensions.convolution.Convolve.Convolution(
+Convolution(
     self,
     pre,
     post,
@@ -23,16 +23,23 @@ $$g(x) = \sum_{k=-n}^n h(k) \, f(x + k)$$
 The convolution operation benefits from giving a multi-dimensional geometry to the populations and filters, for example in 2D:
 
 ```python
-inp = ann.Population(geometry=(100, 100), neuron=ann.Neuron(parameters="r = 0.0"))
-pop = ann.Population(geometry=(100, 100), neuron=ann.Neuron(equations="r = sum(exc)"))
+import ANNarchy as ann
+from ANNarchy.extensions.convolution import Convolution
 
-proj = Convolution(inp, pop, 'exc')
+net = ann.Network()
+
+inp = net.create(geometry=(100, 100), neuron=ann.Neuron(parameters="r = 0.0"))
+pop = net.create(geometry=(100, 100), neuron=ann.Neuron(equations="r = sum(exc)"))
+
+proj = net.connect(Convolution(inp, pop, 'exc'))
 proj.connect_filter(
     [
         [-1., 0., 1.],
         [-1., 0., 1.],
         [-1., 0., 1.]
     ])
+
+net.compile()
 ```
 
 The maximum number of dimensions for populations and filters is 4, an error is thrown otherwise.
@@ -83,16 +90,16 @@ You can redefine the sub-sampling by providing a list ``subsampling`` as argumen
 | --- | --- |
 | [connect_filter](#ANNarchy.extensions.convolution.Convolve.Convolution.connect_filter) | Applies a single filter on the pre-synaptic population. |
 | [connect_filters](#ANNarchy.extensions.convolution.Convolve.Convolution.connect_filters) | Applies a set of different filters on the pre-synaptic population. |
-| [connectivity_matrix](#ANNarchy.extensions.convolution.Convolve.Convolution.connectivity_matrix) | Not available. |
+| [save_connectivity](#ANNarchy.extensions.convolution.Convolve.Convolution.save_connectivity) | Not available. |
+| [save](#ANNarchy.extensions.convolution.Convolve.Convolution.save) | Not available. |
 | [load](#ANNarchy.extensions.convolution.Convolve.Convolution.load) | Not available. |
 | [receptive_fields](#ANNarchy.extensions.convolution.Convolve.Convolution.receptive_fields) | Not available. |
-| [save](#ANNarchy.extensions.convolution.Convolve.Convolution.save) | Not available. |
-| [save_connectivity](#ANNarchy.extensions.convolution.Convolve.Convolution.save_connectivity) | Not available. |
+| [connectivity_matrix](#ANNarchy.extensions.convolution.Convolve.Convolution.connectivity_matrix) | Not available. |
 
 ### connect_filter { #ANNarchy.extensions.convolution.Convolve.Convolution.connect_filter }
 
 ```python
-extensions.convolution.Convolve.Convolution.connect_filter(
+connect_filter(
     weights,
     delays=0.0,
     keep_last_dimension=False,
@@ -116,7 +123,7 @@ Applies a single filter on the pre-synaptic population.
 ### connect_filters { #ANNarchy.extensions.convolution.Convolve.Convolution.connect_filters }
 
 ```python
-extensions.convolution.Convolve.Convolution.connect_filters(
+connect_filters(
     weights,
     delays=0.0,
     keep_last_dimension=False,
@@ -139,29 +146,10 @@ The weights matrix must have one dimension more than the pre-synaptic population
 | padding             |        | value to be used for the rates outside the pre-synaptic population. If it is a floating value, the pre-synaptic population is virtually extended with this value above its boundaries. If it is equal to 'border', the values on the boundaries are repeated. Default: 0.0.                        | `0.0`      |
 | subsampling         |        | list for each post-synaptic neuron of coordinates in the pre-synaptic population defining the center of the kernel/filter. Default: None.                                                                                                                                                          | `None`     |
 
-### connectivity_matrix { #ANNarchy.extensions.convolution.Convolve.Convolution.connectivity_matrix }
+### save_connectivity { #ANNarchy.extensions.convolution.Convolve.Convolution.save_connectivity }
 
 ```python
-extensions.convolution.Convolve.Convolution.connectivity_matrix(fill=0.0)
-```
-
-Not available.
-
-### load { #ANNarchy.extensions.convolution.Convolve.Convolution.load }
-
-```python
-extensions.convolution.Convolve.Convolution.load(filename)
-```
-
-Not available.
-
-### receptive_fields { #ANNarchy.extensions.convolution.Convolve.Convolution.receptive_fields }
-
-```python
-extensions.convolution.Convolve.Convolution.receptive_fields(
-    variable='w',
-    in_post_geometry=True,
-)
+save_connectivity(filename)
 ```
 
 Not available.
@@ -169,15 +157,31 @@ Not available.
 ### save { #ANNarchy.extensions.convolution.Convolve.Convolution.save }
 
 ```python
-extensions.convolution.Convolve.Convolution.save(filename)
+save(filename)
 ```
 
 Not available.
 
-### save_connectivity { #ANNarchy.extensions.convolution.Convolve.Convolution.save_connectivity }
+### load { #ANNarchy.extensions.convolution.Convolve.Convolution.load }
 
 ```python
-extensions.convolution.Convolve.Convolution.save_connectivity(filename)
+load(filename)
+```
+
+Not available.
+
+### receptive_fields { #ANNarchy.extensions.convolution.Convolve.Convolution.receptive_fields }
+
+```python
+receptive_fields(variable='w', in_post_geometry=True)
+```
+
+Not available.
+
+### connectivity_matrix { #ANNarchy.extensions.convolution.Convolve.Convolution.connectivity_matrix }
+
+```python
+connectivity_matrix(fill=0.0)
 ```
 
 Not available.

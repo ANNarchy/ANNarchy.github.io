@@ -1,42 +1,29 @@
 # IBCM { #ANNarchy.models.Synapses.IBCM }
 
 ```python
-models.Synapses.IBCM(self, eta=0.01, tau=2000.0)
+IBCM(self, eta=0.01, tau=2000.0)
 ```
 
 Rate-coded synapse with Intrator & Cooper (1992) plasticity.
-
-**Parameters (global)**:
-
-* eta = 0.01 : learning rate.
-
-* tau = 2000.0 : time constant of the post-synaptic threshold.
-
-**Learning rule**:
-
-* theta : post-synaptic threshold:
-
-```
-tau * dtheta/dt + theta = post.r^2
-```
-
-* w : weight:
-
-```
-dw/dt = eta * post.r * (post.r - theta) * pre.r 
-```
 
 Equivalent code:
 
 ```python
 IBCM = ann.Synapse(
-    parameters = """
-        eta = 0.01 : projection
-        tau = 2000.0 : projection
-    """,
-    equations = """
-        tau * dtheta/dt + theta = post.r^2 : postsynaptic, exponential
-        dw/dt = eta * post.r * (post.r - theta) * pre.r : min=0.0, explicit
-    """
+    parameters = dict(
+        eta = 0.01,
+        tau = 2000.0,
+    ),
+    equations = [
+        ann.Variable('tau * dtheta/dt + theta = post.r^2', locality='semiglobal', method='exponential'),
+        ann.Variable('dw/dt = eta * post.r * (post.r - theta) * pre.r',' min=0.0),
+    ]
 )
 ```
+
+## Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                             | Default   |
+|--------|--------|-----------------------------------------|-----------|
+| eta    |        | learning rate.                          | `0.01`    |
+| tau    |        | time constant of the sliding threshold. | `2000.0`  |

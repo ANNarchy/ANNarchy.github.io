@@ -1,4 +1,4 @@
-# **Reference** {.doc .doc-index}
+# **ANNarchy** {.doc .doc-index}
 
 ## **Core components**
 
@@ -6,16 +6,25 @@ Basic objects composing a network. The `Network` class is the main access point 
 
 | | |
 | --- | --- |
-| [Network](Network.qmd#ANNarchy.core.Network.Network) | A network is a collection of populations, projections and monitors that runs the simulation. |
+| [Network](Network.qmd#ANNarchy.core.Network.Network) | A network creates the populations, projections and monitors, and controls the simulation. |
+| [Population](Population.qmd#ANNarchy.core.Population.Population) | Population of neurons. |
+| [Projection](Projection.qmd#ANNarchy.core.Projection.Projection) | Projection between two populations. |
+| [Monitor](Monitor.qmd#ANNarchy.core.Monitor.Monitor) | Object allowing to record variables from `Population`, `PopulationView`, `Dendrite` or `Projection` instances. |
+| [PopulationView](PopulationView.qmd#ANNarchy.core.PopulationView.PopulationView) | Subset of a Population. |
+| [Dendrite](Dendrite.qmd#ANNarchy.core.Dendrite.Dendrite) | Sub-group of a `Projection` for a single post-synaptic neuron. |
+
+## **Neuron and Synapse models**
+
+Objects allowing to design neuron and synapse models.
+
+| | |
+| --- | --- |
+| [Neuron](Neuron.qmd#ANNarchy.core.Neuron.Neuron) | Base class to define a neuron model. |
+| [Synapse](Synapse.qmd#ANNarchy.core.Synapse.Synapse) | Base class to define a synapse model. |
 | [Parameter](Parameter.qmd#ANNarchy.core.Parameters.Parameter) | Dataclass to represent a parameter in a Neuron or Synapse definition. |
 | [Variable](Variable.qmd#ANNarchy.core.Parameters.Variable) | Dataclass to represent a variable in a Neuron or Synapse definition. |
-| [Neuron](Neuron.qmd#ANNarchy.core.Neuron.Neuron) | Base class to define a neuron. |
-| [Synapse](Synapse.qmd#ANNarchy.core.Synapse.Synapse) | Base class to define a synapse. |
-| [Population](Population.qmd#ANNarchy.core.Population.Population) | Structure for a population of homogeneous neurons. |
-| [Projection](Projection.qmd#ANNarchy.core.Projection.Projection) | Structure holding all synapses of the same type between two populations. |
-| [Monitor](Monitor.qmd#ANNarchy.core.Monitor.Monitor) | Monitoring class allowing to record easily parameters or variables from Population, PopulationView, Dendrite or Projection objects. |
-| [PopulationView](PopulationView.qmd#ANNarchy.core.PopulationView.PopulationView) | Container representing a subset of neurons of a Population. |
-| [Dendrite](Dendrite.qmd#ANNarchy.core.Dendrite.Dendrite) | A `Dendrite` is a sub-group of a `Projection`, gathering the synapses between the pre-synaptic population and a single post-synaptic neuron. |
+| [Creating](Creating.qmd#ANNarchy.core.Parameters.Creating) | Dataclass to represent a creation condition for structural plasticity. |
+| [Pruning](Pruning.qmd#ANNarchy.core.Parameters.Pruning) | Dataclass to represent a pruning condition for structural plasticity. |
 | [Constant](Constant.qmd#ANNarchy.core.Constant.Constant) | Constant parameter that can be used by all neurons and synapses. |
 
 ## **Neuron models**
@@ -31,8 +40,8 @@ Default neuron models that can be used directly. The naming follows the PyNN con
 | [IF_curr_alpha](IF_curr_alpha.qmd#ANNarchy.models.Neurons.IF_curr_alpha) | Leaky integrate-and-fire model with fixed threshold and alpha post-synaptic currents.  |
 | [IF_cond_alpha](IF_cond_alpha.qmd#ANNarchy.models.Neurons.IF_cond_alpha) | Leaky integrate-and-fire model with fixed threshold and alpha post-synaptic conductance. |
 | [HH_cond_exp](HH_cond_exp.qmd#ANNarchy.models.Neurons.HH_cond_exp) | Single-compartment Hodgkin-Huxley-type neuron with transient sodium and delayed-rectifier potassium currents using the ion channel models from Traub. |
-| [EIF_cond_alpha_isfa_ista](EIF_cond_alpha_isfa_ista.qmd#ANNarchy.models.Neurons.EIF_cond_alpha_isfa_ista) | Exponential integrate-and-fire neuron with spike triggered and sub-threshold adaptation conductances (isfa, ista reps.). |
-| [EIF_cond_exp_isfa_ista](EIF_cond_exp_isfa_ista.qmd#ANNarchy.models.Neurons.EIF_cond_exp_isfa_ista) | Exponential integrate-and-fire neuron with spike triggered and sub-threshold adaptation currents (isfa, ista reps.). |
+| [EIF_cond_alpha_isfa_ista](EIF_cond_alpha_isfa_ista.qmd#ANNarchy.models.Neurons.EIF_cond_alpha_isfa_ista) | Exponential integrate-and-fire neuron with spike triggered and sub-threshold adaptation conductances (isfa, ista reps.), alpha post-synaptic conductances. |
+| [EIF_cond_exp_isfa_ista](EIF_cond_exp_isfa_ista.qmd#ANNarchy.models.Neurons.EIF_cond_exp_isfa_ista) | Exponential integrate-and-fire neuron with spike triggered and sub-threshold adaptation currents (isfa, ista reps.), decaying-exponential post-synaptic conductances. |
 
 ## **Synapse models**
 
@@ -40,15 +49,28 @@ Default synapse models that can be used directly.
 
 | | |
 | --- | --- |
-| [STP](STP.qmd#ANNarchy.models.Synapses.STP) | Synapse exhibiting short-term facilitation and depression. |
-| [STDP](STDP.qmd#ANNarchy.models.Synapses.STDP) | Spike-timing dependent plasticity, online version. |
 | [Hebb](Hebb.qmd#ANNarchy.models.Synapses.Hebb) | Rate-coded synapse with Hebbian plasticity. |
 | [Oja](Oja.qmd#ANNarchy.models.Synapses.Oja) | Rate-coded synapse with regularized Hebbian plasticity (Oja). |
 | [IBCM](IBCM.qmd#ANNarchy.models.Synapses.IBCM) | Rate-coded synapse with Intrator & Cooper (1992) plasticity. |
+| [STP](STP.qmd#ANNarchy.models.Synapses.STP) | Synapse exhibiting short-term facilitation and depression. |
+| [STDP](STDP.qmd#ANNarchy.models.Synapses.STDP) | Spike-timing dependent plasticity, online version. |
 
 ## **Inputs**
 
 Input populations that can be used to stimulate the networks.
+
+Input populations can be passed to `Network.create()` directly, e.g.:
+
+```python
+pop1 = net.create(ann.PoissonPopulation(100, rates=15.))
+```
+
+Input projections (`CurrentInjection` and `DecodingProjection`) can be passed to `Network.connect()`:
+
+```python
+net.connect(ann.DecodingProjection(pop1, pop2, 'exc', window=10.0))
+```
+
 
 | | |
 | --- | --- |
@@ -56,7 +78,7 @@ Input populations that can be used to stimulate the networks.
 | [TimedArray](TimedArray.qmd#ANNarchy.inputs.TimedArray.TimedArray) | Data structure holding sequential inputs for a rate-coded network. |
 | [PoissonPopulation](PoissonPopulation.qmd#ANNarchy.inputs.PoissonPopulation.PoissonPopulation) | Population of spiking neurons following a Poisson distribution. |
 | [TimedPoissonPopulation](TimedPoissonPopulation.qmd#ANNarchy.inputs.TimedPoissonPopulation.TimedPoissonPopulation) | Poisson population whose rate vary with the provided schedule. |
-| [SpikeSourceArray](SpikeSourceArray.qmd#ANNarchy.inputs.SpikeSourceArray.SpikeSourceArray) | Spike source generating spikes at the times given in the spike_times array. |
+| [SpikeSourceArray](SpikeSourceArray.qmd#ANNarchy.inputs.SpikeSourceArray.SpikeSourceArray) | Spike source generating spikes at the times given in the `spike_times` array. |
 | [HomogeneousCorrelatedSpikeTrains](HomogeneousCorrelatedSpikeTrains.qmd#ANNarchy.inputs.SpikeTrains.HomogeneousCorrelatedSpikeTrains) | Population of spiking neurons following a homogeneous distribution with correlated spike trains. |
 | [CurrentInjection](CurrentInjection.qmd#ANNarchy.inputs.CurrentInjection.CurrentInjection) | Inject current from a rate-coded population into a spiking population. |
 | [DecodingProjection](DecodingProjection.qmd#ANNarchy.inputs.DecodingProjection.DecodingProjection) | Decoding projection to transform spike trains into firing rates. |
@@ -84,7 +106,7 @@ Functions declared at the global level.
 | | |
 | --- | --- |
 | [add_function](add_function.qmd#ANNarchy.core.Global.add_function) | Defines a global function which can be used by all neurons and synapses. |
-| [functions](functions.qmd#ANNarchy.core.Global.functions) | Allows to access a global function declared with ``add_function`` and use it from Python using arrays **after compilation**. |
+| [functions](functions.qmd#ANNarchy.core.Global.functions) | Allows to access a global function declared with ``add_function()`` and use it from Python using arrays **after compilation of the magic network**. |
 
 ## **Callbacks**
 
@@ -102,10 +124,6 @@ simulate(10000.)
 | | |
 | --- | --- |
 | [every](every.qmd#ANNarchy.core.Simulate.every) | Decorator to declare a callback method that will be called periodically during the simulation. |
-| [callbacks_enabled](callbacks_enabled.qmd#ANNarchy.core.Simulate.callbacks_enabled) | Returns True if callbacks are enabled for the network. |
-| [disable_callbacks](disable_callbacks.qmd#ANNarchy.core.Simulate.disable_callbacks) | Disables all callbacks for the network. |
-| [enable_callbacks](enable_callbacks.qmd#ANNarchy.core.Simulate.enable_callbacks) | Enables all declared callbacks for the network. |
-| [clear_all_callbacks](clear_all_callbacks.qmd#ANNarchy.core.Simulate.clear_all_callbacks) | Clears the list of declared callbacks for the network. |
 
 ## **Utilities**
 
@@ -114,6 +132,10 @@ Various additional utilities.
 | | |
 | --- | --- |
 | [report](report.qmd#ANNarchy.parser.report.Report.report) | Generates a report describing the network. |
+| [timeit](timeit.qmd#ANNarchy.core.Utils.timeit) | Decorator to measure the execution time of a method. |
+| [sparse_random_matrix](sparse_random_matrix.qmd#ANNarchy.core.Utils.sparse_random_matrix) | Returns a sparse lil-matrix for use in `Projection.connect_from_sparse()`. |
+| [sparse_delays_from_weights](sparse_delays_from_weights.qmd#ANNarchy.core.Utils.sparse_delays_from_weights) | Returns a sparse delay matrix with the same connectivity as the sparse matrix `weight_matrix`. |
+| [magic_network](magic_network.qmd#ANNarchy.core.Global.magic_network) | Returns the magic network of ID 0. |
 
 ## **Convolution**
 
@@ -121,7 +143,7 @@ Extension for convolution and pooling projections. The extension has to be expli
 
 ```python
 import ANNarchy as ann
-from ANNarchy.extensions.convolution import *
+from ANNarchy.extensions.convolution import Convolution, Pooling, Copy, Transpose
 ```
 
 
@@ -138,7 +160,7 @@ Extension for monitoring BOLD signals in a population.
 
 ```python
 import ANNarchy as ann
-from ANNarchy.extensions.bold import *
+import ANNarchy.extensions.bold as bold
 ```
 
 
@@ -183,7 +205,7 @@ from ANNarchy.extensions.ann_to_snn_conversion import ANNtoSNNConverter
 | --- | --- |
 | [ANNtoSNNConverter](ANNtoSNNConverter.qmd#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter) | Converts a pre-trained Keras model `.keras` into an ANNarchy spiking neural network.  |
 
-## **Top-level API (deprecated)**
+## **DEPRECATED Top-level API**
 
 Accessing objects at the global level is deprecated since ANNarchy 5.0.
 
@@ -197,8 +219,8 @@ Accessing objects at the global level is deprecated since ANNarchy 5.0.
 | [get_population](get_population.qmd#ANNarchy.core.Global.get_population) | Returns the population with the given name. |
 | [get_projection](get_projection.qmd#ANNarchy.core.Global.get_projection) | Returns the projection with the given name. |
 | [populations](populations.qmd#ANNarchy.core.Global.populations) | Returns a list of all declared populations. |
-| [projections](projections.qmd#ANNarchy.core.Global.projections) | Returns a list of all declared populations.  |
-| [monitors](monitors.qmd#ANNarchy.core.Global.monitors) | Returns a list of declared monitors. By default, all monitors are returned. |
+| [projections](projections.qmd#ANNarchy.core.Global.projections) | Returns a list of all declared populations. |
+| [monitors](monitors.qmd#ANNarchy.core.Global.monitors) | Returns a list of declared monitors.  |
 | [simulate](simulate.qmd#ANNarchy.core.Simulate.simulate) | Simulates the network for the given duration in milliseconds.  |
 | [simulate_until](simulate_until.qmd#ANNarchy.core.Simulate.simulate_until) | Runs the network for the maximal duration in milliseconds. If the ``stop_condition`` defined in the population becomes true during the simulation, it is stopped. |
 | [step](step.qmd#ANNarchy.core.Simulate.step) | Performs a single simulation step (duration = `dt`). |
@@ -213,3 +235,7 @@ Accessing objects at the global level is deprecated since ANNarchy 5.0.
 | [load](load.qmd#ANNarchy.core.IO.load) | Loads a saved state of the network. |
 | [save_parameters](save_parameters.qmd#ANNarchy.core.IO.save_parameters) | Saves the global parameters of a network (flag ``population`` for neurons, ``projection`` for synapses) to a JSON file. |
 | [load_parameters](load_parameters.qmd#ANNarchy.core.IO.load_parameters) | Loads the global parameters of a network (flag ``population`` for neurons, ``projection`` for synapses) from a JSON file. |
+| [callbacks_enabled](callbacks_enabled.qmd#ANNarchy.core.Simulate.callbacks_enabled) | Returns True if callbacks are enabled for the network. |
+| [disable_callbacks](disable_callbacks.qmd#ANNarchy.core.Simulate.disable_callbacks) | Disables all callbacks for the network. |
+| [enable_callbacks](enable_callbacks.qmd#ANNarchy.core.Simulate.enable_callbacks) | Enables all declared callbacks for the network. |
+| [clear_all_callbacks](clear_all_callbacks.qmd#ANNarchy.core.Simulate.clear_all_callbacks) | Clears the list of declared callbacks for the network. |

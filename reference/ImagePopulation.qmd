@@ -1,18 +1,12 @@
 # ImagePopulation { #ANNarchy.extensions.image.ImagePopulation.ImagePopulation }
 
 ```python
-extensions.image.ImagePopulation.ImagePopulation(
-    self,
-    geometry,
-    name=None,
-    copied=False,
-    net_id=0,
-)
+ImagePopulation(self, geometry, name=None, copied=False, net_id=0)
 ```
 
 Rate-coded Population allowing to represent images (png, jpg...) as the firing rate of a population (each neuron represents one pixel).
 
-This extension requires the Python Image Library (pip install Pillow).
+This extension requires the Python Image Library (`pip install Pillow`).
 
 The extensions has to be explicitly imported:
 
@@ -20,7 +14,8 @@ The extensions has to be explicitly imported:
 import ANNarchy as ann
 from ANNarchy.extensions.image import ImagePopulation
 
-pop = ImagePopulation(geometry=(480, 640))
+net = ann.Network()
+pop = net.create(ImagePopulation(geometry=(480, 640)))
 pop.set_image('image.jpg')
 ```
 
@@ -49,9 +44,15 @@ If the third dimension is 3, each will correspond to the RGB values of the pixel
 ### set_image { #ANNarchy.extensions.image.ImagePopulation.ImagePopulation.set_image }
 
 ```python
-extensions.image.ImagePopulation.ImagePopulation.set_image(image_name)
+set_image(filename)
 ```
 
 Sets an image (.png, .jpg or whatever is supported by PIL) into the firing rate of the population.
 
 If the image has a different size from the population, it will be resized.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name     | Type   | Description             | Default    |
+|----------|--------|-------------------------|------------|
+| filename | str    | name of the image file. | _required_ |

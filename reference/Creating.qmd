@@ -1,0 +1,29 @@
+# Creating { #ANNarchy.core.Parameters.Creating }
+
+```python
+Creating(self, equation, proba=1.0, w=0.0, d=None)
+```
+
+Dataclass to represent a creation condition for structural plasticity.
+
+When the condition is true, a synapse is created with the specified probability, using the weight $w$ and delay $d$.
+
+```python
+CreatingSynapse = ann.Synapse(
+
+    parameters = dict(eta = 0.1, T = 1.0),
+
+    equations = ann.Variable("dw/dt = eta * pre.r * post.r"),
+    
+    creating = ann.Creating("pre.r * post.r > T", proba = 0.1, w = 0.01),
+)
+```
+
+## Parameters {.doc-section .doc-section-parameters}
+
+| Name     | Type   | Description                             | Default    |
+|----------|--------|-----------------------------------------|------------|
+| equation | str    | string representing the equation.       | _required_ |
+| proba    | float  | probability of creation of the synapse. | `1.0`      |
+| w        | float  | weight when the synapse is created.     | `0.0`      |
+| d        | float  | delay when the synapse is created.      | `None`     |

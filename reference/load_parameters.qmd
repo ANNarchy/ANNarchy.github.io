@@ -1,12 +1,14 @@
 # load_parameters { #ANNarchy.core.IO.load_parameters }
 
 ```python
-core.IO.load_parameters(filename, global_only=True, verbose=False, net_id=0)
+load_parameters(filename, global_only=True, verbose=False, net_id=0)
 ```
 
 Loads the global parameters of a network (flag ``population`` for neurons, ``projection`` for synapses) from a JSON file.
 
-It is advised to generate the JSON file first with ``save_parameters()`` and later edit it manually.
+It returns a dictionary of additional parameters not related to populations or projections (keyword ``network`` in the JSON file).
+
+It is advised to generate the JSON file first with `save_parameters()` and later edit it manually.
 
 A strong restriction is that population/projection names cannot change between saving and loading.
 By default, they take names such as ``pop0`` or ``proj2``, we advise setting explicitly a name in their constructor for readability.
@@ -26,9 +28,3 @@ If you want to save/load the value of variables after a simulation, please refer
 | filename    | str    | path to the JSON file.                                                                                                                   | _required_ |
 | global_only | bool   | True if only global parameters (flags ``population`` and ``projection``) should be loaded, the other values are ignored. (default: True) | `True`     |
 | verbose     | bool   | True if the old and new values of the parameters should be printed (default: False).                                                     | `False`    |
-
-## Returns {.doc-section .doc-section-returns}
-
-| Name   | Type   | Description                                                                                                             |
-|--------|--------|-------------------------------------------------------------------------------------------------------------------------|
-|        |        | a dictionary of additional parameters not related to populations or projections (keyword ``network`` in the JSON file). |

@@ -1,7 +1,7 @@
 # Parameter { #ANNarchy.core.Parameters.Parameter }
 
 ```python
-core.Parameters.Parameter(self, value, locality='global', type='float')
+Parameter(self, value, locality='local', type='float')
 ```
 
 Dataclass to represent a parameter in a Neuron or Synapse definition.
@@ -9,24 +9,31 @@ Dataclass to represent a parameter in a Neuron or Synapse definition.
 ```python
 neuron = ann.Neuron(
     parameters = dict(
+
         # Global parameter
-        tau = ann.Parameter(value=10.0, locality='global')
+        tau = 10.0 # or ann.Parameter(value=10.0, locality='global')
 
         # Local parameter
-        baseline = ann.Parameter(value=ann.Uniform(-1., 1.), locality='local')
+        baseline = ann.Parameter(value=ann.Uniform(-1., 1.)),
 
         # Boolean global parameter
-        activated = ann.Parameter(value=True, type=bool)
+        activated = ann.Parameter(value=True, locality='global', type=bool),
     )
 )
 ```
 
-By default, parameters are global and use the float type, so tau could be simply defined as `ann.Parameter(10.0)`, or even just `10.0`.
+In a neuron or synapse model, parameters are global and use the float type if the `Parameter` class is not used. 
+
+If you need a local parameter (one value per neuron or synapse), the `Parameter` class allows to specify it. Note that you can also define global parameters by passing `locality='global'`.
+
+Semi-global synaptic parameters (one value per post-synaptic neuron) can be defined using `locality='semiglobalglobal'`.
+
+If the parameter is an int or a bool, pass it to the `type` attribute.
 
 ## Parameters {.doc-section .doc-section-parameters}
 
 | Name     | Type                                       | Description                                                                                                                                                                                                  | Default    |
 |----------|--------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
 | value    | float \| int \| bool \| RandomDistribution | Initial value of the parameter. It can be defined as a RandomDistribution, which will be sampled with the correct shape when the population/projection is created, or a float/int/bool, depending on `type`. | _required_ |
-| locality | str                                        | Locality of the parameter. Must be in ['global', 'semiglobal', 'local'].                                                                                                                                     | `'global'` |
+| locality | str                                        | Locality of the parameter. Must be in ['global', 'semiglobal', 'local'].                                                                                                                                     | `'local'`  |
 | type     | str                                        | Data type of the parameter. Must be in [float, int, bool] (or ['float', 'int', 'bool']).                                                                                                                     | `'float'`  |

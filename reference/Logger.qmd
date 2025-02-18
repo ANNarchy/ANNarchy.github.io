@@ -1,7 +1,7 @@
 # Logger { #ANNarchy.extensions.tensorboard.Logger.Logger }
 
 ```python
-extensions.tensorboard.Logger.Logger(self, logdir='runs/', experiment=None)
+Logger(self, logdir='runs/', experiment=None)
 ```
 
 Logger class to use tensorboard to visualize ANNarchy simulations. Requires the `tensorboardX` package (pip install tensorboardX). 
@@ -65,28 +65,23 @@ logger.flush()
 
 | Name | Description |
 | --- | --- |
-| [add_figure](#ANNarchy.extensions.tensorboard.Logger.Logger.add_figure) | Logs a Matplotlib figure. |
-| [add_histogram](#ANNarchy.extensions.tensorboard.Logger.Logger.add_histogram) | Logs an histogram. |
+| [add_scalar](#ANNarchy.extensions.tensorboard.Logger.Logger.add_scalar) | Logs a single scalar value, e.g. a success rate at various stages of learning. |
+| [add_scalars](#ANNarchy.extensions.tensorboard.Logger.Logger.add_scalars) | Logs multiple scalar values to be displayed in the same figure, e.g. several metrics or neural activities. |
 | [add_image](#ANNarchy.extensions.tensorboard.Logger.Logger.add_image) | Logs an image. |
 | [add_images](#ANNarchy.extensions.tensorboard.Logger.Logger.add_images) | Logs a set of images (e.g. receptive fields). |
 | [add_parameters](#ANNarchy.extensions.tensorboard.Logger.Logger.add_parameters) | Logs parameters of a simulation. |
-| [add_scalar](#ANNarchy.extensions.tensorboard.Logger.Logger.add_scalar) | Logs a single scalar value, e.g. a success rate at various stages of learning. |
-| [add_scalars](#ANNarchy.extensions.tensorboard.Logger.Logger.add_scalars) | Logs multiple scalar values to be displayed in the same figure, e.g. several metrics or neural activities. |
-| [close](#ANNarchy.extensions.tensorboard.Logger.Logger.close) | Closes the logger. |
+| [add_histogram](#ANNarchy.extensions.tensorboard.Logger.Logger.add_histogram) | Logs an histogram. |
+| [add_figure](#ANNarchy.extensions.tensorboard.Logger.Logger.add_figure) | Logs a Matplotlib figure. |
 | [flush](#ANNarchy.extensions.tensorboard.Logger.Logger.flush) | Forces the logged data to be flushed to disk. |
+| [close](#ANNarchy.extensions.tensorboard.Logger.Logger.close) | Closes the logger. |
 
-### add_figure { #ANNarchy.extensions.tensorboard.Logger.Logger.add_figure }
+### add_scalar { #ANNarchy.extensions.tensorboard.Logger.Logger.add_scalar }
 
 ```python
-extensions.tensorboard.Logger.Logger.add_figure(
-    tag,
-    figure,
-    step=None,
-    close=True,
-)
+add_scalar(tag, value, step=None)
 ```
 
-Logs a Matplotlib figure.
+Logs a single scalar value, e.g. a success rate at various stages of learning.
 
 Example:
 
@@ -94,27 +89,25 @@ Example:
 with Logger() as logger:
     for trial in range(100):
         simulate(1000.0)
-        fig = plt.figure()
-        plt.plot(pop.r)
-        logger.add_figure("Activity", fig, trial)
+        accuracy = ...
+        logger.add_scalar("Accuracy", accuracy, trial)
 ```
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name   | Type               | Description                                                         | Default    |
-|--------|--------------------|---------------------------------------------------------------------|------------|
-| tag    | str                | name of the image in tensorboard.                                   | _required_ |
-| figure | list \| np.ndarray | a list or 1D numpy array of values.                                 | _required_ |
-| step   | int                | time index.                                                         | `None`     |
-| close  | bool               | whether the logger will close the figure when done (default: True). | `True`     |
+| Name   | Type   | Description                        | Default    |
+|--------|--------|------------------------------------|------------|
+| tag    | str    | name of the figure in tensorboard. | _required_ |
+| value  | float  | value.                             | _required_ |
+| step   | int    | time index.                        | `None`     |
 
-### add_histogram { #ANNarchy.extensions.tensorboard.Logger.Logger.add_histogram }
+### add_scalars { #ANNarchy.extensions.tensorboard.Logger.Logger.add_scalars }
 
 ```python
-extensions.tensorboard.Logger.Logger.add_histogram(tag, hist, step=None)
+add_scalars(tag, value, step=None)
 ```
 
-Logs an histogram.
+Logs multiple scalar values to be displayed in the same figure, e.g. several metrics or neural activities.
 
 Example:
 
@@ -122,27 +115,26 @@ Example:
 with Logger() as logger:
     for trial in range(100):
         simulate(1000.0)
-        weights= proj.w.flatten()
-        logger.add_histogram("Weight distribution", weights, trial)
+        act1 = pop.r[0]
+        act2 = pop.r[1]
+        logger.add_scalars(
+            "Accuracy", 
+            {'First neuron': act1, 'Second neuron': act2}, 
+            trial)
 ```
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name   | Type               | Description                         | Default    |
-|--------|--------------------|-------------------------------------|------------|
-| tag    | str                | name of the figure in tensorboard.  | _required_ |
-| hist   | list \| np.ndarray | a list or 1D numpy array of values. | _required_ |
-| step   | int                | time index.                         | `None`     |
+| Name   | Type   | Description                        | Default    |
+|--------|--------|------------------------------------|------------|
+| tag    | str    | name of the figure in tensorboard. | _required_ |
+| value  | dict   | dictionary of values.              | _required_ |
+| step   | int    | time index.                        | `None`     |
 
 ### add_image { #ANNarchy.extensions.tensorboard.Logger.Logger.add_image }
 
 ```python
-extensions.tensorboard.Logger.Logger.add_image(
-    tag,
-    img,
-    step=None,
-    equalize=False,
-)
+add_image(tag, img, step=None, equalize=False)
 ```
 
 Logs an image.
@@ -171,13 +163,7 @@ with Logger() as logger:
 ### add_images { #ANNarchy.extensions.tensorboard.Logger.Logger.add_images }
 
 ```python
-extensions.tensorboard.Logger.Logger.add_images(
-    tag,
-    img,
-    step=None,
-    equalize=False,
-    equalize_per_image=False,
-)
+add_images(tag, img, step=None, equalize=False, equalize_per_image=False)
 ```
 
 Logs a set of images (e.g. receptive fields).
@@ -207,7 +193,7 @@ with Logger() as logger:
 ### add_parameters { #ANNarchy.extensions.tensorboard.Logger.Logger.add_parameters }
 
 ```python
-extensions.tensorboard.Logger.Logger.add_parameters(params, metrics)
+add_parameters(params, metrics)
 ```
 
 Logs parameters of a simulation.
@@ -232,13 +218,13 @@ with Logger() as logger:
 | params  | dict   | dictionary of parameters. | _required_ |
 | metrics | dict   | dictionary of metrics.    | _required_ |
 
-### add_scalar { #ANNarchy.extensions.tensorboard.Logger.Logger.add_scalar }
+### add_histogram { #ANNarchy.extensions.tensorboard.Logger.Logger.add_histogram }
 
 ```python
-extensions.tensorboard.Logger.Logger.add_scalar(tag, value, step=None)
+add_histogram(tag, hist, step=None)
 ```
 
-Logs a single scalar value, e.g. a success rate at various stages of learning.
+Logs an histogram.
 
 Example:
 
@@ -246,25 +232,25 @@ Example:
 with Logger() as logger:
     for trial in range(100):
         simulate(1000.0)
-        accuracy = ...
-        logger.add_scalar("Accuracy", accuracy, trial)
+        weights= proj.w.flatten()
+        logger.add_histogram("Weight distribution", weights, trial)
 ```
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name   | Type   | Description                        | Default    |
-|--------|--------|------------------------------------|------------|
-| tag    | str    | name of the figure in tensorboard. | _required_ |
-| value  | float  | value.                             | _required_ |
-| step   | int    | time index.                        | `None`     |
+| Name   | Type               | Description                         | Default    |
+|--------|--------------------|-------------------------------------|------------|
+| tag    | str                | name of the figure in tensorboard.  | _required_ |
+| hist   | list \| np.ndarray | a list or 1D numpy array of values. | _required_ |
+| step   | int                | time index.                         | `None`     |
 
-### add_scalars { #ANNarchy.extensions.tensorboard.Logger.Logger.add_scalars }
+### add_figure { #ANNarchy.extensions.tensorboard.Logger.Logger.add_figure }
 
 ```python
-extensions.tensorboard.Logger.Logger.add_scalars(tag, value, step=None)
+add_figure(tag, figure, step=None, close=True)
 ```
 
-Logs multiple scalar values to be displayed in the same figure, e.g. several metrics or neural activities.
+Logs a Matplotlib figure.
 
 Example:
 
@@ -272,34 +258,32 @@ Example:
 with Logger() as logger:
     for trial in range(100):
         simulate(1000.0)
-        act1 = pop.r[0]
-        act2 = pop.r[1]
-        logger.add_scalars(
-            "Accuracy", 
-            {'First neuron': act1, 'Second neuron': act2}, 
-            trial)
+        fig = plt.figure()
+        plt.plot(pop.r)
+        logger.add_figure("Activity", fig, trial)
 ```
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name   | Type   | Description                        | Default    |
-|--------|--------|------------------------------------|------------|
-| tag    | str    | name of the figure in tensorboard. | _required_ |
-| value  | dict   | dictionary of values.              | _required_ |
-| step   | int    | time index.                        | `None`     |
-
-### close { #ANNarchy.extensions.tensorboard.Logger.Logger.close }
-
-```python
-extensions.tensorboard.Logger.Logger.close()
-```
-
-Closes the logger.
+| Name   | Type               | Description                                                         | Default    |
+|--------|--------------------|---------------------------------------------------------------------|------------|
+| tag    | str                | name of the image in tensorboard.                                   | _required_ |
+| figure | list \| np.ndarray | a list or 1D numpy array of values.                                 | _required_ |
+| step   | int                | time index.                                                         | `None`     |
+| close  | bool               | whether the logger will close the figure when done (default: True). | `True`     |
 
 ### flush { #ANNarchy.extensions.tensorboard.Logger.Logger.flush }
 
 ```python
-extensions.tensorboard.Logger.Logger.flush()
+flush()
 ```
 
 Forces the logged data to be flushed to disk.
+
+### close { #ANNarchy.extensions.tensorboard.Logger.Logger.close }
+
+```python
+close()
+```
+
+Closes the logger.

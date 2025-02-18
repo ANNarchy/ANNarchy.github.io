@@ -1,10 +1,10 @@
 # BoldMonitor { #ANNarchy.extensions.bold.BoldMonitor.BoldMonitor }
 
 ```python
-extensions.bold.BoldMonitor.BoldMonitor(
+BoldMonitor(
     self,
     populations=None,
-    bold_model=balloon_RN,
+    bold_model=None,
     mapping={'I_CBF': 'r'},
     scale_factor=None,
     normalize_input=None,
@@ -17,40 +17,22 @@ extensions.bold.BoldMonitor.BoldMonitor(
 
 Monitors the BOLD signal for several populations using a computational model.
 
-The BOLD monitor transforms one or two input population variables (such as the mean firing rate) into a recordable BOLD signal according to a computational model (for example a variation of the Balloon model).
+Returned by `Network.boldmonitor()`.
 
-## Parameters {.doc-section .doc-section-parameters}
-
-| Name               | Type          | Description                                                                                                                                                                                                                                                                                                                   | Default          |
-|--------------------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------|
-| populations        | list          | list of recorded populations.                                                                                                                                                                                                                                                                                                 | `None`           |
-| bold_model         | BoldModel     | computational model for BOLD signal defined as a BoldModel object. Default is `balloon_RN`.                                                                                                                                                                                                                                   | `balloon_RN`     |
-| mapping            | dict          | mapping dictionary between the inputs of the BOLD model (`I_CBF` for single inputs, `I_CBF` and `I_CMRO2` for double inputs in the provided examples) and the variables of the input populations. By default, `{'I_CBF': 'r'}` maps the firing rate `r` of the input population(s) to the variable `I_CBF` of the BOLD model. | `{'I_CBF': 'r'}` |
-| scale_factor       | list\[float\] | list of float values to allow a weighting of signals between populations. By default, the input signal is weighted by the ratio of the population size to all populations within the recorded region.                                                                                                                         | `None`           |
-| normalize_input    | list\[int\]   | list of integer values which represent a optional baseline per population. The input signals will require an additional normalization using a baseline value. A value different from 0 represents the time period for determing this baseline in milliseconds (biological time).                                              | `None`           |
-| recorded_variables | list\[str\]   | which variables of the BOLD model should be recorded? (by default, the output variable of the BOLD model is added, e.g. ["BOLD"] for the provided examples).                                                                                                                                                                  | `None`           |
-| start              | bool          | whether to start recording directly.                                                                                                                                                                                                                                                                                          | `False`          |
+The monitor can be started and stopped with `start()` and `stop()`. The recorded data is retrieved with `get()`.
 
 ## Methods
 
 | Name | Description |
 | --- | --- |
-| [get](#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.get) | Retrieves recordings as in `ANNarchy.core.Monitor.get()`. |
 | [start](#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.start) | Starts recording as in `ANNarchy.core.Monitor.start()`. |
-| [stop](#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.stop) | Stops recording as in `ANNarchy.core.Monitor.stop(). |
-
-### get { #ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.get }
-
-```python
-extensions.bold.BoldMonitor.BoldMonitor.get(variable)
-```
-
-Retrieves recordings as in `ANNarchy.core.Monitor.get()`.
+| [stop](#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.stop) | Stops recording as in `ANNarchy.core.Monitor.stop()`. |
+| [get](#ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.get) | Retrieves recordings as in `ANNarchy.core.Monitor.get()`. |
 
 ### start { #ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.start }
 
 ```python
-extensions.bold.BoldMonitor.BoldMonitor.start()
+start()
 ```
 
 Starts recording as in `ANNarchy.core.Monitor.start()`.
@@ -58,7 +40,15 @@ Starts recording as in `ANNarchy.core.Monitor.start()`.
 ### stop { #ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.stop }
 
 ```python
-extensions.bold.BoldMonitor.BoldMonitor.stop()
+stop()
 ```
 
-Stops recording as in `ANNarchy.core.Monitor.stop().
+Stops recording as in `ANNarchy.core.Monitor.stop()`.
+
+### get { #ANNarchy.extensions.bold.BoldMonitor.BoldMonitor.get }
+
+```python
+get(variable)
+```
+
+Retrieves recordings as in `ANNarchy.core.Monitor.get()`.

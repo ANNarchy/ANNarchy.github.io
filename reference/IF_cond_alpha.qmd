@@ -1,7 +1,7 @@
 # IF_cond_alpha { #ANNarchy.models.Neurons.IF_cond_alpha }
 
 ```python
-models.Neurons.IF_cond_alpha(
+IF_cond_alpha(
     self,
     v_rest=-65.0,
     cm=1.0,
@@ -19,81 +19,59 @@ models.Neurons.IF_cond_alpha(
 
 Leaky integrate-and-fire model with fixed threshold and alpha post-synaptic conductance.
 
-Parameters:
+Separate synaptic currents for excitatory and inhibitory synapses.
 
-* v_rest = -65.0 :  Resting membrane potential (mV)
-* cm  = 1.0 : Capacity of the membrane (nF)
-* tau_m  = 20.0 : Membrane time constant (ms)
-* tau_refrac = 0.0 : Duration of refractory period (ms)
-* tau_syn_E = 5.0 : Rise time of excitatory synaptic current (ms)
-* tau_syn_I = 5.0 : Rise time of inhibitory synaptic current (ms)
-* e_rev_E = 0.0 : Reversal potential for excitatory input (mV)
-* e_rev_I = -70.0 : Reversal potential for inhibitory input (mv)
-* i_offset = 0.0 : Offset current (nA)
-* v_reset = -65.0 : Reset potential after a spike (mV)
-* v_thresh = -50.0 : Spike threshold (mV)
-
-Variables:
-
-* v : membrane potential in mV (init=-65.0):
-
-    cm * dv/dt = cm/tau_m*(v_rest -v)  + alpha_exc * (e_rev_E - v) + alpha_inh * (e_rev_I - v) + i_offset
-
-* g_exc : excitatory conductance (init = 0.0):
-
-    tau_syn_E * dg_exc/dt = - g_exc
-
-* alpha_exc : alpha function of excitatory conductance (init = 0.0):
-
-    tau_syn_E * dalpha_exc/dt = exp((tau_syn_E - dt/2.0)/tau_syn_E) * g_exc - alpha_exc
-
-* g_inh : inhibitory conductance (init = 0.0):
-
-    tau_syn_I * dg_inh/dt = - g_inh
-
-* alpha_inh : alpha function of inhibitory current (init = 0.0):
-
-    tau_syn_I * dalpha_inh/dt = exp((tau_syn_I - dt/2.0)/tau_syn_I) * g_inh - alpha_inh
-
-
-Spike emission:
-
-    v > v_thresh
-
-Reset:
-
-    v = v_reset
+The alpha currents are calculated through a system of two linears ODEs. After a spike is received at t_spike, it peaks at t_spike + tau_syn_X, with a maximum equal to the synaptic efficiency.
 
 The ODEs are solved using the exponential Euler method.
 
 Equivalent code:
 
 ```python
-
 IF_cond_alpha = Neuron(
-    parameters = """
-        v_rest = -65.0
-        cm  = 1.0
-        tau_m  = 20.0
-        tau_syn_E = 5.0
-        tau_syn_I = 5.0
-        e_rev_E = 0.0
-        e_rev_I = -70.0
-        v_thresh = -50.0
-        v_reset = -65.0
-        i_offset = 0.0
-    """, 
-    equations = """
-        gmax_exc = exp((tau_syn_E - dt/2.0)/tau_syn_E)
-        gmax_inh = exp((tau_syn_I - dt/2.0)/tau_syn_I)
-        cm * dv/dt = cm/tau_m*(v_rest -v)   + alpha_exc * (e_rev_E - v) + alpha_inh * (e_rev_I - v) + i_offset : exponential, init=-65.0
-        tau_syn_E * dg_exc/dt = - g_exc : exponential
-        tau_syn_I * dg_inh/dt = - g_inh : exponential
-        tau_syn_E * dalpha_exc/dt = gmax_exc * g_exc - alpha_exc  : exponential
-        tau_syn_I * dalpha_inh/dt = gmax_inh * g_inh - alpha_inh  : exponential
-    """,
+    parameters = dict(
+        v_rest = ann.Parameter(-65.0),
+        cm  = ann.Parameter(1.0),
+        tau_m  = ann.Parameter(20.0),
+        tau_syn_E = ann.Parameter(5.0),
+        tau_syn_I = ann.Parameter(5.0),
+        v_thresh = ann.Parameter(-50.0),
+        v_reset = ann.Parameter(-65.0),
+        i_offset = ann.Parameter(0.0),
+    ), 
+    equations = [
+        # Scaling
+        'gmax_exc = exp((tau_syn_E - dt/2.0)/tau_syn_E)',
+        'gmax_inh = exp((tau_syn_I - dt/2.0)/tau_syn_I)',
+
+        # Membrane potential
+        ann.Variable(
+            'cm * dv/dt = cm/tau_m*(v_rest -v) + alpha_exc  * (e_rev_E - v) + alpha_inh * (e_rev_I - v) + i_offset',
+            method='exponential', init=-65.0),
+
+        # Alpha-shaped conductance
+        ann.Variable('tau_syn_E * dg_exc/dt = - g_exc', method='exponential'),
+        ann.Variable('tau_syn_I * dg_inh/dt = - g_inh', method='exponential'),
+
+        ann.Variable('tau_syn_E * dalpha_exc/dt = gmax_exc * g_exc - alpha_exc', method='exponential'),
+        ann.Variable('tau_syn_I * dalpha_inh/dt = gmax_inh * g_inh - alpha_inh', method='exponential'),
+    ],
     spike = "v > v_thresh",
     reset = "v = v_reset",
     refractory = 0.0
 )
 ```
+
+## Parameters {.doc-section .doc-section-parameters}
+
+| Name       | Type   | Description                                   | Default   |
+|------------|--------|-----------------------------------------------|-----------|
+| v_rest     |        | Resting membrane potential (mV)               | `-65.0`   |
+| cm         |        | Capacity of the membrane (nF)                 | `1.0`     |
+| tau_m      |        | Membrane time constant (ms)                   | `20.0`    |
+| tau_refrac |        | Duration of refractory period (ms)            | `0.0`     |
+| tau_syn_E  |        | Rise time of excitatory synaptic current (ms) | `5.0`     |
+| tau_syn_I  |        | Rise time of inhibitory synaptic current (ms) | `5.0`     |
+| v_thresh   |        | Spike threshold (mV)                          | `-50.0`   |
+| v_reset    |        | Reset potential after a spike (mV)            | `-65.0`   |
+| i_offset   |        | Offset current (nA)                           | `0.0`     |

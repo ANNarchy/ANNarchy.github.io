@@ -1,7 +1,7 @@
 # Variable { #ANNarchy.core.Parameters.Variable }
 
 ```python
-core.Parameters.Variable(
+Variable(
     self,
     equation,
     init=None,
@@ -19,10 +19,13 @@ Dataclass to represent a variable in a Neuron or Synapse definition.
 neuron = ann.Neuron(
     equations = [
         ann.Variable('C * dv/dt = - gL * (v - E_L) +  gL * delta_T * exp((v-v_T)/delta_T) + I - w', init=-70.0),
+
         ann.Variable('tau_w * dw/dt = a * (v - E_L) - w', min=0.0),
     ]
 )
 ```
+
+Variables are local by default. Set `locality` to `global` or `semiglobal` otherwise.
 
 ## Parameters {.doc-section .doc-section-parameters}
 

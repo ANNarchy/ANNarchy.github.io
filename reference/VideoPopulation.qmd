@@ -1,7 +1,7 @@
 # VideoPopulation { #ANNarchy.extensions.image.ImagePopulation.VideoPopulation }
 
 ```python
-extensions.image.ImagePopulation.VideoPopulation(
+VideoPopulation(
     self,
     geometry,
     opencv_version='4',
@@ -21,15 +21,16 @@ The extensions has to be explicitly imported:
 import ANNarchy as ann
 from ANNarchy.extensions.image import VideoPopulation
 
-pop = VideoPopulation(geometry=(480, 640))
+net = ann.Network()
+pop = net.create(VideoPopulation(geometry=(480, 640)))
 
-compile()
+net.compile()
 
 pop.start_camera(0)
 
 while(True):
     pop.grab_image()
-    simulate(10.0)
+    net.simulate(10.0)
 ```
 
 About the geometry:
@@ -53,38 +54,42 @@ If the third dimension is 3, each will correspond to the RGB values of the pixel
 
 | Name | Description |
 | --- | --- |
+| [start_camera](#ANNarchy.extensions.image.ImagePopulation.VideoPopulation.start_camera) | Starts the webcam with the corresponding device (default = 0). |
 | [grab_image](#ANNarchy.extensions.image.ImagePopulation.VideoPopulation.grab_image) | Grabs one image from the camera and feeds it into the population. |
 | [release](#ANNarchy.extensions.image.ImagePopulation.VideoPopulation.release) | Releases the camera: |
-| [start_camera](#ANNarchy.extensions.image.ImagePopulation.VideoPopulation.start_camera) | Starts the webcam with the corresponding device (default = 0). |
+
+### start_camera { #ANNarchy.extensions.image.ImagePopulation.VideoPopulation.start_camera }
+
+```python
+start_camera(camera_port=0)
+```
+
+Starts the webcam with the corresponding device (default = 0).
+
+On linux, the camera port corresponds to the number in `/dev/video0`, `/dev/video1`, etc.
 
 ### grab_image { #ANNarchy.extensions.image.ImagePopulation.VideoPopulation.grab_image }
 
 ```python
-extensions.image.ImagePopulation.VideoPopulation.grab_image()
+grab_image()
 ```
 
 Grabs one image from the camera and feeds it into the population.
 
 The camera must be first started with:
 
-    pop.start_camera(0)
+```python
+pop.start_camera(0)
+```
 
 ### release { #ANNarchy.extensions.image.ImagePopulation.VideoPopulation.release }
 
 ```python
-extensions.image.ImagePopulation.VideoPopulation.release()
+release()
 ```
 
 Releases the camera:
 
-    pop.release()
-
-### start_camera { #ANNarchy.extensions.image.ImagePopulation.VideoPopulation.start_camera }
-
 ```python
-extensions.image.ImagePopulation.VideoPopulation.start_camera(camera_port=0)
+pop.release()
 ```
-
-Starts the webcam with the corresponding device (default = 0).
-
-On linux, the camera port corresponds to the number in /dev/video0, /dev/video1, etc.

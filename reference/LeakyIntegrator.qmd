@@ -1,7 +1,7 @@
 # LeakyIntegrator { #ANNarchy.models.Neurons.LeakyIntegrator }
 
 ```python
-models.Neurons.LeakyIntegrator(
+LeakyIntegrator(
     self,
     tau=10.0,
     B=0.0,
@@ -13,9 +13,7 @@ models.Neurons.LeakyIntegrator(
 
 Leaky-integrator rate-coded neuron, optionally noisy.
 
-This simple rate-coded neuron defines an internal variable $v(t)$ 
-which integrates the inputs $I(t)$ with a time constant $\tau$ and a baseline $B$. 
-An additive noise $N(t)$ can be optionally defined: 
+This simple rate-coded neuron defines an internal variable $v(t)$ which integrates the inputs $I(t)$ with a global time constant $\tau$ and a local baseline $B$. An additive noise $N(t)$ can be optionally defined: 
 
 $$\tau \cdot \frac{dv(t)}{dt} + v(t) = I(t) + B + N(t)$$
 
@@ -23,11 +21,10 @@ The transfer function is the positive (or rectified linear ReLU) function with a
 
 $$r(t) = (v(t) - T)^+$$
 
-By default, the input $I(t)$ to this neuron is "sum(exc) - sum(inh)", but this can be changed by 
-setting the ``sum`` argument:
+By default, the input $I(t)$ to this neuron is `"sum(exc) - sum(inh)"`, but this can be changed by  setting the ``sum`` argument:
 
 ```python
-neuron = ann.LeakyIntegrator(sum="sum('exc')")
+neuron = ann.LeakyIntegrator(sum="sum(ampa)")
 ```
 
 By default, there is no additive noise, but the ``noise`` argument can be passed with a specific distribution:
@@ -36,45 +33,27 @@ By default, there is no additive noise, but the ``noise`` argument can be passed
 neuron = ann.LeakyIntegrator(noise="Normal(0.0, 1.0)")
 ```
 
-Parameters:
-
-* tau = 10.0 : Time constant in ms of the neuron.
-* B = 0.0 : Baseline value for v.
-* T = 0.0 : Threshold for the positive transfer function.
-
-Variables:
-
-* v : internal variable (init = 0.0):
-
-    tau * dv/dt + v = sum(exc) - sum(inh) + B + N
-
-* r : firing rate (init = 0.0):
-
-    r = pos(v - T)
-
-The ODE is solved using the exponential Euler method.
-
 Equivalent code:
 
 ```python
 LeakyIntegrator = Neuron(
-    parameters='''
-        tau = 10.0 : population
-        B = 0.0
-        T = 0.0 : population
-    ''', 
-    equations='''
-        tau * dv/dt + v = sum(exc) - sum(inh) + B : exponential
-        r = pos(v - T)
-    '''
+    parameters=dict(
+        tau = 10.0,
+        B = ann.Parameter(0.0),
+        T = 0.0,
+    ), 
+    equations=[
+        ann.Variable()'tau * dv/dt + v = sum(exc) - sum(inh) + B', method=exponential),
+        'r = pos(v - T)',
+    ]
 )
 ```
 
 ## Parameters {.doc-section .doc-section-parameters}
 
-| Name   | Type   | Description    | Default                 |
-|--------|--------|----------------|-------------------------|
-| tau    | float  | Time constant. | `10.0`                  |
-| B      | float  | Baseline.      | `0.0`                   |
-| T      | float  | Threshold.     | `0.0`                   |
-| sum    | str    | Input sums.    | `'sum(exc) - sum(inh)'` |
+| Name   | Type   | Description             | Default                 |
+|--------|--------|-------------------------|-------------------------|
+| tau    | float  | Time constant (global). | `10.0`                  |
+| B      | float  | Baseline (local).       | `0.0`                   |
+| T      | float  | Threshold (global).     | `0.0`                   |
+| sum    | str    | Input sums.             | `'sum(exc) - sum(inh)'` |

@@ -1,0 +1,29 @@
+# Pruning { #ANNarchy.core.Parameters.Pruning }
+
+```python
+Pruning(self, equation, proba=1.0)
+```
+
+Dataclass to represent a pruning condition for structural plasticity.
+
+When the condition is true, a synapse is pruned with the specified probability.
+
+```python
+PruningSynapse = ann.Synapse(
+    parameters = dict(T = ann.Parameter(10000, 'global', int),
+    equations = ann.Variable('''
+        age = if pre.r * post.r > 0.0 : 
+                0
+            else :
+                age + 1 : init = 0, int
+    ''', init=0, type=int)
+    pruning = ann.Pruning("age > T", proba = 0.5),
+)
+```
+
+## Parameters {.doc-section .doc-section-parameters}
+
+| Name     | Type   | Description                            | Default    |
+|----------|--------|----------------------------------------|------------|
+| equation | str    | string representing the equation.      | _required_ |
+| proba    | float  | probability of pruning of the synapse. | `1.0`      |

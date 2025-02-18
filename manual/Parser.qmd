@@ -32,8 +32,19 @@ The default locality of a parameter is global. The `Parameter` dataclass allows 
 ```python
 neuron = ann.Neuron(
     parameters = dict(
-        tau = ann.Parameter(10.0, locality='local'),
-        baseline = ann.Parameter(-0.1, locality='local'),
+        tau = ann.Parameter(10.0),
+        baseline = ann.Parameter(-0.1),
+    )
+)
+```
+
+`ann.Parameter()` also allows to define global parameters, but it is longer:
+
+```python
+neuron = ann.Neuron(
+    parameters = dict(
+        tau = ann.Parameter(10.0, locality='global'), # or just: tau = 10.0
+        baseline = ann.Parameter(-0.1, locality='global'), # or just: baseline = -0.1
     )
 )
 ```

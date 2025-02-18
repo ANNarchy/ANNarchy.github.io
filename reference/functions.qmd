@@ -1,17 +1,17 @@
 # functions { #ANNarchy.core.Global.functions }
 
 ```python
-core.Global.functions(name, network=None)
+functions(name, network=None)
 ```
 
-Allows to access a global function declared with ``add_function`` and use it from Python using arrays **after compilation**.
+Allows to access a global function declared with ``add_function()`` and use it from Python using arrays **after compilation of the magic network**.
 
 The name of the function is not added to the global namespace to avoid overloading.
 
 ```python
 add_function("logistic(x) = 1. / (1. + exp(-x))") 
 
-ann.compile()  
+magic_network().compile()  
 
 result = functions('logistic')([0., 1., 2., 3., 4.])
 ```

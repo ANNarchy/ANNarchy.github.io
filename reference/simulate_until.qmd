@@ -1,7 +1,7 @@
 # simulate_until { #ANNarchy.core.Simulate.simulate_until }
 
 ```python
-core.Simulate.simulate_until(
+simulate_until(
     max_duration,
     population,
     operator='and',
@@ -14,12 +14,14 @@ Runs the network for the maximal duration in milliseconds. If the ``stop_conditi
 
 One can specify several populations. If the stop condition is true for any of the populations, the simulation will stop ('or' function).
 
+Returns the actual duration of the simulation in milliseconds.
+
 Example:
 
 ```python
 pop1 = ann.Population( ..., stop_condition = "r > 1.0 : any")
 ann.compile()
-ann.simulate_until(max_duration=1000.0, population=pop1)
+duration = ann.simulate_until(max_duration=1000.0, population=pop1)
 ```
 
 ## Parameters {.doc-section .doc-section-parameters}
@@ -30,9 +32,3 @@ ann.simulate_until(max_duration=1000.0, population=pop1)
 | population   | Population \| list\[Population\] | (list of) population(s) whose ``stop_condition`` should be checked to stop the simulation.   | _required_ |
 | operator     |                                  | Operator to be used ('and' or 'or') when multiple populations are provided (default: 'and'). | `'and'`    |
 | measure_time | bool                             | Defines whether the simulation time should be printed (default=False).                       | `False`    |
-
-## Returns {.doc-section .doc-section-returns}
-
-| Name   | Type   | Description                                            |
-|--------|--------|--------------------------------------------------------|
-|        |        | the actual duration of the simulation in milliseconds. |

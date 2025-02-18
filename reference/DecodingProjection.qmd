@@ -1,7 +1,7 @@
 # DecodingProjection { #ANNarchy.inputs.DecodingProjection.DecodingProjection }
 
 ```python
-inputs.DecodingProjection.DecodingProjection(
+DecodingProjection(
     self,
     pre,
     post,
@@ -28,9 +28,12 @@ The weight value allows to scale the firing rate: if you want a pre-synaptic fir
 Example:
 
 ```python
-pop1 = ann.PoissonPopulation(1000, rates=100.)
-pop2 = ann.Population(1, ann.Neuron(equations="r=sum(exc)"))
-proj = DecodingProjection(pop1, pop2, 'exc', window=10.0)
+net = ann.Network()
+
+pop1 = net.create(ann.PoissonPopulation(1000, rates=100.))
+pop2 = net.create(1, ann.Neuron(equations="r=sum(exc)"))
+
+proj = net.connect(ann.DecodingProjection(pop1, pop2, 'exc', window=10.0))
 proj.connect_all_to_all(1.0)
 ```
 
@@ -42,3 +45,4 @@ proj.connect_all_to_all(1.0)
 | post   | Population | post-synaptic population.                                    | _required_ |
 | target | str        | type of the connection.                                      | _required_ |
 | window | float      | duration of the time window to collect spikes (default: dt). | `0.0`      |
+| name   | str        | optional name.                                               | `None`     |

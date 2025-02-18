@@ -1,7 +1,7 @@
 # TimedArray { #ANNarchy.inputs.TimedArray.TimedArray }
 
 ```python
-inputs.TimedArray.TimedArray(
+TimedArray(
     self,
     rates=None,
     geometry=None,
@@ -96,21 +96,23 @@ ann.simulate(100.) # the same ten inputs are presented again.
 
 | Name | Description |
 | --- | --- |
-| [update](#ANNarchy.inputs.TimedArray.TimedArray.update) | Set a new list of inputs. The first axis corresponds to time, the others to the desired dimensions of the population. Note, the |
+| [update](#ANNarchy.inputs.TimedArray.TimedArray.update) | Set a new array of inputs.  |
 
 ### update { #ANNarchy.inputs.TimedArray.TimedArray.update }
 
 ```python
-inputs.TimedArray.TimedArray.update(rates, schedule=0.0, period=-1)
+update(rates, schedule=0.0, period=-1)
 ```
 
-Set a new list of inputs. The first axis corresponds to time, the others to the desired dimensions of the population. Note, the
+Set a new array of inputs. 
+
+The first axis corresponds to time, the others to the desired dimensions of the population. Note, the
 geometry is set during construction phase of the object.
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name     | Type   | Description                                                                                                           | Default    |
-|----------|--------|-----------------------------------------------------------------------------------------------------------------------|------------|
-| rates    |        | array of firing rates. The first axis corresponds to time, the others to the desired dimensions of the population.    | _required_ |
-| schedule |        | either a single value or a list of time points where inputs should be set. Default: every timestep.                   | `0.0`      |
-| period   |        | time when the timed array will be reset and start again, allowing cycling over the inputs. Default: no cycling (-1.). | `-1`       |
+| Name     | Type       | Description                                                                                                           | Default    |
+|----------|------------|-----------------------------------------------------------------------------------------------------------------------|------------|
+| rates    | np.ndarray | array of firing rates. The first axis corresponds to time, the others to the desired dimensions of the population.    | _required_ |
+| schedule | float      | either a single value or a list of time points where inputs should be set. Default: every timestep.                   | `0.0`      |
+| period   | float      | time when the timed array will be reset and start again, allowing cycling over the inputs. Default: no cycling (-1.). | `-1`       |

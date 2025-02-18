@@ -1,7 +1,7 @@
 # BoldModel { #ANNarchy.extensions.bold.BoldModel.BoldModel }
 
 ```python
-extensions.bold.BoldModel.BoldModel(
+BoldModel(
     self,
     parameters,
     equations,
@@ -20,14 +20,14 @@ The main difference is that a BOLD model should also declare which targets are u
 
 ```python
 bold_model = BoldModel(
-    parameters = '''
+    parameters = dict(
         tau = 1000.
-    ''',
-    equations = '''
-        I_CBF = sum(I_CBF)
+    ),
+    equations = [
+        'I_CBF = sum(I_CBF)',
         # ...
-        tau * dBOLD/dt = I_CBF - BOLD
-    ''',
+        'tau * dBOLD/dt = I_CBF - BOLD',
+    ],
     inputs = "I_CBF"
 )
 ```

@@ -1,7 +1,7 @@
 # IF_cond_exp { #ANNarchy.models.Neurons.IF_cond_exp }
 
 ```python
-models.Neurons.IF_cond_exp(
+IF_cond_exp(
     self,
     v_rest=-65.0,
     cm=1.0,
@@ -19,69 +19,50 @@ models.Neurons.IF_cond_exp(
 
 Leaky integrate-and-fire model with fixed threshold and decaying-exponential post-synaptic conductance.
 
-Parameters:
-
-* v_rest = -65.0 :  Resting membrane potential (mV)
-* cm  = 1.0 : Capacity of the membrane (nF)
-* tau_m  = 20.0 : Membrane time constant (ms)
-* tau_refrac = 0.0 : Duration of refractory period (ms)
-* tau_syn_E = 5.0 : Decay time of excitatory synaptic current (ms)
-* tau_syn_I = 5.0 : Decay time of inhibitory synaptic current (ms)
-* e_rev_E = 0.0 : Reversal potential for excitatory input (mV)
-* e_rev_I = -70.0 : Reversal potential for inhibitory input (mv)
-* i_offset = 0.0 : Offset current (nA)
-* v_reset = -65.0 : Reset potential after a spike (mV)
-* v_thresh = -50.0 : Spike threshold (mV)
-
-Variables:
-
-* v : membrane potential in mV (init=-65.0):
-
-    cm * dv/dt = cm/tau_m*(v_rest -v)  + g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset
-
-* g_exc : excitatory current (init = 0.0):
-
-    tau_syn_E * dg_exc/dt = - g_exc
-
-* g_inh : inhibitory current (init = 0.0):
-
-    tau_syn_I * dg_inh/dt = - g_inh
-
-
-Spike emission:
-
-    v > v_thresh
-
-Reset:
-
-    v = v_reset
-
 The ODEs are solved using the exponential Euler method.
 
 Equivalent code:
 
 ```python
-
 IF_cond_exp = Neuron(
-    parameters = """
-        v_rest = -65.0
-        cm  = 1.0
-        tau_m  = 20.0
-        tau_syn_E = 5.0
-        tau_syn_I = 5.0
-        e_rev_E = 0.0
-        e_rev_I = -70.0
-        v_thresh = -50.0
-        v_reset = -65.0
-        i_offset = 0.0
-    """, 
-    equations = """
-        cm * dv/dt = cm/tau_m*(v_rest -v)   + g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset : exponential, init=-65.0
-        tau_syn_E * dg_exc/dt = - g_exc : exponential
-        tau_syn_I * dg_inh/dt = - g_inh : exponential
-    """,
+    parameters = dict(
+        v_rest = ann.Parameter(-65.0),
+        cm  = ann.Parameter(1.0),
+        tau_m  = ann.Parameter(20.0),
+        tau_syn_E = ann.Parameter(5.0),
+        tau_syn_I = ann.Parameter(5.0),
+        e_rev_E = ann.Parameter(0.0),
+        e_rev_I = ann.Parameter(-70.0),
+        v_thresh = ann.Parameter(-50.0),
+        v_reset = ann.Parameter(-65.0),
+        i_offset = ann.Parameter(0.0),
+    ), 
+    equations = [
+        ann.Variable(
+            'cm * dv/dt = cm/tau_m * (v_rest -v) + g_exc * (e_rev_E - v) + g_inh * (e_rev_I - v) + i_offset',
+            method='exponential', init=-65.0
+        ),
+        ann.Variable('tau_syn_E * dg_exc/dt = - g_exc', method='exponential'),
+        ann.Variable('tau_syn_I * dg_inh/dt = - g_inh', method='exponential'),
+    ],
     spike = "v > v_thresh",
     reset = "v = v_reset",
     refractory = 0.0
 )
 ```
+
+## Parameters {.doc-section .doc-section-parameters}
+
+| Name       | Type   | Description                                       | Default   |
+|------------|--------|---------------------------------------------------|-----------|
+| v_rest     |        | Resting membrane potential (mV)                   | `-65.0`   |
+| cm         |        | Capacity of the membrane (nF)                     | `1.0`     |
+| tau_m      |        | Membrane time constant (ms)                       | `20.0`    |
+| tau_refrac |        | Duration of refractory period (ms)                | `0.0`     |
+| tau_syn_E  |        | Decay time of excitatory synaptic current (ms)    | `5.0`     |
+| tau_syn_I  |        | Decay time of inhibitory synaptic current (ms)    | `5.0`     |
+| e_rev_E    |        | Reversal potential of excitatory conductance (mV) | `0.0`     |
+| e_rev_I    |        | Reversal potential of inhibitory conductance (mV) | `-70.0`   |
+| v_thresh   |        | Spike threshold (mV)                              | `-50.0`   |
+| v_reset    |        | Reset potential after a spike (mV)                | `-65.0`   |
+| i_offset   |        | Offset current (nA)                               | `0.0`     |

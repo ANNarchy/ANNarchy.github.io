@@ -1,35 +1,28 @@
 # Oja { #ANNarchy.models.Synapses.Oja }
 
 ```python
-models.Synapses.Oja(self, eta=0.01, alpha=1.0)
+Oja(self, eta=0.01, alpha=1.0)
 ```
 
 Rate-coded synapse with regularized Hebbian plasticity (Oja).
-
-**Parameters (global)**:
-
-* eta = 0.01 : learning rate.
-
-* alpha = 1.0 : regularization constant.
-
-**Learning rule**:
-
-* w : weight:
-
-```
-dw/dt = eta * ( pre.r * post.r - alpha * post.r^2 * w )
-```
 
 Equivalent code:
 
 ```python
 Oja = ann.Synapse(
-    parameters = """
-        eta = 0.01 : projection
-        alpha = 1.0 : projection
-    """,
-    equations = """
-        dw/dt = eta * ( pre.r * post.r - alpha * post.r^2 * w ) : min=0.0
-    """
+    parameters = dict(
+        eta = 0.01,
+        alpha = 1.0,
+    ),
+    equations = [
+        ann.Variable('dw/dt = eta * ( pre.r * post.r - alpha * post.r^2 * w )', min=0.0),
+    ]
 )
 ```
+
+## Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                 | Default   |
+|--------|--------|-----------------------------|-----------|
+| eta    | float  | learning rate.              | `0.01`    |
+| alpha  | float  | regularization coefficient. | `1.0`     |

@@ -1,7 +1,7 @@
 # IF_curr_exp { #ANNarchy.models.Neurons.IF_curr_exp }
 
 ```python
-models.Neurons.IF_curr_exp(
+IF_curr_exp(
     self,
     v_rest=-65.0,
     cm=1.0,
@@ -19,63 +19,30 @@ Leaky integrate-and-fire model with fixed threshold and decaying-exponential pos
 
 (Separate synaptic currents for excitatory and inhibitory synapses).
 
-Parameters:
-
-* v_rest = -65.0 :  Resting membrane potential (mV)
-* cm  = 1.0 : Capacity of the membrane (nF)
-* tau_m  = 20.0 : Membrane time constant (ms)
-* tau_refrac = 0.0 : Duration of refractory period (ms)
-* tau_syn_E = 5.0 : Decay time of excitatory synaptic current (ms)
-* tau_syn_I = 5.0 : Decay time of inhibitory synaptic current (ms)
-* i_offset = 0.0 : Offset current (nA)
-* v_reset = -65.0 : Reset potential after a spike (mV)
-* v_thresh = -50.0 : Spike threshold (mV)
-
-Variables:
-
-* v : membrane potential in mV (init=-65.0):
-
-    cm * dv/dt = cm/tau_m*(v_rest -v)   + g_exc - g_inh + i_offset
-
-* g_exc : excitatory current (init = 0.0):
-
-    tau_syn_E * dg_exc/dt = - g_exc
-
-* g_inh : inhibitory current (init = 0.0):
-
-    tau_syn_I * dg_inh/dt = - g_inh
-
-
-Spike emission:
-
-    v > v_thresh
-
-Reset:
-
-    v = v_reset
-
 The ODEs are solved using the exponential Euler method.
 
 Equivalent code:
 
 ```python
-
 IF_curr_exp = Neuron(
-    parameters = """
-        v_rest = -65.0
-        cm  = 1.0
-        tau_m  = 20.0
-        tau_syn_E = 5.0
-        tau_syn_I = 5.0
-        v_thresh = -50.0
-        v_reset = -65.0
-        i_offset = 0.0
-    """, 
-    equations = """
-        cm * dv/dt = cm/tau_m*(v_rest -v)   + g_exc - g_inh + i_offset : exponential, init=-65.0
-        tau_syn_E * dg_exc/dt = - g_exc : exponential
-        tau_syn_I * dg_inh/dt = - g_inh : exponential
-    """,
+    parameters = dict(
+        v_rest = ann.Parameter(-65.0),
+        cm  = ann.Parameter(1.0),
+        tau_m  = ann.Parameter(20.0),
+        tau_syn_E = ann.Parameter(5.0),
+        tau_syn_I = ann.Parameter(5.0),
+        v_thresh = ann.Parameter(-50.0),
+        v_reset = ann.Parameter(-65.0),
+        i_offset = ann.Parameter(0.0),
+    ), 
+    equations = [
+        ann.Variable(
+            'cm * dv/dt = cm/tau_m*(v_rest -v)   + g_exc - g_inh + i_offset',
+            method='exponential', init=-65.0
+        ),
+        ann.Variable('tau_syn_E * dg_exc/dt = - g_exc', method='exponential'),
+        ann.Variable('tau_syn_I * dg_inh/dt = - g_inh', method='exponential'),
+    ],
     spike = "v > v_thresh",
     reset = "v = v_reset",
     refractory = 0.0
@@ -92,6 +59,6 @@ IF_curr_exp = Neuron(
 | tau_refrac | float  | Duration of refractory period (ms)             | `0.0`     |
 | tau_syn_E  | float  | Decay time of excitatory synaptic current (ms) | `5.0`     |
 | tau_syn_I  | float  | Decay time of inhibitory synaptic current (ms) | `5.0`     |
-| i_offset   | float  | Offset current (nA)                            | `0.0`     |
-| v_reset    | float  | Reset potential after a spike (mV)             | `-65.0`   |
 | v_thresh   | float  | Spike threshold (mV)                           | `-50.0`   |
+| v_reset    | float  | Reset potential after a spike (mV)             | `-65.0`   |
+| i_offset   | float  | Offset current (nA)                            | `0.0`     |

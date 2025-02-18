@@ -1,7 +1,7 @@
 # ANNtoSNNConverter { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter }
 
 ```python
-extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter(
+ANNtoSNNConverter(
     self,
     input_encoding='CPN',
     hidden_neuron='IaF',
@@ -126,23 +126,14 @@ In a classification task, the neuron with the highest activity corresponds corre
 
 | Name | Description |
 | --- | --- |
-| [get_annarchy_network](#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network) | Returns the ANNarchy.Network instance. |
 | [load_keras_model](#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model) | Loads the pre-trained model provided as a .keras file. |
+| [get_annarchy_network](#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network) | Returns the ANNarchy.Network instance. |
 | [predict](#ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict) | Performs the prediction for a given input array. |
-
-### get_annarchy_network { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network }
-
-```python
-extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network(
-)
-```
-
-Returns the ANNarchy.Network instance.
 
 ### load_keras_model { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model }
 
 ```python
-extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.load_keras_model(
+load_keras_model(
     filename,
     directory='annarchy',
     scale_factor=None,
@@ -167,20 +158,18 @@ model.save("model.keras")
 | scale_factor | float  | allows a fine-grained control of the weight scale factor. By default (None), with each layer-depth the factor increases by one. If a scalar value is provided the same value is used for each layer. Otherwise a list can be provided to assign the scale factors individually. | `None`       |
 | show_info    | bool   | whether the network structure should be printed on console (default: True)                                                                                                                                                                                                      | `True`       |
 
-#### Returns {.doc-section .doc-section-returns}
+### get_annarchy_network { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.get_annarchy_network }
 
-| Name   | Type    | Description                     |
-|--------|---------|---------------------------------|
-|        | Network | An `ANNarchy.Network` instance. |
+```python
+get_annarchy_network()
+```
+
+Returns the ANNarchy.Network instance.
 
 ### predict { #ANNarchy.extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict }
 
 ```python
-extensions.ann_to_snn_conversion.ANNtoSNNConverter.ANNtoSNNConverter.predict(
-    samples,
-    duration_per_sample=1000,
-    multiple=False,
-)
+predict(samples, duration_per_sample=1000, multiple=False)
 ```
 
 Performs the prediction for a given input array.
@@ -192,9 +181,3 @@ Performs the prediction for a given input array.
 | samples             |        | set of inputs to present to the network. The function expects a 2-dimensional array (num_samples, input_size). | _required_ |
 | duration_per_sample |        | the number of simulation steps for one input sample (default: 1000, 1 second biological time)                  | `1000`     |
 | multiple            |        | if several output neurons reach the criteria, return the full list instead of randomly chosing one.            | `False`    |
-
-#### Returns {.doc-section .doc-section-returns}
-
-| Name   | Type        | Description                                        |
-|--------|-------------|----------------------------------------------------|
-|        | list\[int\] | A list of predicted class indices for each sample. |

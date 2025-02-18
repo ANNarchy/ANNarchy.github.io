@@ -182,14 +182,19 @@ csl: assets/frontiers.csl
 metadata-files:
   - _sidebar.yml
 
+
 # Quartodoc inspects the docstrings for the API
 quartodoc:
   # Package to document
   package: ANNarchy
 
-  title: "**Reference**"
+  title: "**ANNarchy**"
   style: pkgdown
   parser: sphinx
+
+  options:
+    member_order: source
+    signature_name: short
   
   # write sidebar data to this file
   sidebar: _sidebar.yml
@@ -200,14 +205,6 @@ quartodoc:
       contents:
         - name: Network
           package: ANNarchy.core.Network
-        - name: Parameter
-          package: ANNarchy.core.Parameters
-        - name: Variable
-          package: ANNarchy.core.Parameters
-        - name: Neuron
-          package: ANNarchy.core.Neuron
-        - name: Synapse
-          package: ANNarchy.core.Synapse
         - name: Population
           package: ANNarchy.core.Population
         - name: Projection
@@ -219,9 +216,24 @@ quartodoc:
           package: ANNarchy.core.PopulationView
         - name: Dendrite
           package: ANNarchy.core.Dendrite
+
+    - title: "**Neuron and Synapse models**"
+      desc: Objects allowing to design neuron and synapse models.
+      contents:
+        - name: Neuron
+          package: ANNarchy.core.Neuron
+        - name: Synapse
+          package: ANNarchy.core.Synapse
+        - name: Parameter
+          package: ANNarchy.core.Parameters
+        - name: Variable
+          package: ANNarchy.core.Parameters
+        - name: Creating
+          package: ANNarchy.core.Parameters
+        - name: Pruning
+          package: ANNarchy.core.Parameters
         - name: Constant
           package: ANNarchy.core.Constant
-
         
     - title: "**Neuron models**"
       desc: Default neuron models that can be used directly. The naming follows the PyNN convention.
@@ -242,14 +254,28 @@ quartodoc:
       desc: Default synapse models that can be used directly. 
       package: ANNarchy.models.Synapses
       contents:
-        - STP
-        - STDP
         - Hebb
         - Oja
         - IBCM
+        - STP
+        - STDP
         
     - title: "**Inputs**"
-      desc: Input populations that can be used to stimulate the networks.
+      desc: |
+        Input populations that can be used to stimulate the networks.
+
+        Input populations can be passed to `Network.create()` directly, e.g.:
+
+        ```python
+        pop1 = net.create(ann.PoissonPopulation(100, rates=15.))
+        ```
+
+        Input projections (`CurrentInjection` and `DecodingProjection`) can be passed to `Network.connect()`:
+        
+        ```python
+        net.connect(ann.DecodingProjection(pop1, pop2, 'exc', window=10.0))
+        ```
+
       package: ANNarchy.inputs
       contents:
         - name: InputArray
@@ -304,19 +330,24 @@ quartodoc:
 
         simulate(10000.)
         ```
-      package: ANNarchy.core.Simulate
+      
       contents:
-          - every
-          - callbacks_enabled
-          - disable_callbacks
-          - enable_callbacks
-          - clear_all_callbacks
+          - name: every
+            package: ANNarchy.core.Simulate
           
     - title: "**Utilities**"
       desc: Various additional utilities.
       contents:
         - name: report
           package: ANNarchy.parser.report.Report
+        - name: timeit
+          package: ANNarchy.core.Utils
+        - name: sparse_random_matrix
+          package: ANNarchy.core.Utils
+        - name: sparse_delays_from_weights
+          package: ANNarchy.core.Utils
+        - name: magic_network
+          package: ANNarchy.core.Global
 
 
     - title: "**Convolution**"
@@ -325,7 +356,7 @@ quartodoc:
 
         ```python
         import ANNarchy as ann
-        from ANNarchy.extensions.convolution import *
+        from ANNarchy.extensions.convolution import Convolution, Pooling, Copy, Transpose
         ```
 
       contents:
@@ -344,7 +375,7 @@ quartodoc:
 
         ```python
         import ANNarchy as ann
-        from ANNarchy.extensions.bold import *
+        import ANNarchy.extensions.bold as bold
         ```
       package: ANNarchy.extensions.bold.PredefinedModels
         
@@ -393,8 +424,7 @@ quartodoc:
           - name: ANNtoSNNConverter
 
 
-
-    - title: "**Top-level API (deprecated)**"
+    - title: "**DEPRECATED Top-level API**"
       desc: Accessing objects at the global level is deprecated since ANNarchy 5.0. 
       package: ANNarchy.core.Global
       contents:
@@ -446,3 +476,11 @@ quartodoc:
           package: ANNarchy.core.IO
         - name: load_parameters
           package: ANNarchy.core.IO
+        - name: callbacks_enabled
+          package: ANNarchy.core.Simulate
+        - name: disable_callbacks
+          package: ANNarchy.core.Simulate
+        - name: enable_callbacks
+          package: ANNarchy.core.Simulate
+        - name: clear_all_callbacks
+          package: ANNarchy.core.Simulate

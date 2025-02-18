@@ -1,7 +1,7 @@
 # Copy { #ANNarchy.extensions.convolution.Copy.Copy }
 
 ```python
-extensions.convolution.Copy.Copy(
+Copy(
     self,
     pre,
     post,
@@ -23,6 +23,15 @@ The pre- and post-synaptic populations of both projections must have the same ge
 Example:
 
 ```python
+import ANNarchy as ann
+from ANNarchy.extensions.convolution import Copy
+
+net = ann.Network()
+
+pop1 = net.create(1000, ann.Izhikevich)
+pop2 = net.create(1000, ann.Izhikevich)
+pop3 = net.create(1000, ann.Izhikevich)
+
 proj = ann.Projection(pop1, pop2, "exc")
 proj.connect_fixed_probability(0.1, 0.5)
 
@@ -44,20 +53,20 @@ copy_proj.connect_copy(proj)
 
 | Name | Description |
 | --- | --- |
-| [connect_copy](#ANNarchy.extensions.convolution.Copy.Copy.connect_copy) |  |
-| [connectivity_matrix](#ANNarchy.extensions.convolution.Copy.Copy.connectivity_matrix) | Not available. |
+| [connect_copy](#ANNarchy.extensions.convolution.Copy.Copy.connect_copy) | Instantiates the projection. |
+| [save_connectivity](#ANNarchy.extensions.convolution.Copy.Copy.save_connectivity) | Not available. |
+| [save](#ANNarchy.extensions.convolution.Copy.Copy.save) | Not available. |
 | [load](#ANNarchy.extensions.convolution.Copy.Copy.load) | Not available. |
 | [receptive_fields](#ANNarchy.extensions.convolution.Copy.Copy.receptive_fields) | Not available. |
-| [save](#ANNarchy.extensions.convolution.Copy.Copy.save) | Not available. |
-| [save_connectivity](#ANNarchy.extensions.convolution.Copy.Copy.save_connectivity) | Not available. |
+| [connectivity_matrix](#ANNarchy.extensions.convolution.Copy.Copy.connectivity_matrix) | Not available. |
 
 ### connect_copy { #ANNarchy.extensions.convolution.Copy.Copy.connect_copy }
 
 ```python
-extensions.convolution.Copy.Copy.connect_copy(projection)
+connect_copy(projection)
 ```
 
-
+Instantiates the projection.
 
 #### Parameters {.doc-section .doc-section-parameters}
 
@@ -65,29 +74,10 @@ extensions.convolution.Copy.Copy.connect_copy(projection)
 |------------|--------|------------------------------|------------|
 | projection |        | Existing projection to copy. | _required_ |
 
-### connectivity_matrix { #ANNarchy.extensions.convolution.Copy.Copy.connectivity_matrix }
+### save_connectivity { #ANNarchy.extensions.convolution.Copy.Copy.save_connectivity }
 
 ```python
-extensions.convolution.Copy.Copy.connectivity_matrix(fill=0.0)
-```
-
-Not available.
-
-### load { #ANNarchy.extensions.convolution.Copy.Copy.load }
-
-```python
-extensions.convolution.Copy.Copy.load(filename)
-```
-
-Not available.
-
-### receptive_fields { #ANNarchy.extensions.convolution.Copy.Copy.receptive_fields }
-
-```python
-extensions.convolution.Copy.Copy.receptive_fields(
-    variable='w',
-    in_post_geometry=True,
-)
+save_connectivity(filename)
 ```
 
 Not available.
@@ -95,15 +85,31 @@ Not available.
 ### save { #ANNarchy.extensions.convolution.Copy.Copy.save }
 
 ```python
-extensions.convolution.Copy.Copy.save(filename)
+save(filename)
 ```
 
 Not available.
 
-### save_connectivity { #ANNarchy.extensions.convolution.Copy.Copy.save_connectivity }
+### load { #ANNarchy.extensions.convolution.Copy.Copy.load }
 
 ```python
-extensions.convolution.Copy.Copy.save_connectivity(filename)
+load(filename)
+```
+
+Not available.
+
+### receptive_fields { #ANNarchy.extensions.convolution.Copy.Copy.receptive_fields }
+
+```python
+receptive_fields(variable='w', in_post_geometry=True)
+```
+
+Not available.
+
+### connectivity_matrix { #ANNarchy.extensions.convolution.Copy.Copy.connectivity_matrix }
+
+```python
+connectivity_matrix(fill=0.0)
 ```
 
 Not available.
