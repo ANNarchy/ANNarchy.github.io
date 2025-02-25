@@ -339,45 +339,10 @@ r = 10.0 * (sin(2*pi*f*ts + phi) + 1.0)
 
 Several random generators are available and can be used within an equation, for example:
 
-* `ann.Uniform(min, max)` generates random numbers from a uniform distribution in the range $[\text{min}, \text{max}]$.
-* `ann.Normal(mu, sigma)` generates random numbers from a normal distribution with mean mu and standard deviation sigma.
+* `Uniform(min, max)` generates random numbers from a uniform distribution in the range $[\text{min}, \text{max}]$.
+* `Normal(mu, sigma)` generates random numbers from a normal distribution with mean mu and standard deviation sigma.
 
-See the reference for [Random Distributions](/reference/index.qmd#random-distributions) for more distributions. 
-
-The arguments to the random distributions can be either fixed values or global parameters.
-
-```python
-neuron = ann.Neuron(
-    parameters = dict(
-        noise_min = -0.1,
-        noise_max = 0.1,
-    ),
-    equations = [
-        ann.Variable('noise += Uniform(noise_min, noise_max)'),
-    ]
-)
-```
-
-It is not allowed to use local parameters (with different values per neuron) or variables, as the random number generators are initialized only once at network creation (doing otherwise would impair performance too much). 
-
-:::{.callout-caution}
-If a global parameter is used, changing its value will not affect the generator after compilation (`ann.compile()`).
-
-It is therefore better practice to use normalized random generators and scale their outputs:
-
-```python
-neuron = ann.Neuron(
-    parameters = dict(
-        noise_min = -0.1,
-        noise_max = 0.1,
-    ),
-    equations = [
-        ann.Variable('noise += noise_min + (noise_max - noise_min) * Uniform(0, 1)'),
-    ]
-)
-```
-
-:::
+See the [manual](/manual/Random.qmd) and the [reference](/reference/index.qmd#random-distributions) for more details on the availab le distributions. 
 
 ### Mathematical functions
 

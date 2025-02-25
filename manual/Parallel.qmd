@@ -53,7 +53,7 @@ net = ann.Network()
 net.create(...)
 net.compile()
 
-net.parallel_run(...) # DOES NOTHING!
+net.parallel_run(...) # CRASH!
 ```
 :::
 
@@ -150,7 +150,7 @@ The weights are going to be redrawn for each copy, so you get different simulati
 
 However, you may want to control the seed of each network for reproducibility. You first need to make sure that the seed of a network is used everywhere in its constructor.
 
-Even at the beginning of the constructor, the attribute `self.seed` is set at a random value (if left to None in the call to constructor), or to a desired value. You should use it to seed all random objects, mainly `numpy`'s RNG and ANNarchy's random distribution classes:
+Even at the beginning of the constructor, the attribute `self.seed` is set at a random value (if left to `None` in the call to constructor), or to a desired value. You should use it to seed all random objects, passing `numpy`'s default RNG to ANNarchy's random distribution classes:
 
 ```python
 class PulseNetwork(ann.Network):
@@ -167,8 +167,8 @@ class PulseNetwork(ann.Network):
         self.proj_exc = self.connect(self.P[:800], self.P, 'exc')
         self.proj_inh = self.connect(self.P[800:], self.P, 'inh')
 
-        self.proj_exc.connect_all_to_all(weights=ann.Uniform(0.0, w_exc, seed=self.seed))
-        self.proj_inh.connect_all_to_all(weights=ann.Uniform(0.0, w_inh, seed=self.seed))
+        self.proj_exc.connect_all_to_all(weights=ann.Uniform(0.0, w_exc, rng=rng))
+        self.proj_inh.connect_all_to_all(weights=ann.Uniform(0.0, w_inh, rng=rng))
 
         # Create a spike monitor
         self.m = self.monitor(self.P, 'spike')
@@ -183,7 +183,8 @@ Once the seed of a network is controlled, `parallel_run()` offers several possib
 ```python
 net = PulseNetwork(seed=None)
 results = net.parallel_run(
-    method=simulation, number=4, 
+    method=simulation, 
+    number=4, 
     seeds=None
 )
 ```

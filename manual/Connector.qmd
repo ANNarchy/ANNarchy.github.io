@@ -15,17 +15,17 @@ There are basically four methods to instantiate projections:
 
 ```{python}
 #| echo: false
+#| output: false
 import numpy as np
 import matplotlib.pyplot as plt
 import ANNarchy as ann
-
 ```
 
 ## Built-in connectors
 
 Connectors are methods of `Projection` that allow to instantiate the underlying data structures like the connectivity matrix and other local attributes. However, this only happens **after** the network is compiled.
 
-Connector methods usually take the form:
+Connector methods take the form:
 
 ```python
 proj.connect_xxx(weights, delays, *other_parameters)
@@ -34,7 +34,7 @@ proj.connect_xxx(weights, delays, *other_parameters)
 The `weights` argument defines the initial value taken by the weight `w`of the projection. You can provide either:
 
 * a single value (`weights=1.0`) which will be the same for all synapses.
-* a random distribution instance ([RandomDistribution](../reference/index.qmd#random-distributions)) allowing to sample values for each synapse.
+* a random distribution instance ([RandomDistribution](./Random.qmd)) allowing to sample values for each synapse.
 
 It is not possible to provide a list of weights, as the underling synapses are not created yet and might be random. 
 

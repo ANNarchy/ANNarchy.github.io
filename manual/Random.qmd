@@ -1,0 +1,107 @@
+---
+title: "Random distributions"
+execute:
+  echo: true
+jupyter: python3
+---
+
+```{python}
+#| echo: false
+#| output: false
+import numpy as np
+import matplotlib.pyplot as plt
+import ANNarchy as ann
+```
+
+ANNarchy allows to sample values from various probability distributions. The list is also available in the reference section: [RandomDistribution](../reference/index.html#random-distributions)
+
+* `Uniform`:	Uniform distribution between min and max.
+* `DiscreteUniform`:	Discrete uniform distribution between min and max.
+* `Normal`:	Normal distribution.
+* `LogNormal`:	Log-normal distribution.
+* `Exponential`:	Exponential distribution, according to the density function:
+* `Gamma`:	Gamma distribution.
+* `Binomial`:	Binomial distribution.
+
+## Inside equations
+
+The probability distributions can be used inside neural or synaptic equations to add noise. The arguments to the random distributions can be either fixed values or global parameters.
+
+```python
+neuron = ann.Neuron(
+    parameters = dict(
+        noise_min = -0.1,
+        noise_max = 0.1,
+    ),
+    equations = [
+        ann.Variable('noise += Uniform(noise_min, noise_max)'),
+    ]
+)
+```
+
+It is not allowed to use local parameters (with different values per neuron) or variables, as the random number generators are initialized only once at network creation (doing otherwise would impair performance too much). 
+
+:::{.callout-caution}
+If a global parameter is used, changing its value will not affect the generator after compilation (`net.compile()`).
+
+It is therefore better practice to use normalized random generators and scale their outputs:
+
+```python
+neuron = ann.Neuron(
+    parameters = dict(
+        noise_min = -0.1,
+        noise_max = 0.1,
+    ),
+    equations = [
+        ann.Variable('noise += noise_min + (noise_max - noise_min) * Uniform(0, 1)'),
+    ]
+)
+```
+
+:::
+
+
+## Python classes
+
+ANNarchy also exposes these distributions as Python classes deriving from `ann.RandomDistribution`:
+
+```{python}
+rd = ann.Uniform(min=-1.0, max=1.0)
+
+values = rd.get_values(shape=(5, 5))
+print(values)
+```
+
+Those classes are only thin wrappers around ``numpy``'s random module. The code above is fully equivalent to:
+
+```{python}
+rng = np.random.default_rng()
+
+values = rng.uniform(-1.0, 1.0, (5,5))
+print(values)
+```
+
+The main interest of using these objects instead of directly numpy is that the `get_values()` method can only be called when the network is instantiated (at the end of `net.compile()`). 
+
+For example, in the following code, the random values are only created after compilation and transferred to the C++ kernel. They do not comsume RAM unnecessarily on the Python side.
+
+```python
+net = ann.Network()
+pop = net.create(100000000, ann.Neuron("r = 0.0"))
+pop.r = ann.Uniform(min=0.0, max=1.0) 
+# The values are not drawn yet
+net.compile()
+# The values are now drawn and stored in the C++ kernel.
+```
+
+If you want to control the seed of the random distributions, you should pass the `numpy` default RNG to it, initialized with the network's seed:
+
+```python
+net = ann.Network(seed=42) # or leave the seed to None to have it automatically set
+
+rng = np.random.default_rng(seed=net.seed)
+
+rd = ann.Uniform(min=0.0, max=1.0, rng=rng)
+```
+
+This is especially important when running simulations in parallel with `parallel_run()`.
