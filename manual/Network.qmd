@@ -204,7 +204,7 @@ net = SimpleNetwork(N=10, dt=0.1)
 
 ## Setting the seed of the random number generators
 
-By default, the random number generators(RNG) are seeded with `time(NULL)`, so each simulation will be different. If you want to have deterministic simulations, you need to provide a fixed seed to `Network`:
+By default, the random number generators (RNG) are seeded with `secrets.randbits(32)`, so each simulation will be different from run to run. If you want to have deterministic simulations, you need to provide a fixed seed to the constructor of `Network`:
 
 ```python
 net = ann.Network(dt=0.1, seed=42)
@@ -212,9 +212,25 @@ net = ann.Network(dt=0.1, seed=42)
 
 If you define a subclass of `Network`, pass the seed without further processing, like for `dt`.
 
-Note that this also sets the seed of the old RNG of numpy, which are used to initialize values produced by `np.random.*`. If you use the new default RNG of numpy (`rng = np.random.default_rng()`), you will have to seed it yourself.
+```python
+class SimpleNetwork (ann.Network):
+    def __init__(self, N)
+        self.pop1 = net.create(N, neuron)
+        self.pop2 = net.create(N, neuron)
+        self.proj = net.connect(self.pop1, self.pop2, 'exc', synapse)
 
-When `seed`is left to its default value `None`, a value is chosen with `time(NULL)` and it becomes accessible in the attribute `net.seed`.
+net = SimpleNetwork(N=10, dt=0.1, seed=42)
+```
+
+Note that this also sets the seed of the old RNG of numpy, which is used to initialize values produced by `np.random.*`. 
+
+If you use the new default RNG of numpy (`rng = np.random.default_rng()`) or ANNarchy's random distributions (see [Random Distributions](Random.qmd)), you will have to seed it yourself. The seed of network is accessible through the attribute `net.seed`.
+
+```python
+rng = np.random.default_rng(seed=net.seed)
+
+pop.r = ann.Uniform(min=0.0, max=1.0, rng=rng)
+```
 
 :::callout-note
 Using the same seed with the OpenMP and CUDA backends will not lead to the same sequences of numbers!
