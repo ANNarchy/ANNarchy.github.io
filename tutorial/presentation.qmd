@@ -458,10 +458,10 @@ pip install -e .
 Requirements (Linux and MacOS):
 
 * g++/clang++
-* python >= 3.6
+* python >= 3.10
 * numpy
 * sympy
-* cython
+* nanobind
 
 
 # Features
@@ -1118,7 +1118,7 @@ $$\tau \cdot \frac{dv (t)}{dt} = E_l - v(t) + g_\text{exc} (t) \, (E_\text{exc} 
 
 ```python
 LIF = ann.Neuron(
-    parameters = {tau=20.0},
+    parameters = {'tau': 20.0},
     equations = [
         'tau * dv/dt + v = g_exc',     
     ],
@@ -1155,7 +1155,7 @@ default_synapse = ann.Synapse(
 
 ```python
 LIF = ann.Neuron(
-    parameters = {tau=20.0},
+    parameters = {'tau'=20.0},
     equations = [
         'tau * dv/dt + v = g_exc',     
         'tau_exc * dg_exc/dt = - g_exc',
@@ -1168,10 +1168,10 @@ LIF = ann.Neuron(
 * The exponential numerical method should be preferred, as integration is exact.
 
 ```python
-        ann.Variable(
-            'tau_exc * dg_exc/dt = - g_exc', 
-            method='exponential'
-        )
+ann.Variable(
+    'tau_exc * dg_exc/dt = - g_exc', 
+        method='exponential'
+)
 ```
 
 :::
