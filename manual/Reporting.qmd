@@ -262,11 +262,11 @@ homeo_stdp = ann.Synapse(
 
 # Projection without homeostatic mechanism
 proj1 = net.connect(inp, pop1, ['ampa', 'nmda'], synapse=nearest_neighbour_stdp)
-proj1.connect_all_to_all(Uniform(0.01, 0.03))
+proj1.all_to_all(Uniform(0.01, 0.03))
 
 # Projection with homeostatic mechanism
 proj2 = net.connect(inp, pop2, ['ampa', 'nmda'], synapse=homeo_stdp)
-proj2.connect_all_to_all(weights=Uniform(0.01, 0.03))
+proj2.all_to_all(weights=Uniform(0.01, 0.03))
 
 
 # Record

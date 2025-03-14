@@ -35,8 +35,8 @@ class PulseNetwork(ann.Network):
         self.proj_exc = self.connect(self.P[:800], self.P, 'exc')
         self.proj_inh = self.connect(self.P[800:], self.P, 'inh')
 
-        self.proj_exc.connect_all_to_all(weights=ann.Uniform(0.0, w_exc))
-        self.proj_inh.connect_all_to_all(weights=ann.Uniform(0.0, w_inh))
+        self.proj_exc.all_to_all(weights=ann.Uniform(0.0, w_exc))
+        self.proj_inh.all_to_all(weights=ann.Uniform(0.0, w_inh))
 
         # Create a spike monitor
         self.m = self.monitor(self.P, 'spike')
@@ -142,8 +142,8 @@ For example, never change the size of a population in `parallel_run()`, as this 
 If you do not vary any parameter (constructor or method) during the call to `parallel_run()`, the only variability would come from the network itself, for example from the initialization of the random weights:
 
 ```python
-self.proj_exc.connect_all_to_all(weights=ann.Uniform(0.0, w_exc))
-self.proj_inh.connect_all_to_all(weights=ann.Uniform(0.0, w_inh))
+self.proj_exc.all_to_all(weights=ann.Uniform(0.0, w_exc))
+self.proj_inh.all_to_all(weights=ann.Uniform(0.0, w_inh))
 ```
 
 The weights are going to be redrawn for each copy, so you get different simulations every time.
@@ -167,14 +167,14 @@ class PulseNetwork(ann.Network):
         self.proj_exc = self.connect(self.P[:800], self.P, 'exc')
         self.proj_inh = self.connect(self.P[800:], self.P, 'inh')
 
-        self.proj_exc.connect_all_to_all(weights=ann.Uniform(0.0, w_exc, rng=rng))
-        self.proj_inh.connect_all_to_all(weights=ann.Uniform(0.0, w_inh, rng=rng))
+        self.proj_exc.all_to_all(weights=ann.Uniform(0.0, w_exc, rng=rng))
+        self.proj_inh.all_to_all(weights=ann.Uniform(0.0, w_inh, rng=rng))
 
         # Create a spike monitor
         self.m = self.monitor(self.P, 'spike')
 ```
 
-Intrinsically random methods, such as `proj.connect_fixed_probability()` are automatically seeded by the network, you do not need to worry about them.
+Intrinsically random methods, such as `proj.fixed_probability()` are automatically seeded by the network, you do not need to worry about them.
 
 Once the seed of a network is controlled, `parallel_run()` offers several possibilities:
 

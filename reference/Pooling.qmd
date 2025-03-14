@@ -20,7 +20,7 @@ Each post-synaptic neuron covers a specific region (``extent``) of the pre-synap
 population, over which the result of the operation on firing rates will be
 assigned to sum(target).
 
-The extent is automatically computed using the geometry of the populations, but can be specified in the `connect_pooling()`` methods.
+The extent is automatically computed using the geometry of the populations, but can be specified in the `pooling()`` methods.
 
 Example:
 
@@ -33,7 +33,7 @@ inp = net.create(geometry=(100, 100), neuron=ann.Neuron(parameters="r = 0.0"))
 pop = net.create(geometry=(50, 50), neuron=ann.Neuron(equations="r = sum(exc)"))
 
 proj = net.connect(Pooling(inp, pop, 'exc', operation='max')) # max-pooling
-proj.connect_pooling() # extent=(2, 2) is implicit
+proj.pooling() # extent=(2, 2) is implicit
 ```
 
 ## Parameters {.doc-section .doc-section-parameters}
@@ -49,20 +49,20 @@ proj.connect_pooling() # extent=(2, 2) is implicit
 
 | Name | Description |
 | --- | --- |
-| [connect_pooling](#ANNarchy.extensions.convolution.Pooling.Pooling.connect_pooling) |  |
+| [pooling](#ANNarchy.extensions.convolution.Pooling.Pooling.pooling) | Connects the `Pooling` projection. |
 | [save_connectivity](#ANNarchy.extensions.convolution.Pooling.Pooling.save_connectivity) | Not available. |
 | [save](#ANNarchy.extensions.convolution.Pooling.Pooling.save) | Not available. |
 | [load](#ANNarchy.extensions.convolution.Pooling.Pooling.load) | Not available. |
 | [receptive_fields](#ANNarchy.extensions.convolution.Pooling.Pooling.receptive_fields) | Not available. |
 | [connectivity_matrix](#ANNarchy.extensions.convolution.Pooling.Pooling.connectivity_matrix) | Not available. |
 
-### connect_pooling { #ANNarchy.extensions.convolution.Pooling.Pooling.connect_pooling }
+### pooling { #ANNarchy.extensions.convolution.Pooling.Pooling.pooling }
 
 ```python
-connect_pooling(extent=None, delays=0.0)
+pooling(extent=None, delays=0.0)
 ```
 
-
+Connects the `Pooling` projection.
 
 #### Parameters {.doc-section .doc-section-parameters}
 

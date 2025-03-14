@@ -35,7 +35,7 @@ pop = net.create(10, LeakyIntegrator)
 
 # Projection
 proj = net.connect(input_pop, pop, 'exc')
-proj.connect_one_to_one(1.0)
+proj.one_to_one(1.0)
 
 # Compile
 net.compile()
@@ -78,7 +78,7 @@ pop = net.create(10, LeakyIntegrator)
 
 # Projection
 proj = net.connect(input_pop, pop, 'exc')
-proj.connect_one_to_one(1.0)
+proj.one_to_one(1.0)
 
 # Compile
 net.compile()
@@ -126,7 +126,7 @@ pop = net.create(10, Neuron(equations="r=sum(exc)"))
 
 # Projection
 proj = net.connect(inp, pop, 'exc')
-proj.connect_one_to_one(1.0)
+proj.one_to_one(1.0)
 
 # Compile and simulate
 net.compile()
@@ -511,7 +511,7 @@ inp = net.create(ann.TimedArray(rates=rates, schedule=50.))
 pop = net.create(ann.PoissonPopulation(100, target="exc"))
 
 proj = net.connect(inp, pop, 'exc')
-proj.connect_one_to_one(1.0)
+proj.one_to_one(1.0)
 ```
 
 ```{python}
@@ -526,7 +526,7 @@ inp = net.create(ann.TimedArray(rates = rates, schedule=50.))
 pop = net.create(ann.PoissonPopulation(100, target="exc"))
 
 proj = net.connect(inp, pop, 'exc')
-proj.connect_one_to_one(1.0)
+proj.one_to_one(1.0)
 
 m = net.monitor(pop, 'spike')
 

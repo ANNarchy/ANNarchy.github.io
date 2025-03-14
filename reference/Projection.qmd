@@ -22,7 +22,7 @@ The object is returned by `Network.connect()` and should not be created directly
 proj = net.connect(pre=pop1, post=pop2, target="exc", synapse=STDP)
 ```
 
-The projection still has to be instantiated, by calling a connector method such as `connect_all_to_all()` or `connect_fixed_probability()`.
+The projection still has to be instantiated, by calling a connector method such as `all_to_all()` or `fixed_probability()`.
 
 If not specified, the default synapse only ensures linear synaptic transmission:
 
@@ -59,18 +59,18 @@ If not specified, the default synapse only ensures linear synaptic transmission:
 
 | Name | Description |
 | --- | --- |
-| [connect_all_to_all](#ANNarchy.core.Projection.Projection.connect_all_to_all) | all-to-all (fully-connected) connection pattern. |
-| [connect_fixed_probability](#ANNarchy.core.Projection.Projection.connect_fixed_probability) | Probabilistic sparse connection pattern. |
-| [connect_one_to_one](#ANNarchy.core.Projection.Projection.connect_one_to_one) | one-to-one connection pattern. |
-| [connect_fixed_number_pre](#ANNarchy.core.Projection.Projection.connect_fixed_number_pre) | Connection pattern where each post-synaptic neuron receives a fixed number of pre-synaptic neurons. |
-| [connect_fixed_number_post](#ANNarchy.core.Projection.Projection.connect_fixed_number_post) | Each pre-synaptic neuron randomly sends a fixed number of connections to the post-synaptic neurons. |
-| [connect_gaussian](#ANNarchy.core.Projection.Projection.connect_gaussian) | Gaussian connection pattern. |
-| [connect_dog](#ANNarchy.core.Projection.Projection.connect_dog) | Difference-Of-Gaussians connection pattern. |
-| [connect_with_func](#ANNarchy.core.Projection.Projection.connect_with_func) | Connection pattern based on a user-defined function. |
-| [connect_from_matrix](#ANNarchy.core.Projection.Projection.connect_from_matrix) | Builds a connection pattern according to a dense connectivity matrix. |
-| [connect_from_matrix_market](#ANNarchy.core.Projection.Projection.connect_from_matrix_market) | Loads a weight matrix encoded in the Matrix Market format. This connector is intended for benchmarking purposes. |
-| [connect_from_sparse](#ANNarchy.core.Projection.Projection.connect_from_sparse) | Builds a connectivity pattern using a Scipy sparse matrix for the weights and (optionally) delays. |
-| [connect_from_file](#ANNarchy.core.Projection.Projection.connect_from_file) | Builds the connectivity matrix using data saved using `Projection.save_connectivity()` (not `save()`!). |
+| [all_to_all](#ANNarchy.core.Projection.Projection.all_to_all) | all-to-all (fully-connected) connection pattern. |
+| [fixed_probability](#ANNarchy.core.Projection.Projection.fixed_probability) | Probabilistic sparse connection pattern. |
+| [one_to_one](#ANNarchy.core.Projection.Projection.one_to_one) | one-to-one connection pattern. |
+| [fixed_number_pre](#ANNarchy.core.Projection.Projection.fixed_number_pre) | Connection pattern where each post-synaptic neuron receives a fixed number of pre-synaptic neurons. |
+| [fixed_number_post](#ANNarchy.core.Projection.Projection.fixed_number_post) | Each pre-synaptic neuron randomly sends a fixed number of connections to the post-synaptic neurons. |
+| [gaussian](#ANNarchy.core.Projection.Projection.gaussian) | Gaussian connection pattern. |
+| [dog](#ANNarchy.core.Projection.Projection.dog) | Difference-Of-Gaussians connection pattern. |
+| [from_function](#ANNarchy.core.Projection.Projection.from_function) | Connection pattern based on a user-defined function. |
+| [from_matrix](#ANNarchy.core.Projection.Projection.from_matrix) | Builds a connection pattern according to a dense connectivity matrix. |
+| [from_matrix_market](#ANNarchy.core.Projection.Projection.from_matrix_market) | Loads a weight matrix encoded in the Matrix Market format. This connector is intended for benchmarking purposes. |
+| [from_sparse](#ANNarchy.core.Projection.Projection.from_sparse) | Builds a connectivity pattern using a Scipy sparse matrix for the weights and (optionally) delays. |
+| [from_file](#ANNarchy.core.Projection.Projection.from_file) | Builds the connectivity matrix using data saved using `Projection.save_connectivity()` (not `save()`!). |
 | [reset](#ANNarchy.core.Projection.Projection.reset) | Resets all parameters and variables of the projection to their initial value (before the call to compile()). |
 | [dendrite](#ANNarchy.core.Projection.Projection.dendrite) | Returns the dendrite of a postsynaptic neuron according to its rank. |
 | [synapse](#ANNarchy.core.Projection.Projection.synapse) | Returns the synapse between a pre- and a post-synaptic neuron if it exists, `None` otherwise. |
@@ -89,10 +89,10 @@ If not specified, the default synapse only ensures linear synaptic transmission:
 | [stop_creating](#ANNarchy.core.Projection.Projection.stop_creating) | Stops creating the synapses in the projection if the synapse defines a 'creating' argument. |
 | [update_launch_config](#ANNarchy.core.Projection.Projection.update_launch_config) | Allows the adjustment of the CUDA launch config (since 4.7.2). |
 
-### connect_all_to_all { #ANNarchy.core.Projection.Projection.connect_all_to_all }
+### all_to_all { #ANNarchy.core.Projection.Projection.all_to_all }
 
 ```python
-connect_all_to_all(
+all_to_all(
     self,
     weights,
     delays=0.0,
@@ -114,10 +114,10 @@ all-to-all (fully-connected) connection pattern.
 | allow_self_connections | bool                        | If True, self-connections between a neuron and itself are allowed (default = False if the pre- and post-populations are identical, True otherwise).                                                                                                       | `False`    |
 | force_multiple_weights | bool                        | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
 
-### connect_fixed_probability { #ANNarchy.core.Projection.Projection.connect_fixed_probability }
+### fixed_probability { #ANNarchy.core.Projection.Projection.fixed_probability }
 
 ```python
-connect_fixed_probability(
+fixed_probability(
     self,
     probability,
     weights,
@@ -143,10 +143,10 @@ Each neuron in the postsynaptic population is connected to neurons of the presyn
 | allow_self_connections | bool                        | Defines if self-connections are allowed (default=False).                                                                                                                                                                                              | `False`    |
 | force_multiple_weights | bool                        | If a single value is provided for `weights` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting `force_multiple_weights` to True ensures that a value per synapse will be used. | `False`    |
 
-### connect_one_to_one { #ANNarchy.core.Projection.Projection.connect_one_to_one }
+### one_to_one { #ANNarchy.core.Projection.Projection.one_to_one }
 
 ```python
-connect_one_to_one(
+one_to_one(
     self,
     weights=1.0,
     delays=0.0,
@@ -166,10 +166,10 @@ one-to-one connection pattern.
 | delays                 | float \| RandomDistribution | Synaptic delays, either a single value or a random distribution object (default=dt).                                                                                                                                                                      | `0.0`     |
 | force_multiple_weights | bool                        | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`   |
 
-### connect_fixed_number_pre { #ANNarchy.core.Projection.Projection.connect_fixed_number_pre }
+### fixed_number_pre { #ANNarchy.core.Projection.Projection.fixed_number_pre }
 
 ```python
-connect_fixed_number_pre(
+fixed_number_pre(
     self,
     number,
     weights,
@@ -193,10 +193,10 @@ Connection pattern where each post-synaptic neuron receives a fixed number of pr
 | allow_self_connections | bool                        | Defines if self-connections are allowed (default=False).                                                                                                                                                                                                  | `False`    |
 | force_multiple_weights | bool                        | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
 
-### connect_fixed_number_post { #ANNarchy.core.Projection.Projection.connect_fixed_number_post }
+### fixed_number_post { #ANNarchy.core.Projection.Projection.fixed_number_post }
 
 ```python
-connect_fixed_number_post(
+fixed_number_post(
     self,
     number,
     weights=1.0,
@@ -220,10 +220,10 @@ Each pre-synaptic neuron randomly sends a fixed number of connections to the pos
 | allow_self_connections | bool                        | Defines if self-connections are allowed (default=False)                                                                                                                                                                                                   | `False`    |
 | force_multiple_weights | bool                        | If a single value is provided for ``weights`` and there is no learning, a single weight value will be used for the whole projection instead of one per synapse. Setting ``force_multiple_weights`` to True ensures that a value per synapse will be used. | `False`    |
 
-### connect_gaussian { #ANNarchy.core.Projection.Projection.connect_gaussian }
+### gaussian { #ANNarchy.core.Projection.Projection.gaussian }
 
 ```python
-connect_gaussian(
+gaussian(
     self,
     amp,
     sigma,
@@ -248,10 +248,10 @@ Each neuron in the postsynaptic population is connected to a region of the presy
 | limit                  | float                       | Proportion of `amp` below which synapses are not created                            | `0.01`     |
 | allow_self_connections | bool                        | Allows connections between a neuron and itself.                                     | `False`    |
 
-### connect_dog { #ANNarchy.core.Projection.Projection.connect_dog }
+### dog { #ANNarchy.core.Projection.Projection.dog }
 
 ```python
-connect_dog(
+dog(
     self,
     amp_pos,
     sigma_pos,
@@ -280,10 +280,10 @@ Each neuron in the postsynaptic population is connected to a region of the presy
 | limit                  | float                       | Proportion of *amp* below which synapses are not created (default: 0.01)            | `0.01`     |
 | allow_self_connections | bool                        | Allows connections between a neuron and itself.                                     | `False`    |
 
-### connect_with_func { #ANNarchy.core.Projection.Projection.connect_with_func }
+### from_function { #ANNarchy.core.Projection.Projection.from_function }
 
 ```python
-connect_with_func(self, method, storage_format=None, storage_order=None, **args)
+from_function(self, method, storage_format=None, storage_order=None, **args)
 ```
 
 Connection pattern based on a user-defined function.
@@ -329,10 +329,10 @@ proj.connect_with_func(
 | method |        | Method to call. The method **must** return a LILConnectivity object. | _required_ |
 | args   |        | List of additional arguments needed by the function.                 | `{}`       |
 
-### connect_from_matrix { #ANNarchy.core.Projection.Projection.connect_from_matrix }
+### from_matrix { #ANNarchy.core.Projection.Projection.from_matrix }
 
 ```python
-connect_from_matrix(
+from_matrix(
     self,
     weights,
     delays=0.0,
@@ -356,15 +356,10 @@ If a synapse should not be created, the weight value should be None.
 | delays   |          | Numpy array representing the delays. Must represent the same synapses as the `weights` argument. If omitted, the delays are considered 0.                                             | `0.0`      |
 | pre_post |          | States which index is first. By default, the first dimension is related to the post-synaptic population. If ``pre_post`` is True, the first dimension is the pre-synaptic population. | `False`    |
 
-### connect_from_matrix_market { #ANNarchy.core.Projection.Projection.connect_from_matrix_market }
+### from_matrix_market { #ANNarchy.core.Projection.Projection.from_matrix_market }
 
 ```python
-connect_from_matrix_market(
-    self,
-    filename,
-    storage_format=None,
-    storage_order=None,
-)
+from_matrix_market(self, filename, storage_format=None, storage_order=None)
 ```
 
 Loads a weight matrix encoded in the Matrix Market format. This connector is intended for benchmarking purposes.
@@ -375,16 +370,10 @@ Loads a weight matrix encoded in the Matrix Market format. This connector is int
 |----------|--------|--------------------------------------------|------------|
 | filename | str    | Filename of the Matrix Market (.mtx) file. | _required_ |
 
-### connect_from_sparse { #ANNarchy.core.Projection.Projection.connect_from_sparse }
+### from_sparse { #ANNarchy.core.Projection.Projection.from_sparse }
 
 ```python
-connect_from_sparse(
-    self,
-    weights,
-    delays=0.0,
-    storage_format=None,
-    storage_order=None,
-)
+from_sparse(self, weights, delays=0.0, storage_format=None, storage_order=None)
 ```
 
 Builds a connectivity pattern using a Scipy sparse matrix for the weights and (optionally) delays.
@@ -398,10 +387,10 @@ Warning: a sparse matrix has pre-synaptic ranks as first dimension.
 | weights | scipy.sparse.lil_matrix | a sparse lil_matrix object created from scipy.                                  | _required_ |
 | delays  | int \| float            | the value of the constant delay (default: dt). Variable delays are not allowed. | `0.0`      |
 
-### connect_from_file { #ANNarchy.core.Projection.Projection.connect_from_file }
+### from_file { #ANNarchy.core.Projection.Projection.from_file }
 
 ```python
-connect_from_file(
+from_file(
     self,
     filename,
     pickle_encoding=None,
@@ -574,7 +563,7 @@ proj.save_connectivity(filename)
 The generated data can be used to create a projection in another network:
 
 ```python
-proj.connect_from_file(filename)
+proj.from_file(filename)
 ```
 
 * If the file name is '.npz', the data will be saved and compressed using `np.savez_compressed` (recommended).

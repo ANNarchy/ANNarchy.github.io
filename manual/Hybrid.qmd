@@ -20,7 +20,7 @@ pop1 = net.create(4, Neuron(parameters="r=0.0"))
 pop2 = net.create(ann.PoissonPopulation(1000, target='exc'))
 
 proj = net.connect(pop1, pop2, 'exc')
-proj.connect_fixed_number_pre(weights=10.0, number=1)
+proj.fixed_number_pre(weights=10.0, number=1)
 ```
 
 In this example, each of the 4 pre-synaptic neurons "controls" the firing rate of one fourth (on average) of the post-synaptic ones. If `target` is used in the Poisson population, `rates` will be ignored.
@@ -38,7 +38,7 @@ pop1 = net.create(ann.PoissonPopulation(1000, rates=50.0))
 pop2 = net.create(1, Neuron(equations="r=sum(exc)"))
 
 proj = net.connect(ann.DecodingProjection(pop1, pop2, 'exc', window=10.0))
-proj.connect_all_to_all(weights=1.0)
+proj.all_to_all(weights=1.0)
 ```
 
 In this example, the spiking population fires at 50 Hz. The single rate-coded neuron decoding that population will count how many spikes arrived in the last $T$ milliseconds and divide it by the total number of synapses in order to estimate the population firing rate in `pop1`.

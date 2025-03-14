@@ -69,7 +69,7 @@ To this end, ANNarchy already provides a set of predefined connector methods, bu
 The connection pattern should be applied right after the creation of the Projection:
 
 ```{python}
-proj.connect_fixed_probability(probability=0.5, weights = 1.0)
+proj.fixed_probability(probability=0.5, weights = 1.0)
 ```
 
 The connector method must be called before the network is compiled.
@@ -199,7 +199,7 @@ corresponding object:
 
 ```python
 proj = net.connect(pop1, pop2, 'exc', BCM)
-proj.connect_xxx()
+proj.all_to_all(weights=1.0)
 
 pre = np.linspace(0., 1., 100)
 post = np.linspace(0., 1., 100)
@@ -234,7 +234,7 @@ proj = net.connect(
     synapse = BCM
 )
 
-proj.connect_all_to_all(weights = 1.0)
+proj.all_to_all(weights=1.0)
 ```
 
 Each neuron of `pop2_center` will receive synapses from all neurons of `pop1_center`, and only them. Neurons of `pop2` which are not in `pop2_center` will not receive any synapse.
@@ -251,8 +251,8 @@ By default, synaptic transmission is considered to be instantaneous (or more pre
 In order to take longer propagation times into account in the transmission of information between two populations, one has the possibility to define synaptic delays for a projection. All the built-in connector methods take an argument `delays` (default=`dt`), which can be a float (in milliseconds) or a random number generator.
 
 ```python
-proj.connect_all_to_all(weights = 1.0, delays = 10.0)
-proj.connect_all_to_all(weights = 1.0, delays = Uniform(1.0, 10.0))
+proj.all_to_all(weights = 1.0, delays = 10.0)
+proj.all_to_all(weights = 1.0, delays = Uniform(1.0, 10.0))
 ```
 
 If the delay is not a multiple of the simulation time step (`dt = 1.0` by default), it will be rounded to the closest multiple. The same is true for the values returned by a random number generator.

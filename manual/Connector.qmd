@@ -28,7 +28,7 @@ Connectors are methods of `Projection` that allow to instantiate the underlying 
 Connector methods take the form:
 
 ```python
-proj.connect_xxx(weights, delays, *other_parameters)
+proj.xxx(weights, delays, *other_parameters)
 ```
 
 The `weights` argument defines the initial value taken by the weight `w`of the projection. You can provide either:
@@ -44,39 +44,39 @@ The `delays` argument controls the delays in synaptic transmission. By default i
 * a random distribution instance, providing a unique random delay for each synapse (called non-uniform delays).
 
 
-### connect_all_to_all (dense)
+### all_to_all (dense)
 
 In a all-to-all pattern (also called dense or fully-connected), **all** neurons of the post-synaptic population form connections with **all** neurons of the pre-synaptic population. 
 
 ```python
-proj.connect_all_to_all(weights=ann.Uniform(0.0, 0.5)) 
+proj.all_to_all(weights=ann.Uniform(0.0, 0.5)) 
 ```
 
 When the projection is between a projection and itself (recurrent), self-connections (a single neuron to itself) are avoided by default (the diagonal of the connectivity matrix is removed), but the parameter `allow_self_connections` can be set to `True`:
 
 ```python
-proj.connect_all_to_all(weights=1.0, delays=2.0, allow_self_connections=False) 
+proj.all_to_all(weights=1.0, delays=2.0, allow_self_connections=False) 
 ```
 
 If you provide a single initial weight value and the synapse has **no plasticity** (the weight `w` will never be modified), the projection will not store one value of `w` per synapse, but one **per projection**. This allows to save a lot of memory space for this kind of static projections. If you do not want this, you can disable it with:
 
 ```python
-proj.connect_all_to_all(weights=1.0, force_multiple_weights=True) 
+proj.all_to_all(weights=1.0, force_multiple_weights=True) 
 ```
 
 
 
-### connect_fixed_probability (sparse)
+### fixed_probability (sparse)
 
 For each post-synaptic neuron, there is a fixed probability that it forms a connection with a neuron of the pre-synaptic population. It is basically am **all_to_all** projection, except some synapses are not created, making the projection **sparse**:
 
 ```python
-proj.connect_fixed_probability(probability = 0.2, weights=1.0) 
+proj.fixed_probability(probability = 0.2, weights=1.0) 
 ```
 
 `allow_self_connections` and `force_multiple_weights` can also be set.
 
-### connect_one_to_one (diagonal)
+### one_to_one (diagonal)
 
 A neuron of the post-synaptic population forms a connection with only **one** neuron of the pre-synaptic population. The order depends on the ranks: neuron 0 is connected with neuron 0 and so on. It is advised that the pre- and post-populations have the same size/geometry, especially when using population views.
 
@@ -85,27 +85,27 @@ pop1 = net.create((20, 20), Neuron(parameters="r=0.0"))
 pop2 = net.create((10, 10), Neuron(equations="r=sum(exc)"))
 
 proj = net.connect(pop1[5:15, 5:15], pop2, 'exc')
-proj.connect_one_to_one(weights=1.0) 
+proj.one_to_one(weights=1.0) 
 ```
 
 Self-connections cannot be created. `force_multiple_weights` can be set to True.
 
 
-### connect_fixed_number_pre
+### fixed_number_pre
 
 Each neuron in the post-synaptic population receives connections from a fixed number of neurons of the pre-synaptic population chosen randomly. It may happen that two post-synaptic neurons are connected to the same pre-synaptic neuron and that some pre-synaptic neurons are connected to nothing:
 
 ```python
-proj.connect_fixed_number_pre(number = 20, weights=1.0) 
+proj.fixed_number_pre(number = 20, weights=1.0) 
 ```
 
 
-### connect_fixed_number_post
+### fixed_number_post
 
 Each neuron in the pre-synaptic population sends a connection to a fixed number of neurons of the post-synaptic population chosen randomly. It may happen that two pre-synaptic neurons are connected to the same post-synaptic neuron and that some post-synaptic neurons receive no connection at all:
 
 ```python
-proj.connect_fixed_number_post(number = 20, weights=1.0) 
+proj.fixed_number_post(number = 20, weights=1.0) 
 ```
 
 The following figure shows the **fixed_number_pre** (left) and **fixed_number_post** projections between two populations of 4 neurons, with `number=2`. In **fixed_number_pre**, each post-synaptic neuron receives exactly 2 connections, while in **fixed_number_post**, each pre-synaptic neuron send exactly two connections:
@@ -114,7 +114,7 @@ The following figure shows the **fixed_number_pre** (left) and **fixed_number_po
 
 
 
-### connect_gaussian
+### gaussian
 
 A neuron of the post-synaptic population forms a connection with a limited region of the pre-synaptic population, centered around the neuron with the same normalized position. Weight values are initialized using a Gaussian function, with a maximal value `amp` for the neuron of same position and decreasing with distance (standard deviation `sigma`):
 
@@ -131,12 +131,12 @@ Self-connections are avoided by default (parameter `allow_self_connections`).
 The two populations must have the same number of dimensions, but the number of neurons can vary as the positions of each neuron are normalized in $[0, 1]^d$:
 
 ```python
-proj.connect_gaussian( amp=1.0, sigma=0.2, limit=0.001) 
+proj.gaussian( amp=1.0, sigma=0.2, limit=0.001) 
 ```
 
-### connect_dog
+### dog
 
-The same as **connect_gaussian**, except weight values are computed using a Difference-of-Gaussians (DoG), usually positive in the center, negative a bit further away and small at long distances.
+The same as **gaussian**, except weight values are computed using a Difference-of-Gaussians (DoG), usually positive in the center, negative a bit further away and small at long distances.
 
 $$
 \begin{aligned}
@@ -148,7 +148,7 @@ $$
 Weights smaller than `limit * abs(amp_pos - amp_neg)` are not created and self-connections are avoided by default (parameter `allow_self_connections`):
 
 ```python
-proj.connect_dog(
+proj.dog(
     amp_pos=1.0, sigma_pos=0.2, 
     amp_neg=0.3, sigma_neg=0.7, 
     limit=0.001
@@ -162,7 +162,7 @@ The following figure shows the example of a neuron of coordinates (10, 10) in th
 
 :::callout-important
 
-If a single value is used for the `weights` argument of `connect_all_to_all`, `connect_one_to_one`, `connect_fixed_probability`, `connect_fixed_number_pre` and `connect_fixed_number_post`, and the default synapse is used (no synaptic plasticity), ANNarchy will generate a single weight value for all the synapses of the projection, not one per synapse.
+If a single value is used for the `weights` argument of `all_to_all`, `one_to_one`, `fixed_probability`, `fixed_number_pre` and `fixed_number_post`, and the default synapse is used (no synaptic plasticity), ANNarchy will generate a single weight value for all the synapses of the projection, not one per synapse.
 
 This allows to save a lot of memory and improve performance. However, if you wish to manually change the weights of some of the synapses after the creation, you need to force the creation of one value per synapse by setting `force_multiple_weights=True` in the call to the connector.
 :::
@@ -190,7 +190,7 @@ binary format:
 It can then be used to instantiate another projection:
 
 ```python
-proj.connect_from_file(filename='proj.npz')
+proj.from_file(filename='proj.npz')
 ```
 
 Only the connectivity (which neurons are connected), the weights and delays are loaded. Other synaptic variables are left untouched. The pre- and post-synaptic population must have the same size during saving and loading.
@@ -199,7 +199,7 @@ Only the connectivity (which neurons are connected), the weights and delays are 
 
 One can also create connections using Numpy dense matrices or Scipy sparse matrices.
 
-### connect_from_matrix
+### from_matrix
 
 This method accepts a Numpy array to define the weights of the projection (and optionally the delays). By default, the matrix should have the size `(post.size, pre.size)`, so that the first index represents a post-synaptic neuron and the second the pre-synaptic neurons. If your matrix is defined in the reversed order, you can either transpose it or set the `pre_post` argument to `True`.
 
@@ -221,7 +221,7 @@ for i in range(N):
     w[i, (i-1)%N] = 1.0
 
 # Create the connections
-proj.connect_from_matrix(w)
+proj.from_matrix(w)
 ```
 
 Connectivity matrices can not work with multi-dimensional coordinates, only ranks are used. Population views can be used in the projection, but the connection matrix must have the corresponding size:
@@ -233,10 +233,10 @@ proj = net.connect(pop[10:20], pop[50:60], 'exc')
 w = np.ones((10, 10))
 
 # Create the connections
-proj.connect_from_matrix(w)
+proj.from_matrix(w)
 ```
 
-### connect_from_sparse
+### from_sparse
 
 For sparse connection matrices, the Numpy array format may have a huge memory overhead if most of its values are None. It is possible to use Scipy sparse matrices in that case. The previous synfire chain example becomes:
 
@@ -249,15 +249,15 @@ w = lil_matrix((N, N))
 for i in range(N):
     w[i, (i+1)%N] = 1.0
 
-proj.connect_from_sparse(w)
+proj.from_sparse(w)
 ```
 
 :::callout-note
 
-Contrary to `connect_from_matrix()`, the first index of the sparse matrix represents the **pre-synaptic** neurons, not the post-synaptic ones. This is for compatibility with other neural simulators.
+Contrary to `from_matrix()`, the first index of the sparse matrix represents the **pre-synaptic** neurons, not the post-synaptic ones. This is for compatibility with other neural simulators.
 :::
 
-`connect_from_sparse()` accepts `lil_matrix`, `csr_matrix` and `csc_matrix` objects, although `lil_matrix` should be preferred for its simplicity of element access.
+`from_sparse()` accepts `lil_matrix`, `csr_matrix` and `csc_matrix` objects, although `lil_matrix` should be preferred for its simplicity of element access.
 
 ## User-defined patterns
 
@@ -330,7 +330,7 @@ The `add()` should be only called once per post-synaptic neuron! If not, ANNarch
 
 **Usage of the pattern**
 
-To use the pattern within a projection you provide the pattern method to the `connect_with_func` method of `Projection`
+To use the pattern within a projection you provide the pattern method to the `from_function` method of `Projection`:
 
 ```python
 proj = net.connect(
@@ -339,7 +339,7 @@ proj = net.connect(
     target = 'inh' 
 )
 
-proj.connect_with_func(
+proj.from_function(
     method=probabilistic_pattern, 
     weight=1.0, 
     probability=0.3
@@ -426,7 +426,7 @@ Now you can import the method `probabilistic_pattern()` into your Python code us
 import pyximport; pyximport.install()
 from CustomPatterns import probabilistic_pattern
 
-proj.connect_with_func(method=probabilistic_pattern, weight=1.0, probability=0.3)
+proj.from_function(method=probabilistic_pattern, weight=1.0, probability=0.3)
 ```
 
 Writing the connector in Cython can bring speedups up to 100x compared to Python if the projection has a lot of synapses.

@@ -512,7 +512,7 @@ pop = net.create(1000, neuron)
 
 # Connect the populations through projections
 proj = net.connect(pop, pop, 'exc', stdp) 
-proj.connect_fixed_probability(weights=ann.Uniform(0.0, 1.0), probability=0.1)
+proj.fixed_probability(weights=ann.Uniform(0.0, 1.0), probability=0.1)
 
 # Generate and compile the code
 net.compile() 
@@ -825,19 +825,19 @@ equations = [
 * Several patterns are predefined:
 
 ```python
-proj.connect_all_to_all(weights=ann.Normal(0.0, 1.0), delays=2.0, allow_self_connections=False)
+proj.all_to_all(weights=ann.Normal(0.0, 1.0), delays=2.0, allow_self_connections=False)
 
-proj.connect_fixed_probability(probability=0.2, weights=1.0)
+proj.fixed_probability(probability=0.2, weights=1.0)
 
-proj.connect_one_to_one(weights=1.0, delays=ann.Uniform(1.0, 10.0))
+proj.one_to_one(weights=1.0, delays=ann.Uniform(1.0, 10.0))
 
-proj.connect_fixed_number_pre(number=20, weights=1.0)
+proj.fixed_number_pre(number=20, weights=1.0)
 
-proj.connect_fixed_number_post(number=20, weights=1.0)
+proj.fixed_number_post(number=20, weights=1.0)
 
-proj.connect_gaussian(amp=1.0, sigma=0.2, limit=0.001)
+proj.gaussian(amp=1.0, sigma=0.2, limit=0.001)
 
-proj.connect_dog(amp_pos=1.0, sigma_pos=0.2, amp_neg=0.3, sigma_neg=0.7, limit=0.001)
+proj.dog(amp_pos=1.0, sigma_pos=0.2, amp_neg=0.3, sigma_neg=0.7, limit=0.001)
 ```
 
 * But you can also load Numpy arrays or Scipy sparse matrices. Example for synfire chains:
@@ -852,7 +852,7 @@ w = np.array([[None]*pre.size]*post.size)
 for i in range(post.size):
     w[i, (i-1)%pre.size] = 1.0
 
-proj.connect_from_matrix(w)
+proj.from_matrix(w)
 ```
 
 :::
@@ -865,7 +865,7 @@ w = lil_matrix((pre.size, post.size))
 for i in range(pre.size):
     w[pre.size, (i+1)%post.size] = 1.0
 
-proj.connect_from_sparse(w)
+proj.from_sparse(w)
 ```
 
 :::
