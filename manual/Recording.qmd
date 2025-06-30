@@ -2,7 +2,7 @@
 
 Between two calls to `simulate()`, all neural and synaptic variables can be accessed through the generated attributes. The evolution of neural or synaptic variables during a simulation phase can be selectively recorded using `Monitor` objects.
 
-The `Monitor` object can be created at any time (before or after `compile()`) to record any variable of a `Population`, `PopulationView`, `Dendrite` or `Projection`.
+A `Monitor` object can be used to record any variable of a `Population`, `PopulationView`, `Dendrite` or `Projection`. The object can be created at any time (before or after `compile()`) using the `monitor` method provided by `Network`:
 
 ```python
 m_pop = net.monitor(pop, 'r')
@@ -16,7 +16,7 @@ The value of each variable is stored for every simulation step in the RAM. For h
 
 ## Neural variables
 
-The `Monitor` object takes four arguments:
+The `Network.monitor` method takes four arguments:
 
 -   `obj`: the object to monitor. It can be a population, a population view (a slice of a population or an individual neuron), a dendrite (the synapses of a projection which reach a single post-synaptic neuron) or a projection.
 -   `variables`: a (list of) variable name(s) which should be recorded. They should be variables of the neuron/synapse model of the corresponding object. Although it generally makes no sense, you can also record parameters of an object. By definition a parameter is constant throughout a simulation, but it maybe useful when tracking externally-set inputs, for example. You can know which attributes are recordable by checking the `attributes` attribute of the object (`pop.attributes` or `proj.attributes`).
