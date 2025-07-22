@@ -2,15 +2,36 @@
 
 The documentation is at <https://annarchy.github.io>. 
 
-Generating the documentation requires **Quarto** (<https://quarto.org>) and `quartodoc` (<https://github.com/machow/quartodoc>, `pip install quartodoc`) for the API. 
+Generating the documentation requires **Quarto** (<https://quarto.org>) and `quartodoc` (<https://github.com/machow/quartodoc>, `pip install quartodoc`) for the API.
 
-First build the API:
+Rendering the quarto files requires a **Python** environment with the following packages (+ their dependencies):
+- `ANNarchy`
+- `jupyter`
+
+To also render the notebooks, you additionally need:
+- `scikit-learn`
+- `tensorflow`
+- ... TODO
+
+First remove old files:
+
+```bash
+rm -rf .quarto docs reference manual/annarchy notebooks/annarchy
+```
+
+Optionally, run all notebooks (with current ANNarchy version) under `notebooks/`:
+
+```bash
+jupyter nbconvert --to notebook --execute --inplace notebooks/*.ipynb
+```
+
+Build the API:
 
 ```bash
 quartodoc build
 ```
 
-Preview the doc:
+Preview the doc (also renders everything):
 
 ```bash
 quarto preview
