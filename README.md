@@ -10,7 +10,7 @@ Rendering the quarto files requires a **Python** environment with the following 
 
 To also render the notebooks, you additionally need:
 - `scikit-learn`
-- `tensorflow`
+- `tensorflow==2.17`
 - ... TODO
 
 First remove old files:
@@ -42,3 +42,11 @@ Push it to github:
 ```bash
 quarto publish gh-pages
 ```
+
+Optionally, remove untracked files:
+
+```bash
+rm -rf .quarto docs manual/annarchy notebooks/annarchy
+```
+
+Also push to master branch.
