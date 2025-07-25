@@ -8,24 +8,26 @@ Rendering the quarto files requires a **Python** environment with the following 
 - `ANNarchy`
 - `jupyter`
 
-To also render the notebooks, you additionally need:
+To also run the notebooks (e.g. with updated ANNarchy version), you additionally need:
 - `scikit-learn`
 - `tensorflow==2.17`
-- ... TODO
+- `tensorboardX`
+- `hyperopt`
 
 First remove old files:
 
 ```bash
-rm -rf .quarto docs reference manual/annarchy notebooks/annarchy
+git clean -fdx
+rm -rf reference
 ```
 
 Optionally, run all notebooks (with current ANNarchy version) under `notebooks/`:
 
 ```bash
-jupyter nbconvert --to notebook --execute --inplace notebooks/*.ipynb
+./run_notebooks.sh
 ```
 
-Build the API:
+Build the API (directory `reference/`):
 
 ```bash
 quartodoc build
@@ -46,7 +48,7 @@ quarto publish gh-pages
 Optionally, remove untracked files:
 
 ```bash
-rm -rf .quarto docs manual/annarchy notebooks/annarchy
+git clean -fdx
 ```
 
 Also push to master branch.
