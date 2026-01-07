@@ -266,15 +266,15 @@ This section describes the creation of user-specific connection patterns in ANNa
 A connector method must take on the first position the pre-synaptic population (or a subset of it) and on the second one the post-synaptic population. Other arguments are free, but should be passed when creating the projection.
 
 ```python
-probabilistic_pattern(pre, post, <other arguments>)
+probabilistic_pattern(pre, post, dt, <other arguments>)
 ```
 
 As an example, we will recreate the fixed_probability connector method, building synapses with a given probability. For this new pattern we need a weight value (common for all synapses) and a probability value as additional arguments. We consider that no delay is introduced in the synaptic transmission.
 
 ```python
-def probabilistic_pattern(pre, post, weight, probability):
+def probabilistic_pattern(pre, post, dt, weight, probability):
 
-    synapses = ann.LILConnectivity()
+    synapses = ann.LILConnectivity(dt=dt)
 
     ... pattern code comes here ...
 
@@ -289,24 +289,24 @@ The connector method needs to return a `LILConnectivity` object storing the conn
 import random
 import ANNarchy as ann
 
-def probabilistic_pattern(pre, post, weight, probability):
-    
+def probabilistic_pattern(pre, post, dt, weight, probability):
+
     # Create a LIL structure for the connectivity matrix
-    synapses = ann.LILConnectivity()
-    
+    synapses = ann.LILConnectivity(dt=dt)
+
     # For all neurons in the post-synaptic population
     for post_rank in range(post.size):
-        
+
         # Decide which pre-synaptic neurons should form synapses
         ranks = []
         for pre_rank in range(pre.size):
             if random.random() < probability:
                 ranks.append(pre_rank)
-        
+
         # Create weights and delays arrays of the same size
         values = [weight for i in range(len(ranks)) ]
         delays = [0 for i in range(len(ranks)) ]
-        
+
         # Add this information to the LIL matrix
         synapses.add(post_rank, ranks, values, delays)
 
@@ -334,16 +334,16 @@ To use the pattern within a projection you provide the pattern method to the `fr
 
 ```python
 proj = net.connect(
-    pre = pop1, 
-    post = pop2, 
-    target = 'inh' 
+    pre = pop1,
+    post = pop2,
+    target = 'inh'
 )
 
 proj.from_function(
-    method=probabilistic_pattern, 
-    weight=1.0, 
+    method=probabilistic_pattern,
+    weight=1.0,
     probability=0.3
-)   
+)
 ```
 
 `method` is the method you just wrote. Extra arguments (other than `pre` and `post`) should be passed with the same name.
@@ -358,14 +358,14 @@ import random
 import ANNarchy
 cimport ANNarchy.cython_ext.Connector as Connector
 
-def probabilistic_pattern(pre, post, weight, probability):
+def probabilistic_pattern(pre, post, dt, weight, probability):
     # Typedefs
     cdef Connector.LILConnectivity synapses
     cdef int post_rank, pre_rank
     cdef list ranks, values, delays
 
     # Create a LILConnectivity structure for the connectivity matrix
-    synapses = Connector.LILConnectivity()
+    synapses = Connector.LILConnectivity(dt=dt)
     # For all neurons in the post-synaptic population
     for post_rank in range(post.size):
         # Decide which pre-synaptic neurons should form synapses
