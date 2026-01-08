@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -21,8 +21,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -66,15 +67,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <link href="../manual/RateSynapse.html" rel="next">
 <link href="../manual/SpikeNeuron.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-df0ce3d36294d4d0082a50f3c30bcf56.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-sidebar docked nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -115,7 +118,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo light-content">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">ANNarchy 5.0.0</span>
@@ -369,8 +373,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Once the <code>Neuron</code> objects have been defined, the populations can be created. Let’s suppose we have defined the following rate-coded neuron:</p>
-<div id="443c76f4" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="eedcef62" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>LeakyIntegratorNeuron <span class="op">=</span> ann.Neuron(</span>
@@ -382,19 +386,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'tau * dv/dt  + v = baseline + sum(exc)'</span>,</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'r = pos(v)'</span>,</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ANNarchy 5.0 (5.0.0rc4) on linux (posix).</code></pre>
+<pre><code>ANNarchy 5.0 (5.0.0) on linux (posix).</code></pre>
 </div>
 </div>
 <section id="creating-populations" class="level2">
 <h2 class="anchored" data-anchor-id="creating-populations">Creating populations</h2>
 <p>Populations of neurons are contained in an instance of the <code>Population</code> class, which can be created by calling the <code>create()</code> method of a network:</p>
-<div id="52a557d6" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network()</span>
+<div id="c6bb3b63" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> net.create(geometry<span class="op">=</span><span class="dv">100</span>, neuron<span class="op">=</span>LeakyIntegratorNeuron)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> net.create(geometry<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>), neuron<span class="op">=</span>LeakyIntegratorNeuron, name<span class="op">=</span><span class="st">"pop2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> net.create(geometry<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>), neuron<span class="op">=</span>LeakyIntegratorNeuron, name<span class="op">=</span><span class="st">"pop2"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The rate-coded or spiking nature of the <code>Neuron</code> instance is irrelevant when creating the <code>Population</code> object. <code>Population</code> objects can also be created directly by providing the id of the network object, but it is not recommended.</p>
 <p><code>Network.create()</code> takes different arguments:</p>
@@ -415,14 +419,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>rank_from_coordinates</code> returns the rank corresponding to the coordinates.</li>
 </ul>
 <p>For example, with <code>pop2</code> having a geometry <code>(8, 8)</code>:</p>
-<div id="9e306bc2" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pop2.coordinates_from_rank(<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3d2839bd" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pop2.coordinates_from_rank(<span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(1, 7)</code></pre>
 </div>
 </div>
-<div id="68588aa9" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pop2.rank_from_coordinates((<span class="dv">4</span>, <span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="57d1336f" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pop2.rank_from_coordinates((<span class="dv">4</span>, <span class="dv">6</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>38</code></pre>
 </div>
@@ -432,33 +436,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="population-attributes">Population attributes</h2>
 <p>The value of the parameters and variables of all neurons in a population can be accessed and modified through population attributes.</p>
 <p>With the previously defined populations, you can list all their parameters and variables with:</p>
-<div id="26fb0008" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pop2.attributes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e54232c4" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pop2.attributes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>['tau', 'baseline', 'v', 'r']</code></pre>
 </div>
 </div>
-<div id="bcf75efb" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pop2.parameters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fd53f5d8" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pop2.parameters</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>['tau', 'baseline']</code></pre>
 </div>
 </div>
-<div id="f661baa6" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pop2.variables</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9d9963b5" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pop2.variables</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>['v', 'r']</code></pre>
 </div>
 </div>
 <p>Reading their value is straightforward:</p>
-<div id="8f0b4cb8" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pop2.tau</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="16813545" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pop2.tau</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>10.0</code></pre>
 </div>
 </div>
-<div id="004731dc" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pop2.r</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5093c46c" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pop2.r</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>array([[0., 0., 0., 0., 0., 0., 0., 0.],
        [0., 0., 0., 0., 0., 0., 0., 0.],
@@ -472,16 +476,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Population-wise parameters/variables have a single value for the population, while neuron-specific ones return a NumPy array with the same geometry has the population.</p>
 <p>Setting their value is also simple:</p>
-<div id="8c372c06" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pop2.tau <span class="op">=</span> <span class="fl">20.0</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.tau)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fa2f5b5e" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pop2.tau <span class="op">=</span> <span class="fl">20.0</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.tau)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>20.0</code></pre>
 </div>
 </div>
-<div id="8a3327cc" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pop2.r <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8195f710" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pop2.r <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1. 1. 1. 1. 1. 1. 1. 1.]
  [1. 1. 1. 1. 1. 1. 1. 1.]
@@ -493,9 +497,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  [1. 1. 1. 1. 1. 1. 1. 1.]]</code></pre>
 </div>
 </div>
-<div id="1d7a8c0d" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pop2.v <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> np.ones(pop2.geometry)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3f65734e" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pop2.v <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> np.ones(pop2.geometry)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.v)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5]
  [0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5]
@@ -507,26 +511,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  [0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5]]</code></pre>
 </div>
 </div>
-<div id="fcbda63c" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pop2.r <span class="op">=</span> ann.Uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1f33d46e" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pop2.r <span class="op">=</span> ann.Uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[0.17613651 0.64866525 0.16708617 0.06117002 0.89431167 0.73217504
-  0.96106264 0.522182  ]
- [0.46418101 0.2677277  0.89078755 0.25393678 0.25693257 0.15771061
-  0.36340518 0.82016084]
- [0.18475145 0.98980764 0.14968419 0.09535352 0.5783122  0.18323807
-  0.78121123 0.04994917]
- [0.65445919 0.47301795 0.70735601 0.30397146 0.44429293 0.5737977
-  0.52153052 0.58590369]
- [0.47267382 0.49343548 0.42448979 0.11263173 0.07309786 0.39335512
-  0.59408427 0.6796363 ]
- [0.45028068 0.99261611 0.07267227 0.42691958 0.73703787 0.22932975
-  0.0893267  0.00833682]
- [0.42027229 0.26111644 0.0817866  0.26436535 0.82520576 0.97466343
-  0.39015539 0.84705736]
- [0.29029033 0.2713022  0.24394402 0.28811668 0.19481015 0.8680534
-  0.94498864 0.17002024]]</code></pre>
+<pre><code>[[0.31763802 0.18360251 0.1917533  0.46007044 0.47914424 0.82804754
+  0.83337102 0.27780639]
+ [0.36123335 0.36083012 0.54106896 0.21341941 0.94996132 0.60540654
+  0.59629762 0.19667326]
+ [0.18547158 0.55256897 0.94138835 0.60363378 0.61339121 0.95756758
+  0.762581   0.7150078 ]
+ [0.67943312 0.08136643 0.95779723 0.85445478 0.20854892 0.57583546
+  0.19435679 0.17634712]
+ [0.06361323 0.00821656 0.45479459 0.88385756 0.901058   0.90495043
+  0.34736106 0.13085746]
+ [0.46780561 0.48282222 0.24399203 0.1956877  0.21942514 0.75804748
+  0.69578977 0.24942816]
+ [0.43605271 0.76180483 0.02375932 0.40805302 0.11403012 0.89295072
+  0.12350295 0.03552133]
+ [0.06915016 0.87279367 0.93158844 0.86751334 0.46957181 0.476347
+  0.58594903 0.74112879]]</code></pre>
 </div>
 </div>
 <p>For population-wide attributes, you can only specify a single value (float, int or bool depending on the type of the parameter/variable). For neuron-specific attributes, you can provide either:</p>
@@ -547,33 +551,41 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>If you do not want to use the attributes of Python (for example when doing a loop over unknown attributes), you can also use the <code>get(name)</code> and <code>set(values)</code> methods of <strong>Population</strong>:</p>
-<div id="b7c33092" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pop1.<span class="bu">set</span>({<span class="st">'v'</span>: <span class="fl">1.0</span>, <span class="st">'r'</span>: ann.Uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>)})</span>
+<div id="38aeba27" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pop1.<span class="bu">set</span>({<span class="st">'v'</span>: <span class="fl">1.0</span>, <span class="st">'r'</span>: ann.Uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>)})</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop1.get(<span class="st">'v'</span>))</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop1.get(<span class="st">'r'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop1.get(<span class="st">'r'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
  1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
  1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
  1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
  1. 1. 1. 1.]
-[0.3391255  0.72334446 0.50691374 0.54031344 0.60378807 0.04284675
- 0.31066017 0.55689819 0.53833805 0.07592084 0.80485127 0.52904803
- 0.40237739 0.88528654 0.93034831 0.00935759 0.76491194 0.96289626
- 0.69556091 0.9788411  0.16404955 0.17681785 0.36607196 0.17027057
- 0.67808053 0.23883441 0.63660472 0.88413335 0.02260087 0.11651714
- 0.6486475  0.06156527 0.9057483  0.90781204 0.44000161 0.94073628
- 0.16016996 0.30477275 0.66786238 0.96915805 0.9359309  0.09624508
- 0.9285183  0.39545867 0.28390841 0.76927897 0.82115057 0.44875615
- 0.03723636 0.41912388 0.8001898  0.52202077 0.64989429 0.12706452
- 0.92650214 0.79091297 0.67124022 0.51511649 0.76794788 0.58760558
- 0.09779512 0.10223028 0.21614649 0.83156646 0.67748278 0.25795579
- 0.2533481  0.46557404 0.21334478 0.69603809 0.34695447 0.99418768
- 0.80358024 0.32242877 0.49954305 0.16876299 0.71801937 0.02155195
- 0.90031464 0.71912368 0.59190837 0.00906234 0.11243554 0.46381246
- 0.90718252 0.32398081 0.22316757 0.11773398 0.51467842 0.56702147
- 0.78690863 0.98252717 0.79132451 0.73564498 0.90205941 0.09443496
- 0.6761525  0.05140423 0.94912963 0.23513557]</code></pre>
+[2.29935984e-01 4.62604764e-03 9.86919384e-01 6.49984357e-01
+ 1.28940467e-01 4.79129117e-01 3.17820670e-01 4.82697006e-01
+ 1.82780436e-01 2.46057084e-01 8.33447615e-01 3.43473084e-01
+ 9.11755506e-01 6.89731827e-01 6.62039897e-01 2.41264940e-01
+ 3.12166500e-01 9.54018602e-01 6.15121475e-01 4.92215208e-01
+ 5.77827552e-01 4.74057996e-01 7.91894395e-01 8.11631487e-01
+ 6.74044150e-01 5.35331093e-01 2.41599237e-04 8.57464163e-01
+ 8.73796123e-01 6.44346856e-01 4.98925785e-02 9.21821808e-01
+ 5.48583801e-01 2.69960072e-01 6.47955966e-01 9.39703903e-01
+ 5.67506335e-01 6.17762409e-02 4.48695387e-02 5.27064976e-01
+ 4.98984189e-01 3.51535740e-01 9.86775916e-01 9.32929455e-01
+ 8.25873065e-01 2.63226324e-01 2.78176358e-01 1.81494645e-01
+ 7.94536368e-01 3.77069794e-01 8.29848063e-01 9.62628103e-01
+ 9.41377062e-01 3.93187127e-01 6.60951530e-01 2.96855291e-01
+ 3.28843915e-01 2.50375605e-01 9.98838357e-01 7.31492177e-01
+ 1.58458424e-02 2.93398694e-01 1.29920498e-02 6.96012390e-01
+ 4.27350897e-01 9.93194807e-01 2.92280881e-01 9.22017444e-01
+ 8.99353054e-01 8.80987310e-01 1.26715951e-01 1.08722033e-01
+ 2.76164705e-01 9.70803779e-01 4.96853871e-01 9.07694730e-01
+ 8.75822946e-01 9.40399353e-01 9.08941920e-01 5.65192799e-01
+ 4.38363873e-01 9.53198114e-01 5.75591696e-01 9.85637576e-01
+ 4.40636755e-01 5.30697307e-01 2.98408870e-01 2.93549716e-01
+ 1.63295941e-01 7.14767458e-01 6.61901545e-01 9.28592510e-01
+ 1.45618847e-02 2.69018278e-01 2.14757276e-01 7.43231969e-01
+ 2.25524112e-01 1.43754766e-01 3.70310857e-01 5.78096339e-01]</code></pre>
 </div>
 </div>
 </div>
@@ -582,8 +594,8 @@ Note
 <section id="accessing-individual-neurons" class="level2">
 <h2 class="anchored" data-anchor-id="accessing-individual-neurons">Accessing individual neurons</h2>
 <p>There exists a purely semantic access to individual neurons of a population. The <code>IndividualNeuron</code> class wraps population data for a specific neuron. It can be accessed through the <code>Population.neuron()</code> method using either the rank of the neuron (from 0 to <code>pop1.size - 1</code>) or its coordinates in the population’s geometry:</p>
-<div id="0942fdd3" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="05287fa3" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Neuron of the population pop1 with rank 18 (coordinates (2, 2)).
 Parameters:
@@ -592,15 +604,15 @@ Parameters:
 
 Variables:
   v = 0.5
-  r = 0.14968418834780928
+  r = 0.9413883489454794
 </code></pre>
 </div>
 </div>
 <p>The individual neurons can be manipulated individually:</p>
-<div id="10f4516d" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>my_neuron <span class="op">=</span> pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>)</span>
+<div id="5247f48e" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>my_neuron <span class="op">=</span> pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>my_neuron.r <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_neuron)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_neuron)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Neuron of the population pop1 with rank 18 (coordinates (2, 2)).
 Parameters:
@@ -630,78 +642,86 @@ Warning
 <section id="accessing-groups-of-neurons---populationview" class="level2">
 <h2 class="anchored" data-anchor-id="accessing-groups-of-neurons---populationview">Accessing groups of neurons - PopulationView</h2>
 <p>Individual neurons can be grouped into <code>PopulationView</code> objects, which hold references to different neurons of the same population. One can create population views by “adding” several neurons together:</p>
-<div id="40612f38" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>) <span class="op">+</span> pop2.neuron(<span class="dv">3</span>, <span class="dv">3</span>) <span class="op">+</span> pop2.neuron(<span class="dv">4</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f2ec0805" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>) <span class="op">+</span> pop2.neuron(<span class="dv">3</span>, <span class="dv">3</span>) <span class="op">+</span> pop2.neuron(<span class="dv">4</span>, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b30372c7" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>popview.r <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d855761d" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>popview.r <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[0.17613651 0.64866525 0.16708617 0.06117002 0.89431167 0.73217504
-  0.96106264 0.522182  ]
- [0.46418101 0.2677277  0.89078755 0.25393678 0.25693257 0.15771061
-  0.36340518 0.82016084]
- [0.18475145 0.98980764 1.         0.09535352 0.5783122  0.18323807
-  0.78121123 0.04994917]
- [0.65445919 0.47301795 0.70735601 1.         0.44429293 0.5737977
-  0.52153052 0.58590369]
- [0.47267382 0.49343548 0.42448979 0.11263173 1.         0.39335512
-  0.59408427 0.6796363 ]
- [0.45028068 0.99261611 0.07267227 0.42691958 0.73703787 0.22932975
-  0.0893267  0.00833682]
- [0.42027229 0.26111644 0.0817866  0.26436535 0.82520576 0.97466343
-  0.39015539 0.84705736]
- [0.29029033 0.2713022  0.24394402 0.28811668 0.19481015 0.8680534
-  0.94498864 0.17002024]]</code></pre>
+<pre><code>[[0.31763802 0.18360251 0.1917533  0.46007044 0.47914424 0.82804754
+  0.83337102 0.27780639]
+ [0.36123335 0.36083012 0.54106896 0.21341941 0.94996132 0.60540654
+  0.59629762 0.19667326]
+ [0.18547158 0.55256897 1.         0.60363378 0.61339121 0.95756758
+  0.762581   0.7150078 ]
+ [0.67943312 0.08136643 0.95779723 1.         0.20854892 0.57583546
+  0.19435679 0.17634712]
+ [0.06361323 0.00821656 0.45479459 0.88385756 1.         0.90495043
+  0.34736106 0.13085746]
+ [0.46780561 0.48282222 0.24399203 0.1956877  0.21942514 0.75804748
+  0.69578977 0.24942816]
+ [0.43605271 0.76180483 0.02375932 0.40805302 0.11403012 0.89295072
+  0.12350295 0.03552133]
+ [0.06915016 0.87279367 0.93158844 0.86751334 0.46957181 0.476347
+  0.58594903 0.74112879]]</code></pre>
 </div>
 </div>
 <p>One can also use the slice operators to create PopulationViews:</p>
-<div id="237969d3" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2[<span class="dv">3</span>, :]</span>
+<div id="5642e4ad" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2[<span class="dv">3</span>, :]</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>popview.r <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[0.17613651 0.64866525 0.16708617 0.06117002 0.89431167 0.73217504
-  0.96106264 0.522182  ]
- [0.46418101 0.2677277  0.89078755 0.25393678 0.25693257 0.15771061
-  0.36340518 0.82016084]
- [0.18475145 0.98980764 1.         0.09535352 0.5783122  0.18323807
-  0.78121123 0.04994917]
+<pre><code>[[0.31763802 0.18360251 0.1917533  0.46007044 0.47914424 0.82804754
+  0.83337102 0.27780639]
+ [0.36123335 0.36083012 0.54106896 0.21341941 0.94996132 0.60540654
+  0.59629762 0.19667326]
+ [0.18547158 0.55256897 1.         0.60363378 0.61339121 0.95756758
+  0.762581   0.7150078 ]
  [1.         1.         1.         1.         1.         1.
   1.         1.        ]
- [0.47267382 0.49343548 0.42448979 0.11263173 1.         0.39335512
-  0.59408427 0.6796363 ]
- [0.45028068 0.99261611 0.07267227 0.42691958 0.73703787 0.22932975
-  0.0893267  0.00833682]
- [0.42027229 0.26111644 0.0817866  0.26436535 0.82520576 0.97466343
-  0.39015539 0.84705736]
- [0.29029033 0.2713022  0.24394402 0.28811668 0.19481015 0.8680534
-  0.94498864 0.17002024]]</code></pre>
+ [0.06361323 0.00821656 0.45479459 0.88385756 1.         0.90495043
+  0.34736106 0.13085746]
+ [0.46780561 0.48282222 0.24399203 0.1956877  0.21942514 0.75804748
+  0.69578977 0.24942816]
+ [0.43605271 0.76180483 0.02375932 0.40805302 0.11403012 0.89295072
+  0.12350295 0.03552133]
+ [0.06915016 0.87279367 0.93158844 0.86751334 0.46957181 0.476347
+  0.58594903 0.74112879]]</code></pre>
 </div>
 </div>
 <p>or:</p>
-<div id="295e6601" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2[<span class="dv">2</span>:<span class="dv">5</span>, <span class="dv">4</span>] </span>
+<div id="108eb71b" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2[<span class="dv">2</span>:<span class="dv">5</span>, <span class="dv">4</span>] </span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>popview.r <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop1.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop1.r)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[0.3391255  0.72334446 0.50691374 0.54031344 0.60378807 0.04284675
- 0.31066017 0.55689819 0.53833805 0.07592084 0.80485127 0.52904803
- 0.40237739 0.88528654 0.93034831 0.00935759 0.76491194 0.96289626
- 0.69556091 0.9788411  0.16404955 0.17681785 0.36607196 0.17027057
- 0.67808053 0.23883441 0.63660472 0.88413335 0.02260087 0.11651714
- 0.6486475  0.06156527 0.9057483  0.90781204 0.44000161 0.94073628
- 0.16016996 0.30477275 0.66786238 0.96915805 0.9359309  0.09624508
- 0.9285183  0.39545867 0.28390841 0.76927897 0.82115057 0.44875615
- 0.03723636 0.41912388 0.8001898  0.52202077 0.64989429 0.12706452
- 0.92650214 0.79091297 0.67124022 0.51511649 0.76794788 0.58760558
- 0.09779512 0.10223028 0.21614649 0.83156646 0.67748278 0.25795579
- 0.2533481  0.46557404 0.21334478 0.69603809 0.34695447 0.99418768
- 0.80358024 0.32242877 0.49954305 0.16876299 0.71801937 0.02155195
- 0.90031464 0.71912368 0.59190837 0.00906234 0.11243554 0.46381246
- 0.90718252 0.32398081 0.22316757 0.11773398 0.51467842 0.56702147
- 0.78690863 0.98252717 0.79132451 0.73564498 0.90205941 0.09443496
- 0.6761525  0.05140423 0.94912963 0.23513557]</code></pre>
+<pre><code>[2.29935984e-01 4.62604764e-03 9.86919384e-01 6.49984357e-01
+ 1.28940467e-01 4.79129117e-01 3.17820670e-01 4.82697006e-01
+ 1.82780436e-01 2.46057084e-01 8.33447615e-01 3.43473084e-01
+ 9.11755506e-01 6.89731827e-01 6.62039897e-01 2.41264940e-01
+ 3.12166500e-01 9.54018602e-01 6.15121475e-01 4.92215208e-01
+ 5.77827552e-01 4.74057996e-01 7.91894395e-01 8.11631487e-01
+ 6.74044150e-01 5.35331093e-01 2.41599237e-04 8.57464163e-01
+ 8.73796123e-01 6.44346856e-01 4.98925785e-02 9.21821808e-01
+ 5.48583801e-01 2.69960072e-01 6.47955966e-01 9.39703903e-01
+ 5.67506335e-01 6.17762409e-02 4.48695387e-02 5.27064976e-01
+ 4.98984189e-01 3.51535740e-01 9.86775916e-01 9.32929455e-01
+ 8.25873065e-01 2.63226324e-01 2.78176358e-01 1.81494645e-01
+ 7.94536368e-01 3.77069794e-01 8.29848063e-01 9.62628103e-01
+ 9.41377062e-01 3.93187127e-01 6.60951530e-01 2.96855291e-01
+ 3.28843915e-01 2.50375605e-01 9.98838357e-01 7.31492177e-01
+ 1.58458424e-02 2.93398694e-01 1.29920498e-02 6.96012390e-01
+ 4.27350897e-01 9.93194807e-01 2.92280881e-01 9.22017444e-01
+ 8.99353054e-01 8.80987310e-01 1.26715951e-01 1.08722033e-01
+ 2.76164705e-01 9.70803779e-01 4.96853871e-01 9.07694730e-01
+ 8.75822946e-01 9.40399353e-01 9.08941920e-01 5.65192799e-01
+ 4.38363873e-01 9.53198114e-01 5.75591696e-01 9.85637576e-01
+ 4.40636755e-01 5.30697307e-01 2.98408870e-01 2.93549716e-01
+ 1.63295941e-01 7.14767458e-01 6.61901545e-01 9.28592510e-01
+ 1.45618847e-02 2.69018278e-01 2.14757276e-01 7.43231969e-01
+ 2.25524112e-01 1.43754766e-01 3.70310857e-01 5.78096339e-01]</code></pre>
 </div>
 </div>
 <p><code>PopulationView</code> objects can be used to create projections.</p>
@@ -722,7 +742,7 @@ Warning
 <section id="functions" class="level2">
 <h2 class="anchored" data-anchor-id="functions">Functions</h2>
 <p>If you have defined a function inside a <code>Neuron</code> definition:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>LeakyIntegratorNeuron <span class="op">=</span> ann.Neuron(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>LeakyIntegratorNeuron <span class="op">=</span> ann.Neuron(</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="bu">dict</span>(   </span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>        tau <span class="op">=</span> <span class="fl">10.0</span>,</span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>        slope <span class="op">=</span> <span class="fl">1.0</span>,</span>
@@ -735,13 +755,13 @@ Warning
 <span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>    functions <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="st">        sigmoid(x, k) = 1.0 / (1.0 + exp(-x*k))</span></span>
 <span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>you can use this function in Python as if it were a method of the corresponding object:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> net.create(<span class="dv">1000</span>, LeakyIntegratorNeuron)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> net.create(<span class="dv">1000</span>, LeakyIntegratorNeuron)</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">1.</span>, <span class="fl">1.</span>, <span class="dv">100</span>)</span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> np.ones(<span class="dv">100</span>)</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> pop.sigmoid(x, k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> pop.sigmoid(x, k)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You can pass either a list or a 1D Numpy array to each argument (<strong>not a single value, nor a multidimensional array!</strong>).</p>
 <p>The size of the arrays passed for each argument is arbitrary (it must not match the population’s size) but you have to make sure that they all have the same size. Errors are not catched, so be careful.</p>
 
@@ -750,239 +770,243 @@ Warning
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -990,185 +1014,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
       <a href="../manual/SpikeNeuron.html" class="pagination-link" aria-label="Spiking neurons">
