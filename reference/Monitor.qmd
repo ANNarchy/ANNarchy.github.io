@@ -78,11 +78,11 @@ r_mean = m.population_rate(spikes, smooth=100.)
 ### get { #ANNarchy.core.Monitor.Monitor.get }
 
 ```python
-get(variables=None, keep=False, reshape=False, force_dict=False)
+get(variables=None, keep=False, reshape=True, force_dict=False)
 ```
 
 Returns the recorded variables and empties the buffer.
- 
+
 The recorded data is returned as a Numpy array (first dimension is time, second is neuron index).
 
 If a single variable name is provided, the recorded values for this variable are directly returned as an array.
@@ -92,11 +92,11 @@ The `spike` variable of a population will be returned as a dictionary of lists, 
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name      | Type               | Description                                                                                  | Default   |
-|-----------|--------------------|----------------------------------------------------------------------------------------------|-----------|
-| variables | str \| list\[str\] | (list of) variables. By default, a dictionary with all variables is returned.                | `None`    |
-| keep      | bool               | defines if the content in memory for each variable should be kept (default: False).          | `False`   |
-| reshape   | bool               | transforms the second axis of the array to match the population's geometry (default: False). | `False`   |
+| Name      | Type               | Description                                                                                                                                                                                                                                                         | Default   |
+|-----------|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| variables | str \| list\[str\] | (list of) variables. By default, a dictionary with all variables is returned.                                                                                                                                                                                       | `None`    |
+| keep      | bool               | defines if the content in memory for each variable should be kept (default: False).                                                                                                                                                                                 | `False`   |
+| reshape   | bool               | transforms the second axis of the array to match the population's geometry (default: True). Note that this does not apply for PopulationViews. **Important**: If you have used ANNarchy 4.x before, please note that this default has been changed in ANNarchy 5.0! | `True`    |
 
 ### start { #ANNarchy.core.Monitor.Monitor.start }
 

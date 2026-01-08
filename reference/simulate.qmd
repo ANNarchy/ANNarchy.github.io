@@ -1,10 +1,16 @@
 # simulate { #ANNarchy.core.Simulate.simulate }
 
 ```python
-simulate(duration, measure_time=False, callbacks=True, net_id=0)
+simulate(
+    duration,
+    measure_time=False,
+    callbacks=True,
+    show_monitor_memory_estimate=False,
+    net_id=0,
+)
 ```
 
-Simulates the network for the given duration in milliseconds. 
+Simulates the network for the given duration in milliseconds.
 
 The number of simulation steps is computed relative to the discretization step ``dt`` declared in ``setup()`` (default: 1ms):
 
@@ -14,8 +20,9 @@ ann.simulate(1000.0)
 
 ## Parameters {.doc-section .doc-section-parameters}
 
-| Name         | Type   | Description                                                             | Default    |
-|--------------|--------|-------------------------------------------------------------------------|------------|
-| duration     | float  | the duration in milliseconds.                                           | _required_ |
-| measure_time | bool   | defines whether the simulation time should be printed.                  | `False`    |
-| callbacks    | bool   | defines if the callback methods (decorator ``every``) should be called. | `True`     |
+| Name                         | Type   | Description                                                                                                                                 | Default    |
+|------------------------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| duration                     | float  | the duration in milliseconds.                                                                                                               | _required_ |
+| measure_time                 | bool   | defines whether the simulation time should be printed.                                                                                      | `False`    |
+| callbacks                    | bool   | defines if the callback methods (decorator ``every``) should be called.                                                                     | `True`     |
+| show_monitor_memory_estimate | bool   | in particular for long-time simulations or large networks it might be of interest how many memory might be accounted (by default disabled). | `False`    |

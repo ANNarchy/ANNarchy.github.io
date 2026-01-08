@@ -25,7 +25,7 @@ proj = net.connect(pre=pop1, post=pop2, target='exc', synapse=ann.STDP)
 To monitor a population or projection:
 
 ```python
-pop = net.monitor(pop, ['spike', 'v'])
+m = net.monitor(pop, ['spike', 'v'])
 ```
 
 To compile the network:
@@ -54,7 +54,8 @@ Refer to the manual for more functionalities. `dt` and `seed` must be passed wit
 | Name | Description |
 | --- | --- |
 | [dt](#ANNarchy.core.Network.Network.dt) | Step size in milliseconds for the integration of the ODEs. |
-| [seed](#ANNarchy.core.Network.Network.seed) | Seed for the random number generator (Python and C++). |
+| [seed](#ANNarchy.core.Network.Network.seed) | Seed for the random number generator being used for both Python and C++. |
+| [default_rng](#ANNarchy.core.Network.Network.default_rng) | Get a pre-seeded RNG instance. During construction of the network object, a numpy.random.Generator |
 | [compiled](#ANNarchy.core.Network.Network.compiled) | Boolean indicating whether the network has been compiled. |
 | [directory](#ANNarchy.core.Network.Network.directory) | Directory in which the network has been compiled. |
 | [time](#ANNarchy.core.Network.Network.time) | Current time t in milliseconds. |
@@ -73,7 +74,7 @@ Refer to the manual for more functionalities. `dt` and `seed` must be passed wit
 | [simulate](#ANNarchy.core.Network.Network.simulate) | Runs the network for the given duration in milliseconds.  |
 | [simulate_until](#ANNarchy.core.Network.Network.simulate_until) | Runs the network for the maximal duration in milliseconds until a `stop_condition` is met. |
 | [step](#ANNarchy.core.Network.Network.step) | Performs a single simulation step (duration = `dt`). |
-| [reset](#ANNarchy.core.Network.Network.reset) | Reinitialises the network to its state before the call to `compile()`. |
+| [reset](#ANNarchy.core.Network.Network.reset) | Reinitialises the network to its state before the call to `compile()`.  The network time will be set to 0ms. |
 | [enable_learning](#ANNarchy.core.Network.Network.enable_learning) | Enables learning for all projections. |
 | [disable_learning](#ANNarchy.core.Network.Network.disable_learning) | Disables learning for all projections. |
 | [clear](#ANNarchy.core.Network.Network.clear) | Empties the network to prevent a memory leak until the garbage collector wakes up. |
@@ -88,7 +89,7 @@ Refer to the manual for more functionalities. `dt` and `seed` must be passed wit
 | [get_extension](#ANNarchy.core.Network.Network.get_extension) | Returns the extension with the given name. |
 | [get_constant](#ANNarchy.core.Network.Network.get_constant) | Returns the constant with the given name. |
 | [get_populations](#ANNarchy.core.Network.Network.get_populations) | Returns a list of all declared populations in this network. |
-| [get_projections](#ANNarchy.core.Network.Network.get_projections) | Returns a list of all declared projections for the current network. |
+| [get_projections](#ANNarchy.core.Network.Network.get_projections) | Returns by default a list of all declared projections for the current network. |
 | [get_monitors](#ANNarchy.core.Network.Network.get_monitors) | Returns a list of declared monitors. |
 | [get_extensions](#ANNarchy.core.Network.Network.get_extensions) | Returns a list of declared extensions (e.g. BOLD monitors). |
 | [get_constants](#ANNarchy.core.Network.Network.get_constants) | Returns a list of declared constants. |
@@ -101,7 +102,7 @@ Refer to the manual for more functionalities. `dt` and `seed` must be passed wit
 
 ```python
 create(
-    geometry,
+    geometry=None,
     neuron=None,
     stop_condition=None,
     name=None,
@@ -117,7 +118,7 @@ net = ann.Network()
 pop = net.create(geometry=100, neuron=ann.Izhikevich, name="Excitatory population")
 ```
 
-Specific populations (e.g. `PoissonPopulation()`) can also be passed to the `population` argument, or simply as the first argument:
+Specific populations (e.g. `PoissonPopulation()`) can also be passed to the `population` argument, or simply as the first argument, in both cases do not provide other arguments.:
 
 ```python
 pop = net.create(population=ann.PoissonPopulation(100, rates=20.))
@@ -127,19 +128,19 @@ pop = net.create(ann.PoissonPopulation(100, rates=20.))
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name           | Type         | Description                                                                                | Default    |
-|----------------|--------------|--------------------------------------------------------------------------------------------|------------|
-| geometry       | tuple \| int | population geometry as tuple. If an integer is given, it is the size of the population.    | _required_ |
-| neuron         | Neuron       | `Neuron` instance. It can be user-defined or a built-in model.                             | `None`     |
-| name           | str          | unique name of the population (optional).                                                  | `None`     |
-| stop_condition | str          | a single condition on a neural variable which can stop the simulation whenever it is true. | `None`     |
-| population     | Population   | instance of a `SpecificPopulation`.                                                        | `None`     |
+| Name           | Type         | Description                                                                                                                                                      | Default   |
+|----------------|--------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| geometry       | tuple \| int | population geometry as tuple. If an integer is given, it is the size of the population. If an instance of `Population` is given, do not provide other arguments. | `None`    |
+| neuron         | Neuron       | `Neuron` instance. It can be user-defined or a built-in model.                                                                                                   | `None`    |
+| name           | str          | unique name of the population (optional).                                                                                                                        | `None`    |
+| stop_condition | str          | a single condition on a neural variable which can stop the simulation whenever it is true.                                                                       | `None`    |
+| population     | Population   | instance of a `Population`. If given, do not provide other arguments.                                                                                            | `None`    |
 
 ### connect { #ANNarchy.core.Network.Network.connect }
 
 ```python
 connect(
-    pre,
+    pre=None,
     post=None,
     target='',
     synapse=None,
@@ -157,22 +158,22 @@ net.connect(pre=pop1, post=pop2, target="exc", synapse=STDP)
 
 If the `synapse` argument is omitted, defaults synapses without plastivity will be used (`psp = "w * pre.r"` for rate-coded projections, `pre_spike="g_target += w"` for spiking ones.).
 
-Specific projections can be passed to the `projection` argument, or as the first unnamed argument.
+Specific projections can be passed to the `projection` argument, or as the first unnamed argument. In both cases, do not provide other arguments.
 
 ```python
-net.connect(projection=ann.DecodingProjection(pre, post, 'exc))
+net.connect(projection=ann.DecodingProjection(pre, post, 'exc'))
 ```
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name       | Type              | Description                        | Default    |
-|------------|-------------------|------------------------------------|------------|
-| pre        | str \| Population | pre-synaptic population.           | _required_ |
-| post       | str \| Population | post-synaptic population.          | `None`     |
-| target     | str               | type of the connection.            | `''`       |
-| synapse    | Synapse           | `Synapse` class or instance.       | `None`     |
-| name       | str               | (optional) name of the Projection. | `None`     |
-| projection | Projection        | specific projection.               | `None`     |
+| Name       | Type              | Description                                                                                       | Default   |
+|------------|-------------------|---------------------------------------------------------------------------------------------------|-----------|
+| pre        | str \| Population | pre-synaptic population. If an instance of `Projection` is given, do not provide other arguments. | `None`    |
+| post       | str \| Population | post-synaptic population.                                                                         | `None`    |
+| target     | str               | type of the connection.                                                                           | `''`      |
+| synapse    | Synapse           | `Synapse` class or instance.                                                                      | `None`    |
+| name       | str               | (optional) name of the Projection.                                                                | `None`    |
+| projection | Projection        | specific projection. If given, do not provide other arguments.                                    | `None`    |
 
 ### monitor { #ANNarchy.core.Network.Network.monitor }
 
@@ -398,18 +399,25 @@ Performs a single simulation step (duration = `dt`).
 ### reset { #ANNarchy.core.Network.Network.reset }
 
 ```python
-reset(populations=True, projections=False, monitors=True, synapses=False)
+reset(
+    populations=True,
+    projections=False,
+    synapses=False,
+    monitors=True,
+    reseed_rng=True,
+)
 ```
 
-Reinitialises the network to its state before the call to `compile()`.
+Reinitialises the network to its state before the call to `compile()`.  The network time will be set to 0ms.
 
 #### Parameters {.doc-section .doc-section-parameters}
 
-| Name        | Type   | Description                                                                                            | Default   |
-|-------------|--------|--------------------------------------------------------------------------------------------------------|-----------|
-| populations | bool   | if True (default), the neural parameters and variables will be reset to their initial value.           | `True`    |
-| projections | bool   | if True, the synaptic parameters and variables (except the connections) will be reset (default=False). | `False`   |
-| synapses    | bool   | if True, the synaptic weights will be erased and recreated (default=False).                            | `False`   |
+| Name        | Type   | Description                                                                                                                                                    | Default   |
+|-------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| populations | bool   | if True (default), the neural parameters and variables will be reset to their initial value.                                                                   | `True`    |
+| projections | bool   | if True, the synaptic parameters and variables (except the connections) will be reset (default=False).                                                         | `False`   |
+| synapses    | bool   | if True, the synaptic weights will be erased and recreated (default=False).                                                                                    | `False`   |
+| monitors    | bool   | if True, the monitors will be emptied and reset (default=True). ;param reseed_rng: if True, RNG generators will be reset using the stored seed (default=True). | `True`    |
 
 ### enable_learning { #ANNarchy.core.Network.Network.enable_learning }
 
@@ -676,10 +684,15 @@ Returns a list of all declared populations in this network.
 ### get_projections { #ANNarchy.core.Network.Network.get_projections }
 
 ```python
-get_projections()
+get_projections(post=None, pre=None, target=None, suppress_error=False)
 ```
 
-Returns a list of all declared projections for the current network.
+Returns by default a list of all declared projections for the current network.
+
+The returned list can be restricted by the arguments *pre*, *post*, or *target*.
+Note that, an error message will be thrown if no projections where found which match the criterias.
+
+To prevent an error message, one can set the `suppress_error` flag. This should be done only in rare circumstances!
 
 ### get_monitors { #ANNarchy.core.Network.Network.get_monitors }
 

@@ -287,38 +287,38 @@ from_function(self, method, storage_format=None, storage_order=None, **args)
 
 Connection pattern based on a user-defined function.
 
-The two first arguments of the function must be the pre and post populations. Additional arguments can be passed at creation time.
+The two first arguments of the function must be the pre and post populations. The third argument is the step size *dt*.
+Additional arguments can be passed at creation time.
 
 The function must return a `ann.LILConnectivity` object.
 
 Example:
 
 ```python
-def probabilistic_pattern(pre, post, weight, probability):
+def probabilistic_pattern(pre, post, dt, weight, probability):
     # Create a LIL structure for the connectivity matrix
-    synapses = ann.LILConnectivity()
+    synapses = ann.LILConnectivity(dt=dt)
     # For all neurons in the post-synaptic population
-    for post_rank in xrange(post.size):
+    for post_rank in range(post.size):
         # Decide which pre-synaptic neurons should form synapses
         ranks = []
-        for pre_rank in xrange(pre.size):
-            if random.random() < probability:
+        for pre_rank in range(pre.size):
+            if numpy.random.random() < probability:
                 ranks.append(pre_rank)
         # Create weights and delays arrays of the same size
-        values = [weight for i in xrange(len(ranks)) ]
-        delays = [0 for i in xrange(len(ranks)) ]
+        values = [weight for i in range(len(ranks)) ]
+        delays = [0 for i in range(len(ranks)) ]
         # Add this information to the LIL matrix
         synapses.add(post_rank, ranks, values, delays)
 
     return synapses
 
-proj = ann.Projection(pop1, pop2, target = 'inh')
-proj.connect_with_func(
+proj = net.connect(pop1, pop2, target = 'inh')
+proj.from_function(
     method=probabilistic_pattern, 
     weight=1.0, 
     probability=0.3
-) 
-
+)
 ```
 
 #### Parameters {.doc-section .doc-section-parameters}
@@ -602,7 +602,8 @@ receptive_fields(variable='w', in_post_geometry=True)
 
 Gathers all receptive fields within this projection.
 
-The method only works when the pre- and post-synaptic populations have a 2d geometry. It concatenates all receptive fields of the `post` population into a 2d array.
+The method only works when the pre- and post-synaptic populations have a 2d geometry. The function
+concatenates all receptive fields of the `post` population into a 2d array.
 
 #### Parameters {.doc-section .doc-section-parameters}
 
