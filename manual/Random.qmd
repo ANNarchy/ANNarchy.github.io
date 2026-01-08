@@ -105,3 +105,21 @@ rd = ann.Uniform(min=0.0, max=1.0, rng=rng)
 ```
 
 This is especially important when running simulations in parallel with `parallel_run()`.
+
+## Handling RNG states
+
+For debugging purposes or the ensure correctness of results, the handling of RNG states is important. As shown in the previous section, one can set the RNG generator for each distribution object individually on creation. By default, each ANNarchy distribution object utilizes an independent RNG generator instance created by the *numpy.random.default_rng()* method. Please note, that in this case the seed argument provided to Network constructor is ignored!
+
+:::{.callout-caution}
+The latter is an important change to releases prior to ANNarchy 5.0. In old releases, the setting of a seed initialized the numpy.random.seed (the old-stlye NumPy RNG). As we don't use this API in ANNarchy 5.0, this numpy.random.seed() method is not touched by ANNarchy anymore.
+:::
+
+As already outlined in some cases, one wants to maintain only one generator, i.e., one global state (as in NumPy's old random API). To allow this, one can pass a pre-initialized RNG generator called *default_rng* part of the Network class, which uses the seed provided to *Network* constructor:
+
+```python
+net = ann.Network(seed=42)  # initializes default_rng member of the class
+
+rd = ann.Uniform(min=0.0, max=1.0, rng=net.default_rng)
+```
+
+In this case the same behavior as in old ANNarchy releases is restored.
