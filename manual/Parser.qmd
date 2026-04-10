@@ -27,24 +27,24 @@ As a neuron/synapse type is likely to be reused in different populations/project
 
 Neural parameters can be either **local** (each neuron has a different value of the parameter) or **global** (the value is the same for all neurons of a population - but can be different in two populations using the same neuron type).
 
-The default locality of a parameter is global. The `Parameter` dataclass allows to tell ANNarchy that the parameter has to be local, i.e. it should take one value per neuron in the population.
+The default locality of a parameter is global:
 
 ```python
 neuron = ann.Neuron(
     parameters = dict(
-        tau = ann.Parameter(10.0),
-        baseline = ann.Parameter(-0.1),
+        tau = ann.Parameter(10.0), # or just: tau = 10.0
+        baseline = ann.Parameter(-0.1)
     )
 )
 ```
 
-`ann.Parameter()` also allows to define global parameters, but it is longer:
+The `Parameter` dataclass allows to tell ANNarchy that the parameter has to be local, i.e. it should take one value per neuron in the population.
 
 ```python
 neuron = ann.Neuron(
     parameters = dict(
         tau = ann.Parameter(10.0, locality='global'), # or just: tau = 10.0
-        baseline = ann.Parameter(-0.1, locality='global'), # or just: baseline = -0.1
+        baseline = ann.Parameter(-0.1, locality='local')
     )
 )
 ```
@@ -227,7 +227,7 @@ The available numerical methods are described in [Numerical methods](NumericalMe
 
 ## Constants
 
-Constants can be created by the user and used inside any equation. They must define an unique name and a floating point value. 
+Constants can be created by the user and used inside any equation. They must define an unique name and a floating point value.
 
 Constants can either be declared at the global level:
 
@@ -265,7 +265,7 @@ neuron = ann.Neuron(
 )
 ```
 
-Note that changing the value of a global constant impacts all networks using them. When the constant was created at the network level, a change of its value only impacts this network. 
+Note that changing the value of a global constant impacts all networks using them. When the constant was created at the network level, a change of its value only impacts this network.
 
 Changing the value of a constant can only be done through the `set()` method:
 
@@ -342,7 +342,7 @@ Several random generators are available and can be used within an equation, for 
 * `Uniform(min, max)` generates random numbers from a uniform distribution in the range $[\text{min}, \text{max}]$.
 * `Normal(mu, sigma)` generates random numbers from a normal distribution with mean mu and standard deviation sigma.
 
-See the [manual](/manual/Random.qmd) and the [reference](/reference/index.qmd#random-distributions) for more details on the availab le distributions. 
+See the [manual](/manual/Random.qmd) and the [reference](/reference/index.qmd#random-distributions) for more details on the availab le distributions.
 
 ### Mathematical functions
 
@@ -540,7 +540,7 @@ LeakyIntegratorNeuron = ann.Neuron(
 )
 ```
 
-When using strings, parameters and variables are by default local, i.e. unique to each neuron in a population or synapse in a projection. With parameters, this is the opposite to the new default behavior with dictionaries. To make the parameters global, you need to pass a flag 
+When using strings, parameters and variables are by default local, i.e. unique to each neuron in a population or synapse in a projection. With parameters, this is the opposite to the new default behavior with dictionaries. To make the parameters global, you need to pass a flag
 
 * If `population` is passed after a colon ':' in a neuron, the parameter will be common to all neurons of the population.
 
@@ -551,7 +551,7 @@ parameters = """
 """
 ```
 
-* If the `postsynaptic` flag is passed after a colon ':' in a synapse, the parameter will be common to all synapses of a post-synaptic neuron, but can differ from one post-synaptic neuron to another. If the `projection` flag is passed, the parameter will be common to all synapses of a projection. 
+* If the `postsynaptic` flag is passed after a colon ':' in a synapse, the parameter will be common to all synapses of a post-synaptic neuron, but can differ from one post-synaptic neuron to another. If the `projection` flag is passed, the parameter will be common to all synapses of a projection.
 
 ```python
 parameters = """
