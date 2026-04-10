@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../manual/RateNeuron.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-4a990d8dcb58f517c7c86712b8f2ac7c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-df0ce3d36294d4d0082a50f3c30bcf56.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-d46be1f5f6f15f980d806d52d16540fb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -135,7 +134,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -161,8 +160,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo light-content">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo dark-content">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">ANNarchy 5.0.0</span>
@@ -412,9 +410,9 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="built-in-neurons">Built-in neurons</h2>
 <p>ANNarchy provides standard spiking neuron models, similar to the ones defined in <a href="http://neuralensemble.org/docs/PyNN/reference/neuronmodels.html">PyNN</a>. Their definition (parameters, equations) are described in <a href="../reference/index.html#neuron-models">Specific Neurons</a>.</p>
 <p>The classes can be used directly when creating the populations (no need to implement them). Example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> net.create(geometry <span class="op">=</span> <span class="dv">1000</span>, neuron <span class="op">=</span> ann.Izhikevich)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> net.create(geometry <span class="op">=</span> <span class="dv">1000</span>, neuron <span class="op">=</span> ann.Izhikevich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The model can also be instantiated with different parameter values to change the behavior of the neuron. For example for the Izhikevich neuron model:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> net.create(</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> net.create(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    geometry <span class="op">=</span> <span class="dv">1000</span>, </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    Izhikevich(</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        a<span class="op">=</span><span class="fl">0.02</span>,</span>
@@ -425,7 +423,7 @@ window.Quarto = {
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        i_offset<span class="op">=</span><span class="fl">0.0</span>,</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        noise<span class="op">=</span><span class="fl">0.0</span>,</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="user-defined-neurons" class="level2">
 <h2 class="anchored" data-anchor-id="user-defined-neurons">User-defined neurons</h2>
@@ -435,7 +433,7 @@ window.Quarto = {
 </span></p>
 <p>where <span class="math inline">v(t)</span> is the membrane potential, <span class="math inline">\tau</span> is the membrane time constant (in milliseconds), <span class="math inline">E_r</span> the resting potential, <span class="math inline">E_e</span> the target potential for excitatory synapses and <span class="math inline">g_\text{exc}(t)</span> the total current induced by excitatory synapses.</p>
 <p>This neural model can be defined in ANNarchy by:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>LIF <span class="op">=</span> ann.Neuron(</span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>LIF <span class="op">=</span> ann.Neuron(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="bu">dict</span>(</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        tau <span class="op">=</span> <span class="fl">10.0</span>,</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        Er <span class="op">=</span> <span class="op">-</span><span class="fl">60.0</span>,</span>
@@ -448,7 +446,7 @@ window.Quarto = {
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    spike <span class="op">=</span> <span class="st">"v &gt; T"</span>,</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    reset <span class="op">=</span> <span class="st">"v = Er"</span>,</span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    refractory <span class="op">=</span> <span class="fl">5.0</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>As for rate-coded neurons, the parameters are defined in the <code>parameters</code> description, here globally for the population. <code>equations</code> contains the description of the ODE followed by the membrane potential. The additional information to provide is:</p>
 <ul>
 <li><code>spike</code> : a boolean condition on a single variable (typically the membrane potential) deciding when a spike is emitted.</li>
@@ -459,7 +457,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="spike-condition">Spike condition</h3>
 <p>The spike condition is a single constraint definition. You may use the different available comparison operators (&gt;, &lt;, ==, etc) on a <strong>single</strong> neuron variable, using as many parameters as you want.</p>
 <p>The use of assignment statements or ODEs will lead to an error. Conditional statements can be used. Example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> ann.Neuron(</span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> ann.Neuron(</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="bu">dict</span>(</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        ...</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        T <span class="op">=</span> <span class="op">-</span><span class="fl">45.0</span> </span>
@@ -470,55 +468,55 @@ window.Quarto = {
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'tau * dv/dt = E - v + g_exc'</span>,</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    ],</span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    spike <span class="op">=</span> <span class="st">" (v &gt; T + noise) and (prev_v &lt; T + noise) "</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="reset" class="level3">
 <h3 class="anchored" data-anchor-id="reset">Reset</h3>
 <p>In the <code>reset</code> attribute, you define the variables which should be set to certain values after a spike occured. Any assignment statements is allowed (<code>=</code>, <code>+=</code>, etc), but the use of ODEs is not possible, as the reset is performed only once at the end of the time step.</p>
 <p>Example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>reset <span class="op">=</span> [</span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>reset <span class="op">=</span> [</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'v = Er'</span>,</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'u += 0.1'</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A multiline string is also possible (and perhaps easier, as no other flag is allowed):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>reset <span class="op">=</span> <span class="st">"""</span></span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>reset <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">    v = Er</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">    u += 0.1</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="conductances" class="level3">
 <h3 class="anchored" data-anchor-id="conductances">Conductances</h3>
 <p>Contrary to rate-coded neurons, spiking neurons use conductance variables to encode the received inputs, not weighted sums. In ANNarchy, the conductances are defined by <code>g_</code> followed by the target name. For example, if a population receives excitatory input (target <code>exc</code>) from another one, you can access the total conductance provoked by <code>exc</code> spikes with:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tau <span class="op">*</span> dv<span class="op">/</span>dt <span class="op">+</span> v <span class="op">=</span> g_exc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tau <span class="op">*</span> dv<span class="op">/</span>dt <span class="op">+</span> v <span class="op">=</span> g_exc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The dynamics of the conductance can be specified after its usage in the membrane potential equation.</p>
 <p>The default behaviour for conductances is an <strong>instantaneous reset</strong> (or infinitely fast exponential decay). In practice, this means that all incoming spikes are summed up (weighted by the synaptic efficiency) at the beginning of a simulation step, and the resulting conductance is reset to 0.0 at the end of the step. This default behaviour is equivalent to :</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>LIF <span class="op">=</span> ann.Neuron(</span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>LIF <span class="op">=</span> ann.Neuron(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> [</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        ann.Variable(<span class="st">'tau * dv/dt = (Er - v) + g_exc * (Ee- v)'</span>, init <span class="op">=</span> <span class="fl">0.0</span>),</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        ann.Variable(<span class="st">'g_exc = 0.0'</span>),</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Incoming spikes increase <code>g_exc</code> and can provoke a post-synaptic spike at the next step, but leave no trace beyond that point.</p>
 <p>Most models however use <strong>exponentially decaying synapses</strong>, where the conductance decays with a short time constant after a spike is received. This behavior should be explicitely specified in the neuron’s equations:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>LIF <span class="op">=</span> ann.Neuron(</span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>LIF <span class="op">=</span> ann.Neuron(</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> [</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        ann.Variable(<span class="st">'tau * dv/dt = (Er - v) + g_exc * (Ee- v)'</span>, init <span class="op">=</span> <span class="fl">0.0</span>),</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        ann.Variable(<span class="st">'tau_exc * dg_exc/dt = - g_exc'</span>),</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>g_exc</code> is increased by incoming spikes, and slowly decays back to 0.0 until the next spikes arrive.</p>
 </section>
 <section id="refractory-period" class="level3">
 <h3 class="anchored" data-anchor-id="refractory-period">Refractory period</h3>
 <p>The refractory period in milliseconds is specified by the <code>refractory</code> parameter of <code>Neuron</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>LIF <span class="op">=</span> ann.Neuron (</span>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>LIF <span class="op">=</span> ann.Neuron (</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    refractory <span class="op">=</span> <span class="fl">5.0</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>refractory</code> argument can be a floating value or the name of a parameter/variable (string).</p>
 <p>If <code>dt = 0.1</code>, this means that the <code>equations</code> will not be evaluated for 50 consecutive steps after a spike is emitted, except for the conductances (starting with <code>g_</code>) which are evaluated normally during the refractory period (the neuron is not "deaf", it only is frozen in a refractory state).</p>
 <p><code>refractory</code> becomes an attribute of a spiking <code>Population</code> object, so it can be set specifically for a population even when omitted in the neuron definition:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(geometry <span class="op">=</span> <span class="dv">1000</span>, neuron <span class="op">=</span> LIF)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pop.refractory <span class="op">=</span> Uniform(<span class="fl">1.0</span>, <span class="fl">10.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(geometry <span class="op">=</span> <span class="dv">1000</span>, neuron <span class="op">=</span> LIF)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pop.refractory <span class="op">=</span> Uniform(<span class="fl">1.0</span>, <span class="fl">10.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It can be either a single value, a <code>RandomDistribution</code> object or a Numpy array of the same size/geometry as the population.</p>
 </section>
 <section id="instantaneous-firing-rate" class="level3">
@@ -526,7 +524,7 @@ window.Quarto = {
 <p><strong>Method 1: ISI</strong></p>
 <p>Spiking neurons define an additional variable <code>t_last</code> which represents the timestamp (in ms) of the last emitted spike (updated at the end of the <code>reset</code> statement). The time elapsed since the last spike is then <code>t - t_last</code>.</p>
 <p>This can be used to update the instantaneous firing rate of a neuron, by inverting the inter-spike interval (ISI) during the <code>reset</code> statement following the emission of a spike:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> ann.Neuron(</span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> ann.Neuron(</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="bu">dict</span>(tau <span class="op">=</span> <span class="fl">20.0</span>, tauf <span class="op">=</span> <span class="fl">1000.</span>),</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> [</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"tau * dv/dt + v = g_exc"</span>,</span>
@@ -537,12 +535,12 @@ window.Quarto = {
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="st">        v = 0.0</span></span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="st">        f = 1000./(t - t_last)</span></span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Here, a leaky integrator on f is needed to 1) smooth the firing rate and 2) slowly decay to 0 when the neuron stops firing. This method reflects very fast changes in the firing rate, but is also very sensible to noise.</p>
 <p><strong>Method 2: Window</strong></p>
 <p>A more stable way to compute the firing rate of a neuron is to count at each time step the number of spikes emitted during a sliding temporal window (of 100 ms or 1s for example). By default, spiking neurons only record the time of the last spike they emitted (<code>t_last</code>), so this mechanism has to be explicitely enabled by calling the <code>compute_firing_rate()</code> method of the desired population:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">100</span>, Izhikevich)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>pop.compute_firing_rate(window<span class="op">=</span><span class="fl">1000.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> ann.Population(<span class="dv">100</span>, Izhikevich)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>pop.compute_firing_rate(window<span class="op">=</span><span class="fl">1000.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>window</code> argument represents the period in milliseconds over which the spikes will be counted. The resulting firing rate (in Hz) will be stored in the local variable <code>r</code> (as for rate-coded neurons), which can be accessed by the neuron itself or by incoming and outgoing synapse (<code>pre.r</code> and <code>post.r</code>).</p>
 <p>If the method has not been called, the variable <code>r</code> of a spiking neuron will be constantly 0.0.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -616,14 +614,13 @@ Warning
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -638,7 +635,7 @@ Warning
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+        var filterRegex = new RegExp("https:\/\/hdinkelbach@github\.com\/ANNarchy\/ANNarchy\.github\.io\.git");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

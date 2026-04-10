@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../manual/Parallel.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-4a990d8dcb58f517c7c86712b8f2ac7c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-df0ce3d36294d4d0082a50f3c30bcf56.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-d46be1f5f6f15f980d806d52d16540fb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -135,7 +134,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -161,8 +160,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo light-content">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo dark-content">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">ANNarchy 5.0.0</span>
@@ -405,14 +403,14 @@ window.Quarto = {
 <section id="rate-coded-to-spike" class="level2">
 <h2 class="anchored" data-anchor-id="rate-coded-to-spike">Rate-coded to Spike</h2>
 <p>Converting a rate-coded population to a spiking network is straightforward. The <code>PoissonPopulation</code> (see its <a href="../reference/PoissonPopulation.html">API</a>) defines a population of spiking neurons emitting spikes following a Poisson distribution:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> net.create(ann.PoissonPopulation(<span class="dv">1000</span>, rates<span class="op">=</span><span class="fl">50.</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> net.create(ann.PoissonPopulation(<span class="dv">1000</span>, rates<span class="op">=</span><span class="fl">50.</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In this case, the 1000 neurons emit spikes at a rate of 50 Hz (the rate of individual neurons can be later modified). It is possible to use a weighted sum of rate-coded synapses in order to determine the firing rate of each Poisson neuron. It requires to connect a rate-coded population to the <code>PoissonPopulation</code> with a given target:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> net.create(<span class="dv">4</span>, Neuron(parameters<span class="op">=</span><span class="st">"r=0.0"</span>))</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> net.create(<span class="dv">4</span>, Neuron(parameters<span class="op">=</span><span class="st">"r=0.0"</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> net.create(ann.PoissonPopulation(<span class="dv">1000</span>, target<span class="op">=</span><span class="st">'exc'</span>))</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> net.<span class="ex">connect</span>(pop1, pop2, <span class="st">'exc'</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>proj.fixed_number_pre(weights<span class="op">=</span><span class="fl">10.0</span>, number<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>proj.fixed_number_pre(weights<span class="op">=</span><span class="fl">10.0</span>, number<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In this example, each of the 4 pre-synaptic neurons “controls” the firing rate of one fourth (on average) of the post-synaptic ones. If <code>target</code> is used in the Poisson population, <code>rates</code> will be ignored.</p>
 <p>The weights determine the scaling of the transmission: a presynaptic rate <code>r</code> of 1.0 generates a firing rate of <code>w</code> Hz in the post-synaptic neurons. Here setting <code>pop1.r = 1.0</code> will make the post-synaptic neurons fire at 10 Hz.</p>
 </section>
@@ -420,11 +418,11 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="spike-to-rate-coded">Spike to Rate-coded</h2>
 <p>Decoding a spiking population is a harder process, because of the stochastic nature of spike trains. One can take advantage of the fact here that a rate-coded neuron usually represents an ensemble of spiking neurons, so the average firing rate in that ensemble can be more precisely decoded.</p>
 <p>In order to do so, one needs to connect the spiking population to a rate-coded one with a many-to-one pattern using a <code>DecodingProjection</code>. A <code>DecodingProjection</code> heritates all methods of <code>Projection</code> (including the connection methods) but performs the necessary conversion from spike trains to a instantaneous rate. It can be passed as the first unnamed argument to <code>Network.connect()</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> net.create(ann.PoissonPopulation(<span class="dv">1000</span>, rates<span class="op">=</span><span class="fl">50.0</span>))</span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> net.create(ann.PoissonPopulation(<span class="dv">1000</span>, rates<span class="op">=</span><span class="fl">50.0</span>))</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> net.create(<span class="dv">1</span>, Neuron(equations<span class="op">=</span><span class="st">"r=sum(exc)"</span>))</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> net.<span class="ex">connect</span>(ann.DecodingProjection(pop1, pop2, <span class="st">'exc'</span>, window<span class="op">=</span><span class="fl">10.0</span>))</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>proj.all_to_all(weights<span class="op">=</span><span class="fl">1.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>proj.all_to_all(weights<span class="op">=</span><span class="fl">1.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In this example, the spiking population fires at 50 Hz. The single rate-coded neuron decoding that population will count how many spikes arrived in the last <span class="math inline">T</span> milliseconds and divide it by the total number of synapses in order to estimate the population firing rate in <code>pop1</code>.</p>
 <p>This would be accessed in <code>sum(exc)</code> (or whatever target is used in the projection). Because of its simple definition, it will therefore have its rate <code>r</code> at 50.0 (with some variance due to the stochastic nature of spike trains).</p>
 <p>The <code>window</code> argument defines the duration in milliseconds of the sliding temporal window used to estimate the firing rate. By default, it is equal to <code>dt</code>, which means spikes are counted in a very narrow period of time, what could lead to very big variations of the decoded firing rate. If the window is too big, it would introduce a noticeable lag for the decoded firing rate if the input varies too quickly. <code>window = 10.0</code> is usually a good compromise, but this depends on the input firing rate.</p>
@@ -500,14 +498,13 @@ Warning
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -522,7 +519,7 @@ Warning
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+        var filterRegex = new RegExp("https:\/\/hdinkelbach@github\.com\/ANNarchy\/ANNarchy\.github\.io\.git");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../manual/ConvolutionalNetworks.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-4a990d8dcb58f517c7c86712b8f2ac7c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-df0ce3d36294d4d0082a50f3c30bcf56.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-d46be1f5f6f15f980d806d52d16540fb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -135,7 +134,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -161,8 +160,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo light-content">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo dark-content">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">ANNarchy 5.0.0</span>
@@ -411,8 +409,8 @@ window.Quarto = {
 <section id="reporting" class="level1">
 <h1>Reporting</h1>
 <p>ANNarchy includes an utility allowing to automatically generate a report based on the current structure of the network:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ann.report(filename<span class="op">=</span><span class="st">"model_description.tex"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ann.report(filename<span class="op">=</span><span class="st">"model_description.qmd"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ann.report(filename<span class="op">=</span><span class="st">"model_description.tex"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ann.report(filename<span class="op">=</span><span class="st">"model_description.qmd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If the filename ends with <code>.tex</code>, the LaTeX report will be generated based on the specifications provided in:</p>
 <blockquote class="blockquote">
 <p>Nordlie E, Gewaltig M-O, Plesser HE (2009). Towards Reproducible Descriptions of Neuronal Network Models. PLoS Comput Biol 5(8):e1000456.</p>
@@ -431,7 +429,7 @@ window.Quarto = {
 <section id="content-of-the-tex-file" class="level2">
 <h2 class="anchored" data-anchor-id="content-of-the-tex-file">Content of the TeX file</h2>
 <p><code>report()</code> produces a <code>.tex</code> file (by default <code>report.tex</code> in the current directory, but this can be changed by passing the <code>filename</code> argument) which can be directly compiled with <code>pdflatex</code> or integrated into a larger file:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pdflatex</span> model_description.tex</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pdflatex</span> model_description.tex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This report consists of different tables describing several aspects of the model:</p>
 <ol type="1">
 <li><strong>Summary</strong>: A summary of the network, with a list of populations, neuron and synapse models, topologies, etc. This section may have to be adapted, as for example, ANNarchy does not make a distinction between synapse and plasticity models.</li>
@@ -448,13 +446,13 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="content-of-the-markdown-file">Content of the Markdown file</h2>
 <p>The generated Mardown file is globally similar to the LaTeX one, with additional information that make it more useful for debugging (locality of attributes, type...). The Markown file is readable by design, but it can be translated to many markup languages (html, epub, latex, pdf...) using <a href="http://www.pandoc.org">pandoc</a>.</p>
 <p>To obtain a pdf from the Markdown file (supposing you have a LaTeX distribution available), just type:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> model_description.qmd <span class="at">-sN</span> <span class="at">-V</span> geometry:margin=1in <span class="at">-o</span> model_description.pdf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> model_description.qmd <span class="at">-sN</span> <span class="at">-V</span> geometry:margin=1in <span class="at">-o</span> model_description.pdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>-V</code> argument tells LaTex to use the full page instead of the default booklet format.</p>
 <p>To obtain a html file, use:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> model_description.qmd <span class="at">-sSN</span> <span class="at">--mathjax</span> <span class="at">-o</span> model_description.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> model_description.qmd <span class="at">-sSN</span> <span class="at">--mathjax</span> <span class="at">-o</span> model_description.html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can omit the <code>-S</code> option if you only want to include the code into a webpage, otherwise it is a standalone file. <code>--mathjax</code> is needed to display mathematical equations using the javascript library <a href="http://mathjax.org">MathJax</a>.</p>
 <p>By default, the html file has no styling, and tables can be very ugly. With a simple css file like <a href="../_static/simple.css">this one</a>, the html page looks nicer (feel free to edit):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> model_description.qmd <span class="at">-sSN</span> <span class="at">--mathjax</span> <span class="at">--css</span><span class="op">=</span>simple.css <span class="at">-o</span> model_description.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> model_description.qmd <span class="at">-sSN</span> <span class="at">--mathjax</span> <span class="at">--css</span><span class="op">=</span>simple.css <span class="at">-o</span> model_description.html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you upload your model to a github-like service (bitbucket, gitlab, gogs...), it could be a good idea to generate the <code>README.qmd</code> directly with <code>report()</code>. Do not forget to set a title+author+date then.</p>
 </section>
 <section id="documenting-the-network" class="level2">
@@ -462,10 +460,10 @@ window.Quarto = {
 <p>The report is generated based entirely on the Python script. For it to make sense, the user has to provide the necessary information while defining the network:</p>
 <ol type="1">
 <li><p>Populations must be assigned a unique name. If no name is given, generic names such as <code>pop0</code> or <code>pop1</code> will be used. If two populations have the same name, the connectivity will be unreadable:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> net.create(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), neuron<span class="op">=</span>ann.Izhikevich, name<span class="op">=</span><span class="st">"Excitatory"</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> net.create(geometry<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">20</span>), neuron<span class="op">=</span>ann.Izhikevich, name<span class="op">=</span><span class="st">"Inhibitory"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> net.create(geometry<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">100</span>), neuron<span class="op">=</span>ann.Izhikevich, name<span class="op">=</span><span class="st">"Excitatory"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> net.create(geometry<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">20</span>), neuron<span class="op">=</span>ann.Izhikevich, name<span class="op">=</span><span class="st">"Inhibitory"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>User-defined neuron and synapse models should be assigned a name and description. The name should be relatively short and generic (e.g. “Izhikevich”, “BCM learning rule”), while the description should be more specific. They can contain LaTeX code, but remember to double the <code>\</code> which is the escape symbol in Python strings:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>LIF <span class="op">=</span> ann.Neuron(</span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>LIF <span class="op">=</span> ann.Neuron(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="bu">dict</span>(</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        tau <span class="op">=</span> <span class="fl">10.0</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    ),</span>
@@ -489,14 +487,14 @@ window.Quarto = {
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    ], </span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"Oja learning rule"</span>,</span>
 <span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span> <span class="st">"""Oja learning rule ensuring regularization of the synaptic weights."""</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>Choose simple parameter and variable names for the description of equations. If a parameter/variable name uses only one character, it will be treated as a mathematical variable in the equations (ex: <code>v</code> becomes <span class="math inline">v</span>), otherwise the plain text representation will be used (ugly). If the name corresponds to a greek letter (<code>alpha</code>, <code>tau</code>, etc.), it will be represented by the corresponding greek letter (<span class="math inline">\alpha</span>, <span class="math inline">\tau</span>). If the name is composed of two terms separated by an underscore (<code>tau_exc</code>), a subscript will be used (<span class="math inline">\tau_\text{exc}</span>). If more than one underscore is used, the text representation is used instead (LaTeX does not allow multiple subscripts).</p></li>
 </ol>
 </section>
 <section id="example" class="level2">
 <h2 class="anchored" data-anchor-id="example">Example</h2>
 <p>Let’s take the homeostatic STDP ramp example provided in <code>examples/homeostatic_stdp/Ramp.py</code> and add names/descriptions to the objects:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Izhikevich RS neuron</span></span>
@@ -639,9 +637,9 @@ window.Quarto = {
 <span id="cb15-141"><a href="#cb15-141" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Biologically plausible models of homeostasis and STDP; Stability and learning in spiking neural networks"</span>, </span>
 <span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a>    author<span class="op">=</span><span class="st">"Carlson, Richert, Dutt and Krichmar"</span>,</span>
 <span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a>    date<span class="op">=</span><span class="st">"Neural Networks (IJCNN) 2013"</span></span>
-<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This generates the following Markdown file:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Biologically plausible models of homeostasis and STDP; Stability and learning in spiking neural networks</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> Carlson, Richert, Dutt and Krichmar</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> Neural Networks (IJCNN) 2013</span></span>
@@ -916,7 +914,7 @@ window.Quarto = {
 <span id="cb16-273"><a href="#cb16-273" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>                                                                                    <span class="pp">|</span>                                         <span class="pp">|</span> $\beta$               <span class="pp">|</span> 1.0       <span class="pp">|</span> </span>
 <span id="cb16-274"><a href="#cb16-274" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>                                                                                    <span class="pp">|</span>                                         <span class="pp">|</span> $\gamma$              <span class="pp">|</span> 50.0      <span class="pp">|</span> </span>
 <span id="cb16-275"><a href="#cb16-275" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>                                                                                    <span class="pp">|</span>                                         <span class="pp">|</span> ${\text{Rtarget}}$    <span class="pp">|</span> 35.0      <span class="pp">|</span> </span>
-<span id="cb16-276"><a href="#cb16-276" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>                                                                                    <span class="pp">|</span>                                         <span class="pp">|</span> $T$                   <span class="pp">|</span> 5000.0    <span class="pp">|</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-276"><a href="#cb16-276" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>                                                                                    <span class="pp">|</span>                                         <span class="pp">|</span> $T$                   <span class="pp">|</span> 5000.0    <span class="pp">|</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="rendered-version" class="level2">
 <h2 class="anchored" data-anchor-id="rendered-version">Rendered version</h2>
@@ -1652,14 +1650,13 @@ window.Quarto = {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1674,7 +1671,7 @@ window.Quarto = {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+        var filterRegex = new RegExp("https:\/\/hdinkelbach@github\.com\/ANNarchy\/ANNarchy\.github\.io\.git");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

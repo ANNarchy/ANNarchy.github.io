@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../manual/Random.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-4a990d8dcb58f517c7c86712b8f2ac7c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-df0ce3d36294d4d0082a50f3c30bcf56.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-d46be1f5f6f15f980d806d52d16540fb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -135,7 +134,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -161,8 +160,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo light-content">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo dark-content">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">ANNarchy 5.0.0</span>
@@ -415,15 +413,15 @@ window.Quarto = {
 <section id="numerical-methods-1" class="level2">
 <h2 class="anchored" data-anchor-id="numerical-methods-1">Numerical methods</h2>
 <p>First-order ordinary differential equations (ODE) can be solved using different numerical methods. The method can be declared globally in the <code>Network.config()</code> method and used in all ODEs of the network:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network()</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>net.config(method<span class="op">=</span><span class="st">'exponential'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>net.config(method<span class="op">=</span><span class="st">'exponential'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>or specified explicitely for each ODE by specifying the attribute:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>equations <span class="op">=</span> [</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>equations <span class="op">=</span> [</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    ann.Variable(<span class="st">'tau * dv/dt  + v =  A'</span>, init <span class="op">=</span> <span class="fl">0.0</span>, method<span class="op">=</span><span class="st">'exponential'</span>),</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If nothing is specified, the explicit Euler method is used.</p>
 <p>Different numerical methods are available:</p>
 <ul>
@@ -497,10 +495,10 @@ Note
 <p><span class="math display">v(t+h) = v(t) + (1 - \exp(- \frac{h}{1 + g_\text{exc} - g_\text{inh}}) ) \cdot (\frac{E + g_\text{exc} \cdot E_e - g_\text{inh} \cdot E_i}{1 + g_\text{exc} - g_\text{inh}} - v(t))</span></p>
 <p>The exponential method can only be applied to <strong>first-order linear</strong> ODEs. Any other form of ODE will be rejected by the parser.</p>
 <p><strong>Important note:</strong> The step size <span class="math inline">1 - \exp(- \frac{h}{\tau(t)})</span> is computationally expensive because of the exponential function. If the time constant <span class="math inline">\tau</span> is a global parameter of the population or projection, ANNarchy can pre-compute the step size outside of the <code>for</code> loop over all neurons/synapses, which leads to huge increases in performance. The <code>exponential</code> method should therefore be reserved to first-order linear ODEs with the same time constant for all neurons/synapses:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> nn.Neuron(</span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>neuron <span class="op">=</span> nn.Neuron(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="bu">dict</span>(tau <span class="op">=</span> <span class="fl">10.</span>),</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    equations <span class="op">=</span> ann.Variable(<span class="st">'tau * dr/dt + r = sum(exc)'</span>, <span class="bu">min</span><span class="op">=</span><span class="fl">0.0</span>, method<span class="op">=</span><span class="st">'exponential'</span>),</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="midpoint" class="level3">
 <h3 class="anchored" data-anchor-id="midpoint">Midpoint</h3>
@@ -522,7 +520,7 @@ Note
 <section id="event-driven" class="level3">
 <h3 class="anchored" data-anchor-id="event-driven">Event-driven</h3>
 <p>Event-driven integration is only available for spiking synapses with variables following linear first-order dynamics. Let’s consider the following STDP synapse (see <a href="../manual/SpikeSynapse.html">Spiking Synapse</a> for explanations):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>STDP <span class="op">=</span> ann.Synapse(</span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>STDP <span class="op">=</span> ann.Synapse(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="bu">dict</span>(</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        tau_pre <span class="op">=</span> <span class="fl">10.0</span>,</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        tau_post <span class="op">=</span> <span class="fl">10.0</span>,</span>
@@ -540,7 +538,7 @@ Note
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="st">        Apost += cApost</span></span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="st">        w = clip(w + Apre, 0.0 , 1.0)</span></span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The value of <code>Apost</code> and <code>Apre</code> is only needed when a pre- or post-synaptic spike occurs at the synapse, so there is no need to integrate the corresponding equations between two such events. First-order linear ODEs have the nice property that their analytical solution is easy to obtain. Let’s consider an equation of the form:</p>
 <p><span class="math display">\tau  \frac{dv}{dt} = E - v</span></p>
 <p>If <span class="math inline">v</span> has the value <span class="math inline">V_0</span> at time <span class="math inline">t</span>, its value at time <span class="math inline">t + \Delta t</span> is given by:</p>
@@ -587,7 +585,7 @@ u = new_u</code></pre>
 <li>Systems of ODEs are updated concurrently.</li>
 </ul>
 <p>Let’s consider the following dummy equations:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Process the inputs</span></span>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Process the inputs</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Exc <span class="op">=</span> some_function(<span class="bu">sum</span>(exc))</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>Inh <span class="op">=</span> another_function(<span class="bu">sum</span>(inh))</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> Exc <span class="op">-</span> Inh</span>
@@ -597,10 +595,10 @@ u = new_u</code></pre>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>tau <span class="op">*</span> du<span class="op">/</span>dt <span class="op">=</span> v <span class="op">-</span> u</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Firing rate is the positive part of v</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> pos(v)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> pos(v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Here, <code>Exc</code> and <code>Inh</code> represent the inputs to the neuron at the current time <code>t</code>. The new values should be immediately available for updating <code>I</code>, whose value should similarly be immediately used in the ODE of <code>v</code>. Similarly, the value of <code>r</code> should be the positive part of the value of <code>v</code> that was just calculated, not at the previous time step. Doing otherwise would introduce a lag in the neuron: changes in <code>sum(exc)</code> at <code>t</code> would be reflected in <code>Exc</code> at <code>t+1</code>, in <code>I</code> at <code>t+2</code>, in <code>v</code> at <code>t+3</code> and finally in <code>r</code> at <code>t+4</code>. This is generally unwanted.</p>
 <p>The generated code is therefore equivalent to:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Process the inputs</span></span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Process the inputs</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>Exc <span class="op">=</span> some_function(<span class="bu">sum</span>(exc))</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>Inh <span class="op">=</span> another_function(<span class="bu">sum</span>(inh))</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> Exc <span class="op">-</span> Inh</span>
@@ -612,7 +610,7 @@ u = new_u</code></pre>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> new_u</span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Firing rate is the positive part of v</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> pos(v)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> pos(v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>One can even define multiple groups of assignments and systems of ODEs: systems of ODEs separated by at least one assignment will be evaluated sequentially (but concurrently inside each system). For example, in:</p>
 <pre><code>tau*du/dt = v - u
 I = g_exc - g_inh
@@ -677,14 +675,13 @@ tau*dv/dt = I - v - u + k</code></pre>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -699,7 +696,7 @@ tau*dv/dt = I - v - u + k</code></pre>
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+        var filterRegex = new RegExp("https:\/\/hdinkelbach@github\.com\/ANNarchy\/ANNarchy\.github\.io\.git");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
