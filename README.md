@@ -27,6 +27,8 @@ Optionally, run all notebooks (with current ANNarchy version) under `notebooks/`
 ./run_notebooks.sh
 ```
 
+**Attention**: ensure that the *ipywidgets* package is installed, otherwise the stored notebooks contain too much information related to the tqdm output.
+
 Build the API (directory `reference/`):
 
 ```bash
