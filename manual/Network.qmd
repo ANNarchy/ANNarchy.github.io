@@ -29,6 +29,7 @@ pop2 = net.create(10, neuron)
 
 # Connect the two populations
 proj = net.connect(pop1, pop2, 'exc', synapse)
+proj.all_to_all(weights=ann.Uniform(0,1))
 
 # Monitor the second population
 m = net.monitor(pop2, 'r')
@@ -54,6 +55,7 @@ def create_network():
     pop1 = net.create(10, neuron, name='pop1')
     pop2 = net.create(10, neuron, name='pop2')
     proj = net.connect(pop1, pop2, 'exc', synapse, name='projection1')
+    proj.all_to_all(weights=ann.Uniform(0,1))
     m = net.monitor(pop2, 'r', name='monitor')
     return net
 
@@ -72,6 +74,7 @@ class SimpleNetwork (ann.Network):
         self.pop1 = self.create(N, neuron)
         self.pop2 = self.create(N, neuron)
         self.proj = self.connect(self.pop1, self.pop2, 'exc', synapse)
+        self.proj.all_to_all(weights=ann.Uniform(0,1))
         self.m    = self.monitor(self.pop2, 'r')
 
 net = SimpleNetwork(10)
@@ -198,6 +201,7 @@ class SimpleNetwork (ann.Network):
         self.pop1 = net.create(N, neuron)
         self.pop2 = net.create(N, neuron)
         self.proj = net.connect(self.pop1, self.pop2, 'exc', synapse)
+        self.proj.all_to_all(weights=ann.Uniform(0,1))
 
 net = SimpleNetwork(N=10, dt=0.1)
 ```
@@ -218,6 +222,7 @@ class SimpleNetwork (ann.Network):
         self.pop1 = net.create(N, neuron)
         self.pop2 = net.create(N, neuron)
         self.proj = net.connect(self.pop1, self.pop2, 'exc', synapse)
+        self.proj.all_to_all(weights=ann.Uniform(0,1))
 
 net = SimpleNetwork(N=10, dt=0.1, seed=42)
 ```
