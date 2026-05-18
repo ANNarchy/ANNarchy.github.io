@@ -419,31 +419,31 @@ Caution
 <section id="python-classes" class="level2">
 <h2 class="anchored" data-anchor-id="python-classes">Python classes</h2>
 <p>ANNarchy also exposes these distributions as Python classes deriving from <code>ann.RandomDistribution</code>:</p>
-<div id="73935740" class="cell" data-execution_count="2">
+<div id="b0356bf7" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>rd <span class="op">=</span> ann.Uniform(<span class="bu">min</span><span class="op">=-</span><span class="fl">1.0</span>, <span class="bu">max</span><span class="op">=</span><span class="fl">1.0</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> rd.get_values(shape<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[ 0.56501621  0.56251793  0.83148301 -0.5059946   0.52226847]
- [ 0.94769185  0.97186865 -0.0488768   0.81940463 -0.39025543]
- [ 0.12791293  0.45010397 -0.68067143 -0.06236202 -0.75735833]
- [ 0.52594626  0.75065156 -0.68083688 -0.25623524  0.89487864]
- [-0.62871711  0.86471094 -0.96039487 -0.52196886 -0.46037106]]</code></pre>
+<pre><code>[[-0.75217724 -0.49929442  0.84181294  0.08070706  0.58229975]
+ [ 0.10301726 -0.28894988 -0.78657042 -0.92895762 -0.94936383]
+ [-0.44254071  0.11424548 -0.63310035  0.95488707 -0.39356433]
+ [ 0.63218003  0.49016071  0.21836755 -0.68525713 -0.49450217]
+ [ 0.78375992 -0.03035897 -0.79192052  0.70577571 -0.51883516]]</code></pre>
 </div>
 </div>
 <p>Those classes are only thin wrappers around <code>numpy</code>’s random module. The code above is fully equivalent to:</p>
-<div id="b84d331a" class="cell" data-execution_count="3">
+<div id="dd436785" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">1.0</span>, (<span class="dv">5</span>,<span class="dv">5</span>))</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[-0.58248569 -0.10881146  0.81599326  0.69311867  0.82669229]
- [-0.47948954  0.21232182  0.73968878 -0.93428746  0.11086153]
- [ 0.61195623 -0.67159294  0.74923388  0.54828826 -0.89101341]
- [-0.81101525 -0.69493207  0.39333209  0.32634516  0.90831201]
- [ 0.02356701 -0.25223042  0.05395248 -0.34695919 -0.71219063]]</code></pre>
+<pre><code>[[ 0.65559625  0.81246607  0.93517364 -0.60004523 -0.32995226]
+ [-0.91301134  0.19839841  0.74235049  0.60170917  0.6295533 ]
+ [-0.52773403  0.31794757 -0.02628683  0.77421047 -0.76670165]
+ [ 0.02841237  0.2437794   0.96317725 -0.36556848 -0.87793532]
+ [-0.5509783  -0.35353583 -0.87624721 -0.09993047  0.26684439]]</code></pre>
 </div>
 </div>
 <p>The main interest of using these objects instead of directly numpy is that the <code>get_values()</code> method can only be called when the network is instantiated (at the end of <code>net.compile()</code>).</p>
