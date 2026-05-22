@@ -474,7 +474,7 @@ window.Quarto = {
 </header>
 
 
-<div id="feed4e84-adeb-4a3a-9d81-2643f36327d8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:05.641812Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:05.641089Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:05.649187Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:05.647382Z&quot;}}" data-execution_count="1">
+<div id="feed4e84-adeb-4a3a-9d81-2643f36327d8" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install ANNarchy</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This notebook explores the generalized Integrate-and-Fire neuron model being used in CUBA-like network. This network has been proposed in</p>
@@ -489,7 +489,7 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>Schwalger, T., Deger, M., Gerstner, w. (2017). Towards a theory of cortical columns: From spiking neurons to interacting neural populations of finite size. PLoS Comput Biol. 2017;13(4):e1005507</p>
 </blockquote>
-<div id="cdbd9542-a7f4-4f4f-ba7b-266e9e97112a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:05.652031Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:05.651761Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:06.248656Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:06.247935Z&quot;}}" data-execution_count="2">
+<div id="cdbd9542-a7f4-4f4f-ba7b-266e9e97112a" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -509,8 +509,9 @@ window.Quarto = {
 <p><span class="math display">
     \lambda = c * exp(\frac{u-v}{\delta_{u}})
 </span></p>
+<p>After emitting a spike event, the membrane potential <span class="math inline">u</span> is reseted and the adaptive threshold <span class="math inline">v</span> is increased by the jump size = <span class="math inline">\frac{J_v}{\tau_v}</span>.</p>
 <p>In the following we construct a CUBA like network, inspired by the work of Vogels and Abbott (2005). Adapted the parameters of the GIF neuron model to obtain comparable statistics. The GIF model with currents is part of the default models in ANNarchy.</p>
-<div id="7e06ab25-57ff-4a13-8619-a5be04585bae" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:06.250362Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:06.250143Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:06.254507Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:06.253756Z&quot;}}" data-execution_count="3">
+<div id="7e06ab25-57ff-4a13-8619-a5be04585bae" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CUBANetwork (ann.Network):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, w_exc, w_inh):</span>
@@ -528,7 +529,7 @@ window.Quarto = {
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.m <span class="op">=</span> <span class="va">self</span>.monitor(<span class="va">self</span>.P, [<span class="st">'spike'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="eb8f199f-f708-4f6b-9918-783854a8d424" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:06.255951Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:06.255815Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:15.609942Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:15.609243Z&quot;}}" data-execution_count="4">
+<div id="eb8f199f-f708-4f6b-9918-783854a8d424" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CUBA network</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>we_CUBA <span class="op">=</span> <span class="fl">1.62</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>wi_CUBA <span class="op">=</span> <span class="fl">9.0</span></span>
@@ -539,25 +540,25 @@ window.Quarto = {
 <pre><code>Compiling network 1... OK</code></pre>
 </div>
 </div>
-<div id="b6e35baa-54cb-4026-b430-34c39ff7b4fc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:15.612009Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:15.611786Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:16.538634Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:16.538021Z&quot;}}" data-execution_count="5">
+<div id="b6e35baa-54cb-4026-b430-34c39ff7b4fc" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>net_cuba.simulate(<span class="fl">1000.</span>, measure_time<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Simulating 1.0 seconds of the network 1 took 0.9236607551574707 seconds.</code></pre>
+<pre><code>Simulating 1.0 seconds of the network 1 took 1.0551059246063232 seconds.</code></pre>
 </div>
 </div>
-<div id="25c90dbc-398e-4365-8129-450d8ead917c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:16.540642Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:16.540492Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:16.544810Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:16.544211Z&quot;}}" data-execution_count="6">
+<div id="25c90dbc-398e-4365-8129-450d8ead917c" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data_CUBA <span class="op">=</span> net_cuba.m.get(<span class="st">'spike'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="07c54b43-3fae-43e4-857c-3c7a65b760db" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:16.546788Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:16.546603Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:16.564668Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:16.563614Z&quot;}}" data-execution_count="7">
+<div id="07c54b43-3fae-43e4-857c-3c7a65b760db" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>t_CUBA, n_CUBA <span class="op">=</span> net_cuba.m.raster_plot(data_CUBA)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="52b46ac7-eb1e-4199-a34b-43f5a7535a72" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:16.566352Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:16.566039Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:16.578073Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:16.577010Z&quot;}}" data-execution_count="8">
+<div id="52b46ac7-eb1e-4199-a34b-43f5a7535a72" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Mean firing rate in the COBA population: '</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">len</span>(t_CUBA) <span class="op">/</span> <span class="fl">4000.</span>) <span class="op">+</span> <span class="st">'Hz'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Mean firing rate in the COBA population: 5.82225Hz</code></pre>
+<pre><code>Mean firing rate in the COBA population: 5.85575Hz</code></pre>
 </div>
 </div>
-<div id="93737665-c781-4721-b0ab-e15765afbe17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:16.580956Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:16.580416Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:16.815937Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:16.815231Z&quot;}}" data-execution_count="9">
+<div id="93737665-c781-4721-b0ab-e15765afbe17" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">8</span>))</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">121</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"CUBA Network - Raster Plot"</span>)</span>
@@ -575,15 +576,23 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="6a60c6d2-8b61-4b33-86e5-4388ce6c8281" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:16.817571Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:16.817425Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:16.824941Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:16.824164Z&quot;}}" data-execution_count="10">
+<div id="6a60c6d2-8b61-4b33-86e5-4388ce6c8281" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>isi_CUBA <span class="op">=</span> net_cuba.m.inter_spike_interval(data_CUBA)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="483a59af-8653-4fe8-afc4-0cd76b240f68" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:16.826594Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:16.826384Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:16.988154Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:16.987224Z&quot;}}" data-execution_count="11">
+<div id="483a59af-8653-4fe8-afc4-0cd76b240f68" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"CUBA Network - Inter-spike Intervals (ISI)"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>plt.hist(isi_CUBA)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'ISI (ms)'</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'n in bin'</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> numpy.logspace(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    numpy.log10(numpy.<span class="bu">min</span>(isi_CUBA)),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    numpy.log10(numpy.<span class="bu">max</span>(isi_CUBA)),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">31</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>plt.axvline(numpy.mean(isi_CUBA), color<span class="op">=</span><span class="st">'k'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>plt.hist(isi_CUBA, bins<span class="op">=</span>bins)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>plt.xscale(<span class="st">"log"</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'ISI [ms, log-scale]'</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'n in bin'</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -592,12 +601,12 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="06c79957-71de-434b-9d83-8c48c235e026" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:16.992021Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:16.991845Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:17.094125Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:17.093517Z&quot;}}" data-execution_count="12">
+<div id="06c79957-71de-434b-9d83-8c48c235e026" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>cov_CUBA <span class="op">=</span> net_cuba.m.coefficient_of_variation(data_CUBA)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="22cf9648-68f0-4c27-8d09-c72fbdc21807" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:17:17.096485Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:17:17.096232Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:17:17.205236Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:17:17.204472Z&quot;}}" data-execution_count="13">
+<div id="22cf9648-68f0-4c27-8d09-c72fbdc21807" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"CUBA Network - Coefficient of Variation of ISI"</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plt.hist(cov_CUBA)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plt.hist(cov_CUBA, bins<span class="op">=</span><span class="dv">31</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'ISI CV'</span>)</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'n in bin'</span>)</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

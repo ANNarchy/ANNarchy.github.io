@@ -379,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Let’s suppose the <code>BCM</code> synapse should used to create a plastic projection between two populations :</p>
-<div id="bf4b0606" class="cell" data-execution_count="2">
+<div id="8acb2ca4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>BCM <span class="op">=</span> ann.Synapse(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="bu">dict</span>(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        eta <span class="op">=</span> <span class="fl">0.01</span>,</span>
@@ -392,7 +392,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>and two populations have been created:</p>
-<div id="1d939400" class="cell" data-execution_count="3">
+<div id="964d3104" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network()</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> net.create(<span class="dv">10</span>, ann.Neuron(equations<span class="op">=</span><span class="st">"r=sum(exc)"</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> net.create(<span class="dv">10</span>, ann.Neuron(equations<span class="op">=</span><span class="st">"r=sum(exc)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -400,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="creating-the-projections" class="level2">
 <h2 class="anchored" data-anchor-id="creating-the-projections">Creating the projections</h2>
 <p>Once the populations are created, one can connect them by creating <code>Projection</code> instances through the <code>Network.connect()</code> method:</p>
-<div id="5ae79132" class="cell" data-execution_count="4">
+<div id="546e020e" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>proj <span class="op">=</span> net.<span class="ex">connect</span>(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    pre <span class="op">=</span> pop1,</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    post <span class="op">=</span> pop2,</span>
@@ -426,10 +426,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Creating the <strong>Projection</strong> objects only defines the information that two populations are connected. The synapses must be explicitely created by applying a connector method on the <strong>Projection</strong> object.</p>
 <p>To this end, ANNarchy already provides a set of predefined connector methods, but the user has also the possibility to define his own (see the following page <a href="../manual/Connector.html">Connectivity</a>).</p>
 <p>The connection pattern should be applied right after the creation of the Projection:</p>
-<div id="1c361cf0" class="cell" data-execution_count="5">
+<div id="31d16b98" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>proj.fixed_probability(probability<span class="op">=</span><span class="fl">0.5</span>, weights <span class="op">=</span> <span class="fl">1.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x7f605b3b5a90&gt;</code></pre>
+<pre><code>&lt;ANNarchy.core.Projection.Projection at 0x7f00f0be9a90&gt;</code></pre>
 </div>
 </div>
 <p>The connector method must be called before the network is compiled.</p>
@@ -439,14 +439,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="global-attributes" class="level3">
 <h3 class="anchored" data-anchor-id="global-attributes">Global attributes</h3>
 <p>The global parameters and variables of a projection (parameters by default, and variables defined with <code>locality='global'</code>) can be accessed directly through attributes:</p>
-<div id="b879a79a" class="cell" data-execution_count="7">
+<div id="5323748b" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>proj.tau</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>100.0</code></pre>
 </div>
 </div>
 <p>Semi-global attributes have one value per post-synaptic neuron, so the result is a list:</p>
-<div id="389829ac" class="cell" data-execution_count="8">
+<div id="811ee887" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>proj.theta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</code></pre>
@@ -459,14 +459,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>a list of lists, matching exactly the number of synapses in the projection.</li>
 </ul>
 <p>After compilation (and therefore creation of the synapses), you can access how many post-synaptic neurons receive actual synapses with:</p>
-<div id="df7b6b0a" class="cell" data-execution_count="9">
+<div id="60ea8c69" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>proj.size</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>10</code></pre>
 </div>
 </div>
 <p>The list of ranks of the post-synaptic neurons receiving synapses is obtained with:</p>
-<div id="799cc6d5" class="cell" data-execution_count="10">
+<div id="51e6f383" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>proj.post_ranks</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code></pre>
@@ -478,53 +478,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Beware:</strong> As projections are only instantiated after the call to <code>compile()</code>, local attributes of a Projection are only available then. Trying to access them before compilation will lead to an error!</p>
 <p><strong>At the projection level</strong></p>
 <p>Local attributes can also be accessed globally through attributes. It will return a list of lists containing the synapse-specific values.</p>
-<div id="02782bca" class="cell" data-execution_count="11">
+<div id="18940d9c" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>proj.w</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>[[1.0, 1.0, 1.0, 1.0, 1.0],
+<pre><code>[[1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
  [1.0, 1.0, 1.0, 1.0],
  [1.0, 1.0, 1.0],
  [1.0, 1.0, 1.0, 1.0, 1.0],
+ [1.0, 1.0, 1.0, 1.0],
  [1.0, 1.0, 1.0, 1.0, 1.0],
+ [1.0, 1.0, 1.0],
  [1.0, 1.0, 1.0, 1.0],
- [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
- [1.0, 1.0, 1.0, 1.0],
- [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
- [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]]</code></pre>
+ [1.0, 1.0, 1.0, 1.0, 1.0],
+ [1.0, 1.0, 1.0, 1.0, 1.0]]</code></pre>
 </div>
 </div>
 <p>The first index represents the post-synaptic neurons. It has the same length as <code>proj.post_ranks</code>. Beware that if some post-synaptic neurons do not receive any connection, this index will not correspond to the ranks of the post-synaptic population.</p>
 <p>The second index represents the pre-synaptic neurons. The list of pre-synaptic ranks for each post-synaptic neuron is obtained with:</p>
-<div id="4767c7b5" class="cell" data-execution_count="12">
+<div id="f9c7d681" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>proj.pre_ranks</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>[[0, 3, 6, 7, 9],
- [0, 1, 5, 6],
- [6, 8, 9],
- [0, 1, 4, 7, 9],
- [1, 2, 3, 5, 8],
- [0, 1, 2, 7],
- [0, 1, 2, 3, 4, 5, 7, 8],
- [0, 3, 5, 7],
- [0, 1, 3, 4, 5, 6, 8],
- [0, 1, 2, 3, 4, 7, 9]]</code></pre>
+<pre><code>[[1, 3, 5, 7, 8, 9],
+ [0, 1, 4, 6],
+ [3, 4, 8],
+ [0, 3, 6, 7, 8],
+ [0, 2, 3, 7],
+ [1, 4, 5, 8, 9],
+ [3, 7, 9],
+ [2, 4, 8, 9],
+ [3, 5, 6, 7, 9],
+ [1, 2, 3, 4, 7]]</code></pre>
 </div>
 </div>
 <p><code>proj.w</code> and <code>proj.pre_ranks</code> have the same number of elements. In the general case, the connectivity matrix is not dense (different number of incoming synapses for each post-synaptic neuron), so projection attributes cannot be casted to 2D numpy arrays.</p>
 <p>The connectivity matrix with weights <code>w</code> can be visualized as a 2D array using <code>Projection.connectivity_matrix()</code>, replacing non-existing synapse with <code>0.0</code> (or any other value of your choice).</p>
-<div id="8daf80d0" class="cell" data-execution_count="13">
+<div id="a7c622f5" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>proj.connectivity_matrix(fill<span class="op">=</span><span class="fl">0.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>array([[1., 0., 0., 1., 0., 0., 1., 1., 0., 1.],
-       [1., 1., 0., 0., 0., 1., 1., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 1., 0., 1., 1.],
-       [1., 1., 0., 0., 1., 0., 0., 1., 0., 1.],
-       [0., 1., 1., 1., 0., 1., 0., 0., 1., 0.],
-       [1., 1., 1., 0., 0., 0., 0., 1., 0., 0.],
-       [1., 1., 1., 1., 1., 1., 0., 1., 1., 0.],
-       [1., 0., 0., 1., 0., 1., 0., 1., 0., 0.],
-       [1., 1., 0., 1., 1., 1., 1., 0., 1., 0.],
-       [1., 1., 1., 1., 1., 0., 0., 1., 0., 1.]])</code></pre>
+<pre><code>array([[0., 1., 0., 1., 0., 1., 0., 1., 1., 1.],
+       [1., 1., 0., 0., 1., 0., 1., 0., 0., 0.],
+       [0., 0., 0., 1., 1., 0., 0., 0., 1., 0.],
+       [1., 0., 0., 1., 0., 0., 1., 1., 1., 0.],
+       [1., 0., 1., 1., 0., 0., 0., 1., 0., 0.],
+       [0., 1., 0., 0., 1., 1., 0., 0., 1., 1.],
+       [0., 0., 0., 1., 0., 0., 0., 1., 0., 1.],
+       [0., 0., 1., 0., 1., 0., 0., 0., 1., 1.],
+       [0., 0., 0., 1., 0., 1., 1., 1., 0., 1.],
+       [0., 1., 1., 1., 1., 0., 0., 1., 0., 0.]])</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -543,25 +543,25 @@ Warning
 <p><strong>At the post-synaptic level</strong></p>
 <p>To minimize memory access, the local parameters and variables of a projection can be accessed through the <strong>Dendrite</strong> object, which gathers for a single <strong>post-synaptic</strong> neuron all synapses belonging to the projection.</p>
 <p>Each dendrite stores the parameters and variables of the corresponding synapses as attributes, as populations do for neurons. You can loop over all post-synaptic neurons receiving synapses with the <code>dendrites</code> iterator:</p>
-<div id="eab3a7e5" class="cell" data-execution_count="14">
+<div id="6d395298" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dendrite <span class="kw">in</span> proj.dendrites:</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(dendrite.pre_ranks, dendrite.size)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[0, 3, 6, 7, 9] 5
-[0, 1, 5, 6] 4
-[6, 8, 9] 3
-[0, 1, 4, 7, 9] 5
-[1, 2, 3, 5, 8] 5
-[0, 1, 2, 7] 4
-[0, 1, 2, 3, 4, 5, 7, 8] 8
-[0, 3, 5, 7] 4
-[0, 1, 3, 4, 5, 6, 8] 7
-[0, 1, 2, 3, 4, 7, 9] 7</code></pre>
+<pre><code>[1, 3, 5, 7, 8, 9] 6
+[0, 1, 4, 6] 4
+[3, 4, 8] 3
+[0, 3, 6, 7, 8] 5
+[0, 2, 3, 7] 4
+[1, 4, 5, 8, 9] 5
+[3, 7, 9] 3
+[2, 4, 8, 9] 4
+[3, 5, 6, 7, 9] 5
+[1, 2, 3, 4, 7] 5</code></pre>
 </div>
 </div>
 <p><code>dendrite.pre_ranks</code> returns a list of pre-synaptic neuron ranks. <code>dendrite.size</code> returns the number of synapses for the considered post-synaptic neuron. Global parameters/variables return a single value (<code>dendrite.tau</code>) and local ones return a list (<code>dendrite.w</code>).</p>
 <p>You can also access the dendrites individually, either by specifying the rank or the coordinates of the post-synaptic neuron:</p>
-<div id="0101f13d" class="cell" data-execution_count="15">
+<div id="94d96005" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dendrite <span class="op">=</span> proj.dendrite(<span class="dv">3</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dendrite.w)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
