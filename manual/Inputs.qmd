@@ -624,3 +624,107 @@ plt.plot(fr2)
 plt.xlabel('Time (ms)')
 plt.show()
 ```
+
+## Late- or Re-initialization of Timed Inputs - `update`
+
+In case of missing data upon construction time of the timed input obects, e.g., TimedArray, one can provide the data later using the `update` method. The same method is used if you want to re-initialize the content of the timed input or the schedule.
+
+### Late-initialization
+
+Note that, if you use the late-initialization, the necessary data needs to be set before the begin of the simulation, otherwise the result will be a segmentation fault when using ANNarchy in release mode. In case of a debug simulation C++ asserts will be raised. 
+
+```{python}
+#| echo: false
+import numpy
+```
+
+```{python}
+net = ann.Network()
+
+pop_in = net.create(ann.TimedArray(geometry=1))
+
+m = net.monitor(pop_in, "r")
+
+net.compile()
+
+pop_in.update(rates=numpy.array([[0],[0],[1],[1],[1],[0],[0]]))
+
+net.simulate(10)
+```
+
+```{python}
+#| echo: false
+plt.figure()
+plt.plot(m.get("r"))
+plt.ylabel("firing rate r")
+plt.xlabel("biological time [ms]")
+```
+
+### Re-initialization
+
+In the following script, we first initialize a timed array with a pulse input. After 5 milliseconds, we change the input and continue the simulation.
+
+By default, `reset` is set to True, which means that the new `rates` will be read out from the beginning again, independent of the position in the previous buffer. This behavior can be verified by looking at the output of the neuron.
+
+:::callout-warning
+
+Since ANNarchy 5.0.3, the default for reset is True, while previous release (ANNarchy 5.0 up to 5.0.2) had False as default.
+:::
+
+```{python}
+net = ann.Network()
+
+pop_in = net.create(ann.TimedArray(geometry=1, rates=numpy.array([[0],[0],[1],[1],[1],[1],[0],[0]])))
+
+m = net.monitor(pop_in, "r")
+
+net.compile()
+
+# 5 ms with the original input
+net.simulate(5)
+
+pop_in.update(rates=numpy.array([[0],[0],[3],[3],[3],[3],[0],[0]]))
+
+# 5 ms with the changed input
+net.simulate(5)
+```
+
+```{python}
+#| echo: false
+plt.figure()
+plt.plot(m.get("r"))
+plt.ylabel("firing rate r")
+plt.xlabel("biological time [ms]")
+```
+
+### The Purpose of `reset` Argument:
+
+In some cases, one may want to update the buffer but continue from the current position; therefore, one can set the `reset` argument to false. As a consequence, the new buffer will be read out at the position of the old one.
+
+**Please note**, that the user is responsible for cross-checking the result. In particular, if `schedule` is involved, we recommend carefully checking the result. For instance, using a monitor to record the firing rate as shown in our example.
+
+```{python}
+net = ann.Network()
+
+pop_in = net.create(ann.TimedArray(geometry=1, rates=numpy.array([[0],[0],[0],[1],[1],[1],[1],[0],[0],[0]])))
+
+m = net.monitor(pop_in, "r")
+
+net.compile()
+
+# 5 ms with the original input
+net.simulate(5)
+
+pop_in.update(rates=numpy.array([[0],[0],[0],[3],[3],[3],[3],[0],[0],[0]]), reset=False)
+
+# 5 ms with the changed input
+net.simulate(5)
+```
+
+```{python}
+#| echo: false
+plt.figure()
+plt.plot(m.get("r"))
+plt.ylabel("firing rate r")
+plt.xlabel("biological time [ms]")
+```
