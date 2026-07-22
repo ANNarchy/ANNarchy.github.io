@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Hyperparameter optimization – ANNarchy 5.0.2</title>
+<title>Hyperparameter optimization – ANNarchy 5.0.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../notebooks/MultipleNetworks.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-4a990d8dcb58f517c7c86712b8f2ac7c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-df0ce3d36294d4d0082a50f3c30bcf56.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-d46be1f5f6f15f980d806d52d16540fb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -118,11 +117,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo light-content">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo dark-content">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 5.0.2</span>
+    <span class="navbar-title">ANNarchy 5.0.3</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -433,12 +431,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p><a href="https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/BayesianOptimization.ipynb"><img src="https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&amp;logo=Jupyter.png" class="img-fluid" alt="Download JupyterNotebook"></a> <a href="https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/BayesianOptimization.ipynb"><img src="https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&amp;logo=Jupyter.png" class="img-fluid" alt="Download JupyterNotebook"></a></p>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:14:54.494248Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:14:54.493588Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:14:54.505478Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:14:54.501653Z&quot;}}" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install ANNarchy</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install ANNarchy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Most of the work in computational neuroscience is to guess the values of parameters which are not constrained by the biology. The most basic approach is to simply try out different values, run the simulation, reason about why the results are not what you want, change some parameters, run again, etc. It is very easy to get lost in this process and it requires a great deal of intuition about how the model works.</p>
 <p>If you are able to define an objective function for your model (a single number that tells how well your model performs), you can use search algorithms to find this hyperparameters automatically, at the cost of running your model multiple times.</p>
 <p>Let’s take the example of a rate-coded model depending on two hyperparameters <code>a</code> and <code>b</code>, where is the objective is to have a minimal activity after 1 s of simulation (dummy example):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> MyNetwork()</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> MyNetwork()</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run(a, b):</span>
@@ -447,25 +445,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    net.simulate(<span class="fl">1000.</span>)</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (net.pop.r)<span class="op">**</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (net.pop.r)<span class="op">**</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Grid search</strong> would iterate over all possible values of the parameters to perform the search:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>min_loss <span class="op">=</span> <span class="fl">1000.</span></span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>min_loss <span class="op">=</span> <span class="fl">1000.</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a <span class="kw">in</span> np.linspace(<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="dv">100</span>):</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> b <span class="kw">in</span> np.linspace(<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="dv">100</span>):</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> run(a, b)</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> loss <span class="op">&lt;</span> min_loss:</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>            min_loss <span class="op">=</span> loss</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            a_best <span class="op">=</span> a <span class="op">;</span> b_best <span class="op">=</span> b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            a_best <span class="op">=</span> a <span class="op">;</span> b_best <span class="op">=</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you try 100 values for each parameters, you need 10000 simulations to find your parameters. The number of simulations explodes with the number of free parameters. Moreover, you cannot stop the search before the end, as you could miss the interesting region.</p>
 <p><strong>Random search</strong> samples blindly values for the hyperparameters:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>min_loss <span class="op">=</span> <span class="fl">1000.</span></span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>min_loss <span class="op">=</span> <span class="fl">1000.</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>):</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> np.random.uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> np.random.uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>)</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> run(a, b)</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> loss <span class="op">&lt;</span> min_loss:</span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        min_loss <span class="op">=</span> loss</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        a_best <span class="op">=</span> a <span class="op">;</span> b_best <span class="op">=</span> b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        a_best <span class="op">=</span> a <span class="op">;</span> b_best <span class="op">=</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you are lucky, you may find a good solution quite early in the search, so you can stop it when the loss is below a desired threshold. The main drawback is that the search may spend a lot of time in uninteresting regions: it does not learn anything between two samples.</p>
 <p>An often much more efficient search method is <strong>Bayesian optimization</strong> (also called sequential model-based optimization - SMBO). It is a form of random search that updates beliefs on the hyperparameters. In short, if some parameter values do not lead to good values of the objective function in early samples, they will not be used in later samples. The search becomes more and more focused on the interesting regions of the hyperparameter space.</p>
 <p>As always with Python, there are many libraries for that, including:</p>
@@ -478,16 +476,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://annarchy.github.io/notebooks/COBA.html" class="uri">https://annarchy.github.io/notebooks/COBA.html</a></p>
 <p>Additionally, we will use the <code>tensorboard</code> extension to visualize the dependency between the parameters and the objective function.</p>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:14:54.512623Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:14:54.511949Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:14:55.146139Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:14:55.145382Z&quot;}}" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ANNarchy.extensions.tensorboard <span class="im">import</span> Logger</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ANNarchy.extensions.tensorboard <span class="im">import</span> Logger</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ANNarchy 5.0 (5.0.2) on linux (posix).</code></pre>
 </div>
 </div>
 <div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:14:55.171164Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:14:55.170884Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:15:04.846537Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:15:04.845593Z&quot;}}" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>COBA <span class="op">=</span> ann.Neuron(</span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>COBA <span class="op">=</span> ann.Neuron(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="bu">dict</span>(</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        El <span class="op">=</span> <span class="op">-</span><span class="fl">60.0</span> ,</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        Vr <span class="op">=</span> <span class="op">-</span><span class="fl">60.0</span> ,</span>
@@ -527,18 +525,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.m <span class="op">=</span> <span class="va">self</span>.monitor(<span class="va">self</span>.P, [<span class="st">'spike'</span>])</span>
 <span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> COBANetwork(w_exc<span class="op">=</span><span class="fl">0.6</span>, w_inh<span class="op">=</span><span class="fl">6.7</span>, dt<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Compiling network 1... OK</code></pre>
 </div>
 </div>
 <p>With the default parameters, the COBA network fires at around 20 Hz:</p>
 <div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:15:04.848263Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:15:04.848108Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:15:05.029504Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:15:05.028539Z&quot;}}" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>net.simulate(<span class="fl">1000.0</span>)</span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>net.simulate(<span class="fl">1000.0</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> net.m.get(<span class="st">'spike'</span>)</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>fr <span class="op">=</span> net.m.mean_fr(data)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Firing rate:"</span>, fr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Firing rate:"</span>, fr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Firing rate: 21.14</code></pre>
 </div>
@@ -547,11 +545,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Many parameters might influence the firing rate of the network (if not all). Here, we make the assumption that the weight values for the excitatory connections (0.6) and inhibitory ones (6.7) are the most critical ones.</p>
 <p>Let’s start by importing <code>hyperopt</code> (after installing it with <code>pip install hyperopt</code>):</p>
 <div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:15:05.031085Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:15:05.030936Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:15:05.946187Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:15:05.945504Z&quot;}}" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> hyperopt <span class="im">import</span> fmin, tpe, hp, STATUS_OK</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> hyperopt <span class="im">import</span> fmin, tpe, hp, STATUS_OK</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We define a <code>trial()</code> method taking values for the two hyperparameters as inputs. It starts by resetting the network, sets the excitatory and inhibitory weights to the desired value, simulates for one second, computes the mean firing rate of the population, logs the parameters and finally returns the objective function: the squared error between the recorded firing rate and 30 Hz.</p>
 <div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:15:05.947744Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:15:05.947496Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:15:05.954584Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:15:05.953759Z&quot;}}" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>logger <span class="op">=</span> Logger()</span>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>logger <span class="op">=</span> Logger()</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> trial(args):</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -586,14 +584,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">'status'</span>: STATUS_OK,</span>
 <span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># -- store other results like this</span></span>
 <span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">'fr'</span>: fr,</span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>        }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>        }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Logging in runs/May11_10-15-05_twix</code></pre>
 </div>
 </div>
 <p>We can check that the default parameters indeed lead to a firing rate of 20 Hz:</p>
 <div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:15:05.956517Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:15:05.956378Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:15:06.487595Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:15:06.486855Z&quot;}}" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>trial([<span class="fl">0.6</span>, <span class="fl">6.7</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>trial([<span class="fl">0.6</span>, <span class="fl">6.7</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>{'loss': 0.08327931306250007, 'status': 'ok', 'fr': 20.874249999999996}</code></pre>
 </div>
@@ -608,7 +606,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Here, we will sample the excitatory weights between 0.1 and 1, the inhibitory ones between 1 and 10. Of course, the smaller the range, the better. Refer to the doc of hyperopt for other sampling priors.</p>
 <div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:15:06.489145Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:15:06.488975Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:16:04.589464Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:16:04.588801Z&quot;}}" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> fmin(</span>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> fmin(</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    fn<span class="op">=</span>trial,</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    space<span class="op">=</span>[</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        hp.uniform(<span class="st">'w_exc'</span>, <span class="fl">0.1</span>, <span class="fl">1.0</span>), </span>
@@ -616,7 +614,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    ],</span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    algo<span class="op">=</span>tpe.suggest,</span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    max_evals<span class="op">=</span><span class="dv">100</span>)</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(best)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(best)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  0%|                                                                         | 0/100 [00:00&lt;?, ?trial/s, best loss=?]  1%|▍                                              | 1/100 [00:00&lt;00:46,  2.15trial/s, best loss: 0.3852976409999999]  2%|▉                                             | 2/100 [00:01&lt;00:54,  1.79trial/s, best loss: 0.07914326406250004]  3%|█▍                                            | 3/100 [00:01&lt;00:49,  1.95trial/s, best loss: 0.07914326406250004]  4%|█▊                                            | 4/100 [00:02&lt;00:46,  2.04trial/s, best loss: 0.07914326406250004]  5%|██▎                                          | 5/100 [00:02&lt;00:47,  1.99trial/s, best loss: 0.008645070062499994]  6%|██▋                                          | 6/100 [00:03&lt;00:48,  1.95trial/s, best loss: 0.008645070062499994]  7%|███▏                                         | 7/100 [00:03&lt;00:46,  2.00trial/s, best loss: 0.008645070062499994]  8%|███▌                                         | 8/100 [00:03&lt;00:44,  2.05trial/s, best loss: 0.008645070062499994]  9%|████                                         | 9/100 [00:04&lt;00:43,  2.08trial/s, best loss: 0.008645070062499994] 10%|████▍                                       | 10/100 [00:05&lt;00:45,  1.98trial/s, best loss: 0.008645070062499994] 11%|████▊                                       | 11/100 [00:05&lt;00:51,  1.73trial/s, best loss: 0.008645070062499994] 12%|█████▎                                      | 12/100 [00:06&lt;00:50,  1.73trial/s, best loss: 0.008645070062499994] 13%|█████▋                                      | 13/100 [00:06&lt;00:50,  1.72trial/s, best loss: 0.008645070062499994] 14%|██████                                     | 14/100 [00:07&lt;00:49,  1.75trial/s, best loss: 0.0006312302500000045] 15%|██████▍                                    | 15/100 [00:07&lt;00:47,  1.80trial/s, best loss: 0.0006312302500000045] 16%|██████▉                                    | 16/100 [00:08&lt;00:47,  1.76trial/s, best loss: 0.0006312302500000045] 17%|███████▎                                   | 17/100 [00:09&lt;00:51,  1.61trial/s, best loss: 0.0006312302500000045] 18%|███████▋                                   | 18/100 [00:09&lt;00:47,  1.72trial/s, best loss: 0.0006312302500000045] 19%|████████▏                                  | 19/100 [00:10&lt;00:45,  1.79trial/s, best loss: 0.0006312302500000045] 20%|████████▌                                  | 20/100 [00:10&lt;00:42,  1.86trial/s, best loss: 0.0006312302500000045] 21%|█████████                                  | 21/100 [00:11&lt;00:46,  1.71trial/s, best loss: 0.0006312302500000045] 22%|█████████▍                                 | 22/100 [00:12&lt;00:48,  1.62trial/s, best loss: 0.0006312302500000045] 23%|█████████▉                                 | 23/100 [00:12&lt;00:45,  1.68trial/s, best loss: 0.0006312302500000045] 24%|██████████▎                                | 24/100 [00:13&lt;00:43,  1.77trial/s, best loss: 0.0006312302500000045] 25%|██████████▊                                | 25/100 [00:14&lt;00:49,  1.52trial/s, best loss: 0.0006312302500000045] 26%|███████████▏                               | 26/100 [00:14&lt;00:46,  1.59trial/s, best loss: 0.0006312302500000045] 27%|███████████▌                               | 27/100 [00:15&lt;00:43,  1.69trial/s, best loss: 0.0006312302500000045] 28%|████████████                               | 28/100 [00:15&lt;00:42,  1.70trial/s, best loss: 0.0006312302500000045] 29%|████████████▍                              | 29/100 [00:16&lt;00:40,  1.75trial/s, best loss: 0.0006312302500000045] 30%|████████████▉                              | 30/100 [00:16&lt;00:39,  1.78trial/s, best loss: 0.0006312302500000045] 31%|█████████████▎                             | 31/100 [00:17&lt;00:39,  1.73trial/s, best loss: 0.0006312302500000045] 32%|█████████████▊                             | 32/100 [00:18&lt;00:39,  1.70trial/s, best loss: 0.0006312302500000045] 33%|██████████████▏                            | 33/100 [00:18&lt;00:38,  1.74trial/s, best loss: 0.0006312302500000045] 34%|██████████████▌                            | 34/100 [00:19&lt;00:36,  1.80trial/s, best loss: 0.0006312302500000045] 35%|███████████████                            | 35/100 [00:19&lt;00:35,  1.85trial/s, best loss: 0.0006312302500000045] 36%|███████████████▍                           | 36/100 [00:20&lt;00:35,  1.78trial/s, best loss: 0.0006312302500000045] 37%|███████████████▉                           | 37/100 [00:20&lt;00:34,  1.80trial/s, best loss: 0.0006312302500000045] 38%|████████████████▎                          | 38/100 [00:21&lt;00:34,  1.78trial/s, best loss: 0.0006312302500000045] 39%|████████████████▊                          | 39/100 [00:21&lt;00:34,  1.79trial/s, best loss: 0.0006312302500000045] 40%|████████████████▊                         | 40/100 [00:22&lt;00:34,  1.74trial/s, best loss: 0.00033756099999999534] 41%|█████████████████▏                        | 41/100 [00:23&lt;00:33,  1.77trial/s, best loss: 0.00033756099999999534] 42%|█████████████████▋                        | 42/100 [00:23&lt;00:32,  1.80trial/s, best loss: 0.00033756099999999534] 43%|██████████████████                        | 43/100 [00:24&lt;00:33,  1.70trial/s, best loss: 0.00033756099999999534] 44%|██████████████████▍                       | 44/100 [00:24&lt;00:32,  1.72trial/s, best loss: 0.00033756099999999534] 45%|██████████████████▉                       | 45/100 [00:25&lt;00:32,  1.70trial/s, best loss: 0.00033756099999999534] 46%|███████████████████▎                      | 46/100 [00:25&lt;00:30,  1.76trial/s, best loss: 0.00033756099999999534] 47%|███████████████████▋                      | 47/100 [00:26&lt;00:30,  1.75trial/s, best loss: 0.00033756099999999534] 48%|████████████████████▏                     | 48/100 [00:27&lt;00:29,  1.75trial/s, best loss: 0.00026471024999999817] 49%|████████████████████▌                     | 49/100 [00:27&lt;00:29,  1.70trial/s, best loss: 0.00026471024999999817] 50%|█████████████████████                     | 50/100 [00:28&lt;00:28,  1.73trial/s, best loss: 0.00026471024999999817] 51%|█████████████████████▍                    | 51/100 [00:28&lt;00:28,  1.73trial/s, best loss: 0.00026471024999999817] 52%|█████████████████████▊                    | 52/100 [00:29&lt;00:29,  1.65trial/s, best loss: 0.00026471024999999817] 53%|██████████████████████▎                   | 53/100 [00:30&lt;00:28,  1.67trial/s, best loss: 0.00026471024999999817] 54%|██████████████████████▋                   | 54/100 [00:30&lt;00:26,  1.72trial/s, best loss: 0.00026471024999999817] 55%|███████████████████████                   | 55/100 [00:31&lt;00:25,  1.76trial/s, best loss: 0.00026471024999999817] 56%|███████████████████████▌                  | 56/100 [00:31&lt;00:27,  1.60trial/s, best loss: 0.00026471024999999817] 57%|███████████████████████▉                  | 57/100 [00:32&lt;00:28,  1.51trial/s, best loss: 0.00026471024999999817] 58%|████████████████████████▎                 | 58/100 [00:33&lt;00:30,  1.39trial/s, best loss: 0.00026471024999999817] 59%|████████████████████████▊                 | 59/100 [00:34&lt;00:27,  1.49trial/s, best loss: 0.00026471024999999817] 60%|█████████████████████████▏                | 60/100 [00:34&lt;00:27,  1.45trial/s, best loss: 0.00026471024999999817] 61%|█████████████████████████▌                | 61/100 [00:35&lt;00:24,  1.60trial/s, best loss: 0.00026471024999999817] 62%|██████████████████████████                | 62/100 [00:35&lt;00:22,  1.70trial/s, best loss: 0.00026471024999999817] 63%|██████████████████████████▍               | 63/100 [00:36&lt;00:21,  1.74trial/s, best loss: 0.00026471024999999817] 64%|██████████████████████████▉               | 64/100 [00:36&lt;00:21,  1.70trial/s, best loss: 0.00026471024999999817] 65%|███████████████████████████▎              | 65/100 [00:37&lt;00:20,  1.74trial/s, best loss: 0.00026471024999999817] 66%|███████████████████████████▋              | 66/100 [00:38&lt;00:19,  1.76trial/s, best loss: 0.00025401600000000133] 67%|████████████████████████████▏             | 67/100 [00:38&lt;00:18,  1.77trial/s, best loss: 0.00025401600000000133] 68%|████████████████████████████▌             | 68/100 [00:39&lt;00:18,  1.76trial/s, best loss: 0.00025401600000000133] 69%|████████████████████████████▉             | 69/100 [00:39&lt;00:18,  1.72trial/s, best loss: 0.00025401600000000133] 70%|█████████████████████████████▍            | 70/100 [00:40&lt;00:17,  1.76trial/s, best loss: 0.00025401600000000133] 71%|█████████████████████████████▊            | 71/100 [00:40&lt;00:16,  1.73trial/s, best loss: 0.00025401600000000133] 72%|██████████████████████████████▏           | 72/100 [00:41&lt;00:16,  1.71trial/s, best loss: 0.00025401600000000133] 73%|██████████████████████████████▋           | 73/100 [00:42&lt;00:15,  1.70trial/s, best loss: 0.00025401600000000133]                                                                                                                      WARNING: The recording of monitors might consume 114MiB, i.e. more then 10% of your currently available memory. 
  73%|██████████████████████████████▋           | 73/100 [00:42&lt;00:15,  1.70trial/s, best loss: 0.00025401600000000133]                                                                                                                      WARNING: Please note, that estimate considers only recorded state variables. Other attributes, such as spike recordings, are not included. 
@@ -636,7 +634,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>After 100 simulations, <code>hyperopt</code> returns a set of hyperparameter values that make the network fire at 30Hz. We can check that it is true with:</p>
 <div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:16:04.590744Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:16:04.590612Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:16:05.158520Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:16:05.157863Z&quot;}}" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>trial([best[<span class="st">'w_exc'</span>], best[<span class="st">'w_inh'</span>]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>trial([best[<span class="st">'w_exc'</span>], best[<span class="st">'w_inh'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>WARNING: The recording of monitors might consume 126MiB, i.e. more then 10% of your currently available memory. </code></pre>
 </div>
@@ -706,14 +704,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -728,7 +725,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+        var filterRegex = new RegExp("https:\/\/hdinkelbach@github\.com\/ANNarchy\/ANNarchy\.github\.io\.git");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

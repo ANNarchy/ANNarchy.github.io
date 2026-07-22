@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Populations – ANNarchy 5.0.2</title>
+<title>Populations – ANNarchy 5.0.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../manual/SpikeNeuron.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-4a990d8dcb58f517c7c86712b8f2ac7c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-df0ce3d36294d4d0082a50f3c30bcf56.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-d46be1f5f6f15f980d806d52d16540fb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -118,11 +117,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo light-content">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo dark-content">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 5.0.2</span>
+    <span class="navbar-title">ANNarchy 5.0.3</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -373,8 +371,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Once the <code>Neuron</code> objects have been defined, the populations can be created. Let’s suppose we have defined the following rate-coded neuron:</p>
-<div id="0c538ddd" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="7ad6b46a" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>LeakyIntegratorNeuron <span class="op">=</span> ann.Neuron(</span>
@@ -386,19 +384,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'tau * dv/dt  + v = baseline + sum(exc)'</span>,</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'r = pos(v)'</span>,</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ANNarchy 5.0 (5.0.2) on linux (posix).</code></pre>
+<pre><code>ANNarchy 5.0 (5.0.3) on linux (posix).</code></pre>
 </div>
 </div>
 <section id="creating-populations" class="level2">
 <h2 class="anchored" data-anchor-id="creating-populations">Creating populations</h2>
 <p>Populations of neurons are contained in an instance of the <code>Population</code> class, which can be created by calling the <code>create()</code> method of a network:</p>
-<div id="628c7bcc" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network()</span>
+<div id="48293473" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>pop1 <span class="op">=</span> net.create(geometry<span class="op">=</span><span class="dv">100</span>, neuron<span class="op">=</span>LeakyIntegratorNeuron)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> net.create(geometry<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>), neuron<span class="op">=</span>LeakyIntegratorNeuron, name<span class="op">=</span><span class="st">"pop2"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>pop2 <span class="op">=</span> net.create(geometry<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>), neuron<span class="op">=</span>LeakyIntegratorNeuron, name<span class="op">=</span><span class="st">"pop2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The rate-coded or spiking nature of the <code>Neuron</code> instance is irrelevant when creating the <code>Population</code> object. <code>Population</code> objects can also be created directly by providing the id of the network object, but it is not recommended.</p>
 <p><code>Network.create()</code> takes different arguments:</p>
@@ -419,14 +417,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>rank_from_coordinates</code> returns the rank corresponding to the coordinates.</li>
 </ul>
 <p>For example, with <code>pop2</code> having a geometry <code>(8, 8)</code>:</p>
-<div id="bc7586d8" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pop2.coordinates_from_rank(<span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="438ae271" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pop2.coordinates_from_rank(<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(1, 7)</code></pre>
 </div>
 </div>
-<div id="65b2c068" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pop2.rank_from_coordinates((<span class="dv">4</span>, <span class="dv">6</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="87379df0" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pop2.rank_from_coordinates((<span class="dv">4</span>, <span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>38</code></pre>
 </div>
@@ -436,33 +434,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="population-attributes">Population attributes</h2>
 <p>The value of the parameters and variables of all neurons in a population can be accessed and modified through population attributes.</p>
 <p>With the previously defined populations, you can list all their parameters and variables with:</p>
-<div id="7a723491" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pop2.attributes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="1426f6c7" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pop2.attributes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>['tau', 'baseline', 'v', 'r']</code></pre>
 </div>
 </div>
-<div id="b61779f7" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pop2.parameters</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="42b310ca" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pop2.parameters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>['tau', 'baseline']</code></pre>
 </div>
 </div>
-<div id="4cdf9497" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pop2.variables</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="c28e656f" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pop2.variables</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>['v', 'r']</code></pre>
 </div>
 </div>
 <p>Reading their value is straightforward:</p>
-<div id="a4224259" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pop2.tau</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="f2d7cbba" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pop2.tau</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>10.0</code></pre>
 </div>
 </div>
-<div id="bb4f4959" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pop2.r</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="585486ba" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pop2.r</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>array([[0., 0., 0., 0., 0., 0., 0., 0.],
        [0., 0., 0., 0., 0., 0., 0., 0.],
@@ -476,16 +474,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Population-wise parameters/variables have a single value for the population, while neuron-specific ones return a NumPy array with the same geometry has the population.</p>
 <p>Setting their value is also simple:</p>
-<div id="b4595ea8" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pop2.tau <span class="op">=</span> <span class="fl">20.0</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.tau)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="eafcd116" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pop2.tau <span class="op">=</span> <span class="fl">20.0</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.tau)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>20.0</code></pre>
 </div>
 </div>
-<div id="f1696fe7" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pop2.r <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="dc1cda47" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pop2.r <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1. 1. 1. 1. 1. 1. 1. 1.]
  [1. 1. 1. 1. 1. 1. 1. 1.]
@@ -497,9 +495,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  [1. 1. 1. 1. 1. 1. 1. 1.]]</code></pre>
 </div>
 </div>
-<div id="6f3a8eee" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pop2.v <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> np.ones(pop2.geometry)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.v)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="73691b6d" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pop2.v <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> np.ones(pop2.geometry)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5]
  [0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5]
@@ -511,26 +509,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  [0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5]]</code></pre>
 </div>
 </div>
-<div id="69e1c5ec" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pop2.r <span class="op">=</span> ann.Uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="730e1e5e" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pop2.r <span class="op">=</span> ann.Uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[0.42220537 0.58716753 0.17804063 0.41708201 0.35763264 0.47874624
-  0.99141981 0.45418597]
- [0.65672218 0.77409321 0.27339188 0.52189136 0.51148972 0.86198139
-  0.67384899 0.25347631]
- [0.26231561 0.71194255 0.0170382  0.48722496 0.53675628 0.43619982
-  0.40379173 0.56661729]
- [0.16026336 0.15380605 0.63156745 0.3360509  0.23951275 0.85848646
-  0.16459129 0.36371879]
- [0.85939879 0.50472916 0.65261357 0.46318559 0.12493102 0.69705028
-  0.84073407 0.49405362]
- [0.12633571 0.44020929 0.46619607 0.00766195 0.08405367 0.46981914
-  0.5313337  0.33921551]
- [0.60585443 0.21252712 0.80521279 0.88926117 0.23860751 0.47043607
-  0.27725785 0.41417189]
- [0.59477185 0.56425825 0.58895749 0.69786897 0.29657871 0.41307825
-  0.93196448 0.81974452]]</code></pre>
+<pre><code>[[0.40504035 0.12603075 0.05202772 0.28159626 0.33430183 0.59498581
+  0.29894084 0.31778574]
+ [0.75645559 0.27166589 0.64944151 0.7757475  0.28672243 0.56365342
+  0.59106778 0.95505002]
+ [0.1302477  0.51348381 0.55052489 0.84449242 0.03251984 0.61499191
+  0.99305945 0.80837963]
+ [0.92063478 0.26952673 0.1092451  0.15575556 0.47658504 0.57716157
+  0.28151512 0.97015722]
+ [0.91931538 0.70233422 0.9828055  0.34948154 0.18584745 0.55023095
+  0.9989881  0.66634659]
+ [0.29683397 0.53202626 0.42215691 0.01806605 0.84454061 0.82113371
+  0.74244004 0.45152161]
+ [0.75990021 0.2670696  0.73644381 0.77897468 0.53127113 0.52827579
+  0.16588299 0.71707003]
+ [0.14769021 0.01455348 0.99876277 0.56969888 0.62361858 0.44790702
+  0.32694912 0.76958513]]</code></pre>
 </div>
 </div>
 <p>For population-wide attributes, you can only specify a single value (float, int or bool depending on the type of the parameter/variable). For neuron-specific attributes, you can provide either:</p>
@@ -551,33 +549,41 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>If you do not want to use the attributes of Python (for example when doing a loop over unknown attributes), you can also use the <code>get(name)</code> and <code>set(values)</code> methods of <strong>Population</strong>:</p>
-<div id="f42185ee" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pop1.<span class="bu">set</span>({<span class="st">'v'</span>: <span class="fl">1.0</span>, <span class="st">'r'</span>: ann.Uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>)})</span>
+<div id="18b393b9" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pop1.<span class="bu">set</span>({<span class="st">'v'</span>: <span class="fl">1.0</span>, <span class="st">'r'</span>: ann.Uniform(<span class="fl">0.0</span>, <span class="fl">1.0</span>)})</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop1.get(<span class="st">'v'</span>))</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop1.get(<span class="st">'r'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop1.get(<span class="st">'r'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
  1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
  1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
  1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
  1. 1. 1. 1.]
-[0.97774063 0.3636436  0.98957682 0.75384061 0.54775417 0.46752777
- 0.29049789 0.32710486 0.4587927  0.33974159 0.34222397 0.10291571
- 0.45148375 0.23095462 0.49279587 0.2581984  0.50041726 0.77148887
- 0.31181163 0.93650574 0.46894574 0.54492823 0.12312836 0.47474221
- 0.15337624 0.9442971  0.79841746 0.2510827  0.26022203 0.47046862
- 0.66678909 0.80070519 0.53635247 0.76517008 0.9941618  0.76660753
- 0.00765513 0.54665945 0.08272498 0.08683525 0.86738855 0.40352212
- 0.41577662 0.93217133 0.75863768 0.25430215 0.49078766 0.97955726
- 0.54256844 0.60455869 0.69170455 0.34947471 0.65841281 0.58781961
- 0.69949777 0.60309054 0.91167751 0.9365428  0.84695771 0.14945791
- 0.35489999 0.79761117 0.88814481 0.27989357 0.46117907 0.41249857
- 0.9160279  0.80769654 0.59388598 0.92709085 0.81574225 0.16102496
- 0.45465486 0.05717751 0.86546144 0.84043012 0.86276385 0.38698587
- 0.64644822 0.68561438 0.62449379 0.92957364 0.49009116 0.27815754
- 0.14630486 0.46451935 0.15307386 0.50235709 0.67944479 0.67000913
- 0.86148624 0.76246324 0.37652532 0.49931247 0.00316741 0.60252873
- 0.91768275 0.3559679  0.17615623 0.08088825]</code></pre>
+[9.95983469e-01 3.62613809e-02 1.40190283e-01 8.64102884e-01
+ 2.67911190e-01 8.89831059e-01 2.20973905e-01 4.65034361e-01
+ 9.06745195e-01 4.27548289e-01 2.43246173e-04 8.35507135e-01
+ 6.03180718e-01 4.45577169e-01 2.30258802e-01 9.34718297e-01
+ 2.97684600e-01 1.95059294e-01 1.44832092e-01 5.03374022e-02
+ 5.81667259e-01 2.48470877e-01 7.34352579e-01 4.56061987e-01
+ 3.11840597e-01 3.34458103e-01 9.93628813e-01 4.36106212e-02
+ 3.38694946e-01 1.84657840e-01 4.33172371e-01 5.63102049e-01
+ 8.20909951e-01 3.15321015e-01 7.75060746e-01 1.01111998e-01
+ 1.11132873e-01 9.11657671e-01 4.34727721e-01 6.16408788e-01
+ 4.51801607e-01 3.39181598e-01 9.04634048e-01 2.62659173e-02
+ 9.39578814e-01 4.99850259e-01 9.50502223e-01 8.99582886e-01
+ 8.10120240e-01 6.75350601e-02 1.40870364e-01 3.10417856e-01
+ 3.20881972e-01 6.50804228e-01 1.51484945e-02 1.30046715e-01
+ 6.86016842e-01 8.99419649e-01 8.23796213e-01 5.76573247e-01
+ 4.58748510e-01 7.56711948e-01 5.57816107e-01 1.50515523e-01
+ 3.76168963e-01 3.80297897e-01 7.91938310e-01 4.11888967e-01
+ 4.45295005e-01 4.66191846e-01 5.44099258e-02 8.18098217e-01
+ 6.82439019e-01 8.02184148e-01 4.50528477e-01 8.40825942e-01
+ 4.09842387e-01 2.55935057e-01 5.24245394e-01 7.10157972e-01
+ 4.54117005e-01 1.29955002e-01 5.18290938e-01 1.60043832e-01
+ 9.03297467e-01 5.81340770e-01 2.25679103e-01 3.37100271e-01
+ 3.92913539e-01 8.37976517e-01 3.35972044e-01 4.63822338e-01
+ 6.35338673e-01 1.49068078e-01 8.90462830e-01 2.60064604e-01
+ 3.39864938e-01 3.54272965e-01 3.08700816e-01 4.25878521e-01]</code></pre>
 </div>
 </div>
 </div>
@@ -586,8 +592,8 @@ Note
 <section id="accessing-individual-neurons" class="level2">
 <h2 class="anchored" data-anchor-id="accessing-individual-neurons">Accessing individual neurons</h2>
 <p>There exists a purely semantic access to individual neurons of a population. The <code>IndividualNeuron</code> class wraps population data for a specific neuron. It can be accessed through the <code>Population.neuron()</code> method using either the rank of the neuron (from 0 to <code>pop1.size - 1</code>) or its coordinates in the population’s geometry:</p>
-<div id="ed015720" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cf18271f" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Neuron of the population pop1 with rank 18 (coordinates (2, 2)).
 Parameters:
@@ -596,15 +602,15 @@ Parameters:
 
 Variables:
   v = 0.5
-  r = 0.017038197700232627
+  r = 0.5505248858663212
 </code></pre>
 </div>
 </div>
 <p>The individual neurons can be manipulated individually:</p>
-<div id="4399f9f7" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>my_neuron <span class="op">=</span> pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>)</span>
+<div id="2bd45d85" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>my_neuron <span class="op">=</span> pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>my_neuron.r <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_neuron)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_neuron)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Neuron of the population pop1 with rank 18 (coordinates (2, 2)).
 Parameters:
@@ -634,78 +640,86 @@ Warning
 <section id="accessing-groups-of-neurons---populationview" class="level2">
 <h2 class="anchored" data-anchor-id="accessing-groups-of-neurons---populationview">Accessing groups of neurons - PopulationView</h2>
 <p>Individual neurons can be grouped into <code>PopulationView</code> objects, which hold references to different neurons of the same population. One can create population views by “adding” several neurons together:</p>
-<div id="8cd93d16" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>) <span class="op">+</span> pop2.neuron(<span class="dv">3</span>, <span class="dv">3</span>) <span class="op">+</span> pop2.neuron(<span class="dv">4</span>, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="da06eef7" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2.neuron(<span class="dv">2</span>, <span class="dv">2</span>) <span class="op">+</span> pop2.neuron(<span class="dv">3</span>, <span class="dv">3</span>) <span class="op">+</span> pop2.neuron(<span class="dv">4</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="a1855c15" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>popview.r <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="0292e7cc" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>popview.r <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[0.42220537 0.58716753 0.17804063 0.41708201 0.35763264 0.47874624
-  0.99141981 0.45418597]
- [0.65672218 0.77409321 0.27339188 0.52189136 0.51148972 0.86198139
-  0.67384899 0.25347631]
- [0.26231561 0.71194255 1.         0.48722496 0.53675628 0.43619982
-  0.40379173 0.56661729]
- [0.16026336 0.15380605 0.63156745 1.         0.23951275 0.85848646
-  0.16459129 0.36371879]
- [0.85939879 0.50472916 0.65261357 0.46318559 1.         0.69705028
-  0.84073407 0.49405362]
- [0.12633571 0.44020929 0.46619607 0.00766195 0.08405367 0.46981914
-  0.5313337  0.33921551]
- [0.60585443 0.21252712 0.80521279 0.88926117 0.23860751 0.47043607
-  0.27725785 0.41417189]
- [0.59477185 0.56425825 0.58895749 0.69786897 0.29657871 0.41307825
-  0.93196448 0.81974452]]</code></pre>
+<pre><code>[[0.40504035 0.12603075 0.05202772 0.28159626 0.33430183 0.59498581
+  0.29894084 0.31778574]
+ [0.75645559 0.27166589 0.64944151 0.7757475  0.28672243 0.56365342
+  0.59106778 0.95505002]
+ [0.1302477  0.51348381 1.         0.84449242 0.03251984 0.61499191
+  0.99305945 0.80837963]
+ [0.92063478 0.26952673 0.1092451  1.         0.47658504 0.57716157
+  0.28151512 0.97015722]
+ [0.91931538 0.70233422 0.9828055  0.34948154 1.         0.55023095
+  0.9989881  0.66634659]
+ [0.29683397 0.53202626 0.42215691 0.01806605 0.84454061 0.82113371
+  0.74244004 0.45152161]
+ [0.75990021 0.2670696  0.73644381 0.77897468 0.53127113 0.52827579
+  0.16588299 0.71707003]
+ [0.14769021 0.01455348 0.99876277 0.56969888 0.62361858 0.44790702
+  0.32694912 0.76958513]]</code></pre>
 </div>
 </div>
 <p>One can also use the slice operators to create PopulationViews:</p>
-<div id="a5da72e2" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2[<span class="dv">3</span>, :]</span>
+<div id="5cadf6c3" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2[<span class="dv">3</span>, :]</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>popview.r <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop2.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[0.42220537 0.58716753 0.17804063 0.41708201 0.35763264 0.47874624
-  0.99141981 0.45418597]
- [0.65672218 0.77409321 0.27339188 0.52189136 0.51148972 0.86198139
-  0.67384899 0.25347631]
- [0.26231561 0.71194255 1.         0.48722496 0.53675628 0.43619982
-  0.40379173 0.56661729]
+<pre><code>[[0.40504035 0.12603075 0.05202772 0.28159626 0.33430183 0.59498581
+  0.29894084 0.31778574]
+ [0.75645559 0.27166589 0.64944151 0.7757475  0.28672243 0.56365342
+  0.59106778 0.95505002]
+ [0.1302477  0.51348381 1.         0.84449242 0.03251984 0.61499191
+  0.99305945 0.80837963]
  [1.         1.         1.         1.         1.         1.
   1.         1.        ]
- [0.85939879 0.50472916 0.65261357 0.46318559 1.         0.69705028
-  0.84073407 0.49405362]
- [0.12633571 0.44020929 0.46619607 0.00766195 0.08405367 0.46981914
-  0.5313337  0.33921551]
- [0.60585443 0.21252712 0.80521279 0.88926117 0.23860751 0.47043607
-  0.27725785 0.41417189]
- [0.59477185 0.56425825 0.58895749 0.69786897 0.29657871 0.41307825
-  0.93196448 0.81974452]]</code></pre>
+ [0.91931538 0.70233422 0.9828055  0.34948154 1.         0.55023095
+  0.9989881  0.66634659]
+ [0.29683397 0.53202626 0.42215691 0.01806605 0.84454061 0.82113371
+  0.74244004 0.45152161]
+ [0.75990021 0.2670696  0.73644381 0.77897468 0.53127113 0.52827579
+  0.16588299 0.71707003]
+ [0.14769021 0.01455348 0.99876277 0.56969888 0.62361858 0.44790702
+  0.32694912 0.76958513]]</code></pre>
 </div>
 </div>
 <p>or:</p>
-<div id="5a4fac2f" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2[<span class="dv">2</span>:<span class="dv">5</span>, <span class="dv">4</span>] </span>
+<div id="0e0d9475" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>popview <span class="op">=</span> pop2[<span class="dv">2</span>:<span class="dv">5</span>, <span class="dv">4</span>] </span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>popview.r <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop1.r)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pop1.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[0.97774063 0.3636436  0.98957682 0.75384061 0.54775417 0.46752777
- 0.29049789 0.32710486 0.4587927  0.33974159 0.34222397 0.10291571
- 0.45148375 0.23095462 0.49279587 0.2581984  0.50041726 0.77148887
- 0.31181163 0.93650574 0.46894574 0.54492823 0.12312836 0.47474221
- 0.15337624 0.9442971  0.79841746 0.2510827  0.26022203 0.47046862
- 0.66678909 0.80070519 0.53635247 0.76517008 0.9941618  0.76660753
- 0.00765513 0.54665945 0.08272498 0.08683525 0.86738855 0.40352212
- 0.41577662 0.93217133 0.75863768 0.25430215 0.49078766 0.97955726
- 0.54256844 0.60455869 0.69170455 0.34947471 0.65841281 0.58781961
- 0.69949777 0.60309054 0.91167751 0.9365428  0.84695771 0.14945791
- 0.35489999 0.79761117 0.88814481 0.27989357 0.46117907 0.41249857
- 0.9160279  0.80769654 0.59388598 0.92709085 0.81574225 0.16102496
- 0.45465486 0.05717751 0.86546144 0.84043012 0.86276385 0.38698587
- 0.64644822 0.68561438 0.62449379 0.92957364 0.49009116 0.27815754
- 0.14630486 0.46451935 0.15307386 0.50235709 0.67944479 0.67000913
- 0.86148624 0.76246324 0.37652532 0.49931247 0.00316741 0.60252873
- 0.91768275 0.3559679  0.17615623 0.08088825]</code></pre>
+<pre><code>[9.95983469e-01 3.62613809e-02 1.40190283e-01 8.64102884e-01
+ 2.67911190e-01 8.89831059e-01 2.20973905e-01 4.65034361e-01
+ 9.06745195e-01 4.27548289e-01 2.43246173e-04 8.35507135e-01
+ 6.03180718e-01 4.45577169e-01 2.30258802e-01 9.34718297e-01
+ 2.97684600e-01 1.95059294e-01 1.44832092e-01 5.03374022e-02
+ 5.81667259e-01 2.48470877e-01 7.34352579e-01 4.56061987e-01
+ 3.11840597e-01 3.34458103e-01 9.93628813e-01 4.36106212e-02
+ 3.38694946e-01 1.84657840e-01 4.33172371e-01 5.63102049e-01
+ 8.20909951e-01 3.15321015e-01 7.75060746e-01 1.01111998e-01
+ 1.11132873e-01 9.11657671e-01 4.34727721e-01 6.16408788e-01
+ 4.51801607e-01 3.39181598e-01 9.04634048e-01 2.62659173e-02
+ 9.39578814e-01 4.99850259e-01 9.50502223e-01 8.99582886e-01
+ 8.10120240e-01 6.75350601e-02 1.40870364e-01 3.10417856e-01
+ 3.20881972e-01 6.50804228e-01 1.51484945e-02 1.30046715e-01
+ 6.86016842e-01 8.99419649e-01 8.23796213e-01 5.76573247e-01
+ 4.58748510e-01 7.56711948e-01 5.57816107e-01 1.50515523e-01
+ 3.76168963e-01 3.80297897e-01 7.91938310e-01 4.11888967e-01
+ 4.45295005e-01 4.66191846e-01 5.44099258e-02 8.18098217e-01
+ 6.82439019e-01 8.02184148e-01 4.50528477e-01 8.40825942e-01
+ 4.09842387e-01 2.55935057e-01 5.24245394e-01 7.10157972e-01
+ 4.54117005e-01 1.29955002e-01 5.18290938e-01 1.60043832e-01
+ 9.03297467e-01 5.81340770e-01 2.25679103e-01 3.37100271e-01
+ 3.92913539e-01 8.37976517e-01 3.35972044e-01 4.63822338e-01
+ 6.35338673e-01 1.49068078e-01 8.90462830e-01 2.60064604e-01
+ 3.39864938e-01 3.54272965e-01 3.08700816e-01 4.25878521e-01]</code></pre>
 </div>
 </div>
 <p><code>PopulationView</code> objects can be used to create projections.</p>
@@ -726,7 +740,7 @@ Warning
 <section id="functions" class="level2">
 <h2 class="anchored" data-anchor-id="functions">Functions</h2>
 <p>If you have defined a function inside a <code>Neuron</code> definition:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>LeakyIntegratorNeuron <span class="op">=</span> ann.Neuron(</span>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>LeakyIntegratorNeuron <span class="op">=</span> ann.Neuron(</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="bu">dict</span>(   </span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>        tau <span class="op">=</span> <span class="fl">10.0</span>,</span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>        slope <span class="op">=</span> <span class="fl">1.0</span>,</span>
@@ -739,13 +753,13 @@ Warning
 <span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>    functions <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="st">        sigmoid(x, k) = 1.0 / (1.0 + exp(-x*k))</span></span>
 <span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>you can use this function in Python as if it were a method of the corresponding object:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> net.create(<span class="dv">1000</span>, LeakyIntegratorNeuron)</span>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> net.create(<span class="dv">1000</span>, LeakyIntegratorNeuron)</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">1.</span>, <span class="fl">1.</span>, <span class="dv">100</span>)</span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> np.ones(<span class="dv">100</span>)</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> pop.sigmoid(x, k)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> pop.sigmoid(x, k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can pass either a list or a 1D Numpy array to each argument (<strong>not a single value, nor a multidimensional array!</strong>).</p>
 <p>The size of the arrays passed for each argument is arbitrary (it must not match the population’s size) but you have to make sure that they all have the same size. Errors are not catched, so be careful.</p>
 
@@ -804,14 +818,13 @@ Warning
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -826,7 +839,7 @@ Warning
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+        var filterRegex = new RegExp("https:\/\/hdinkelbach@github\.com\/ANNarchy\/ANNarchy\.github\.io\.git");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

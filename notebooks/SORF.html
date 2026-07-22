@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Homeostatic STDP: SORF model – ANNarchy 5.0.2</title>
+<title>Homeostatic STDP: SORF model – ANNarchy 5.0.3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../notebooks/Ramp.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-4a990d8dcb58f517c7c86712b8f2ac7c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-df0ce3d36294d4d0082a50f3c30bcf56.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-d46be1f5f6f15f980d806d52d16540fb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -118,11 +117,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo light-content">
-    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo dark-content">
+    <img src="../manual/img/logowhite.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ANNarchy 5.0.2</span>
+    <span class="navbar-title">ANNarchy 5.0.3</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -432,36 +430,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p><a href="https://raw.githubusercontent.com/ANNarchy/ANNarchy.github.io/master/notebooks/SORF.ipynb"><img src="https://img.shields.io/badge/Download-Notebook-orange?style=for-the-badge&amp;logo=Jupyter.png" class="img-fluid" alt="Download JupyterNotebook"></a> <a href="https://colab.research.google.com/github/ANNarchy/ANNarchy.github.io/blob/master/notebooks/SORF.ipynb"><img src="https://img.shields.io/badge/Open_in-Colab-blue?style=for-the-badge&amp;logo=Jupyter.png" class="img-fluid" alt="Download JupyterNotebook"></a></p>
-<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:45:23.346086Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:45:23.345619Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:45:23.353789Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:45:23.351837Z&quot;}}" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install ANNarchy</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-21T18:48:20.891809Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-21T18:48:20.891586Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-21T18:48:20.914621Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-21T18:48:20.913430Z&quot;}}" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install ANNarchy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Reimplementation of the SORF model published in:</p>
 <blockquote class="blockquote">
 <p>Carlson, K.D.; Richert, M.; Dutt, N.; Krichmar, J.L., “Biologically plausible models of homeostasis and STDP: Stability and learning in spiking neural networks,” in Neural Networks (IJCNN), The 2013 International Joint Conference on , vol., no., pp.1-8, 4-9 Aug.&nbsp;2013. doi: 10.1109/IJCNN.2013.6706961</p>
 </blockquote>
-<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:45:23.358636Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:45:23.358308Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:45:23.994042Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:45:23.993285Z&quot;}}" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-21T18:48:20.919024Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-21T18:48:20.918702Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-21T18:48:21.640917Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-21T18:48:21.639348Z&quot;}}" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ANNarchy <span class="im">as</span> ann</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ANNarchy 5.0 (5.0.2) on linux (posix).</code></pre>
+<pre><code>ANNarchy 5.0 (5.0.3) on linux (posix).</code></pre>
 </div>
 </div>
 <p>Hyperparameters:</p>
-<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:45:24.021531Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:45:24.021293Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:45:24.024456Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:45:24.023726Z&quot;}}" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nb_neuron <span class="op">=</span> <span class="dv">4</span> <span class="co"># Number of exc and inh neurons</span></span>
+<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-21T18:48:21.680813Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-21T18:48:21.680452Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-21T18:48:21.685686Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-21T18:48:21.684546Z&quot;}}" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nb_neuron <span class="op">=</span> <span class="dv">4</span> <span class="co"># Number of exc and inh neurons</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>size <span class="op">=</span> (<span class="dv">32</span>, <span class="dv">32</span>) <span class="co"># input size</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>freq <span class="op">=</span> <span class="fl">1.2</span> <span class="co"># nb_cycles/half-image</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>nb_stim <span class="op">=</span> <span class="dv">40</span> <span class="co"># Number of grating per epoch</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>nb_epochs <span class="op">=</span> <span class="dv">20</span> <span class="co"># Number of epochs</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>max_freq <span class="op">=</span> <span class="fl">28.</span> <span class="co"># Max frequency of the poisson neurons</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="fl">10000.</span> <span class="co"># Period for averaging the firing rate</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="fl">10000.</span> <span class="co"># Period for averaging the firing rate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Neuron type:</p>
-<div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:45:24.026553Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:45:24.026402Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:45:24.040712Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:45:24.039912Z&quot;}}" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Izhikevich Coba neuron with AMPA, NMDA and GABA receptors</span></span>
+<div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-21T18:48:21.688951Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-21T18:48:21.688636Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-21T18:48:21.699245Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-21T18:48:21.697974Z&quot;}}" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Izhikevich Coba neuron with AMPA, NMDA and GABA receptors</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>RSNeuron <span class="op">=</span> ann.Neuron(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> <span class="bu">dict</span>(</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> <span class="fl">0.02</span>,</span>
@@ -508,11 +506,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="st">        nmda(v, t, s) = ((v-t)/(s))^2 / (1.0 + ((v-t)/(s))^2)</span></span>
 <span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
 <span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>    refractory<span class="op">=</span><span class="fl">1.0</span></span>
-<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Synapse:</p>
-<div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:45:24.042603Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:45:24.042461Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:45:24.054848Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:45:24.054109Z&quot;}}" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># STDP with homeostatic regulation</span></span>
+<div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-21T18:48:21.702155Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-21T18:48:21.701841Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-21T18:48:21.712188Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-21T18:48:21.710797Z&quot;}}" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># STDP with homeostatic regulation</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>homeo_stdp <span class="op">=</span> ann.Synapse(</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span><span class="bu">dict</span>(</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># STDP</span></span>
@@ -546,11 +544,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="st">        ltp = A_plus</span></span>
 <span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
 <span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    post_spike<span class="op">=</span><span class="st">"ltd = A_minus"</span></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Network:</p>
-<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:45:24.057167Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:45:24.057007Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:45:47.688716Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:45:47.687941Z&quot;}}" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Network</span></span>
+<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-21T18:48:21.714622Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-21T18:48:21.714384Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-21T18:48:48.426270Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-21T18:48:48.424579Z&quot;}}" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Network</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> ann.Network()</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Input population</span></span>
@@ -592,13 +590,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>InhExc <span class="op">=</span> net.<span class="ex">connect</span>(Inh, Exc, [<span class="st">'gabaa'</span>, <span class="st">'gabab'</span>])</span>
 <span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>InhExc.all_to_all(ann.Uniform(<span class="fl">0.065</span>, <span class="fl">0.259</span>))</span>
 <span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">compile</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Compiling network 1... OK</code></pre>
 </div>
 </div>
-<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:45:47.690453Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:45:47.690275Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:49:49.382787Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:49:49.382107Z&quot;}}" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inputs</span></span>
+<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-21T18:48:48.429911Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-21T18:48:48.429609Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-21T18:52:43.854386Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-21T18:52:43.852997Z&quot;}}" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inputs</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_grating(theta):</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">1.</span>, <span class="fl">1.</span>, size[<span class="dv">0</span>])</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">1.</span>, <span class="fl">1.</span>, size[<span class="dv">1</span>])</span>
@@ -651,173 +649,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>datae <span class="op">=</span> m.get(<span class="st">'r'</span>)</span>
 <span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>datai <span class="op">=</span> n.get(<span class="st">'r'</span>)</span>
 <span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>dataw <span class="op">=</span> o.get(<span class="st">'w'</span>)</span>
-<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>datal <span class="op">=</span> p.get(<span class="st">'w'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>datal <span class="op">=</span> p.get(<span class="st">'w'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>  0%|                                                                                          | 0/20 [00:00&lt;?, ?it/s]  5%|████                                                                              | 1/20 [00:11&lt;03:40, 11.61s/it] 10%|████████▏                                                                         | 2/20 [00:23&lt;03:29, 11.65s/it] 15%|████████████▎                                                                     | 3/20 [00:34&lt;03:17, 11.61s/it] 20%|████████████████▍                                                                 | 4/20 [00:46&lt;03:05, 11.57s/it] 25%|████████████████████▌                                                             | 5/20 [00:57&lt;02:53, 11.59s/it] 30%|████████████████████████▌                                                         | 6/20 [01:09&lt;02:42, 11.64s/it] 35%|████████████████████████████▋                                                     | 7/20 [01:21&lt;02:31, 11.69s/it] 40%|████████████████████████████████▊                                                 | 8/20 [01:33&lt;02:23, 11.93s/it] 45%|████████████████████████████████████▉                                             | 9/20 [01:46&lt;02:12, 12.04s/it]</code></pre>
+<pre><code>  0%|                                                                                          | 0/20 [00:00&lt;?, ?it/s]  5%|████                                                                              | 1/20 [00:11&lt;03:32, 11.20s/it] 10%|████████▏                                                                         | 2/20 [00:22&lt;03:22, 11.23s/it] 15%|████████████▎                                                                     | 3/20 [00:33&lt;03:11, 11.27s/it] 20%|████████████████▍                                                                 | 4/20 [00:45&lt;03:00, 11.30s/it] 25%|████████████████████▌                                                             | 5/20 [00:56&lt;02:49, 11.33s/it] 30%|████████████████████████▌                                                         | 6/20 [01:07&lt;02:39, 11.37s/it] 35%|████████████████████████████▋                                                     | 7/20 [01:19&lt;02:28, 11.41s/it] 40%|████████████████████████████████▊                                                 | 8/20 [01:30&lt;02:17, 11.43s/it] 45%|████████████████████████████████████▉                                             | 9/20 [01:42&lt;02:05, 11.44s/it] 50%|████████████████████████████████████████▌                                        | 10/20 [01:53&lt;01:54, 11.46s/it] 55%|████████████████████████████████████████████▌                                    | 11/20 [02:05&lt;01:43, 11.49s/it] 60%|████████████████████████████████████████████████▌                                | 12/20 [02:17&lt;01:32, 11.51s/it] 65%|████████████████████████████████████████████████████▋                            | 13/20 [02:28&lt;01:20, 11.55s/it] 70%|████████████████████████████████████████████████████████▋                        | 14/20 [02:40&lt;01:09, 11.57s/it] 75%|████████████████████████████████████████████████████████████▊                    | 15/20 [02:51&lt;00:57, 11.59s/it] 80%|████████████████████████████████████████████████████████████████▊                | 16/20 [03:03&lt;00:46, 11.59s/it] 85%|████████████████████████████████████████████████████████████████████▊            | 17/20 [03:15&lt;00:34, 11.60s/it] 90%|████████████████████████████████████████████████████████████████████████▉        | 18/20 [03:26&lt;00:23, 11.63s/it] 95%|████████████████████████████████████████████████████████████████████████████▉    | 19/20 [03:38&lt;00:11, 11.66s/it]100%|█████████████████████████████████████████████████████████████████████████████████| 20/20 [03:50&lt;00:00, 11.69s/it]100%|█████████████████████████████████████████████████████████████████████████████████| 20/20 [03:50&lt;00:00, 11.52s/it]</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>WARNING: The recording of monitors might consume 116MiB, i.e. more then 10% of your currently available memory. 
-WARNING: Please note, that estimate considers only recorded state variables. Other attributes, such as spike recordings, are not included. </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code> 50%|████████████████████████████████████████▌                                        | 10/20 [01:57&lt;01:59, 11.95s/it]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING: The recording of monitors might consume 117MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 118MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 119MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 120MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 168MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 169MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 170MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 171MiB, i.e. more then 10% of your currently available memory. </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code> 55%|████████████████████████████████████████████▌                                    | 11/20 [02:09&lt;01:47, 11.96s/it]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING: The recording of monitors might consume 172MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 173MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 174MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 175MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 176MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 177MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 178MiB, i.e. more then 10% of your currently available memory. </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code> 60%|████████████████████████████████████████████████▌                                | 12/20 [02:21&lt;01:35, 11.98s/it]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING: The recording of monitors might consume 179MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 180MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 181MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 182MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 183MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 184MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 185MiB, i.e. more then 10% of your currently available memory. </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code> 65%|████████████████████████████████████████████████████▋                            | 13/20 [02:33&lt;01:23, 11.96s/it]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING: The recording of monitors might consume 186MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 187MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 188MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 189MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 190MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 191MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 192MiB, i.e. more then 10% of your currently available memory. </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code> 70%|████████████████████████████████████████████████████████▋                        | 14/20 [02:45&lt;01:11, 11.93s/it]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING: The recording of monitors might consume 193MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 194MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 195MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 196MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 197MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 198MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 199MiB, i.e. more then 10% of your currently available memory. </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code> 75%|████████████████████████████████████████████████████████████▊                    | 15/20 [02:57&lt;00:59, 11.96s/it]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING: The recording of monitors might consume 200MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 201MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 202MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 203MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 204MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 205MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 206MiB, i.e. more then 10% of your currently available memory. </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code> 80%|████████████████████████████████████████████████████████████████▊                | 16/20 [03:09&lt;00:47, 11.97s/it]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING: The recording of monitors might consume 207MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 208MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 209MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 210MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 211MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 212MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 213MiB, i.e. more then 10% of your currently available memory. </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code> 85%|████████████████████████████████████████████████████████████████████▊            | 17/20 [03:21&lt;00:36, 12.04s/it]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING: The recording of monitors might consume 214MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 215MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 216MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 217MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 218MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 219MiB, i.e. more then 10% of your currently available memory. </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code> 90%|████████████████████████████████████████████████████████████████████████▉        | 18/20 [03:34&lt;00:24, 12.08s/it]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING: The recording of monitors might consume 220MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 221MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 222MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 223MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 224MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 225MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 226MiB, i.e. more then 10% of your currently available memory. </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code> 95%|████████████████████████████████████████████████████████████████████████████▉    | 19/20 [03:46&lt;00:12, 12.10s/it]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING: The recording of monitors might consume 227MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 228MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 229MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 230MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 231MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 232MiB, i.e. more then 10% of your currently available memory. 
-WARNING: The recording of monitors might consume 233MiB, i.e. more then 10% of your currently available memory. </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>100%|█████████████████████████████████████████████████████████████████████████████████| 20/20 [03:57&lt;00:00, 11.94s/it]100%|█████████████████████████████████████████████████████████████████████████████████| 20/20 [03:57&lt;00:00, 11.89s/it]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Done in  237.85921263694763</code></pre>
+<pre><code>Done in  230.30728149414062</code></pre>
 </div>
 </div>
-<div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-05-11T08:49:49.384545Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-05-11T08:49:49.384359Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-05-11T08:49:52.160049Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-05-11T08:49:52.159265Z&quot;}}" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Final weights</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>w_on_end <span class="op">=</span> OnBufferExc.w</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>w_off_end <span class="op">=</span> OffBufferExc.w</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span>))</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Feedforward weights before and after learning'</span>)</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nb_neuron):</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">3</span>, nb_neuron, i<span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    plt.imshow((np.array(w_on_start[i])).reshape((<span class="dv">32</span>,<span class="dv">32</span>)), aspect<span class="op">=</span><span class="st">'auto'</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">3</span>, nb_neuron, nb_neuron <span class="op">+</span> i <span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    plt.imshow((np.array(w_on_end[i])).reshape((<span class="dv">32</span>,<span class="dv">32</span>)), aspect<span class="op">=</span><span class="st">'auto'</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">3</span>, nb_neuron, <span class="dv">2</span><span class="op">*</span>nb_neuron <span class="op">+</span> i <span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>    plt.imshow((np.array(w_off_end[i])).reshape((<span class="dv">32</span>,<span class="dv">32</span>)), aspect<span class="op">=</span><span class="st">'auto'</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>plt.plot(datae[:, <span class="dv">0</span>], label<span class="op">=</span><span class="st">'Exc'</span>)</span>
-<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>plt.plot(datai[:, <span class="dv">0</span>], label<span class="op">=</span><span class="st">'Inh'</span>)</span>
-<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Mean FR of the Exc and Inh neurons'</span>)</span>
-<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
-<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">121</span>)</span>
-<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a>plt.imshow(np.array(dataw, dtype<span class="op">=</span><span class="st">'float'</span>).T, aspect<span class="op">=</span><span class="st">'auto'</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span>
-<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Timecourse of feedforward weights'</span>)</span>
-<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
-<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">122</span>)</span>
-<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>plt.imshow(np.array(datal, dtype<span class="op">=</span><span class="st">'float'</span>).T, aspect<span class="op">=</span><span class="st">'auto'</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span>
-<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Timecourse of inhibitory weights'</span>)</span>
-<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
-<span id="cb41-31"><a href="#cb41-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-07-21T18:52:43.858742Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-07-21T18:52:43.858384Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-07-21T18:52:46.940230Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-07-21T18:52:46.938950Z&quot;}}" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Final weights</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>w_on_end <span class="op">=</span> OnBufferExc.w</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>w_off_end <span class="op">=</span> OffBufferExc.w</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span>))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Feedforward weights before and after learning'</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nb_neuron):</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">3</span>, nb_neuron, i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    plt.imshow((np.array(w_on_start[i])).reshape((<span class="dv">32</span>,<span class="dv">32</span>)), aspect<span class="op">=</span><span class="st">'auto'</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">3</span>, nb_neuron, nb_neuron <span class="op">+</span> i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    plt.imshow((np.array(w_on_end[i])).reshape((<span class="dv">32</span>,<span class="dv">32</span>)), aspect<span class="op">=</span><span class="st">'auto'</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">3</span>, nb_neuron, <span class="dv">2</span><span class="op">*</span>nb_neuron <span class="op">+</span> i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    plt.imshow((np.array(w_off_end[i])).reshape((<span class="dv">32</span>,<span class="dv">32</span>)), aspect<span class="op">=</span><span class="st">'auto'</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>plt.plot(datae[:, <span class="dv">0</span>], label<span class="op">=</span><span class="st">'Exc'</span>)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>plt.plot(datai[:, <span class="dv">0</span>], label<span class="op">=</span><span class="st">'Inh'</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Mean FR of the Exc and Inh neurons'</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">121</span>)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>plt.imshow(np.array(dataw, dtype<span class="op">=</span><span class="st">'float'</span>).T, aspect<span class="op">=</span><span class="st">'auto'</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Timecourse of feedforward weights'</span>)</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">122</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>plt.imshow(np.array(datal, dtype<span class="op">=</span><span class="st">'float'</span>).T, aspect<span class="op">=</span><span class="st">'auto'</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Timecourse of inhibitory weights'</span>)</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -895,14 +766,13 @@ WARNING: The recording of monitors might consume 233MiB, i.e. more then 10% of y
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -917,7 +787,7 @@ WARNING: The recording of monitors might consume 233MiB, i.e. more then 10% of y
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/ANNarchy\.github\.io\/");
+        var filterRegex = new RegExp("https:\/\/hdinkelbach@github\.com\/ANNarchy\/ANNarchy\.github\.io\.git");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
