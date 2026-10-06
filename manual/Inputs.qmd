@@ -174,15 +174,17 @@ net.simulate(100.) # The same ten inputs are presented again.
 
 The times declared in `schedule` are therefore relative to the last call to `reset()` (or to `t=0.0` at the beginning).
 
-If you want to systematically iterate over the inputs without iterating over `simulate()` and `reset()`, you can provide the `period` argument to the `TimedArray` to define how often the inputs will be reset:
+If you want to systematically iterate over the inputs without iterating over `simulate()` and `reset()`, you can provide the `period` argument to the `TimedArray` to define how often the inputs will be reset. The `period` (in ms) acts like an automatic call to `reset()`: each time this duration has elapsed, the `TimedArray` starts again with the first input of `rates`, and the times in `schedule` are counted from this new start.
 
 ```python
-inp = net.create(ann.TimedArray(rates=inputs, schedule=10.. period=100.))
+inp = net.create(ann.TimedArray(rates=inputs, schedule=10., period=100.))
 
 ...
 
 net.simulate(100000.)
 ```
+
+Here, `period=100.` means that the sequence of the ten inputs (each presented for 10 ms, i.e. 100 ms in total) is restarted every 100 ms, so it is presented 1000 times in a row during the simulation of 100000 ms.
 
 If the period is smaller than the total durations of the inputs, the last inputs will be skipped.
 
@@ -627,9 +629,18 @@ plt.show()
 
 ## Late- or Re-initialization of Timed Inputs - `update`
 
-In case of missing data upon construction time of the timed input obects, e.g., TimedArray, one can provide the data later using the `update` method. The same method is used if you want to re-initialize the content of the timed input or the schedule.
+In case of missing data upon construction time of the timed input obects, one can provide the data later using the `update` method. The same method is used if you want to re-initialize the content of the timed input or the schedule.
+
+The `update` method is available for the timed input objects such as:
+
+* [`TimedArray`](/reference/TimedArray.qmd)
+* [`TimedPoissonPopulation`](/reference/TimedPoissonPopulation.qmd)
+* [`HomogeneousCorrelatedSpikeTrains`](/reference/HomogeneousCorrelatedSpikeTrains.qmd)
+* [`SpikeSourceArray`](/reference/SpikeSourceArray.qmd)
 
 ### Late-initialization
+
+For a late-initialization, you only define the geometry or size of the timed input (e.g. `geometry=1`) when creating the population. The actual `rates` or `spike_times` (and optionally `schedule`, `period`, `reset`) are then set later using the `update` method.
 
 Note that, if you use the late-initialization, the necessary data needs to be set before the begin of the simulation, otherwise the result will be a segmentation fault when using ANNarchy in release mode. In case of a debug simulation C++ asserts will be raised. 
 
