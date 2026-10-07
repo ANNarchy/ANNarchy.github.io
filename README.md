@@ -35,6 +35,8 @@ Build the API (directory `reference/`):
 quartodoc build
 ```
 
+Verify version tag in _quarto.yml (property: website - title)
+
 Preview the doc (also renders everything):
 
 ```bash
