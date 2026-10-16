@@ -148,7 +148,7 @@ Here each input will be kept constant for 10 ms, so the 10 inputs will need 100 
 ```python
 inp = net.create(
     ann.TimedArray(
-        rates=inputs, 
+        rates=inputs,
         schedule=[0., 10., 30., 60., 100., 150., 210., 280., 360., 450.]
     )
 )
@@ -450,7 +450,7 @@ plt.ylabel('# neuron')
 plt.show()
 ```
 
-The `rates` attribute can be modified at any time during the simulation, as long as it has the same size as the population.
+The `rates` attribute can be modified at any time during the simulation using the `update` method, as long as it has the same size as the population. For more details please see [this section](#input-late-init).
 
 Another possibility is to define a rule for the evolution of the mean firing rate in the population:
 
@@ -548,7 +548,7 @@ plt.show()
 
 In the code above, we define a `TimedArray` for 100 neurons, so that half of the neurons fire at 100 Hz, while the others fire at 10 Hz. Every 50 ms, the two halves are swapped.
 
-We just need to create a projection with the target `"exc"` between the `TimedArray` and the `PoissonPopulation` (with a one-to-one pattern and weights 1.0 to preserve scaling), and the Poisson population will reflect the firing rates defined by the TimedArray.
+We just need to create a projection with the target `"exc"` between the `TimedArray` and the `PoissonPopulation` (with a one-to-one pattern and weights 1.0 to preserve scaling), and the Poisson population will reflect the firing rates defined by the TimedArray. A full example can be found [here](/notebooks/Hybrid.html).
 
 
 ### Homogeneous correlated inputs
@@ -591,7 +591,7 @@ net.compile(silent=True)
 
 net.simulate(2000.)
 
-pop_poisson.rates=50.
+pop_poisson.update(rates=50.)
 pop_corr.rates=50.
 
 net.simulate(2000.)
@@ -627,7 +627,7 @@ plt.xlabel('Time (ms)')
 plt.show()
 ```
 
-## Late- or Re-initialization of Timed Inputs - `update`
+## Late- or Re-initialization of Timed Inputs - `update` {#input-late-init}
 
 In case of missing data upon construction time of the timed input obects, one can provide the data later using the `update` method. The same method is used if you want to re-initialize the content of the timed input or the schedule.
 
