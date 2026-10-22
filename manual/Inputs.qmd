@@ -13,7 +13,9 @@ import matplotlib.pyplot as plt
 import ANNarchy as ann
 ```
 
-The methods to set inputs to a network depends on whether it is rate-coded or spiking. Specific populations to set inputs are described in the [API](/reference/index.qmd#specific-populations).
+The methods to set inputs to a network depend on whether it is rate-coded or spiking. Specific populations to set inputs are described in the [API](/reference/index.qmd#specific-populations).
+
+After their construction, the data of these specific input populations can only be set or changed with their `update()` method. Several of them can present a sequence of inputs at given times (`schedule`), repeat it (`period`) and start it over (`reset`). These shared mechanisms are explained in the last section, [Controlling inputs](#controlling-inputs).
 
 ## Inputs to a rate-coded network
 
@@ -28,10 +30,10 @@ import ANNarchy as ann
 net = ann.Network()
 
 # Input population
-input_pop = net.create(10, Neuron(parameters="r=0.0"))
+input_pop = net.create(10, ann.Neuron(parameters="r = 0.0"))
 
 # Main population
-pop = net.create(10, LeakyIntegrator)
+pop = net.create(10, ann.LeakyIntegrator)
 
 # Projection
 proj = net.connect(input_pop, pop, 'exc')
@@ -50,17 +52,17 @@ input_pop.r = 1.0
 net.simulate(100.)
 ```
 
-The only thing you need to do is to manipulate the numpy array `r` hold by `input_pop`, and it will influence the "real" population `pop`
+The only thing you need to do is to manipulate the numpy array `r` held by `input_pop`, and it will influence the "real" population `pop`. As `input_pop` is a normal population, its attributes are set directly. This is different from the specific input populations described below, which are changed with `update()`.
 
-It is **important** to define `r` as a **local parameter** of the neuron, not a variable in `equations`. A variable sees its value updated at each step, so the value you set would be immediately overwritten. Do not use a dictionary instead of the string, as the parameter would become global to the populations. This would be safer:
+It is **important** to define `r` as a **local parameter** of the neuron, not a variable in `equations`. A variable sees its value updated at each step, so the value you set would be immediately overwritten. With the string syntax used above, parameters are local by default. With the dictionary syntax, parameters are global by default, so the locality has to be given explicitly:
 
 ```python
-input_pop = net.create(10, Neuron(parameters=ann.Parameter("r=0.0"))
+input_pop = net.create(10, ann.Neuron(parameters=dict(r=ann.Parameter(0.0, locality='local'))))
 ```
 
 ### Input Array
 
-A totally equivalent way is to use an `InputArray` instance instead of the previous input population. The only difference is that the firing rate `r` of the input array can also be recorded, contrary to the previous case where `r` was a non-recordable parameter.
+An equivalent way is to use an `InputArray` instance instead of the previous input population. There are two differences: the firing rate `r` of the input array can be recorded, contrary to the previous case where `r` was a non-recordable parameter, and `r` is set with the `update()` method instead of a direct assignment.
 
 The specific population `InputArray` can be passed as the first and only argument to `Network.create()`:
 
@@ -71,10 +73,10 @@ import ANNarchy as ann
 net = ann.Network()
 
 # Input population
-input_pop = net.create(ann.InputArray())
+input_pop = net.create(ann.InputArray(geometry=10))
 
 # Main population
-pop = net.create(10, LeakyIntegrator)
+pop = net.create(10, ann.LeakyIntegrator)
 
 # Projection
 proj = net.connect(input_pop, pop, 'exc')
@@ -87,7 +89,7 @@ net.compile()
 net.simulate(100.)
 
 # Change the input
-input_pop.r = 1.0
+input_pop.update(r=1.0)
 
 # Simulate
 net.simulate(100.)
@@ -122,7 +124,7 @@ net = ann.Network()
 inp = net.create(ann.TimedArray(rates=inputs))
 
 # Population
-pop = net.create(10, Neuron(equations="r=sum(exc)"))
+pop = net.create(10, ann.Neuron(equations="r=sum(exc)"))
 
 # Projection
 proj = net.connect(inp, pop, 'exc')
@@ -137,58 +139,13 @@ With this code, each neuron will be activated in sequence at each time step (`dt
 
 If the `rates` array has two dimensions, the corresponding population will be 1D. You can pass a multidimensional array to obtain a 2D or 3D population.
 
-Presenting a input for only one time step is very short, especially if the population `pop` uses ODEs to integrate the inputs. You can provide a `schedule` parameter to the `TimedArray` to define how long (in ms) an input should be presented:
+Presenting an input for only one time step is very short, especially if the population `pop` uses ODEs to integrate the inputs. With the `schedule` argument, each input is kept for a given duration, here 10 ms:
 
 ```python
 inp = net.create(ann.TimedArray(rates=inputs, schedule=10.))
 ```
 
-Here each input will be kept constant for 10 ms, so the 10 inputs will need 100 ms of simulation to be presented. If you do not want a regular schedule, you can also provide a list of times where inputs should be set:
-
-```python
-inp = net.create(
-    ann.TimedArray(
-        rates=inputs,
-        schedule=[0., 10., 30., 60., 100., 150., 210., 280., 360., 450.]
-    )
-)
-```
-
-The length of the `schedule` list should be equal or smaller to the number of inputs defined in `rates`. If this length is smaller (e.g. 7), only the 7 first inputs will be used as inputs. If the length is bigger, it will lead to an error.
-
-A `TimedArray` can be reset to iterate again over the inputs:
-
-```python
-inp = net.create(ann.TimedArray(rates=inputs, schedule=10.))
-
-...
-
-net.compile()
-
-net.simulate(100.) # The ten inputs are shown with a schedule of 10 ms
-
-inp.reset()
-
-net.simulate(100.) # The same ten inputs are presented again.
-```
-
-The times declared in `schedule` are therefore relative to the last call to `reset()` (or to `t=0.0` at the beginning).
-
-If you want to systematically iterate over the inputs without iterating over `simulate()` and `reset()`, you can provide the `period` argument to the `TimedArray` to define how often the inputs will be reset. The `period` (in ms) acts like an automatic call to `reset()`: each time this duration has elapsed, the `TimedArray` starts again with the first input of `rates`, and the times in `schedule` are counted from this new start.
-
-```python
-inp = net.create(ann.TimedArray(rates=inputs, schedule=10., period=100.))
-
-...
-
-net.simulate(100000.)
-```
-
-Here, `period=100.` means that the sequence of the ten inputs (each presented for 10 ms, i.e. 100 ms in total) is restarted every 100 ms, so it is presented 1000 times in a row during the simulation of 100000 ms.
-
-If the period is smaller than the total durations of the inputs, the last inputs will be skipped.
-
-The `rates`, `schedule` and `period` can be modified after compilation. The only constraint is that the size of the population (defined in the `rates` array) must stay the same.
+The sequence of inputs can also be repeated with `period`, started over with `reset()`, or replaced with `update()`. These mechanisms are shared with other input populations and are described in [Controlling inputs](#controlling-inputs).
 
 ### Images and Videos
 
@@ -227,13 +184,13 @@ Note that the following code is functionally equivalent:
 import ANNarchy as ann
 from PIL import Image
 
-inp = net.create(geometry=(480, 640), Neuron(parameters="r=0.0"))
+inp = net.create(geometry=(480, 640), neuron=ann.Neuron(parameters="r = 0.0"))
 
 img = Image.open('image.jpg')
 img = img.convert('L')
-img = img.resize((480, 640)) /255.
+img = img.resize((640, 480)) # Pillow expects (width, height)
 
-inp.r = np.array(img)
+inp.r = np.array(img) / 255.
 ```
 
 A full example is provided [here](/notebooks/Image.html).
@@ -368,24 +325,21 @@ plt.show()
 ```
 
 
-The `spike_times` argument must be a list of lists containing the spike times in ms. Its length defines the number of neurons in the population. It is not possible to define a geometry. If one neuron should not spike at all, just provide an empty list. The different neurons can have a different number of spikes.
+The `spike_times` argument must be a list of lists containing the spike times in ms. Its length defines the number of neurons in the population, which is always one-dimensional. If one neuron should not spike at all, just provide an empty list. The different neurons can have a different number of spikes.
 
-If you want to repeat the same stimulation, you can reset the SpikeSourceArray, what will set its internal time back to 0.0:
-
-```python
-net.simulate(100.)
-
-pop.reset()
-
-net.simulate(100.)
-```
-
-The spikes times can be changed after compilation, bit it must have the same number of neurons:
+The spike times are counted from the start of the simulation. They can be repeated automatically with the `period` argument, replaced with `update()` and started over with `reset()`:
 
 ```python
-pop.spike_times = new_spike_times_array
+# Repeat the spike pattern every 100 ms
+pop = net.create(ann.SpikeSourceArray(spike_times=spike_times, period=100.))
+
+...
+
+# Replace the spike times, the number of neurons must stay the same
+pop.update(spike_times=new_spike_times)
 ```
 
+These mechanisms are described in [Controlling inputs](#controlling-inputs).
 
 An example is provided in [this notebook](/notebooks/PyNN.html#if_curr_alpha).
 
@@ -450,12 +404,18 @@ plt.ylabel('# neuron')
 plt.show()
 ```
 
-The `rates` attribute can be modified at any time during the simulation using the `update` method, as long as it has the same size as the population. For more details please see [this section](#input-late-init).
+Rates given as a single value or as an array can be changed at any time with `update()`, as long as the array has the same shape as the population:
+
+```python
+pop.update(rates=np.linspace(10.0, 100.0, 100))
+```
+
+See [Controlling inputs](#controlling-inputs) for details.
 
 Another possibility is to define a rule for the evolution of the mean firing rate in the population:
 
 ```python
-pop = ann.create(
+pop = net.create(
     ann.PoissonPopulation(
         geometry=100,
         parameters = dict(
@@ -550,6 +510,41 @@ In the code above, we define a `TimedArray` for 100 neurons, so that half of the
 
 We just need to create a projection with the target `"exc"` between the `TimedArray` and the `PoissonPopulation` (with a one-to-one pattern and weights 1.0 to preserve scaling), and the Poisson population will reflect the firing rates defined by the TimedArray. A full example can be found [here](/notebooks/Hybrid.html).
 
+A rule given as an equation and a target can only be defined in the constructor; `update()` cannot change them.
+
+### Timed Poisson population
+
+A `TimedPoissonPopulation` (doc in the [API](/reference/TimedPoissonPopulation.qmd)) is a Poisson population whose mean firing rates change over time, like the inputs of a `TimedArray`: the first axis of `rates` corresponds to time, and `schedule` gives the times (in ms) at which each rate starts.
+
+```{python}
+net = ann.Network(dt=0.1)
+
+pop = net.create(
+    ann.TimedPoissonPopulation(
+        geometry=100,
+        rates=[10., 100.],
+        schedule=[0., 50.],
+        period=100.,
+    )
+)
+
+m = net.monitor(pop, 'spike')
+
+net.compile(silent=True)
+
+net.simulate(300.)
+
+data = m.get('spike')
+t, n = m.raster_plot(data)
+
+plt.figure()
+plt.plot(t, n, '.')
+plt.xlabel('Time (ms)')
+plt.ylabel('# neuron')
+plt.show()
+```
+
+Here, all neurons fire at 10 Hz during the first 50 ms and at 100 Hz during the next 50 ms, and `period=100.` repeats this every 100 ms. If each neuron should have its own rate, each element of `rates` is an array with the shape of the population. `schedule`, `period`, `reset()` and `update()` are described in [Controlling inputs](#controlling-inputs).
 
 ### Homogeneous correlated inputs
 
@@ -567,13 +562,13 @@ $$
     \dfrac{dx}{dt} = \dfrac{\mu - x}{\tau} + \sigma \, \dfrac{\xi }{\sqrt{\tau}}
 $$
 
-where $\xi$ is a random variable. Basically, $x$ will randomly vary around $\mu§ over time, with an amplitude determined by $\sigma$ and a speed determined by $\tau$.
+where $\xi$ is a random variable. Basically, $x$ will randomly vary around $\mu$ over time, with an amplitude determined by $\sigma$ and a speed determined by $\tau$.
 
 This doubly stochastic process is called a Cox process or Ornstein-Uhlenbeck process.
 
 To avoid that x becomes negative, the values of mu and sigma are computed from a rectified Gaussian distribution, parameterized by the desired population rate **rates**, the desired correlation strength **corr** and the time constant **tau**. See Brette's paper for details.
 
-In short, you should only define the parameters `rates`, `corr` and `tau`, and let the class compute mu and sigma for you. Changing `rates`, `corr` or `tau` after initialization automatically recomputes mu and sigma.
+In short, you should only define the parameters `rates`, `corr` and `tau`, and let the class compute mu and sigma for you. Changing `rates`, `corr` or `tau` later with `update()` automatically recomputes mu and sigma. Like the inputs of a `TimedArray`, `rates` and `corr` can also follow a `schedule` (see [Controlling inputs](#controlling-inputs)).
 
 Example:
 
@@ -592,7 +587,7 @@ net.compile(silent=True)
 net.simulate(2000.)
 
 pop_poisson.update(rates=50.)
-pop_corr.rates=50.
+pop_corr.update(rates=50., corr=0.3)
 
 net.simulate(2000.)
 ```
@@ -627,27 +622,215 @@ plt.xlabel('Time (ms)')
 plt.show()
 ```
 
-## Late- or Re-initialization of Timed Inputs - `update` {#input-late-init}
+## Controlling inputs: `schedule`, `period`, `reset` and `update` {#controlling-inputs}
 
-In case of missing data upon construction time of the timed input obects, one can provide the data later using the `update` method. The same method is used if you want to re-initialize the content of the timed input or the schedule.
+After construction, the data of all specific input populations are set or changed only with their `update()` method. The arguments of `update()` show what can be set for each class. Assigning the data directly, e.g. `inp.rates = ...`, is not supported: most input populations keep internal data that must stay consistent with their inputs, such as a clock for timed inputs or spike times converted into time steps, and `update()` takes care of it.
 
-The `update` method is available for the timed input objects such as:
+:::callout-warning
+Earlier versions of ANNarchy allowed to assign the data of input populations directly. Such code has to be changed to use `update()`:
 
-* [`TimedArray`](/reference/TimedArray.qmd)
-* [`TimedPoissonPopulation`](/reference/TimedPoissonPopulation.qmd)
-* [`HomogeneousCorrelatedSpikeTrains`](/reference/HomogeneousCorrelatedSpikeTrains.qmd)
-* [`SpikeSourceArray`](/reference/SpikeSourceArray.qmd)
+```python
+# Earlier versions
+pop.rates = 50.
+inp.spike_times = new_spike_times
 
-### Late-initialization
+# Now
+pop.update(rates=50.)
+inp.update(spike_times=new_spike_times)
+```
+:::
 
-For a late-initialization, you only define the geometry or size of the timed input (e.g. `geometry=1`) when creating the population. The actual `rates` or `spike_times` (and optionally `schedule`, `period`, `reset`) are then set later using the `update` method.
+The following table summarizes what the input populations support:
 
-Note that, if you use the late-initialization, the necessary data needs to be set before the begin of the simulation, otherwise the result will be a segmentation fault when using ANNarchy in release mode. In case of a debug simulation C++ asserts will be raised. 
+| Input population | Data set with `update()` | `schedule` | `period` | `reset` argument |
+|---|---|---|---|---|
+| [`InputArray`](/reference/InputArray.qmd) | `r` | – | – | – |
+| [`TimedArray`](/reference/TimedArray.qmd) | `rates` | yes | yes | yes |
+| [`PoissonPopulation`](/reference/PoissonPopulation.qmd) | `rates` | – | – | – |
+| [`TimedPoissonPopulation`](/reference/TimedPoissonPopulation.qmd) | `rates` | yes | yes | yes |
+| [`HomogeneousCorrelatedSpikeTrains`](/reference/HomogeneousCorrelatedSpikeTrains.qmd) | `rates`, `corr`, `tau` | yes (`rates` and `corr`) | yes | yes |
+| [`SpikeSourceArray`](/reference/SpikeSourceArray.qmd) | `spike_times` | – | yes | yes |
+
+`schedule` and `period` can be passed to the constructor and to `update()`, the `reset` argument only to `update()`. The method `reset()` is available for all populations.
+
+
+### `schedule`: when the next value is used {#input-schedule}
+
+A timed input population holds a sequence of values: the rows of `rates` (first axis) for a `TimedArray`, the rates of a `TimedPoissonPopulation`, or the pairs of `rates` and `corr` of a `HomogeneousCorrelatedSpikeTrains`. The `schedule` (in ms) defines when the next value of the sequence is used:
+
+* a single value, e.g. `schedule=10.`, uses a new value every 10 ms;
+* a list, e.g. `schedule=[0., 10., 30., 60.]`, gives the time at which each value starts. The list needs one time point per value and must start with `0.`.
+
+After the last time point, the last value is kept, unless a `period` is set (see below). The times are counted from the start of the sequence: the beginning of the simulation, the last call to `reset()` or `update()` (with the default `reset=True`), or the start of the current period. Without `schedule`, a timed input population uses a new value of its sequence at every time step.
+
+In the following example, the same four values are presented once with a regular and once with an irregular schedule:
+
+```{python}
+values = np.array([[1.], [2.], [3.], [4.]])
+
+net = ann.Network()
+
+regular = net.create(ann.TimedArray(rates=values, schedule=10.))
+irregular = net.create(ann.TimedArray(rates=values, schedule=[0., 10., 30., 60.]))
+
+m_regular = net.monitor(regular, 'r')
+m_irregular = net.monitor(irregular, 'r')
+
+net.compile(silent=True)
+
+net.simulate(100.)
+```
 
 ```{python}
 #| echo: false
-import numpy
+plt.figure()
+plt.plot(m_regular.get('r'), label='schedule=10.')
+plt.plot(m_irregular.get('r'), '--', label='schedule=[0., 10., 30., 60.]')
+plt.xlabel('Time (ms)')
+plt.ylabel('r')
+plt.legend()
+plt.show()
 ```
+
+With `schedule=10.`, each value is presented for 10 ms. With the list, the values start at 0, 10, 30 and 60 ms. In both cases, the last value is kept until the end of the simulation.
+
+If the input should stay silent at the beginning, add a value of zero as first element, e.g. the rows `[0, A, B]` with `schedule=[0., 10., 20.]`.
+
+### `period`: repeating a sequence {#input-period}
+
+With `period` (in ms), the sequence starts again with its first value each time this duration has elapsed, and the times of `schedule` are counted from this new start. The default `period=-1` means no repetition.
+
+If the period is longer than the sequence, the last value is kept until the end of the period. If it is shorter, the remaining values are skipped:
+
+```{python}
+values = np.array([[1.], [2.], [3.], [4.]])
+
+net = ann.Network()
+
+longer = net.create(ann.TimedArray(rates=values, schedule=10., period=60.))
+shorter = net.create(ann.TimedArray(rates=values, schedule=10., period=30.))
+
+m_longer = net.monitor(longer, 'r')
+m_shorter = net.monitor(shorter, 'r')
+
+net.compile(silent=True)
+
+net.simulate(150.)
+```
+
+```{python}
+#| echo: false
+plt.figure()
+plt.plot(m_longer.get('r'), label='period=60.')
+plt.plot(m_shorter.get('r'), '--', label='period=30.')
+plt.xlabel('Time (ms)')
+plt.ylabel('r')
+plt.legend()
+plt.show()
+```
+
+With `period=60.`, the last value is kept from 30 to 60 ms before the sequence restarts. With `period=30.`, the sequence restarts before the fourth value would start, so this value is never presented.
+
+For a `SpikeSourceArray`, `period` repeats the spike times:
+
+```python
+inp = net.create(ann.SpikeSourceArray(spike_times=[[10., 20.]], period=50.))
+# Spikes at 10, 20, 60, 70, 110, 120, ... ms
+```
+
+`period` only restarts the internal clock of the input population, the data stay as they are. The repetition can be stopped with `update(period=-1)` (see below).
+
+### `reset()`: back to the state after `compile()` {#input-reset}
+
+The method `reset()` puts an input population back into the state it had directly after `compile()`: its internal clock starts again at 0, and the data passed to the constructor (or to `update()` before `compile()`) are restored. This is the same behavior as for any other population, see [`Population.reset()`](/reference/Population.qmd#ANNarchy.core.Population.Population.reset). [`Network.reset()`](/reference/Network.qmd#ANNarchy.core.Network.Network.reset) calls `reset()` for all populations.
+
+Data provided with `update()` after `compile()` are therefore discarded by `reset()`:
+
+```{python}
+values_a = np.array([[1.], [2.], [3.], [4.]])
+values_b = np.array([[4.], [3.], [2.], [1.]])
+
+net = ann.Network()
+
+inp = net.create(ann.TimedArray(rates=values_a, schedule=10.))
+
+m = net.monitor(inp, 'r')
+
+net.compile(silent=True)
+
+# Data of the constructor
+net.simulate(40.)
+
+# New data
+inp.update(rates=values_b)
+net.simulate(40.)
+
+# Back to the data of the constructor
+inp.reset()
+net.simulate(40.)
+```
+
+```{python}
+#| echo: false
+plt.figure()
+plt.plot(m.get('r'))
+plt.axvline(40., color='gray', linestyle=':')
+plt.axvline(80., color='gray', linestyle=':')
+plt.text(41., 4.1, 'update()')
+plt.text(81., 4.1, 'reset()')
+plt.ylim(0., 4.5)
+plt.xlabel('Time (ms)')
+plt.ylabel('r')
+plt.show()
+```
+
+To start the current data from the beginning instead, use `update(reset=True)` (see below). If the data were only provided after `compile()` (late initialization, see below), provide them again with `update()` after calling `reset()`.
+
+### `update()`: changing inputs {#input-late-init}
+
+`update()` changes exactly the arguments that are passed; all other data of the input population keep their current value. It can be called before and after `compile()`. A few examples:
+
+```python
+# TimedArray: new inputs, the schedule stays the same
+inp.update(rates=new_inputs)
+
+# TimedArray: new inputs with a new schedule
+inp.update(rates=new_inputs, schedule=5.)
+
+# Stop the repetition of a timed input
+inp.update(period=-1)
+
+# SpikeSourceArray: new spike times
+spikes.update(spike_times=new_spike_times)
+
+# PoissonPopulation and InputArray: new values
+poisson.update(rates=20.)
+input_array.update(r=1.0)
+```
+
+For timed inputs and `SpikeSourceArray`, each of these calls also restarts the sequence from its beginning, unless `reset=False` is passed (see [The `reset` argument](#input-reset-argument)). For example, `inp.update(period=-1)` presents the sequence once more from its beginning and then keeps its last value.
+
+The geometry of a population is defined in the constructor and cannot be changed with `update()`. The number of values of a sequence can change; if the schedule is a list, pass a new list with one time point per value at the same time.
+
+#### Late initialization
+
+All input populations can be created with only their geometry, if the data are not known yet. The geometry of a `SpikeSourceArray` can only be one-dimensional, i.e. an integer. The data are then provided with `update()`, before the first call to `simulate()`:
+
+```python
+inp = net.create(ann.TimedArray(geometry=10))
+spikes = net.create(ann.SpikeSourceArray(geometry=10))
+poisson = net.create(ann.PoissonPopulation(geometry=10))
+
+net.compile()
+
+inp.update(rates=inputs, schedule=10.)
+spikes.update(spike_times=spike_times)
+poisson.update(rates=20.)
+
+net.simulate(100.)
+```
+
+In the following example, a `TimedArray` with a single neuron receives its inputs only after `compile()`:
 
 ```{python}
 net = ann.Network()
@@ -656,9 +839,9 @@ pop_in = net.create(ann.TimedArray(geometry=1))
 
 m = net.monitor(pop_in, "r")
 
-net.compile()
+net.compile(silent=True)
 
-pop_in.update(rates=numpy.array([[0],[0],[1],[1],[1],[0],[0]]))
+pop_in.update(rates=np.array([[0], [0], [1], [1], [1], [0], [0]]))
 
 net.simulate(10)
 ```
@@ -671,30 +854,30 @@ plt.ylabel("firing rate r")
 plt.xlabel("biological time [ms]")
 ```
 
-### Re-initialization
+#### The `reset` argument {#input-reset-argument}
 
-In the following script, we first initialize a timed array with a pulse input. After 5 milliseconds, we change the input and continue the simulation.
-
-By default, `reset` is set to True, which means that the new `rates` will be read out from the beginning again, independent of the position in the previous buffer. This behavior can be verified by looking at the output of the neuron.
+By default (`reset=True`), `update()` restarts the internal clock of the input population: the new data start with their first value, and the times of `schedule` (or the spike times of a `SpikeSourceArray`) are counted from the call to `update()`. Calling `update(reset=True)` without data therefore starts the current data again from the beginning. This is the counterpart of the method `reset()`, which restores the data of `compile()`.
 
 :::callout-warning
 
 Since ANNarchy 5.0.3, the default for reset is True, while previous release (ANNarchy 5.0 up to 5.0.2) had False as default.
 :::
 
+In the following script, we first initialize a timed array with a pulse input. After 5 milliseconds, we change the input and continue the simulation. As `reset=True`, the new `rates` are read out from the beginning again, independent of the position in the previous buffer. This behavior can be verified by looking at the output of the neuron.
+
 ```{python}
 net = ann.Network()
 
-pop_in = net.create(ann.TimedArray(geometry=1, rates=numpy.array([[0],[0],[1],[1],[1],[1],[0],[0]])))
+pop_in = net.create(ann.TimedArray(geometry=1, rates=np.array([[0],[0],[1],[1],[1],[1],[0],[0]])))
 
 m = net.monitor(pop_in, "r")
 
-net.compile()
+net.compile(silent=True)
 
 # 5 ms with the original input
 net.simulate(5)
 
-pop_in.update(rates=numpy.array([[0],[0],[3],[3],[3],[3],[0],[0]]))
+pop_in.update(rates=np.array([[0],[0],[3],[3],[3],[3],[0],[0]]))
 
 # 5 ms with the changed input
 net.simulate(5)
@@ -708,25 +891,23 @@ plt.ylabel("firing rate r")
 plt.xlabel("biological time [ms]")
 ```
 
-### The Purpose of `reset` Argument:
+With `reset=False`, the internal clock keeps running, and the new data are read out at the current position. For a `SpikeSourceArray`, the new spike times are then counted from the last start, and spike times that have already passed are skipped.
 
-In some cases, one may want to update the buffer but continue from the current position; therefore, one can set the `reset` argument to false. As a consequence, the new buffer will be read out at the position of the old one.
-
-**Please note**, that the user is responsible for cross-checking the result. In particular, if `schedule` is involved, we recommend carefully checking the result. For instance, using a monitor to record the firing rate as shown in our example.
+**Please note** that the user is responsible for cross-checking the result. In particular, if `schedule` is involved, we recommend carefully checking the result, for instance using a monitor to record the firing rate as shown in our example:
 
 ```{python}
 net = ann.Network()
 
-pop_in = net.create(ann.TimedArray(geometry=1, rates=numpy.array([[0],[0],[0],[1],[1],[1],[1],[0],[0],[0]])))
+pop_in = net.create(ann.TimedArray(geometry=1, rates=np.array([[0],[0],[0],[1],[1],[1],[1],[0],[0],[0]])))
 
 m = net.monitor(pop_in, "r")
 
-net.compile()
+net.compile(silent=True)
 
 # 5 ms with the original input
 net.simulate(5)
 
-pop_in.update(rates=numpy.array([[0],[0],[0],[3],[3],[3],[3],[0],[0],[0]]), reset=False)
+pop_in.update(rates=np.array([[0],[0],[0],[3],[3],[3],[3],[0],[0],[0]]), reset=False)
 
 # 5 ms with the changed input
 net.simulate(5)
